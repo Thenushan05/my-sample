@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties for Theming ────────── */
+:root {
+  --color-bg: #f8fafc;
+  --color-bg-secondary: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-dim: #94a3b8;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.12);
+  --color-surface: rgba(255, 255, 255, 0.8);
+  --color-surface-solid: #ffffff;
+  --color-card: rgba(255, 255, 255, 0.7);
+  --color-navbar-bg: rgba(255, 255, 255, 0.85);
+  --color-overlay: rgba(0, 0, 0, 0.03);
+  --color-overlay-hover: rgba(0, 0, 0, 0.06);
+  --color-nav-link: rgba(0, 0, 0, 0.6);
+  --color-nav-link-hover: #0f172a;
+  --color-nav-link-active: #3b82f6;
+  --color-form-input: rgba(0, 0, 0, 0.03);
+  --color-form-input-text: #0f172a;
+  --color-form-input-placeholder: rgba(0, 0, 0, 0.3);
+  --color-skills-bg: rgba(0, 0, 0, 0.03);
+  --color-experience-bg: rgba(0, 0, 0, 0.03);
+  --color-footer-bg: #f1f5f9;
+  --color-card-hover-border: rgba(0, 0, 0, 0.15);
+  --color-project-orb: 0.3;
+}
+
+html.dark {
+  --color-bg: #030712;
+  --color-bg-secondary: #0f172a;
+  --color-text: #ffffff;
+  --color-text-secondary: #a0aec0;
+  --color-text-muted: #718096;
+  --color-text-dim: #4a5568;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-solid: #0f172a;
+  --color-card: rgba(255, 255, 255, 0.02);
+  --color-navbar-bg: rgba(3, 7, 18, 0.8);
+  --color-overlay: rgba(255, 255, 255, 0.03);
+  --color-overlay-hover: rgba(255, 255, 255, 0.06);
+  --color-nav-link: rgba(255, 255, 255, 0.6);
+  --color-nav-link-hover: #ffffff;
+  --color-nav-link-active: #60a5fa;
+  --color-form-input: rgba(255, 255, 255, 0.05);
+  --color-form-input-text: #ffffff;
+  --color-form-input-placeholder: rgba(255, 255, 255, 0.2);
+  --color-skills-bg: rgba(255, 255, 255, 0.05);
+  --color-experience-bg: rgba(255, 255, 255, 0.05);
+  --color-footer-bg: #030712;
+  --color-card-hover-border: rgba(255, 255, 255, 0.15);
+  --color-project-orb: 0.1;
+}
+
+/* ── View Transitions API (Theme Toggler) ─────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-magicui-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration);
+}
+
+/* ── Base Reset ──────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Lenis smooth scrolling config */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overflow: clip;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ── Custom Scrollbar ────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* ── Selection ───────────────────────────────── */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #ffffff;
+}
+
+/* ── Focus Styles (Accessibility) ─────────────── */
+*:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── 3D Perspective Utilities ────────────────── */
+.perspective-\[1000px\] {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.project-card-reveal {
+  will-change: transform, opacity;
+}
+
+/* ── Animations ─────────────────────────────── */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-80px) translateX(30px) scale(1.1);
+  }
+
+  100% {
+    transform: translateY(-160px) translateX(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scrollbar styling for internal containers */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(128, 128, 128, 0.01);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.1);
+  border-radius: 99px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+/* ── Light Mode Overrides ─────────────────────── */
+/* Override Tailwind's white color with theme text color in light mode */
+:root:not(.dark) .text-white {
+  color: var(--color-text);
+}
+
+:root:not(.dark) .text-white\/70,
+:root:not(.dark) .text-white\/60 {
+  color: var(--color-text-secondary);
+}
+
+:root:not(.dark) .text-white\/50,
+:root:not(.dark) .text-white\/40 {
+  color: var(--color-text-muted);
+}
+
+:root:not(.dark) .text-white\/30,
+:root:not(.dark) .text-white\/20 {
+  color: var(--color-text-dim);
+}
+
+/* Override background colors */
+:root:not(.dark) .bg-white\/5 {
+  background-color: var(--color-overlay);
+}
+
+:root:not(.dark) .bg-white\/10 {
+  background-color: var(--color-overlay-hover);
+}
+
+/* Override border colors */
+:root:not(.dark) .border-white\/5,
+:root:not(.dark) .border-white\/10 {
+  border-color: var(--color-border);
+}
+
+/* Override hover states */
+:root:not(.dark) .hover\:border-white\/10:hover,
+:root:not(.dark) .hover\:border-white\/30:hover,
+:root:not(.dark) .hover\:border-white\/20:hover {
+  border-color: var(--color-border-strong);
+}
+
+:root:not(.dark) .hover\:bg-white\/10:hover {
+  background-color: var(--color-overlay-hover);
+}
+
+/* Override placeholder */
+:root:not(.dark) .placeholder-white\/20::placeholder {
+  color: var(--color-form-input-placeholder);
+}
+
+/* Override section and footer backgrounds */
+:root:not(.dark) section,
+:root:not(.dark) footer {
+  background-color: var(--color-bg);
+}
+
+/* Override black background shades that appear in light mode */
+:root:not(.dark) .bg-black\/20 {
+  background-color: var(--color-navbar-bg);
+}
+
+:root:not(.dark) .bg-black\/60 {
+  background-color: var(--color-navbar-bg);
+}
+
+:root:not(.dark) .bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+:root:not(.dark) .bg-black\/95 {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-color: var(--color-border);
+}
+
+:root:not(.dark) .shadow-black\/50 {
+  box-shadow: none !important;
+}
+
+:root:not(.dark) .shadow-2xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+:root:not(.dark) .shadow-lg {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+:root:not(.dark) .from-blue-600,
+:root:not(.dark) .to-violet-600 {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-to: #8b5cf6;
+}
+
+:root:not(.dark) .text-blue-400 {
+  color: #3b82f6;
+}
+
+/* Override GooeyNav hardcoded colors for light mode */
+:root:not(.dark) .gooey-nav-container nav ul {
+  color: var(--color-text);
+  text-shadow: none;
+}
+
+:root:not(.dark) .gooey-nav-container nav ul li {
+  color: var(--color-nav-link);
+}
+
+:root:not(.dark) .gooey-nav-container nav ul li.active {
+  color: var(--color-nav-link-active);
+}
+
+:root:not(.dark) .gooey-nav-container .effect.text {
+  color: var(--color-text);
+}
+
+:root:not(.dark) .gooey-nav-container .effect.text.active {
+  color: var(--color-nav-link-active);
+}
+
+:root:not(.dark) .gooey-nav-container .effect.filter {
+  mix-blend-mode: normal;
+}
+
+:root:not(.dark) .gooey-nav-container .effect.filter::before {
+  background: transparent !important;
+}
+
+:root:not(.dark) .gooey-nav-container .effect.filter::after {
+  background: var(--color-overlay-hover);
+}
+
+:root:not(.dark) .gooey-nav-container nav ul li.active::after {
+  background: var(--color-overlay-hover);
+}
+
+:root:not(.dark) .gooey-nav-container nav ul li::after {
+  background: var(--color-overlay);
+}
+@layer utilities {
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+}
