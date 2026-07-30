@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLenis } from "./hooks/useLenis";
 import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
-import { PageLoader } from "./components/layout/PageLoader";
 import { ThemeBackground } from "./components/layout/ThemeBackground";
 import { HeroSection } from "./components/sections/HeroSection";
 import { AnimatePresence } from "framer-motion";
@@ -14,11 +13,27 @@ import { ExperienceTimeline } from "./components/sections/ExperienceTimeline";
 import { ContactSection } from "./components/sections/ContactSection";
 import { ClickSpark } from "./components/ui/ClickSpark";
 import { ScrollReveal } from "./components/ui/ScrollReveal";
+import { SpiderwebBackground } from "./components/immersive/SpiderwebBackground";
+import { SpiderCrawl } from "./components/immersive/SpiderCrawl";
+import { SecretPuzzleConsole } from "./components/immersive/SecretPuzzleConsole";
 
 import { LayoutGroup } from "framer-motion";
 
 export function App() {
-  const [loadingComplete, setLoadingComplete] = useState(false);
+  const [loadingComplete, setLoadingComplete] = useState(true);
+  
+  const [isSpiderman, setIsSpiderman] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("spiderman")
+  );
+
+  useEffect(() => {
+    const syncSpiderman = () =>
+      setIsSpiderman(document.documentElement.classList.contains("spiderman"));
+    syncSpiderman();
+    const observer = new MutationObserver(syncSpiderman);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -35,9 +50,6 @@ export function App() {
     <LayoutGroup>
       {/* ── Cinematic Loader ──────────────────────── */}
       <AnimatePresence>
-        {!loadingComplete && (
-          <PageLoader onComplete={() => setLoadingComplete(true)} />
-        )}
       </AnimatePresence>
 
       {/* Global Navigation Header - Always visible immediately upon load completion */}
@@ -49,6 +61,10 @@ export function App() {
           {/* Cinematic ambient lighting backgrounds */}
           <ThemeBackground />
 
+          {/* Immersive Spidey Mode Effects */}
+          {isSpiderman && <SpiderwebBackground />}
+          {isSpiderman && <SpiderCrawl />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -56,9 +72,59 @@ export function App() {
               <HeroSection onExploreClick={scrollToStory} />
             </section>
 
-            {/* Section 2 to 5: Pinned Laptop 2.5D Storyteller */}
+            {/* Section 2 to 5: Pinned Laptop 2.5D Storyteller OR Spidey Terminal */}
             <div id="laptop-story-trigger" className="relative w-full">
-              <LaptopStory />
+              {isSpiderman ? (
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  {/* High-Tech Spider-Man Suit HUD Frame */}
+                  <div className="relative rounded-2xl overflow-hidden border-2 border-red-600/50 shadow-[0_0_40px_rgba(220,38,38,0.35)] bg-[#090a0f]/95 backdrop-blur-md flex flex-col h-[580px]">
+                    
+                    {/* HUD Corner Brackets */}
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-red-500 z-30 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-blue-500 z-30 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-blue-500 z-30 pointer-events-none" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-red-500 z-30 pointer-events-none" />
+
+                    {/* Window Top Bar / HUD Banner */}
+                    <div className="w-full bg-gradient-to-r from-[#1c0808] via-[#0f0714] to-[#081226] border-b border-red-500/30 px-4 py-2.5 flex items-center justify-between z-20">
+                      {/* Left: Window Control Dots & Spider Logo */}
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-3 rounded-full bg-red-500/90 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                          <div className="w-3 h-3 rounded-full bg-amber-500/90 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                          <div className="w-3 h-3 rounded-full bg-blue-500/90 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+                        </div>
+                        {/* Spider Logo SVG */}
+                        <div className="flex items-center gap-1.5 pl-2 border-l border-white/10 text-red-500">
+                          <svg viewBox="0 0 512 512" fill="currentColor" className="w-4 h-4 text-red-500 animate-pulse" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M501.491,288.032l-153.832-61.279c-1.212-1.157-2.453-2.283-3.707-3.395h151.364c9.214,0,16.684-7.47,16.684-16.684c0-9.214-7.47-16.684-16.684-16.684H324.755l70.97-28.271c6.346-2.527,10.51-8.668,10.51-15.5V22.422c0-9.214-7.47-16.684-16.684-16.684c-9.214,0-16.684,7.47-16.684,16.684v112.485l-39.875,15.884c0.089-1.514,0.147-3.035,0.147-4.57c0-42.534-34.604-77.138-77.138-77.138s-77.138,34.604-77.138,77.138c0,1.535,0.058,3.058,0.147,4.57l-39.875-15.884V22.422c0-9.214-7.47-16.684-16.684-16.684s-16.684,7.47-16.684,16.684v123.799c0,6.832,4.164,12.972,10.51,15.5l70.97,28.271H16.684C7.47,189.992,0,197.462,0,206.676c0,9.214,7.47,16.684,16.684,16.684h151.364c-1.255,1.111-2.495,2.238-3.707,3.395L10.509,288.032C4.163,290.56,0,296.7,0,303.531V406.22c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684v-91.376l98.443-39.214c-4.296,11.258-7.102,23.243-8.179,35.718l-49.599,19.757c-6.347,2.528-10.51,8.668-10.51,15.5v142.973c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684v-131.66l28.366-11.3C136.491,408.588,190.841,455.734,256,455.734s119.509-47.145,130.741-109.115l28.366,11.3v131.66c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684V346.605c0-6.832-4.163-12.971-10.51-15.5l-49.599-19.757c-1.076-12.474-3.882-24.46-8.179-35.719l98.443,39.214v91.376c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684V303.531C512,296.7,507.837,290.56,501.491,288.032z" />
+                          </svg>
+                          <span className="text-[11px] font-extrabold text-red-400 tracking-wider font-mono uppercase">
+                            SPIDER-MAN HUD // OS v2.0
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Right: HUD Telemetry */}
+                      <div className="hidden sm:flex items-center gap-3 text-[9px] font-mono">
+                        <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 font-semibold">
+                          WEBSHOOTERS: 100%
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
+                          SPIDER-SENSE: ACTIVE
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Console Content Body */}
+                    <div className="flex-1 p-4 overflow-hidden relative flex flex-col">
+                      <SecretPuzzleConsole isSpideyMode={true} />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <LaptopStory />
+              )}
             </div>
 
             {/* Section 6 to 8: Accessible Classic Portfolio Layout */}

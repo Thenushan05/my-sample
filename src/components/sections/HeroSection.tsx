@@ -85,6 +85,8 @@ const PRO_TECH_LOGOS = [
   { name: "Prisma", slug: "prisma", color: "ffffff", lightColor: "0F172A", size: "sm", pos: "bottom-[18%] right-[15%] sm:right-[18%]" },
 ];
 
+
+
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -110,6 +112,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isAdjustingLasers, setIsAdjustingLasers] = useState(false);
   const [adjustingEye, setAdjustingEye] = useState<"left" | "right">("left");
   const [copyToast, setCopyToast] = useState(false);
+
+  // Reflects the global "Spidey Mode" toggle (html.spiderman) so the portrait can suit up
+  const [isSpiderman, setIsSpiderman] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("spiderman")
+  );
+
+  useEffect(() => {
+    const syncSpiderman = () =>
+      setIsSpiderman(document.documentElement.classList.contains("spiderman"));
+    syncSpiderman();
+    const observer = new MutationObserver(syncSpiderman);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   const [laserTargets, setLaserTargets] = useState({
     left: { length: 800, angle: -10 },
@@ -660,21 +676,99 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
             */}
 
-            <img
-              ref={imgRef}
-              src={profileImage}
-              alt={personal.name}
-              style={{
-                maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
-                WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
-              }}
-              className={`relative z-10 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain transition-all duration-500 ${
+            <div
+              className={`relative z-10 grid grid-cols-1 grid-rows-1 items-center justify-center transition-all duration-700 ${
                 isLaserActive && isFunMode ? "scale-105" : "group-hover:scale-105"
               }`}
-            />
+            >
+              {/* Base Profile Image */}
+              <motion.img
+                ref={imgRef}
+                src={profileImage}
+                alt={personal.name}
+                animate={{ opacity: isSpiderman ? 0 : 1 }}
+                transition={{ duration: 1.4, ease: "easeInOut" }}
+                style={{
+                  maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                  WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                }}
+                className="col-start-1 row-start-1 relative z-10 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain"
+              />
+
+              {/* Suit Up Overlay - Exact same size as base image */}
+              <AnimatePresence>
+                {isSpiderman && (
+                  <motion.img
+                    initial={{ clipPath: "inset(100% 0 0 0)", filter: "brightness(1.5)" }}
+                    animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1)" }}
+                    exit={{ clipPath: "inset(100% 0 0 0)" }}
+                    transition={{ duration: 1.4, ease: "easeInOut" }}
+                    src="/spiderman_nomask.png"
+                    alt="Spidey Suit"
+                    style={{
+                      maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                      WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                    }}
+                    className="col-start-1 row-start-1 z-20 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain"
+                  />
+                )}
+              </AnimatePresence>
+
+              {/* Pixel Grid Wave - Masked strictly to the PNG subject silhouette */}
+              <AnimatePresence>
+                {isSpiderman && (
+                  <motion.div
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ delay: 1.5, duration: 0.3 }}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(25, 1fr)",
+                      gridTemplateRows: "repeat(25, 1fr)",
+                      maskImage: "url(/spiderman_nomask.png)",
+                      WebkitMaskImage: "url(/spiderman_nomask.png)",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                    }}
+                    className="col-start-1 row-start-1 z-30 w-full h-full pointer-events-none"
+                  >
+                    {Array.from({ length: 625 }).map((_, idx) => {
+                      const row = Math.floor(idx / 25); // 0 (top) to 24 (bottom)
+                      const col = idx % 25;
+                      // Bottom row (row 24) activates first, working upwards to top row (row 0)
+                      const rowDelay = (24 - row) * 0.045;
+                      const jitter = (col % 4) * 0.012;
+                      const delay = rowDelay + jitter;
+
+                      return (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{
+                            opacity: [0, 1, 0],
+                            scale: [0.8, 1.05, 0.9],
+                            backgroundColor: ["rgba(239, 68, 68, 0.95)", "rgba(59, 130, 246, 0.95)", "rgba(255, 255, 255, 0)"]
+                          }}
+                          transition={{
+                            duration: 0.2,
+                            delay: delay,
+                            ease: "easeOut"
+                          }}
+                          className="border border-red-500/40 bg-red-600/30"
+                        />
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && (
+            {isFunMode && !isSpiderman && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -705,7 +799,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && (
+            {isFunMode && !isSpiderman && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${

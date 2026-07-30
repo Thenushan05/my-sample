@@ -5,6 +5,7 @@ import { Terminal, RefreshCw, Trophy, Play, Gamepad2, Skull } from "lucide-react
 interface TerminalSnakeProps {
   onCommandInput?: string;
   onNavigateFile?: (fileId: string) => void;
+  isSpideyMode?: boolean;
 }
 
 const GRID_SIZE = 20;
@@ -35,6 +36,7 @@ const generateFood = (snake: Point[]) => {
 
 export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
   onCommandInput,
+  isSpideyMode = false,
 }) => {
   const [snake, setSnake] = useState<Point[]>(INITIAL_SNAKE);
   const [direction, setDirection] = useState<Point>(INITIAL_DIRECTION);
@@ -183,16 +185,16 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
   };
 
   return (
-    <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-emerald-500 selection:text-black focus:outline-none min-h-0">
+    <div className={`w-full h-full flex flex-col font-mono text-xs text-white selection:text-black focus:outline-none min-h-0 ${isSpideyMode ? "selection:bg-red-500" : "selection:bg-emerald-500"}`}>
       {/* Top Header */}
-      <div className="bg-[#18181b] border border-emerald-500/30 rounded-xl p-3 mb-2 sm:mb-4 shadow-[0_0_20px_rgba(16,185,129,0.1)] flex flex-wrap items-center justify-between gap-3 shrink-0">
+      <div className={`bg-[#18181b] border rounded-xl p-3 mb-2 sm:mb-4 flex flex-wrap items-center justify-between gap-3 shrink-0 ${isSpideyMode ? "border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.15)]" : "border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]"}`}>
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+          <div className={`p-1.5 rounded-lg border ${isSpideyMode ? "bg-red-500/10 border-red-500/30 text-red-400" : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"}`}>
             <Gamepad2 className="w-4 h-4" />
           </div>
           <div>
-            <div className="text-[11px] font-bold tracking-wider text-emerald-400 flex items-center gap-1.5 uppercase">
-              <span>TERMINAL SNAKE v1.0</span>
+            <div className={`text-[11px] font-bold tracking-wider flex items-center gap-1.5 uppercase ${isSpideyMode ? "text-red-400" : "text-emerald-400"}`}>
+              <span>{isSpideyMode ? "SPIDER-SNAKE v1.0" : "TERMINAL SNAKE v1.0"}</span>
             </div>
             <div className="text-[10px] text-white/50 flex items-center gap-2 mt-0.5">
               <span>Status: {isGameOver ? "CRASHED" : isPlaying ? "ACTIVE" : "READY"}</span>
@@ -204,7 +206,7 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
         <div className="flex items-center gap-4 text-[11px]">
           <div className="flex flex-col items-end">
             <span className="text-white/40">SCORE</span>
-            <span className="text-emerald-400 font-bold text-sm">{score}</span>
+            <span className={`font-bold text-sm ${isSpideyMode ? "text-red-400" : "text-emerald-400"}`}>{score}</span>
           </div>
           <div className="h-6 w-px bg-white/10" />
           <div className="flex flex-col items-end">
@@ -237,7 +239,9 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
             return (
               <motion.div
                 key={`snake-${index}`}
-                className={`${isHead ? "bg-emerald-400 z-10 rounded-sm" : "bg-emerald-600/80 rounded-sm"}`}
+                className={`${isHead 
+                  ? (isSpideyMode ? "bg-red-500 z-10 rounded-sm" : "bg-emerald-400 z-10 rounded-sm") 
+                  : (isSpideyMode ? "bg-blue-600/80 rounded-sm" : "bg-emerald-600/80 rounded-sm")}`}
                 style={{
                   gridColumnStart: segment.x + 1,
                   gridRowStart: segment.y + 1,
@@ -249,12 +253,12 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
 
           {/* Render food */}
           <motion.div
-            className="bg-red-500 rounded-full z-0 flex items-center justify-center"
+            className={`rounded-full z-0 flex items-center justify-center ${isSpideyMode ? "bg-white" : "bg-red-500"}`}
             style={{
               gridColumnStart: food.x + 1,
               gridRowStart: food.y + 1,
               margin: '2px',
-              boxShadow: '0 0 10px rgba(239,68,68,0.6)'
+              boxShadow: isSpideyMode ? '0 0 10px rgba(255,255,255,0.8)' : '0 0 10px rgba(239,68,68,0.6)'
             }}
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ repeat: Infinity, duration: 1 }}
@@ -271,16 +275,18 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
               className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-20"
             >
               <div className="bg-[#18181b] border border-white/10 p-6 rounded-xl text-center space-y-4 max-w-[240px]">
-                <div className="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-2">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 ${isSpideyMode ? "bg-red-500/20 text-red-400" : "bg-emerald-500/20 text-emerald-400"}`}>
                   <Gamepad2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-emerald-400 font-bold text-sm">TERMINAL SNAKE</h3>
+                <h3 className={`font-bold text-sm ${isSpideyMode ? "text-red-400" : "text-emerald-400"}`}>
+                  {isSpideyMode ? "SPIDER-SNAKE" : "TERMINAL SNAKE"}
+                </h3>
                 <p className="text-[10px] text-white/60">
-                  Use Arrow Keys or WASD to move. Eat the red bugs to increase your score!
+                  Use Arrow Keys or WASD to move. Eat the {isSpideyMode ? "glowing webs" : "red bugs"} to increase your score!
                 </p>
                 <button
                   onClick={startGame}
-                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-xs"
+                  className={`w-full py-2.5 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-xs ${isSpideyMode ? "bg-red-600 hover:bg-red-500" : "bg-emerald-600 hover:bg-emerald-500"}`}
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Start Game</span>

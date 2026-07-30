@@ -5,7 +5,8 @@
 export async function generateCardFace(
     name: string,
     title: string,
-    avatarImageSrc?: string
+    avatarImageSrc?: string,
+    isSpiderman?: boolean
 ): Promise<string> {
     const W = 2048;
     const H = 2048;
@@ -15,37 +16,69 @@ export async function generateCardFace(
     canvas.height = H;
     const ctx = canvas.getContext('2d')!;
 
-    // Dark gradient background
-    const gradient = ctx.createLinearGradient(0, 0, W, H);
-    gradient.addColorStop(0, '#1e1b4b');
-    gradient.addColorStop(0.5, '#312e81');
-    gradient.addColorStop(1, '#0f172a');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, W, H);
+    if (isSpiderman) {
+        // Spidey Red & Blue Gradient Background
+        const gradient = ctx.createLinearGradient(0, 0, W, H);
+        gradient.addColorStop(0, '#7f1d1d'); // Red
+        gradient.addColorStop(0.5, '#450a0a');
+        gradient.addColorStop(1, '#1e3a8a'); // Blue
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, W, H);
 
-    // Subtle grid pattern
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, H);
-        ctx.stroke();
+        // Draw Spiderweb lines background on card
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 4;
+        const cx = W / 2;
+        const cy = H * 0.33;
+        for (let i = 0; i < 16; i++) {
+            const angle = (i / 16) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(angle) * W, cy + Math.sin(angle) * H);
+            ctx.stroke();
+        }
+        for (let r = 150; r < W; r += 200) {
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // Spidey Accent border top and bottom
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(0, 0, W, 16);
+        ctx.fillStyle = '#2563eb';
+        ctx.fillRect(0, H - 16, W, 16);
+    } else {
+        // Dark gradient background
+        const gradient = ctx.createLinearGradient(0, 0, W, H);
+        gradient.addColorStop(0, '#1e1b4b');
+        gradient.addColorStop(0.5, '#312e81');
+        gradient.addColorStop(1, '#0f172a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, W, H);
+
+        // Subtle grid pattern
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < W; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, H);
+            ctx.stroke();
+        }
+        for (let y = 0; y < H; y += 40) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(W, y);
+            ctx.stroke();
+        }
+
+        // Accent border top & bottom
+        ctx.fillStyle = '#8b5cf6';
+        ctx.fillRect(0, 0, W, 8);
+        ctx.fillStyle = '#8b5cf6';
+        ctx.fillRect(0, H - 8, W, 8);
     }
-    for (let y = 0; y < H; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.stroke();
-    }
-
-    // Accent border top
-    ctx.fillStyle = '#8b5cf6';
-    ctx.fillRect(0, 0, W, 8);
-
-    // Accent border bottom
-    ctx.fillStyle = '#8b5cf6';
-    ctx.fillRect(0, H - 8, W, 8);
 
     // Avatar placeholder circle
     const cx = W / 2;
@@ -55,7 +88,7 @@ export async function generateCardFace(
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, avatarY, avatarRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#4f46e5';
+    ctx.fillStyle = isSpiderman ? '#dc2626' : '#4f46e5';
     ctx.fill();
 
     let imageDrawn = false;
@@ -77,7 +110,6 @@ export async function generateCardFace(
             } else {
                 drawH = drawW / aspect;
             }
-            // Draw slightly shifted up so the face and shoulders sit perfectly centered inside the large circle
             ctx.drawImage(img, cx - drawW / 2, avatarY - drawH * 0.48, drawW, drawH);
             imageDrawn = true;
         } catch (e) {
@@ -87,7 +119,6 @@ export async function generateCardFace(
     ctx.restore();
 
     if (!imageDrawn) {
-        // Initials in avatar if no image loaded
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 200px "Inter", "Segoe UI", Arial, sans-serif';
         ctx.textAlign = 'center';
@@ -103,7 +134,7 @@ export async function generateCardFace(
 
     ctx.beginPath();
     ctx.arc(cx, avatarY, avatarRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = '#8b5cf6';
+    ctx.strokeStyle = isSpiderman ? '#ef4444' : '#8b5cf6';
     ctx.lineWidth = 12;
     ctx.stroke();
 
@@ -115,26 +146,26 @@ export async function generateCardFace(
     ctx.fillText(name, cx, H * 0.63);
 
     // Title
-    ctx.fillStyle = '#a78bfa';
+    ctx.fillStyle = isSpiderman ? '#60a5fa' : '#a78bfa';
     ctx.font = '58px "Inter", "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(title, cx, H * 0.73);
 
     // Decorative line
-    ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = isSpiderman ? 'rgba(239, 68, 68, 0.6)' : 'rgba(139, 92, 246, 0.4)';
+    ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(W * 0.22, H * 0.80);
     ctx.lineTo(W * 0.78, H * 0.80);
     ctx.stroke();
 
     // Subtle bottom text
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.font = '30px "Inter", "Segoe UI", Arial, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.font = '34px "Inter", "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('ID: #PORT-2026', cx, H * 0.92);
+    ctx.fillText(isSpiderman ? 'MARVEL • SPIDEY MODE' : 'ID: #PORT-2026', cx, H * 0.92);
 
     return canvas.toDataURL('image/png');
 }

@@ -59,6 +59,97 @@ html.dark {
   --color-project-orb: 0.1;
 }
 
+/* ── Spider-Man "Brand New Day" Accent Theme ──── */
+html.spiderman {
+  --color-nav-link-active: #ef233c;
+  --color-border-strong: rgba(239, 35, 60, 0.35);
+  --color-card-hover-border: rgba(239, 35, 60, 0.35);
+}
+
+/* Red/blue ambient wash, layered above the base ThemeBackground */
+html.spiderman body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(220, 38, 38, 0.16), transparent 45%),
+    radial-gradient(circle at 88% 80%, rgba(37, 99, 235, 0.18), transparent 45%);
+}
+
+/* Faint spider-web line overlay radiating from the top */
+html.spiderman body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: repeating-conic-gradient(from 0deg at 50% 0%, rgba(255, 255, 255, 0.7) 0deg 0.6deg, transparent 0.6deg 9deg);
+  mask-image: radial-gradient(circle at 50% 0%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, black, transparent 75%);
+}
+
+/* Flip hacker-green / blue-violet accents used throughout the immersive
+   components (terminal, loader, cards) to a red/blue web-slinger palette. */
+html.spiderman .text-emerald-400,
+html.spiderman .text-emerald-300,
+html.spiderman .text-emerald-500,
+html.spiderman .text-blue-400,
+html.spiderman .text-blue-500,
+html.spiderman .text-cyan-400 {
+  color: #ef4444 !important;
+}
+
+html.spiderman .border-emerald-500\/10,
+html.spiderman .border-emerald-500\/20,
+html.spiderman .border-emerald-500\/30,
+html.spiderman .border-emerald-500\/40,
+html.spiderman .border-emerald-500\/60,
+html.spiderman .border-blue-500\/20,
+html.spiderman .border-blue-500\/30,
+html.spiderman .border-cyan-500\/20 {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.spiderman .bg-emerald-500\/10,
+html.spiderman .bg-emerald-500\/20,
+html.spiderman .bg-blue-500\/10,
+html.spiderman .bg-cyan-500\/10 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+html.spiderman .from-emerald-500,
+html.spiderman .from-emerald-600,
+html.spiderman .from-blue-400,
+html.spiderman .from-blue-500,
+html.spiderman .from-blue-600,
+html.spiderman .from-cyan-500 {
+  --tw-gradient-from: #dc2626 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.spiderman .to-teal-400,
+html.spiderman .to-teal-600,
+html.spiderman .to-violet-500,
+html.spiderman .to-violet-600,
+html.spiderman .to-blue-500 {
+  --tw-gradient-to: #1d4ed8 !important;
+}
+
+html.spiderman .shadow-emerald-500\/30,
+html.spiderman .shadow-emerald-500\/50,
+html.spiderman .shadow-blue-500\/30,
+html.spiderman .shadow-blue-500\/50,
+html.spiderman .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(220, 38, 38, 0.5) !important;
+}
+
+html.spiderman .gooey-nav-container nav ul li.active {
+  color: #ef4444 !important;
+}
+
 /* ── View Transitions API (Theme Toggler) ─────── */
 ::view-transition-old(root),
 ::view-transition-new(root) {

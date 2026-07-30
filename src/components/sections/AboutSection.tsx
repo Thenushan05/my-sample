@@ -8,16 +8,36 @@ import profileImage from "../../assets/profile.png";
 
 export const AboutSection: React.FC = () => {
   const [cardFrontImage, setCardFrontImage] = useState<string | null>(null);
+  const [isSpiderman, setIsSpiderman] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("spiderman")
+  );
 
   useEffect(() => {
     let active = true;
-    generateCardFace("Thenushan Sritharan", "Software Engineer", profileImage).then((url) => {
+    const name = isSpiderman ? "Peter Parker" : "Thenushan Sritharan";
+    const title = isSpiderman ? "Friendly Neighborhood Hero" : "Software Engineer";
+    const img = isSpiderman ? "/spiderman_nomask.png" : profileImage;
+
+    generateCardFace(name, title, img, isSpiderman).then((url) => {
       if (active) setCardFrontImage(url);
     });
+
+    const syncSpiderman = () => {
+      const next = document.documentElement.classList.contains("spiderman");
+      setIsSpiderman(next);
+    };
+
+    const observer = new MutationObserver(syncSpiderman);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
     return () => {
       active = false;
+      observer.disconnect();
     };
-  }, []);
+  }, [isSpiderman]);
+
+  // Solid white/translucent pixel for web string
+  const webString = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
 
   return (
     <section id="about" className="w-full py-24 px-6 relative overflow-hidden bg-transparent">
@@ -82,6 +102,8 @@ export const AboutSection: React.FC = () => {
               transparent={true}
               frontImage={cardFrontImage}
               imageFit="cover"
+              lanyardImage={isSpiderman ? webString : null}
+              lanyardWidth={isSpiderman ? 0.3 : 1}
             />
           </motion.div>
         </div>

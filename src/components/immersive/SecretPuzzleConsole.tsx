@@ -19,11 +19,23 @@ import {
 interface SecretPuzzleConsoleProps {
   onCommandInput?: string;
   onNavigateFile?: (fileId: string) => void;
+  isSpideyMode?: boolean;
 }
+
+const SPIDEY_QUOTES = [
+  "\"With great power comes great responsibility.\" — Uncle Ben",
+  "\"Whatever comes our way, whatever battle we have raging inside us, we always have a choice.\" — Peter Parker",
+  "\"You can't think about saving the world. You have to think about saving one person.\" — Peter Parker",
+  "\"Anyone can wear the mask. You could wear the mask. If you didn't know that before, I hope you do now.\" — Miles Morales",
+  "\"My Spider-Sense is tingling!\"",
+  "\"We're going to pull off a heist? In Oscorp? That's insane. I'm in!\"",
+  "\"It's pizza time!\" — Peter Parker",
+];
 
 export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
   onCommandInput,
   onNavigateFile,
+  isSpideyMode,
 }) => {
   const [level, setLevel] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -36,6 +48,15 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
   const [copiedKey, setCopiedKey] = useState<boolean>(false);
   const [keyParts, setKeyParts] = useState<string[]>([]);
   const [attempts, setAttempts] = useState<number>(0);
+  const [quoteIndex, setQuoteIndex] = useState<number>(0);
+
+  useEffect(() => {
+    if (!isSpideyMode) return;
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % SPIDEY_QUOTES.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isSpideyMode]);
 
   // Handle external commands from bottom terminal input if provided
   useEffect(() => {
@@ -98,14 +119,21 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
       }
     } else if (level === 3) {
       const ansLower = answer.toLowerCase();
-      if (
+      const isCorrectSpidey = isSpideyMode && (
+        ansLower === "a" ||
+        ansLower.includes("web") ||
+        ansLower.includes("shooter")
+      );
+      const isCorrectNormal = !isSpideyMode && (
         ansLower === "c" ||
         ansLower.includes("engineer") ||
         ansLower.includes("programmer") ||
         ansLower.includes("code") ||
         ansLower.includes("developer") ||
         ansLower.includes("software")
-      ) {
+      );
+
+      if (isCorrectSpidey || isCorrectNormal) {
         setFeedback({
           type: "success",
           message: "[✓] CORE IDENTITY CONFIRMED: Master clearance verified! Key part 'ROOT' synthesized.",
@@ -160,20 +188,32 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
   return (
     <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-emerald-500 selection:text-black">
       {/* Top Security Status Header */}
-      <div className="bg-[#18181b] border border-emerald-500/30 rounded-xl p-3 mb-4 shadow-[0_0_20px_rgba(16,185,129,0.1)] flex flex-wrap items-center justify-between gap-3">
+      <div className={`border rounded-xl p-3 mb-3 flex flex-wrap items-center justify-between gap-3 ${
+        isSpideyMode 
+          ? "bg-[#180a0a] border-red-500/40 shadow-[0_0_20px_rgba(220,38,38,0.25)]" 
+          : "bg-[#18181b] border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+      }`}>
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+          <div className={`p-1.5 rounded-lg border ${
+            isSpideyMode 
+              ? "bg-red-500/10 border-red-500/30 text-red-400" 
+              : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+          }`}>
             {level === 4 ? <ShieldCheck className="w-4 h-4 animate-pulse" /> : <Terminal className="w-4 h-4" />}
           </div>
           <div>
-            <div className="text-[11px] font-bold tracking-wider text-emerald-400 flex items-center gap-1.5 uppercase">
-              <span>ANTIGRAVITY SECURITY NODE</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">
+            <div className={`text-[11px] font-bold tracking-wider flex items-center gap-1.5 uppercase ${
+              isSpideyMode ? "text-red-400" : "text-emerald-400"
+            }`}>
+              <span>{isSpideyMode ? "OSCORP SECURE MAINFRAME" : "ANTIGRAVITY SECURITY NODE"}</span>
+              <span className={`text-[9px] px-1.5 py-0.2 rounded font-semibold ${
+                isSpideyMode ? "bg-red-500/20 text-red-300" : "bg-emerald-500/20 text-emerald-300"
+              }`}>
                 {level === 4 ? "ROOT MASTER" : `LEVEL ${level} OF 3`}
               </span>
             </div>
             <div className="text-[10px] text-white/50 flex items-center gap-2 mt-0.5">
-              <span>Clearance: {level === 4 ? "Master Engineer (@thenushan)" : "Guest Encrypted"}</span>
+              <span>Clearance: {level === 4 ? (isSpideyMode ? "Peter Parker (@spiderman)" : "Master Engineer (@thenushan)") : (isSpideyMode ? "Friendly Neighborhood Guest" : "Guest Encrypted")}</span>
               <span>•</span>
               <span>Attempts: {attempts}</span>
             </div>
@@ -185,11 +225,11 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
           <div className="hidden sm:flex flex-col items-end gap-1 w-32">
             <div className="flex justify-between w-full text-[9px] text-white/40">
               <span>DECRYPTION</span>
-              <span className="text-emerald-400 font-bold">{getProgressPercentage()}%</span>
+              <span className={`font-bold ${isSpideyMode ? "text-red-400" : "text-emerald-400"}`}>{getProgressPercentage()}%</span>
             </div>
             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                className={`h-full bg-gradient-to-r ${isSpideyMode ? "from-red-600 to-blue-600" : "from-emerald-500 to-teal-400"}`}
                 initial={{ width: 0 }}
                 animate={{ width: `${getProgressPercentage()}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -207,6 +247,29 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Spider-Man Rotating Quotes Banner */}
+      {isSpideyMode && (
+        <div className="bg-gradient-to-r from-red-950/60 via-[#1a0808] to-blue-950/60 border border-red-500/30 rounded-xl p-2.5 mb-3 flex items-center gap-2.5 text-xs shadow-[0_0_15px_rgba(220,38,38,0.15)]">
+          <span className="text-red-400 font-extrabold shrink-0 flex items-center gap-1 text-[11px] uppercase tracking-wider">
+            <span>🕸️</span> SPIDEY QUOTE:
+          </span>
+          <div className="flex-1 overflow-hidden h-5 relative flex items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={quoteIndex}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.3 }}
+                className="text-red-200/90 font-serif italic text-[11px] truncate"
+              >
+                {SPIDEY_QUOTES[quoteIndex]}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
 
       {/* Main Puzzle Area */}
       <div className="flex-1 overflow-y-auto pr-1 space-y-4">
@@ -238,7 +301,7 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
               <div className="space-y-3 text-white/80 leading-relaxed bg-black/40 p-4 rounded-lg border border-white/5">
                 <p className="text-amber-400/90 font-semibold flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
-                  SYSTEM ALERT: Address 0x7F00A check encountered an unverified null index during startup.
+                  SYSTEM ALERT: {isSpideyMode ? "Web-fluid density mismatch detected during synthesis." : "Address 0x7F00A check encountered an unverified null index during startup."}
                 </p>
                 <p>
                   Inspect the numerical doubling offset pattern below and determine the missing integer to restore memory alignment:
@@ -256,7 +319,7 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
                 >
                   <Sparkles className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
                   <div>
-                    <span className="font-bold">DECRYPTION HINT:</span> Look at how each number transforms into the next.
+                    <span className="font-bold">DECRYPTION HINT:</span> {isSpideyMode ? "My spider-sense is tingling... " : ""}Look at how each number transforms into the next.
                     <br />
                     10 × 2 = 20 (minus 2 = 18). 18 × 2 = 36 (minus 2 = 34). 34 × 2 = 68 (minus 2 = 66)... What is (130 × 2) - 2?
                   </div>
@@ -365,7 +428,7 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
                 >
                   <Sparkles className="w-4 h-4 shrink-0 mt-0.5 text-cyan-400" />
                   <div>
-                    <span className="font-bold">DECRYPTION HINT:</span> Read the string <code className="bg-black/40 px-1 rounded">"etivarg"</code> backwards from right to left: <code className="bg-black/40 px-1 rounded">g-r-a-v-i-t-e</code>. Then append <code className="bg-black/40 px-1 rounded">"_x101"</code>!
+                    <span className="font-bold">DECRYPTION HINT:</span> {isSpideyMode ? "With great power comes great... attention to detail! " : ""}Read the string <code className="bg-black/40 px-1 rounded">"etivarg"</code> backwards from right to left: <code className="bg-black/40 px-1 rounded">g-r-a-v-i-t-e</code>. Then append <code className="bg-black/40 px-1 rounded">"_x101"</code>!
                   </div>
                 </motion.div>
               )}
@@ -451,13 +514,16 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
 
               <div className="space-y-3 text-white/80 leading-relaxed bg-black/40 p-4 rounded-lg border border-white/5">
                 <p className="text-purple-300 font-semibold">
-                  FINAL GATE: Master Developer Clearance (<code className="text-white">root@thenushan-portfolio</code>)
+                  FINAL GATE: {isSpideyMode ? "Avenger Level Threat Clearance" : "Master Developer Clearance"} (<code className="text-white">{isSpideyMode ? "root@spiderverse" : "root@thenushan-portfolio"}</code>)
                 </p>
                 <p>
                   To confirm your developer intuition and synthesize the final root decryption key, answer this system riddle:
                 </p>
                 <div className="p-4 bg-[#0e0e11] rounded-lg border border-purple-500/30 font-mono text-sm text-purple-200 italic border-l-4 border-l-purple-500">
-                  &quot;I have no physical form, yet I architect entire worlds of logic. I speak purely in syntax and thrive in loops. When I catch a bug, I don&apos;t get sick—I get fixed. What am I?&quot;
+                  {isSpideyMode 
+                    ? "\"I am sticky, strong, and help you swing across the city. Without me, a spider is just a bug. What am I?\""
+                    : "\"I have no physical form, yet I architect entire worlds of logic. I speak purely in syntax and thrive in loops. When I catch a bug, I don't get sick—I get fixed. What am I?\""
+                  }
                 </div>
               </div>
 
@@ -469,19 +535,24 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
                 >
                   <Sparkles className="w-4 h-4 shrink-0 mt-0.5 text-purple-400" />
                   <div>
-                    <span className="font-bold">DECRYPTION HINT:</span> Who writes clean syntax, debugs errors, designs backend architectures, and creates beautiful portfolio applications?
+                    <span className="font-bold">DECRYPTION HINT:</span> {isSpideyMode ? "It's pizza time! Oh wait, no... it's what Spiderman shoots from his wrists!" : "Who writes clean syntax, debugs errors, designs backend architectures, and creates beautiful portfolio applications?"}
                   </div>
                 </motion.div>
               )}
 
               {/* Options */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {[
+                {(isSpideyMode ? [
+                  { id: "A", label: "[A] A Web Shooter", value: "web shooter", correct: true },
+                  { id: "B", label: "[B] A Grappling Hook", value: "grappling hook", correct: false },
+                  { id: "C", label: "[C] A Symbiote", value: "symbiote", correct: false },
+                  { id: "D", label: "[D] Radioactive Blood", value: "radioactive blood", correct: false },
+                ] : [
                   { id: "A", label: "[A] A Database Index", value: "A Database Index", correct: false },
                   { id: "B", label: "[B] A Compiler Engine", value: "A Compiler Engine", correct: false },
                   { id: "C", label: "[C] A Software Engineer / Code", value: "C", correct: true },
                   { id: "D", label: "[D] A Network Router", value: "A Network Router", correct: false },
-                ].map((opt) => (
+                ]).map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => handleOptionSubmit(opt.value)}
@@ -515,7 +586,7 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
                   value={customInput}
                   onChange={(e) => setCustomInput(e.target.value)}
                   disabled={feedback.type === "success"}
-                  placeholder="Or type answer (e.g. programmer, engineer, code)..."
+                  placeholder={isSpideyMode ? "Or type answer (e.g. web shooter)..." : "Or type answer (e.g. programmer, engineer, code)..."}
                   className="flex-1 bg-black/50 border border-white/10 focus:border-purple-500 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none transition-colors font-mono"
                 />
                 <button
@@ -544,23 +615,33 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
               <div className="text-center space-y-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold uppercase tracking-wider">
                   <Award className="w-3.5 h-3.5 text-amber-400" />
-                  <span>ANTIGRAVITY MASTER ENGINEER UNLOCKED</span>
+                  <span>{isSpideyMode ? "SPIDER-SENSE MASTER UNLOCKED" : "ANTIGRAVITY MASTER ENGINEER UNLOCKED"}</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-white font-mono">
-                  ROOT ACCESS GRANTED 🚀
+                  {isSpideyMode ? "WITH GREAT POWER... 🕸️" : "ROOT ACCESS GRANTED 🚀"}
                 </h3>
                 <p className="text-xs text-white/60 max-w-md mx-auto">
-                  All 3 decryption layers cleared. You have unlocked master developer privileges across Thenushan&apos;s capability stack.
+                  {isSpideyMode 
+                    ? "All 3 security protocols bypassed. Welcome to the Spider-Verse, friendly neighborhood hacker!" 
+                    : "All 3 decryption layers cleared. You have unlocked master developer privileges across Thenushan's capability stack."}
                 </p>
               </div>
 
               {/* ASCII Art Box */}
               <div className="bg-black/80 border border-emerald-500/30 rounded-lg p-4 font-mono text-[10px] sm:text-xs text-emerald-400 overflow-x-auto text-center leading-tight">
-                <pre>{`  █████╗ N T I G R A V I T Y   R O O T   N O D E
+                {isSpideyMode ? (
+                  <pre>{`  ███████╗ P I D E R - M A N   O S C O R P   N O D E
+╔═══════════════════════════════════════════════════════╗
+║ USER: root@peter-parker  [VERIFIED]                   ║
+║ STATUS: WEB-SHOOTERS FULLY CALIBRATED                 ║
+╚═══════════════════════════════════════════════════════╝`}</pre>
+                ) : (
+                  <pre>{`  █████╗ N T I G R A V I T Y   R O O T   N O D E
 ╔═══════════════════════════════════════════════════════╗
 ║ USER: root@thenushan-portfolio  [VERIFIED]            ║
 ║ STATUS: 5/5 CAPABILITY NODES FULLY SYNCHRONIZED       ║
 ╚═══════════════════════════════════════════════════════╝`}</pre>
+                )}
               </div>
 
               {/* Master Key Card */}
@@ -582,9 +663,11 @@ export const SecretPuzzleConsole: React.FC<SecretPuzzleConsoleProps> = ({
 
               {/* Secret Note */}
               <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-l-2 border-emerald-400 p-3.5 rounded-r-lg text-left space-y-1">
-                <div className="text-[11px] font-bold text-emerald-300">💬 A NOTE FROM THENUSHAN:</div>
+                <div className="text-[11px] font-bold text-emerald-300">💬 {isSpideyMode ? "A NOTE FROM PETER PARKER:" : "A NOTE FROM THENUSHAN:"}</div>
                 <div className="text-xs text-white/80 leading-relaxed italic">
-                  &quot;Curiosity is what turns good software engineers into great problem solvers. Thank you for exploring my code, testing my interactive systems, and unlocking the root challenge!&quot;
+                  {isSpideyMode 
+                    ? "\"Anyone can wear the mask. You could wear the mask. If you didn't know that before, I hope you do now. Thanks for hacking the mainframe with me!\""
+                    : "\"Curiosity is what turns good software engineers into great problem solvers. Thank you for exploring my code, testing my interactive systems, and unlocking the root challenge!\""}
                 </div>
               </div>
 
