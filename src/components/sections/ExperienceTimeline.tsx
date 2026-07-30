@@ -1,99 +1,218 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { experiences } from "../../data/experience";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Briefcase, Code2 } from "lucide-react";
+import { experiences, type Experience } from "../../data/experience";
 import { SectionHeading } from "../ui/SectionHeading";
 import { GlassCard } from "../ui/GlassCard";
 
+// Pointer-reactive 3D tilt wrapper around GlassCard
+const TiltCard: React.FC<{ children: React.ReactNode; glowColor: string }> = ({
+  children,
+  glowColor,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [7, -7]), {
+    stiffness: 220,
+    damping: 22,
+  });
+  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-7, 7]), {
+    stiffness: 220,
+    damping: 22,
+  });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    px.set((e.clientX - rect.left) / rect.width - 0.5);
+    py.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    px.set(0);
+    py.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 1000 }}
+      className="will-change-transform"
+    >
+      <GlassCard glowColor={glowColor}>{children}</GlassCard>
+    </motion.div>
+  );
+};
+
+// Glowing timeline node with concentric pulse rings
+const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
+  const color = type === "work" ? "#3B82F6" : "#8B5CF6";
+  const Icon = type === "work" ? Briefcase : Code2;
+
+  return (
+    <div className="relative w-12 h-12 flex items-center justify-center">
+      {[0, 1].map((ring) => (
+        <motion.span
+          key={ring}
+          className="absolute inset-0 rounded-full border"
+          style={{ borderColor: color }}
+          animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+          transition={{
+            duration: 2.4,
+            repeat: Infinity,
+            ease: "easeOut",
+            delay: ring * 1.2,
+          }}
+        />
+      ))}
+      <div
+        className="relative w-9 h-9 rounded-full flex items-center justify-center bg-[#030712] border-2"
+        style={{ borderColor: color, boxShadow: `0 0 18px ${color}` }}
+      >
+        <Icon className="w-4 h-4" style={{ color }} />
+      </div>
+    </div>
+  );
+};
+
+const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
+  const color = exp.type === "work" ? "#3B82F6" : "#8B5CF6";
+  return (
+    <TiltCard
+      glowColor={exp.type === "work" ? "rgba(59, 130, 246, 0.08)" : "rgba(139, 92, 246, 0.08)"}
+    >
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono">
+            {exp.role}
+          </h3>
+          <span className="text-xs text-blue-400 font-bold block mt-1 font-mono">
+            {exp.company}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] text-white/30 font-mono tracking-wider font-bold uppercase">
+            {exp.period}
+          </span>
+          <span
+            className="text-[8px] font-bold border rounded px-2 py-0.5 uppercase tracking-widest font-mono"
+            style={{
+              borderColor: exp.type === "work" ? "rgba(59,130,246,0.3)" : "rgba(139,92,246,0.3)",
+              color: exp.type === "work" ? "#60A5FA" : "#A78BFA",
+            }}
+          >
+            {exp.type}
+          </span>
+        </div>
+      </div>
+
+      <p className="exp-description text-xs text-white/50 leading-relaxed mb-4">
+        {exp.description}
+      </p>
+
+      {/* Highlights list */}
+      <ul className="space-y-1.5 mb-6">
+        {exp.highlights.map((item, index) => (
+          <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0" />
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      {/* Technology Tags */}
+      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
+        {exp.technologies.map((tech) => (
+          <span
+            key={tech}
+            className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+      <span
+        className="hidden md:block absolute top-8 w-10 h-px"
+        style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
+      />
+    </TiltCard>
+  );
+};
+
 export const ExperienceTimeline: React.FC = () => {
   return (
-    <section id="experience" className="w-full py-24 px-6 relative bg-transparent">
-      <div className="max-w-4xl mx-auto">
+    <section id="experience" className="w-full py-24 px-6 relative bg-transparent overflow-hidden">
+      <div className="max-w-5xl mx-auto">
         <SectionHeading
           title="Professional Journey"
           subtitle="Timeline"
         />
 
-        <div className="relative pl-8 md:pl-10">
-          {/* Glowing connector line */}
-          <div className="absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent" />
+        <div className="relative">
+          {/* Center spine - desktop zigzag layout */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/50 via-violet-500/40 to-transparent" />
+            <motion.div
+              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-cyan-300"
+              style={{ boxShadow: "0 0 14px 3px rgba(103,232,249,0.8)" }}
+              animate={{ top: ["0%", "100%"] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
 
-          <div className="space-y-12">
-            {experiences.map((exp, i) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
-                className="relative"
-              >
-                {/* Glowing Dot indicator */}
-                <div className="absolute -left-8 md:-left-10 top-6 flex items-center justify-center">
-                  <div
-                    className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712] transition-colors duration-300"
-                    style={{
-                      borderColor: exp.type === "work" ? "#3B82F6" : "#8B5CF6",
-                      boxShadow: `0 0 12px ${exp.type === "work" ? "#3B82F6" : "#8B5CF6"}`,
-                    }}
-                  />
-                </div>
+          {/* Left rail - mobile */}
+          <div className="md:hidden absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent" />
 
-                {/* Experience Card */}
-                <GlassCard glowColor={exp.type === "work" ? "rgba(59, 130, 246, 0.08)" : "rgba(139, 92, 246, 0.08)"}>
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                    <div>
-                      <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono">
-                        {exp.role}
-                      </h3>
-                      <span className="text-xs text-blue-400 font-bold block mt-1 font-mono">
-                        {exp.company}
-                      </span>
-                    </div>
+          <div className="space-y-14 md:space-y-24">
+            {experiences.map((exp, i) => {
+              const isEven = i % 2 === 0;
+              const color = exp.type === "work" ? "#3B82F6" : "#8B5CF6";
 
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] text-white/30 font-mono tracking-wider font-bold uppercase">
-                        {exp.period}
-                      </span>
-                      <span
-                        className="text-[8px] font-bold border rounded px-2 py-0.5 uppercase tracking-widest font-mono"
-                        style={{
-                          borderColor: exp.type === "work" ? "rgba(59,130,246,0.3)" : "rgba(139,92,246,0.3)",
-                          color: exp.type === "work" ? "#60A5FA" : "#A78BFA",
-                        }}
-                      >
-                        {exp.type}
-                      </span>
-                    </div>
+              return (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, y: 70, rotateX: 18 }}
+                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  viewport={{ once: true, margin: "-120px" }}
+                  transition={{ duration: 0.7, delay: (i % 4) * 0.08, ease: [0.25, 1, 0.5, 1] }}
+                  style={{ transformPerspective: 1200 }}
+                  className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-14 md:items-center"
+                >
+                  {/* Node - mobile */}
+                  <div className="md:hidden absolute -left-8 top-6">
+                    <div
+                      className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712]"
+                      style={{ borderColor: color, boxShadow: `0 0 12px ${color}` }}
+                    />
                   </div>
 
-                  <p className="exp-description text-xs text-white/50 leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
-
-                  {/* Highlights list */}
-                  <ul className="space-y-1.5 mb-6">
-                    {exp.highlights.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed">
-                        <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Technology Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
-                    {exp.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                  {/* Node - desktop, centered on the spine */}
+                  <div className="hidden md:flex absolute left-1/2 top-6 -translate-x-1/2 z-20">
+                    <TimelineNode type={exp.type} />
                   </div>
-                </GlassCard>
-              </motion.div>
-            ))}
+
+                  {isEven ? (
+                    <>
+                      <div className="md:pr-6">
+                        <ExperienceCard exp={exp} />
+                      </div>
+                      <div className="hidden md:block" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="hidden md:block" />
+                      <div className="md:pl-6">
+                        <ExperienceCard exp={exp} />
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
