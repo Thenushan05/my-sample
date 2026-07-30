@@ -15,7 +15,7 @@ import { ClickSpark } from "./components/ui/ClickSpark";
 import { ScrollReveal } from "./components/ui/ScrollReveal";
 import { SpiderwebBackground } from "./components/immersive/SpiderwebBackground";
 import { SpiderCrawl } from "./components/immersive/SpiderCrawl";
-import { SecretPuzzleConsole } from "./components/immersive/SecretPuzzleConsole";
+import { SpideyTerminalConsole } from "./components/immersive/SpideyTerminalConsole";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -118,7 +118,7 @@ export function App() {
 
                     {/* Console Content Body */}
                     <div className="flex-1 p-4 overflow-hidden relative flex flex-col">
-                      <SecretPuzzleConsole isSpideyMode={true} />
+                      <SpideyTerminalConsole />
                     </div>
                   </div>
                 </div>
