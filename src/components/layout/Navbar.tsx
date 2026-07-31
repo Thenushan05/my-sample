@@ -4,6 +4,7 @@ import GooeyNav from "../ui/GooeyNav";
 import { AnimatedThemeToggler } from "../ui/AnimatedThemeToggler";
 import { SpidermanToggler } from "../ui/SpidermanToggler";
 import { motion } from "framer-motion";
+import logoImg from "../../assets/logo.png";
 
 interface NavItem {
   label: string;
@@ -130,7 +131,7 @@ export const Navbar: React.FC = () => {
                 <path d="M12 2C11.5 3.5 10 5.5 8 6C6 6.5 3.5 5 2 4.5C3.5 7 6 8.5 7.5 9.5C6 11 3.5 12.5 1 13C3 13.5 5.5 13 7 12C6.5 14 4.5 17 2 19C4.5 18.5 7 16.5 8.5 14.5C9.5 16 11 19 12 22C13 19 14.5 16 15.5 14.5C17 16.5 19.5 18.5 22 19C19.5 17 17.5 14 17 12C18.5 13 21 13.5 23 13C20.5 12.5 18 11 16.5 9.5C18 8.5 20.5 7 22 4.5C20.5 5 18 6.5 16 6C14 5.5 12.5 3.5 12 2Z" />
               </svg>
             ) : (
-              "TS"
+              <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}
           </div>
           <div className="flex flex-col">
