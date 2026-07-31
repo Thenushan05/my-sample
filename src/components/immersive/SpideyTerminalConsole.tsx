@@ -179,10 +179,15 @@ export const SpideyTerminalConsole: React.FC = () => {
   const [logs, setLogs] = useState<string[]>(INITIAL_LOGS);
   const [inputVal, setInputVal] = useState("");
   const [activeBlueprint, setActiveBlueprint] = useState<SuitBlueprint>(SUIT_BLUEPRINTS[0]);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const terminalScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (terminalScrollRef.current) {
+      terminalScrollRef.current.scrollTo({
+        top: terminalScrollRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   }, [logs]);
 
   const handleCommand = (e: React.FormEvent) => {
@@ -305,7 +310,7 @@ export const SpideyTerminalConsole: React.FC = () => {
 
               {/* Terminal Log Area & Input Form (Right side) */}
               <div className="flex-1 flex flex-col overflow-hidden">
-                <div className="flex-1 overflow-y-auto bg-black/70 border border-red-500/20 rounded-xl p-4 space-y-1.5 font-mono text-[11px] sm:text-xs shadow-inner">
+                <div ref={terminalScrollRef} className="flex-1 overflow-y-auto bg-black/70 border border-red-500/20 rounded-xl p-4 space-y-1.5 font-mono text-[11px] sm:text-xs shadow-inner">
                   {logs.map((log, idx) => (
                     <div
                       key={idx}
@@ -320,7 +325,6 @@ export const SpideyTerminalConsole: React.FC = () => {
                       {log}
                     </div>
                   ))}
-                  <div ref={bottomRef} />
                 </div>
 
                 <form

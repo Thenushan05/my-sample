@@ -252,7 +252,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   return (
     <div ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-16 pt-28 pb-12 lg:pt-32 lg:pb-12">
       {/* Top Right Corner Fun Mode & Laser Calibration Controls */}
-      <div className="absolute top-6 right-6 md:top-8 md:right-10 z-50 flex items-center gap-2 sm:gap-3">
+      <div className="absolute top-24 right-4 md:top-28 md:right-8 z-40 flex items-center gap-2 sm:gap-3">
         {/* 
         {isFunMode && (
           <button
