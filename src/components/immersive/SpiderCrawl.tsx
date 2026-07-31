@@ -58,7 +58,7 @@ export const SpiderCrawl: React.FC = () => {
   return (
     <motion.div
       style={{ y, x: xOffset }}
-      className="fixed top-0 left-[85%] z-[60] pointer-events-none flex flex-col items-center"
+      className="fixed top-0 right-4 md:right-auto md:left-[85%] left-auto z-[60] pointer-events-none flex flex-col items-center"
     >
       {/* Web thread stretching up to the top of the screen */}
       <div className="w-[2px] h-[100vh] absolute bottom-1/2 bg-gradient-to-t from-red-600/80 via-red-600/40 to-transparent dark:from-white/90 dark:via-white/50 dark:to-transparent shadow-[0_0_10px_rgba(220,38,38,0.8)] dark:shadow-[0_0_10px_#ffffff]" />
