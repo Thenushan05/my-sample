@@ -122,7 +122,7 @@ export const LaptopStory: React.FC = () => {
   const prefersReduced = useReducedMotion()
 
   useLayoutEffect(() => {
-    if (prefersReduced || !isInteractive) return
+    if (prefersReduced || !isInteractive || isMobile) return
 
     const ctx = gsap.context(() => {
       // Laptop zoom and app emergence timeline

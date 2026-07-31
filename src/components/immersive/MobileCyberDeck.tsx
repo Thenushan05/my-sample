@@ -42,20 +42,18 @@ const HackerLoading: React.FC<{ isError: boolean }> = ({ isError }) => {
 
 const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
   const [displayedText, setDisplayedText] = useState("");
+
   React.useEffect(() => {
-    setDisplayedText("");
-    let i = 0;
+    let index = 0;
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText(text.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 5);
+      setDisplayedText(text.slice(0, index));
+      index++;
+      if (index > text.length) clearInterval(interval);
+    }, 15);
     return () => clearInterval(interval);
   }, [text]);
-  return <>{displayedText}</>;
+
+  return <span>{displayedText}</span>;
 };
 
 interface MobileCyberDeckProps {

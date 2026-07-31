@@ -14,7 +14,6 @@ const slugs = [
   "flutter",
   "android",
   "html5",
-  "css3",
   "nodedotjs",
   "express",
   "nextdotjs",
@@ -32,9 +31,7 @@ const slugs = [
   "jira",
   "github",
   "gitlab",
-  "visualstudiocode",
   "androidstudio",
-  "sonarqube",
   "figma",
 ]
 
