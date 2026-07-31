@@ -62,6 +62,8 @@ export default function Lanyard({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    if (isMobile) return null;
+
     return (
         <div className="lanyard-wrapper">
             <Canvas

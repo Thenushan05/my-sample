@@ -100,7 +100,7 @@ export const ContactSection: React.FC = () => {
             >
               {/* Name */}
               <div className="space-y-1.5">
-                <label htmlFor="name" className="text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
+                <label htmlFor="name" className="text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white italic">
                   Name
                 </label>
                 <input
@@ -119,7 +119,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="email" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
+                <label htmlFor="email" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white italic">
                   Email Address
                 </label>
                 <input
@@ -138,7 +138,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Subject */}
               <div className="space-y-1.5">
-                <label htmlFor="subject" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
+                <label htmlFor="subject" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white italic">
                   Subject
                 </label>
                 <input
@@ -157,7 +157,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Message */}
               <div className="space-y-1.5">
-                <label htmlFor="message" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
+                <label htmlFor="message" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white italic">
                   Message
                 </label>
                 <textarea
@@ -198,7 +198,7 @@ export const ContactSection: React.FC = () => {
             className="lg:col-span-2 space-y-6 transition-transform duration-500 [.spiderman_&]:-skew-x-6"
           >
             <GlassCard glowColor="rgba(59,130,246,0.05)" className="quick-connect-card transition-all duration-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!bg-black/40 [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono mb-4 [.spiderman_&]:italic">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono mb-4 italic">
                 Quick Connect
               </h3>
 
@@ -231,7 +231,7 @@ export const ContactSection: React.FC = () => {
             {/* Resume CV download */}
             <a href={personal.cvUrl} download className="block">
               <GlassCard glowColor="rgba(16,185,129,0.05)" className="download-resume text-center group border-emerald-500/10 hover:border-emerald-500/20 hover:bg-emerald-500/[0.02] transition-all duration-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!bg-black/40 [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:hover:bg-red-500/10 [.spiderman_&]:hover:border-red-500">
-                <div className="flex items-center justify-center gap-2 text-xs font-bold text-white/80 group-hover:text-white font-mono [.spiderman_&]:italic">
+                <div className="flex items-center justify-center gap-2 text-xs font-bold text-white/80 group-hover:text-white font-mono italic">
                   <FileText className="w-4 h-4 text-emerald-400 [.spiderman_&]:text-red-500 transition-colors" />
                   <span>Download Resume CV</span>
                 </div>

@@ -61,7 +61,14 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
     const toggle = useCallback(() => {
         const next = !document.documentElement.classList.contains("spiderman")
         document.documentElement.classList.toggle("spiderman", next)
-        localStorage.setItem("spiderman", next ? "on" : "off")
+        
+        if (next) {
+            document.documentElement.classList.add("dark")
+            localStorage.setItem("theme", "dark")
+            window.dispatchEvent(new Event("themeChange"))
+        }
+
+        localStorage.setItem("spidey_mode", next ? "true" : "false")
         setIsActive(next)
         if (showGuide) {
             setShowGuide(false)

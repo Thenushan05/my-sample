@@ -9,9 +9,9 @@ export const ThemeBackground: React.FC = () => {
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-violet-600/5 dark:bg-violet-600/5 rounded-full blur-[120px]" />
 
       {/* Light mode subtle background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:hidden" />
-      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:hidden rounded-full blur-[120px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-violet-200/30 dark:hidden rounded-full blur-[120px]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:hidden [.spiderman_&]:hidden" />
+      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:hidden [.spiderman_&]:hidden rounded-full blur-[120px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-violet-200/30 dark:hidden [.spiderman_&]:hidden rounded-full blur-[120px]" />
 
       {/* Fine technical grid pattern */}
       <div

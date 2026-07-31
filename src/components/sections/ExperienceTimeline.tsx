@@ -87,10 +87,10 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
     >
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono [.spiderman_&]:italic transition-all duration-500">
+          <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono italic transition-all duration-500">
             {exp.role}
           </h3>
-          <span className="text-xs text-blue-400 font-bold block mt-1 font-mono [.spiderman_&]:text-white [.spiderman_&]:italic transition-colors duration-500">
+          <span className="text-xs text-blue-400 font-bold block mt-1 font-mono [.spiderman_&]:text-white italic transition-colors duration-500">
             {exp.company}
           </span>
         </div>
@@ -111,14 +111,14 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
         </div>
       </div>
 
-      <p className="exp-description text-xs text-white/50 leading-relaxed mb-4 [.spiderman_&]:italic transition-all duration-500">
+      <p className="exp-description text-xs text-white/50 leading-relaxed mb-4 italic transition-all duration-500">
         {exp.description}
       </p>
 
       {/* Highlights list */}
       <ul className="space-y-1.5 mb-6">
         {exp.highlights.map((item, index) => (
-          <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed [.spiderman_&]:italic transition-all duration-500">
+          <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed italic transition-all duration-500">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0 [.spiderman_&]:bg-red-500 [.spiderman_&]:rounded-none transition-all duration-500" />
             {item}
           </li>
@@ -130,7 +130,7 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
         {exp.technologies.map((tech) => (
           <span
             key={tech}
-            className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono [.spiderman_&]:rounded-none [.spiderman_&]:text-white [.spiderman_&]:border-white/20 [.spiderman_&]:italic transition-all duration-500"
+            className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono [.spiderman_&]:rounded-none [.spiderman_&]:text-white [.spiderman_&]:border-white/20 italic transition-all duration-500"
           >
             {tech}
           </span>

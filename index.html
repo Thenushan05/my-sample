@@ -8,13 +8,12 @@
       var theme = localStorage.getItem('theme');
       if (theme === 'light') {
         document.documentElement.classList.remove('dark');
-      } else if (theme === 'dark' || !window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.documentElement.classList.add('dark');
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('dark');
       }
 
-      if (localStorage.getItem('spiderman') === 'on') {
+      var spidey = localStorage.getItem('spidey_mode');
+      if (spidey === 'true') {
         document.documentElement.classList.add('spiderman');
       }
     })();

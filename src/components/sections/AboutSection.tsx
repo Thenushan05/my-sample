@@ -57,10 +57,10 @@ export const AboutSection: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="about-text space-y-6 text-white/60 text-sm md:text-base leading-relaxed transition-transform duration-500 [.spiderman_&]:-skew-x-6"
           >
-            <p className="about-text [.spiderman_&]:italic">
+            <p className="about-text italic">
               I am a software engineer focused on transforming complex ideas into useful, scalable, and visually engaging digital products.
             </p>
-            <p className="[.spiderman_&]:italic">
+            <p className="italic">
               My approach blends technical engineering with analytical business planning, ensuring that every codebase I write serves a solid functional and commercial objective. I enjoy resolving requirements ambiguity, implementing robust API architectures, and designing elegant UI layouts.
             </p>
 
@@ -73,13 +73,13 @@ export const AboutSection: React.FC = () => {
                 { value: "Multi", suffix: "AI & Web Apps", desc: "Designed full-stack intelligent systems" },
               ].map((stat, i) => (
                 <div key={i} className="stats-card border border-white/5 bg-white/[0.01] p-4 rounded-xl font-mono [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:bg-black/40 [.spiderman_&]:backdrop-blur-md transition-all duration-500">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent block [.spiderman_&]:!text-white [.spiderman_&]:italic">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent block [.spiderman_&]:!text-white italic">
                     {stat.value}
                   </span>
-                  <span className="text-[10px] text-white/80 font-bold block uppercase mt-1 [.spiderman_&]:text-red-500 [.spiderman_&]:italic">
+                  <span className="text-[10px] text-white/80 font-bold block uppercase mt-1 [.spiderman_&]:text-red-500 italic">
                     {stat.suffix}
                   </span>
-                  <span className="text-[9px] text-white/30 block mt-0.5 leading-tight [.spiderman_&]:italic">
+                  <span className="text-[9px] text-white/30 block mt-0.5 leading-tight italic">
                     {stat.desc}
                   </span>
                 </div>
@@ -93,7 +93,7 @@ export const AboutSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative w-full h-[500px] md:h-[600px]"
+            className="relative w-full h-[500px] md:h-[600px] hidden md:block"
           >
             <Lanyard
               position={[0, 0, 20]}

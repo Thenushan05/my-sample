@@ -36,13 +36,13 @@ export const ProjectsSection: React.FC = () => {
       <div className="max-w-6xl mx-auto relative">
         {/* Header */}
         <div className="mb-12 md:mb-20">
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:-skew-x-6 [.spiderman_&]:tracking-wide transition-all duration-500">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] uppercase italic [.spiderman_&]:-skew-x-6 [.spiderman_&]:tracking-wide transition-all duration-500">
             Featured{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white transition-all duration-700">
               Projects
             </span>
           </h2>
-          <p className="text-slate-600 dark:text-white/60 max-w-2xl text-lg [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-widest [.spiderman_&]:text-xs [.spiderman_&]:text-white/80 transition-all duration-500">
+          <p className="text-slate-600 dark:text-white/60 max-w-2xl text-lg uppercase italic tracking-widest [.spiderman_&]:text-xs [.spiderman_&]:text-white/80 transition-all duration-500">
             Real-world applications built with modern technologies — from architecture to production. Click on a project to explore.
           </p>
         </div>
@@ -83,7 +83,7 @@ export const ProjectsSection: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className={`text-lg font-bold transition-colors [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-wider ${
+                    <h3 className={`text-lg font-bold transition-colors uppercase italic tracking-wider ${
                       isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white"
                     }`}>
                       {project.title}
@@ -105,7 +105,7 @@ export const ProjectsSection: React.FC = () => {
               {/* Header inside viewer */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div className="[.spiderman_&]:-skew-x-6">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-widest leading-tight transition-all duration-500">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white uppercase italic tracking-widest leading-tight transition-all duration-500">
                     {activeProject.title}
                   </h3>
                   <span className="text-xs font-mono text-blue-500 dark:text-blue-400 [.spiderman_&]:text-red-400 [.spiderman_&]:tracking-[0.3em] uppercase tracking-wider block mt-1 transition-colors">
@@ -117,7 +117,7 @@ export const ProjectsSection: React.FC = () => {
                 <div className="flex gap-2 [.spiderman_&]:-skew-x-6">
                   <button
                     onClick={() => setActiveTab("desktop")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
                       activeTab === "desktop"
                         ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                         : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
@@ -128,7 +128,7 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("mobile")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
                       activeTab === "mobile"
                         ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                         : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
@@ -139,7 +139,7 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("architecture")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
                       activeTab === "architecture"
                         ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                         : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"

@@ -166,7 +166,7 @@ export const Navbar: React.FC = () => {
           <a
             href="#contact"
             onClick={(e) => handleNavClick(e, "#contact")}
-            className="resume-btn flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-slate-900/10 hover:border-slate-900/30 dark:border-white/10 dark:hover:border-white/30 bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 transition-all text-xs font-medium tracking-wider text-slate-900 dark:text-white uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!border-none [.spiderman_&]:bg-red-600 [.spiderman_&]:hover:bg-red-500 [.spiderman_&]:text-white [.spiderman_&]:italic [.spiderman_&]:-skew-x-6"
+            className="resume-btn flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-slate-900/10 hover:border-slate-900/30 dark:border-white/10 dark:hover:border-white/30 bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 transition-all text-xs font-medium tracking-wider text-slate-900 dark:text-white uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!border-none [.spiderman_&]:bg-red-600 [.spiderman_&]:hover:bg-red-500 [.spiderman_&]:text-white italic [.spiderman_&]:-skew-x-6"
           >
             Resume
             <ArrowUpRight className="w-3.5 h-3.5" />

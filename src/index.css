@@ -73,7 +73,11 @@ html.spiderman body {
 html.spiderman body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: -40;
   pointer-events: none;
   background:
@@ -86,7 +90,11 @@ html.spiderman body::before {
 html.spiderman body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: -39;
   pointer-events: none;
   opacity: 0.05;
@@ -307,141 +315,141 @@ html.lenis {
 
 /* ── Light Mode Overrides ─────────────────────── */
 /* Override Tailwind's white color with theme text color in light mode */
-:root:not(.dark) .text-white {
+:root:not(.dark):not(.spiderman) .text-white {
   color: var(--color-text);
 }
 
-:root:not(.dark) .text-white\/70,
-:root:not(.dark) .text-white\/60 {
+:root:not(.dark):not(.spiderman) .text-white\/70,
+:root:not(.dark):not(.spiderman) .text-white\/60 {
   color: var(--color-text-secondary);
 }
 
-:root:not(.dark) .text-white\/50,
-:root:not(.dark) .text-white\/40 {
+:root:not(.dark):not(.spiderman) .text-white\/50,
+:root:not(.dark):not(.spiderman) .text-white\/40 {
   color: var(--color-text-muted);
 }
 
-:root:not(.dark) .text-white\/30,
-:root:not(.dark) .text-white\/20 {
+:root:not(.dark):not(.spiderman) .text-white\/30,
+:root:not(.dark):not(.spiderman) .text-white\/20 {
   color: var(--color-text-dim);
 }
 
 /* Override background colors */
-:root:not(.dark) .bg-white\/5 {
+:root:not(.dark):not(.spiderman) .bg-white\/5 {
   background-color: var(--color-overlay);
 }
 
-:root:not(.dark) .bg-white\/10 {
+:root:not(.dark):not(.spiderman) .bg-white\/10 {
   background-color: var(--color-overlay-hover);
 }
 
 /* Override border colors */
-:root:not(.dark) .border-white\/5,
-:root:not(.dark) .border-white\/10 {
+:root:not(.dark):not(.spiderman) .border-white\/5,
+:root:not(.dark):not(.spiderman) .border-white\/10 {
   border-color: var(--color-border);
 }
 
 /* Override hover states */
-:root:not(.dark) .hover\:border-white\/10:hover,
-:root:not(.dark) .hover\:border-white\/30:hover,
-:root:not(.dark) .hover\:border-white\/20:hover {
+:root:not(.dark):not(.spiderman) .hover\:border-white\/10:hover,
+:root:not(.dark):not(.spiderman) .hover\:border-white\/30:hover,
+:root:not(.dark):not(.spiderman) .hover\:border-white\/20:hover {
   border-color: var(--color-border-strong);
 }
 
-:root:not(.dark) .hover\:bg-white\/10:hover {
+:root:not(.dark):not(.spiderman) .hover\:bg-white\/10:hover {
   background-color: var(--color-overlay-hover);
 }
 
 /* Override placeholder */
-:root:not(.dark) .placeholder-white\/20::placeholder {
+:root:not(.dark):not(.spiderman) .placeholder-white\/20::placeholder {
   color: var(--color-form-input-placeholder);
 }
 
 /* Override section and footer backgrounds */
-:root:not(.dark) section,
-:root:not(.dark) footer {
+:root:not(.dark):not(.spiderman) section,
+:root:not(.dark):not(.spiderman) footer {
   background-color: var(--color-bg);
 }
 
 /* Override black background shades that appear in light mode */
-:root:not(.dark) .bg-black\/20 {
+:root:not(.dark):not(.spiderman) .bg-black\/20 {
   background-color: var(--color-navbar-bg);
 }
 
-:root:not(.dark) .bg-black\/60 {
+:root:not(.dark):not(.spiderman) .bg-black\/60 {
   background-color: var(--color-navbar-bg);
 }
 
-:root:not(.dark) .bg-black\/50 {
+:root:not(.dark):not(.spiderman) .bg-black\/50 {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-:root:not(.dark) .bg-black\/95 {
+:root:not(.dark):not(.spiderman) .bg-black\/95 {
   background-color: rgba(255, 255, 255, 0.95);
   border-color: var(--color-border);
 }
 
-:root:not(.dark) .shadow-black\/50 {
+:root:not(.dark):not(.spiderman) .shadow-black\/50 {
   box-shadow: none !important;
 }
 
-:root:not(.dark) .shadow-2xl {
+:root:not(.dark):not(.spiderman) .shadow-2xl {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
-:root:not(.dark) .shadow-lg {
+:root:not(.dark):not(.spiderman) .shadow-lg {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-:root:not(.dark) .from-blue-600,
-:root:not(.dark) .to-violet-600 {
+:root:not(.dark):not(.spiderman) .from-blue-600,
+:root:not(.dark):not(.spiderman) .to-violet-600 {
   --tw-gradient-from: #3b82f6;
   --tw-gradient-to: #8b5cf6;
 }
 
-:root:not(.dark) .text-blue-400 {
+:root:not(.dark):not(.spiderman) .text-blue-400 {
   color: #3b82f6;
 }
 
 /* Override GooeyNav hardcoded colors for light mode */
-:root:not(.dark) .gooey-nav-container nav ul {
+:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul {
   color: var(--color-text);
   text-shadow: none;
 }
 
-:root:not(.dark) .gooey-nav-container nav ul li {
+:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul li {
   color: var(--color-nav-link);
 }
 
-:root:not(.dark) .gooey-nav-container nav ul li.active {
+:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul li.active {
   color: var(--color-nav-link-active);
 }
 
-:root:not(.dark) .gooey-nav-container .effect.text {
+:root:not(.dark):not(.spiderman) .gooey-nav-container .effect.text {
   color: var(--color-text);
 }
 
-:root:not(.dark) .gooey-nav-container .effect.text.active {
+:root:not(.dark):not(.spiderman) .gooey-nav-container .effect.text.active {
   color: var(--color-nav-link-active);
 }
 
-:root:not(.dark) .gooey-nav-container .effect.filter {
+:root:not(.dark):not(.spiderman) .gooey-nav-container .effect.filter {
   mix-blend-mode: normal;
 }
 
-:root:not(.dark) .gooey-nav-container .effect.filter::before {
+:root:not(.dark):not(.spiderman) .gooey-nav-container .effect.filter::before {
   background: transparent !important;
 }
 
-:root:not(.dark) .gooey-nav-container .effect.filter::after {
+:root:not(.dark):not(.spiderman) .gooey-nav-container .effect.filter::after {
   background: var(--color-overlay-hover);
 }
 
-:root:not(.dark) .gooey-nav-container nav ul li.active::after {
+:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul li.active::after {
   background: var(--color-overlay-hover);
 }
 
-:root:not(.dark) .gooey-nav-container nav ul li::after {
+:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul li::after {
   background: var(--color-overlay);
 }
 @layer utilities {
