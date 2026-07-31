@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, RefreshCw, Trophy, Play, Gamepad2, Skull } from "lucide-react";
+import { Terminal, RefreshCw, Trophy, Play, Gamepad2, Skull, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface TerminalSnakeProps {
   onCommandInput?: string;
@@ -113,6 +113,25 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
     },
     [isPlaying, isGameOver]
   );
+
+  const handleDpadClick = useCallback((dir: "UP" | "DOWN" | "LEFT" | "RIGHT") => {
+    if (!isPlaying || isGameOver) return;
+    const currentDir = directionRef.current;
+    switch (dir) {
+      case "UP":
+        if (currentDir.y !== 1) setDirection({ x: 0, y: -1 });
+        break;
+      case "DOWN":
+        if (currentDir.y !== -1) setDirection({ x: 0, y: 1 });
+        break;
+      case "LEFT":
+        if (currentDir.x !== 1) setDirection({ x: -1, y: 0 });
+        break;
+      case "RIGHT":
+        if (currentDir.x !== -1) setDirection({ x: 1, y: 0 });
+        break;
+    }
+  }, [isPlaying, isGameOver]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown, { passive: false });
@@ -264,6 +283,26 @@ export const TerminalSnake: React.FC<TerminalSnakeProps> = ({
             transition={{ repeat: Infinity, duration: 1 }}
           />
         </div>
+
+        {/* Mobile On-Screen D-Pad (Visible on small screens when playing) */}
+        {isPlaying && !isGameOver && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 md:hidden grid grid-cols-3 grid-rows-2 gap-1.5 opacity-60 z-30 pointer-events-auto">
+            <div />
+            <button onClick={() => handleDpadClick("UP")} className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-md active:scale-95 transition-transform ${isSpideyMode ? 'bg-red-500/20 border border-red-500/50 text-white' : 'bg-emerald-500/20 border border-emerald-500/50 text-white'}`}>
+              <ChevronUp className="w-6 h-6" />
+            </button>
+            <div />
+            <button onClick={() => handleDpadClick("LEFT")} className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-md active:scale-95 transition-transform ${isSpideyMode ? 'bg-red-500/20 border border-red-500/50 text-white' : 'bg-emerald-500/20 border border-emerald-500/50 text-white'}`}>
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button onClick={() => handleDpadClick("DOWN")} className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-md active:scale-95 transition-transform ${isSpideyMode ? 'bg-red-500/20 border border-red-500/50 text-white' : 'bg-emerald-500/20 border border-emerald-500/50 text-white'}`}>
+              <ChevronDown className="w-6 h-6" />
+            </button>
+            <button onClick={() => handleDpadClick("RIGHT")} className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-md active:scale-95 transition-transform ${isSpideyMode ? 'bg-red-500/20 border border-red-500/50 text-white' : 'bg-emerald-500/20 border border-emerald-500/50 text-white'}`}>
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+        )}
 
         {/* Overlays */}
         <AnimatePresence>

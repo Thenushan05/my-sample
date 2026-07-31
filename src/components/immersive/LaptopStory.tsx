@@ -12,6 +12,7 @@ import { PORTFOLIO_APPS } from "../../data/apps"
 import { useMediaQuery } from "../../hooks/useMediaQuery"
 import { useReducedMotion } from "../../hooks/useUtils"
 import { motion, AnimatePresence } from "framer-motion"
+import { MobileCyberDeck } from "./MobileCyberDeck"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -371,6 +372,51 @@ export const LaptopStory: React.FC = () => {
       const el = document.getElementById("laptop-story-trigger")
       if (el) el.scrollIntoView({ behavior: "smooth" })
     }, 50)
+  }
+
+  if (isMobile) {
+    return (
+      <div className="relative w-full bg-transparent">
+        {/* ── Mode Toggle Button (Mobile) ──────────────────────── */}
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 flex bg-slate-900/80 backdrop-blur-md p-1 rounded-full border border-white/10 shadow-lg">
+          <button
+            onClick={() => {
+              setIsInteractive(true)
+              setSelectedAppId(null)
+              scrollToSection()
+            }}
+            className={`px-4 py-1.5 rounded-full text-[10px] font-mono transition-all ${
+              isInteractive
+                ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-md"
+                : "text-white/40 hover:text-white"
+            }`}
+          >
+            🗂️ Modules
+          </button>
+          <button
+            onClick={() => {
+              setIsInteractive(false)
+              setActiveAppId(null)
+              if (selectedAppId === "snake_game") setSelectedAppId(null)
+              scrollToSection()
+            }}
+            className={`px-4 py-1.5 rounded-full text-[10px] font-mono transition-all ${
+              !isInteractive
+                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md font-bold"
+                : "text-white/40 hover:text-white"
+            }`}
+          >
+            💻 Cyber-Deck
+          </button>
+        </div>
+        <MobileCyberDeck 
+          isInteractive={isInteractive} 
+          selectedAppId={selectedAppId} 
+          setSelectedAppId={setSelectedAppId} 
+          getCodeRepresentation={getCodeRepresentation} 
+        />
+      </div>
+    )
   }
 
   return (
