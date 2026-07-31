@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Skull } from "lucide-react";
-import { LoaderScene } from "../immersive/LoaderScene";
+
 
 interface PageLoaderProps {
   onComplete: () => void;
@@ -114,7 +114,7 @@ const MatrixRain: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-[0.22]"
+      className="absolute inset-0 w-full h-full opacity-100"
     />
   );
 };
@@ -168,25 +168,14 @@ export const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
         >
           {/* Matrix digital rain background */}
           <motion.div
-            animate={{ opacity: isLoaded ? 0 : 0.35 }}
+            animate={{ opacity: isLoaded ? 0 : 0.75 }}
             transition={{ duration: 0.5 }}
             className="absolute inset-0"
           >
             <MatrixRain />
           </motion.div>
 
-          {/* 3D holographic data-core scene (react-three-fiber) */}
-          <motion.div
-            animate={{
-              opacity: isLoaded ? 0.3 : 1,
-              scale: isLoaded ? 1.15 : 1,
-              filter: isLoaded ? "brightness(2.2) blur(2px)" : "brightness(1) blur(0px)",
-            }}
-            transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-            className="absolute inset-0"
-          >
-            <LoaderScene progress={progress} isLoaded={isLoaded} />
-          </motion.div>
+
 
           {/* Ambient glow */}
           <motion.div

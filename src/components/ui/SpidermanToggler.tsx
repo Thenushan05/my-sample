@@ -34,6 +34,8 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
         return false
     })
 
+    const [showGuide, setShowGuide] = useState(false)
+
     useEffect(() => {
         const observer = new MutationObserver(() => {
             setIsActive(document.documentElement.classList.contains("spiderman"))
@@ -42,7 +44,18 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
             attributes: true,
             attributeFilter: ["class"],
         })
-        return () => observer.disconnect()
+
+        // Show guide after 2.5 seconds if they haven't activated it yet
+        const timer = setTimeout(() => {
+            if (!document.documentElement.classList.contains("spiderman") && localStorage.getItem("spidey_guide_dismissed") !== "true") {
+                setShowGuide(true)
+            }
+        }, 2500)
+
+        return () => {
+            observer.disconnect()
+            clearTimeout(timer)
+        }
     }, [])
 
     const toggle = useCallback(() => {
@@ -50,27 +63,45 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
         document.documentElement.classList.toggle("spiderman", next)
         localStorage.setItem("spiderman", next ? "on" : "off")
         setIsActive(next)
-    }, [])
+        if (showGuide) {
+            setShowGuide(false)
+            localStorage.setItem("spidey_guide_dismissed", "true")
+        }
+    }, [showGuide])
 
     return (
-        <button
-            type="button"
-            onClick={toggle}
-            aria-pressed={isActive}
-            title={isActive ? "Disable Spidey Mode" : "Enable Spidey Mode"}
-            className={cn(
-                "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border",
-                isActive
-                    ? "bg-gradient-to-br from-red-600 to-blue-700 border-red-400/60 text-white shadow-[0_0_16px_rgba(220,38,38,0.6)]"
-                    : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
-                className
+        <div className={cn("relative inline-flex", className)}>
+            <button
+                type="button"
+                onClick={toggle}
+                aria-pressed={isActive}
+                title={isActive ? "Disable Spidey Mode" : "Enable Spidey Mode"}
+                className={cn(
+                    "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border",
+                    isActive
+                        ? "bg-gradient-to-br from-red-600 to-blue-700 border-red-400/60 text-white shadow-[0_0_16px_rgba(220,38,38,0.6)]"
+                        : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
+                )}
+                {...props}
+            >
+                <SpiderIcon className="w-4 h-4" />
+                <span className="sr-only">Toggle Spidey Mode</span>
+            </button>
+
+            {/* Quick Guide Tooltip */}
+            {showGuide && (
+                <div className="absolute right-0 top-full mt-4 w-max animate-bounce pointer-events-none z-50">
+                    <div className="bg-red-600 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-xl border border-red-400 relative">
+                        {/* Upward pointing triangle */}
+                        <div className="absolute -top-1.5 right-3 w-3 h-3 bg-red-600 border-t border-l border-red-400 rotate-45" />
+                        <span className="relative z-10 flex items-center gap-1.5 uppercase tracking-wider">
+                            🕷️ Try Spidey Mode!
+                        </span>
+                    </div>
+                </div>
             )}
-            {...props}
-        >
-            <SpiderIcon className="w-4 h-4" />
-            <span className="sr-only">Toggle Spidey Mode</span>
-        </button>
+        </div>
     )
 }
 

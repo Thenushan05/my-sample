@@ -13,13 +13,14 @@ const TiltCard: React.FC<{ children: React.ReactNode; glowColor: string }> = ({
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [7, -7]), {
-    stiffness: 220,
-    damping: 22,
+  // Simplified tilt for performance
+  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [3, -3]), {
+    stiffness: 300,
+    damping: 30,
   });
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-7, 7]), {
-    stiffness: 220,
-    damping: 22,
+  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-3, 3]), {
+    stiffness: 300,
+    damping: 30,
   });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,7 +58,7 @@ const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
       {[0, 1].map((ring) => (
         <motion.span
           key={ring}
-          className="absolute inset-0 rounded-full border"
+          className="absolute inset-0 rounded-full border [.spiderman_&]:!border-white transition-colors duration-500"
           style={{ borderColor: color }}
           animate={{ scale: [1, 2], opacity: [0.5, 0] }}
           transition={{
@@ -69,10 +70,10 @@ const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
         />
       ))}
       <div
-        className="relative w-9 h-9 rounded-full flex items-center justify-center bg-[#030712] border-2"
+        className="relative w-9 h-9 rounded-full flex items-center justify-center bg-[#030712] border-2 [.spiderman_&]:!border-red-600 [.spiderman_&]:!shadow-[0_0_18px_red] transition-all duration-500"
         style={{ borderColor: color, boxShadow: `0 0 18px ${color}` }}
       >
-        <Icon className="w-4 h-4" style={{ color }} />
+        <Icon className="w-4 h-4 [.spiderman_&]:!text-white transition-colors duration-500" style={{ color }} />
       </div>
     </div>
   );
@@ -86,10 +87,10 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
     >
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono">
+          <h3 className="text-lg font-bold text-white leading-tight uppercase font-mono [.spiderman_&]:italic transition-all duration-500">
             {exp.role}
           </h3>
-          <span className="text-xs text-blue-400 font-bold block mt-1 font-mono">
+          <span className="text-xs text-blue-400 font-bold block mt-1 font-mono [.spiderman_&]:text-white [.spiderman_&]:italic transition-colors duration-500">
             {exp.company}
           </span>
         </div>
@@ -99,7 +100,7 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
             {exp.period}
           </span>
           <span
-            className="text-[8px] font-bold border rounded px-2 py-0.5 uppercase tracking-widest font-mono"
+            className="text-[8px] font-bold border rounded px-2 py-0.5 uppercase tracking-widest font-mono [.spiderman_&]:border-red-500 [.spiderman_&]:text-red-500 [.spiderman_&]:rounded-none transition-all duration-500"
             style={{
               borderColor: exp.type === "work" ? "rgba(59,130,246,0.3)" : "rgba(139,92,246,0.3)",
               color: exp.type === "work" ? "#60A5FA" : "#A78BFA",
@@ -110,26 +111,26 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
         </div>
       </div>
 
-      <p className="exp-description text-xs text-white/50 leading-relaxed mb-4">
+      <p className="exp-description text-xs text-white/50 leading-relaxed mb-4 [.spiderman_&]:italic transition-all duration-500">
         {exp.description}
       </p>
 
       {/* Highlights list */}
       <ul className="space-y-1.5 mb-6">
         {exp.highlights.map((item, index) => (
-          <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0" />
+          <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed [.spiderman_&]:italic transition-all duration-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0 [.spiderman_&]:bg-red-500 [.spiderman_&]:rounded-none transition-all duration-500" />
             {item}
           </li>
         ))}
       </ul>
 
       {/* Technology Tags */}
-      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
+      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5 [.spiderman_&]:border-white/20 transition-colors duration-500">
         {exp.technologies.map((tech) => (
           <span
             key={tech}
-            className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono"
+            className="exp-tech-tag text-[9px] text-white/50 bg-white/5 border border-white/5 px-2 py-0.5 rounded font-mono [.spiderman_&]:rounded-none [.spiderman_&]:text-white [.spiderman_&]:border-white/20 [.spiderman_&]:italic transition-all duration-500"
           >
             {tech}
           </span>
@@ -155,9 +156,9 @@ export const ExperienceTimeline: React.FC = () => {
         <div className="relative">
           {/* Center spine - desktop zigzag layout */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/50 via-violet-500/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/50 via-violet-500/40 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent transition-all duration-500" />
             <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-cyan-300"
+              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-cyan-300 [.spiderman_&]:bg-white transition-colors duration-500"
               style={{ boxShadow: "0 0 14px 3px rgba(103,232,249,0.8)" }}
               animate={{ top: ["0%", "100%"] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
@@ -165,7 +166,7 @@ export const ExperienceTimeline: React.FC = () => {
           </div>
 
           {/* Left rail - mobile */}
-          <div className="md:hidden absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent" />
+          <div className="md:hidden absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent transition-colors duration-500" />
 
           <div className="space-y-14 md:space-y-24">
             {experiences.map((exp, i) => {
@@ -175,23 +176,22 @@ export const ExperienceTimeline: React.FC = () => {
               return (
                 <motion.div
                   key={exp.id}
-                  initial={{ opacity: 0, y: 70, rotateX: 18 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-120px" }}
-                  transition={{ duration: 0.7, delay: (i % 4) * 0.08, ease: [0.25, 1, 0.5, 1] }}
-                  style={{ transformPerspective: 1200 }}
-                  className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-14 md:items-center"
+                  transition={{ duration: 0.5, delay: (i % 4) * 0.08, ease: "easeOut" }}
+                  className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-14 md:items-center transition-transform duration-500 [.spiderman_&]:-skew-x-6"
                 >
                   {/* Node - mobile */}
-                  <div className="md:hidden absolute -left-8 top-6">
+                  <div className="md:hidden absolute -left-8 top-6 transition-transform duration-500 [.spiderman_&]:skew-x-6">
                     <div
-                      className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712]"
+                      className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712] [.spiderman_&]:!border-white [.spiderman_&]:!bg-red-500"
                       style={{ borderColor: color, boxShadow: `0 0 12px ${color}` }}
                     />
                   </div>
 
                   {/* Node - desktop, centered on the spine */}
-                  <div className="hidden md:flex absolute left-1/2 top-6 -translate-x-1/2 z-20">
+                  <div className="hidden md:flex absolute left-1/2 top-6 -translate-x-1/2 z-20 transition-transform duration-500 [.spiderman_&]:skew-x-6">
                     <TimelineNode type={exp.type} />
                   </div>
 

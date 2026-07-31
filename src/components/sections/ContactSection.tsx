@@ -91,16 +91,16 @@ export const ContactSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="lg:col-span-3"
+            className="lg:col-span-3 transition-transform duration-500 [.spiderman_&]:-skew-x-6"
           >
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 md:p-8 space-y-5"
+              className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 md:p-8 space-y-5 transition-all duration-500 [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-xl"
             >
               {/* Name */}
               <div className="space-y-1.5">
-                <label htmlFor="name" className="text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono">
+                <label htmlFor="name" className="text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
                   Name
                 </label>
                 <input
@@ -110,7 +110,7 @@ export const ContactSection: React.FC = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your Name"
-                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-all duration-500 [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:bg-black/40 [.spiderman_&]:focus:border-red-500"
                 />
                 {errors.name && (
                   <span className="text-[10px] text-red-500 font-mono">{errors.name}</span>
@@ -119,7 +119,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="email" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono">
+                <label htmlFor="email" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
                   Email Address
                 </label>
                 <input
@@ -129,7 +129,7 @@ export const ContactSection: React.FC = () => {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
-                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-all duration-500 [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:bg-black/40 [.spiderman_&]:focus:border-red-500"
                 />
                 {errors.email && (
                   <span className="text-[10px] text-red-500 font-mono">{errors.email}</span>
@@ -138,7 +138,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Subject */}
               <div className="space-y-1.5">
-                <label htmlFor="subject" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono">
+                <label htmlFor="subject" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
                   Subject
                 </label>
                 <input
@@ -148,7 +148,7 @@ export const ContactSection: React.FC = () => {
                   value={form.subject}
                   onChange={handleChange}
                   placeholder="Subject"
-                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-all duration-500 [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:bg-black/40 [.spiderman_&]:focus:border-red-500"
                 />
                 {errors.subject && (
                   <span className="text-[10px] text-red-500 font-mono">{errors.subject}</span>
@@ -157,7 +157,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Message */}
               <div className="space-y-1.5">
-                <label htmlFor="message" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono">
+                <label htmlFor="message" className="form-label text-white/40 text-[10px] font-bold tracking-wider uppercase font-mono transition-colors [.spiderman_&]:text-white [.spiderman_&]:italic">
                   Message
                 </label>
                 <textarea
@@ -167,7 +167,7 @@ export const ContactSection: React.FC = () => {
                   value={form.message}
                   onChange={handleChange}
                   placeholder="Tell me about your project..."
-                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-colors resize-none"
+                  className="contact-form-input w-full px-4 py-3 bg-white/5 border border-white/5 rounded-xl text-white placeholder-white/20 text-xs font-mono focus:outline-none focus:border-blue-500/50 transition-all duration-500 [.spiderman_&]:rounded-none [.spiderman_&]:border-white/20 [.spiderman_&]:bg-black/40 [.spiderman_&]:focus:border-red-500 resize-none"
                 />
                 {errors.message && (
                   <span className="text-[10px] text-red-500 font-mono">{errors.message}</span>
@@ -178,7 +178,7 @@ export const ContactSection: React.FC = () => {
               <Button
                 type="submit"
                 variant={status === "sent" ? "primary" : "glow"}
-                className="w-full py-3.5 flex items-center justify-center gap-2"
+                className="w-full py-3.5 flex items-center justify-center gap-2 transition-all duration-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!bg-red-600 [.spiderman_&]:hover:!bg-red-500 [.spiderman_&]:!text-white [.spiderman_&]:!border-none [.spiderman_&]:!shadow-[0_0_20px_rgba(220,38,38,0.4)]"
                 disabled={status === "sending" || status === "sent"}
               >
                 {status === "idle" && "Send Message"}
@@ -195,10 +195,10 @@ export const ContactSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-2 space-y-6"
+            className="lg:col-span-2 space-y-6 transition-transform duration-500 [.spiderman_&]:-skew-x-6"
           >
-            <GlassCard glowColor="rgba(59,130,246,0.05)" className="quick-connect-card">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono mb-4">
+            <GlassCard glowColor="rgba(59,130,246,0.05)" className="quick-connect-card transition-all duration-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!bg-black/40 [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono mb-4 [.spiderman_&]:italic">
                 Quick Connect
               </h3>
 
@@ -230,9 +230,9 @@ export const ContactSection: React.FC = () => {
 
             {/* Resume CV download */}
             <a href={personal.cvUrl} download className="block">
-              <GlassCard glowColor="rgba(16,185,129,0.05)" className="download-resume text-center group border-emerald-500/10 hover:border-emerald-500/20 hover:bg-emerald-500/[0.02]">
-                <div className="flex items-center justify-center gap-2 text-xs font-bold text-white/80 group-hover:text-white font-mono">
-                  <FileText className="w-4 h-4 text-emerald-400" />
+              <GlassCard glowColor="rgba(16,185,129,0.05)" className="download-resume text-center group border-emerald-500/10 hover:border-emerald-500/20 hover:bg-emerald-500/[0.02] transition-all duration-500 [.spiderman_&]:!rounded-none [.spiderman_&]:!bg-black/40 [.spiderman_&]:border-white/20 [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:hover:bg-red-500/10 [.spiderman_&]:hover:border-red-500">
+                <div className="flex items-center justify-center gap-2 text-xs font-bold text-white/80 group-hover:text-white font-mono [.spiderman_&]:italic">
+                  <FileText className="w-4 h-4 text-emerald-400 [.spiderman_&]:text-red-500 transition-colors" />
                   <span>Download Resume CV</span>
                 </div>
               </GlassCard>

@@ -24,31 +24,25 @@ export const ProjectsSection: React.FC = () => {
       className="relative w-full py-32 px-6 overflow-hidden bg-transparent"
     >
       {/* Background gradient orbs */}
-      <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] pointer-events-none" />
-      <div className="project-orb absolute bottom-1/4 -right-48 w-96 h-96 bg-violet-500/10 rounded-full blur-[128px] pointer-events-none" />
+      <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 [.spiderman_&]:bg-red-600/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
+      <div className="project-orb absolute bottom-1/4 -right-48 w-96 h-96 bg-violet-500/10 [.spiderman_&]:bg-red-600/20 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
+
+      {/* PS4 Menu Glassmorphism Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20" />
 
       {/* Section decorative line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-white/10 to-transparent" />
 
       <div className="max-w-6xl mx-auto relative">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-white/30">
-              Portfolio
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-          </div>
-
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1]">
+        <div className="mb-12 md:mb-20">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:-skew-x-6 [.spiderman_&]:tracking-wide transition-all duration-500">
             Featured{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white transition-all duration-700">
               Projects
             </span>
           </h2>
-
-          <p className="text-slate-500 dark:text-white/40 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+          <p className="text-slate-600 dark:text-white/60 max-w-2xl text-lg [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-widest [.spiderman_&]:text-xs [.spiderman_&]:text-white/80 transition-all duration-500">
             Real-world applications built with modern technologies — from architecture to production. Click on a project to explore.
           </p>
         </div>
@@ -56,78 +50,77 @@ export const ProjectsSection: React.FC = () => {
         {/* Interactive Showcase Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Left Column: Project Selection Tabs (lg:col-span-5) */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
-            {projects.map((project, idx) => {
-              const isActive = idx === activeIdx
-              return (
-                <button
-                  key={project.id}
-                  onClick={() => {
-                    setActiveIdx(idx)
-                    // Reset to screenshot on project switch for better transition flow
-                    setActiveTab("desktop")
-                    setActiveImageIdx(0)
-                  }}
-                  className={`text-left p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden group ${
-                    isActive
-                      ? "bg-slate-100/50 dark:bg-white/[0.04] border-slate-300 dark:border-white/10 shadow-lg"
-                      : "bg-transparent border-transparent hover:bg-slate-50 dark:hover:bg-white/[0.01] hover:border-slate-200 dark:hover:border-white/5"
-                  }`}
-                >
-                  {/* Left accent bar on hover/active */}
-                  <span
-                    className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-blue-500 to-violet-500 transition-transform duration-300 origin-top ${
-                      isActive ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"
+          {/* Left Column: Project Selection Tabs */}
+          <div className="lg:col-span-5">
+            <div className="flex flex-col gap-2">
+              {projects.map((project, idx) => {
+                const isActive = idx === activeIdx
+                return (
+                  <button
+                    key={project.id}
+                    onClick={() => {
+                      setActiveIdx(idx)
+                      setActiveTab("desktop")
+                      setActiveImageIdx(0)
+                    }}
+                    className={`group relative p-4 text-left rounded-xl transition-all duration-300 [.spiderman_&]:-skew-x-6 [.spiderman_&]:rounded-none [.spiderman_&]:border-l-4 ${
+                      isActive
+                        ? "bg-white dark:bg-white/10 shadow-lg border-transparent [.spiderman_&]:bg-red-600/90 [.spiderman_&]:border-white [.spiderman_&]:shadow-[0_0_20px_rgba(220,38,38,0.5)]"
+                        : "hover:bg-white/50 dark:hover:bg-white/5 border-transparent [.spiderman_&]:bg-black/40 [.spiderman_&]:border-white/20 hover:[.spiderman_&]:bg-red-600/20 hover:[.spiderman_&]:border-red-500"
                     }`}
-                  />
-                  
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono tracking-wider text-blue-500 dark:text-blue-400 uppercase">
-                      {project.category}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400 dark:text-white/20">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                  </div>
+                  >
+                    <span
+                      className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-blue-500 to-violet-500 transition-transform duration-300 origin-top [.spiderman_&]:hidden ${
+                        isActive ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"
+                      }`}
+                    />
+                    
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-[10px] font-mono tracking-wider uppercase transition-colors ${
+                        isActive ? "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/80" : "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/50"
+                      }`}>
+                        {project.category}
+                      </span>
+                    </div>
 
-                  <h3 className={`text-lg font-bold transition-colors ${
-                    isActive ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white"
-                  }`}>
-                    {project.title}
-                  </h3>
+                    <h3 className={`text-lg font-bold transition-colors [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-wider ${
+                      isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white"
+                    }`}>
+                      {project.title}
+                    </h3>
 
-                  <p className="text-xs text-slate-500 dark:text-white/40 mt-2 line-clamp-2">
-                    {project.description}
-                  </p>
-                </button>
-              )
-            })}
+                    <p className="text-xs text-slate-500 dark:text-white/40 mt-2 line-clamp-2">
+                      {project.description}
+                    </p>
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
-          {/* Right Column: Detailed Project Viewer (lg:col-span-7) */}
+          {/* Right Column: Detailed Project Viewer */}
           <div className="lg:col-span-7">
-            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden">
+            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-2xl">
               
               {/* Header inside viewer */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+                <div className="[.spiderman_&]:-skew-x-6">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white [.spiderman_&]:uppercase [.spiderman_&]:italic [.spiderman_&]:tracking-widest leading-tight transition-all duration-500">
                     {activeProject.title}
                   </h3>
-                  <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-wider block mt-1">
+                  <span className="text-xs font-mono text-blue-500 dark:text-blue-400 [.spiderman_&]:text-red-400 [.spiderman_&]:tracking-[0.3em] uppercase tracking-wider block mt-1 transition-colors">
                     {activeProject.category}
                   </span>
                 </div>
 
                 {/* View switcher tabs */}
-                <div className="flex bg-slate-200 dark:bg-white/[0.05] p-1 rounded-xl border border-slate-300 dark:border-white/5">
+                <div className="flex gap-2 [.spiderman_&]:-skew-x-6">
                   <button
                     onClick={() => setActiveTab("desktop")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
                       activeTab === "desktop"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
                     }`}
                   >
                     <ImageIcon className="size-3.5" />
@@ -135,10 +128,10 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("mobile")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
                       activeTab === "mobile"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
                     }`}
                   >
                     <Smartphone className="size-3.5" />
@@ -146,20 +139,28 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("architecture")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none [.spiderman_&]:uppercase [.spiderman_&]:font-bold [.spiderman_&]:italic ${
                       activeTab === "architecture"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
                     }`}
                   >
                     <Network className="size-3.5" />
-                    Stack Flows
+                    Architecture
                   </button>
                 </div>
               </div>
 
               {/* Viewer body container */}
-              <div className="relative rounded-2xl overflow-hidden bg-slate-950/20 border border-slate-200 dark:border-white/[0.05] mb-6 flex-1 min-h-[480px] flex items-center justify-center">
+              <div className="relative rounded-2xl overflow-hidden bg-slate-950/20 [.spiderman_&]:bg-transparent [.spiderman_&]:rounded-none border border-slate-200 dark:border-white/[0.05] [.spiderman_&]:border-none mb-6 flex-1 min-h-[480px] flex items-center justify-center transition-all duration-500 [.spiderman_&]:-skew-x-6">
+                
+                
+                {/* HUD Corners - Sharp Tech Brackets */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] border-red-500 opacity-0 [.spiderman_&]:opacity-100 pointer-events-none transition-opacity duration-500 z-40" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-[3px] border-r-[3px] border-white opacity-0 [.spiderman_&]:opacity-100 pointer-events-none transition-opacity duration-500 z-40" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-[3px] border-l-[3px] border-white opacity-0 [.spiderman_&]:opacity-100 pointer-events-none transition-opacity duration-500 z-40" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] border-red-500 opacity-0 [.spiderman_&]:opacity-100 pointer-events-none transition-opacity duration-500 z-40" />
+
                 <AnimatePresence mode="wait">
                   {activeTab === "desktop" && (
                     <motion.div
@@ -185,7 +186,7 @@ export const ProjectsSection: React.FC = () => {
                         <Safari
                           imageSrc={activeProject.images[activeImageIdx]}
                           url={activeProject.liveUrl?.replace("https://", "") || "example.com"}
-                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 rounded-2xl"
+                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-none transition-all duration-500 [.spiderman_&]:skew-x-6"
                         />
 
                         {/* Right Arrow */}
@@ -207,7 +208,7 @@ export const ProjectsSection: React.FC = () => {
                             key={i}
                             onClick={() => setActiveImageIdx(i)}
                             className={`size-2 rounded-full transition-all ${
-                              i === activeImageIdx ? "bg-blue-500 w-4" : "bg-slate-400 dark:bg-white/20"
+                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 w-4" : "bg-slate-400 dark:bg-white/20"
                             }`}
                           />
                         ))}
@@ -238,7 +239,7 @@ export const ProjectsSection: React.FC = () => {
 
                         <Iphone
                           src={activeProject.images[activeImageIdx]}
-                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 rounded-[40px]"
+                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-[40px] transition-all duration-500 [.spiderman_&]:skew-x-6"
                         />
 
                         {/* Right Arrow */}
@@ -260,7 +261,7 @@ export const ProjectsSection: React.FC = () => {
                             key={i}
                             onClick={() => setActiveImageIdx(i)}
                             className={`size-2 rounded-full transition-all ${
-                              i === activeImageIdx ? "bg-blue-500 w-4" : "bg-slate-400 dark:bg-white/20"
+                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 w-4" : "bg-slate-400 dark:bg-white/20"
                             }`}
                           />
                         ))}

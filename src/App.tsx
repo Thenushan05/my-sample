@@ -16,19 +16,23 @@ import { ScrollReveal } from "./components/ui/ScrollReveal";
 import { SpiderwebBackground } from "./components/immersive/SpiderwebBackground";
 import { SpiderCrawl } from "./components/immersive/SpiderCrawl";
 import { SpideyTerminalConsole } from "./components/immersive/SpideyTerminalConsole";
+import { PageLoader } from "./components/layout/PageLoader";
+import { SpidermanLoader } from "./components/immersive/SpidermanLoader";
 
 import { LayoutGroup } from "framer-motion";
 
 export function App() {
-  const [loadingComplete, setLoadingComplete] = useState(true);
+  const [loadingComplete, setLoadingComplete] = useState(false);
   
   const [isSpiderman, setIsSpiderman] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("spiderman")
   );
 
   useEffect(() => {
-    const syncSpiderman = () =>
-      setIsSpiderman(document.documentElement.classList.contains("spiderman"));
+    const syncSpiderman = () => {
+      const spideyActive = document.documentElement.classList.contains("spiderman");
+      setIsSpiderman(spideyActive);
+    };
     syncSpiderman();
     const observer = new MutationObserver(syncSpiderman);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
@@ -49,7 +53,14 @@ export function App() {
   return (
     <LayoutGroup>
       {/* ── Cinematic Loader ──────────────────────── */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
+        {!loadingComplete && (
+          isSpiderman ? (
+            <SpidermanLoader key="spidey-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : (
+            <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
+          )
+        )}
       </AnimatePresence>
 
       {/* Global Navigation Header - Always visible immediately upon load completion */}

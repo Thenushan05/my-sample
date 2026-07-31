@@ -67,6 +67,9 @@ html.spiderman {
 }
 
 /* Red/blue ambient wash, layered above the base ThemeBackground */
+html.spiderman body {
+  background-color: #05020a !important; /* Force darker background in spiderman mode */
+}
 html.spiderman body::before {
   content: "";
   position: fixed;
@@ -74,8 +77,9 @@ html.spiderman body::before {
   z-index: -40;
   pointer-events: none;
   background:
-    radial-gradient(circle at 12% 15%, rgba(220, 38, 38, 0.16), transparent 45%),
-    radial-gradient(circle at 88% 80%, rgba(37, 99, 235, 0.18), transparent 45%);
+    radial-gradient(circle at 12% 15%, rgba(220, 38, 38, 0.25), transparent 55%),
+    radial-gradient(circle at 88% 80%, rgba(220, 38, 38, 0.15), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8), transparent 100%);
 }
 
 /* Faint spider-web line overlay radiating from the top */

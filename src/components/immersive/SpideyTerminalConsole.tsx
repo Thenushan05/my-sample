@@ -26,12 +26,10 @@ interface SuitBlueprint {
   img: string;
   cadNumber: string;
   specs: {
-    armor: string;
-    tensile: string;
-    webbing: string;
-    tech: string;
-    kinetic: string;
-    dispenser: string;
+    core: string;
+    ui: string;
+    architecture: string;
+    performance: string;
   };
   notes: string[];
 }
@@ -45,12 +43,10 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     img: "/classic_suit_blueprint.png",
     cadNumber: "CAD-FRONTEND-001",
     specs: {
-      armor: "React, TypeScript, Next.js, HTML5",
-      tensile: "Tailwind CSS & Framer Motion",
-      webbing: "State Management (Redux/Zustand)",
-      tech: "Vite, Webpack, Responsive HUD Design",
-      kinetic: "SEO & High-Performance Core Optimization",
-      dispenser: "Package Managers (npm, yarn)",
+      core: "React, TypeScript, Next.js, HTML5",
+      ui: "Tailwind CSS & Framer Motion",
+      architecture: "State Management (Redux/Zustand)",
+      performance: "SEO & High-Performance Core Optimization",
     },
     notes: [
       "Constructs immersive, interactive user interfaces with rich animations.",
@@ -65,12 +61,10 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     img: "/iron_spider_blueprint.png",
     cadNumber: "CAD-BACKEND-309",
     specs: {
-      armor: "Node.js, Express, FastAPI, Python",
-      tensile: "PostgreSQL, MySQL, Redis, MongoDB",
-      webbing: "RESTful APIs & GraphQL Endpoints",
-      tech: "Prisma ORM & SQL Query Optimization",
-      kinetic: "Server-side Security & Auth (JWT/OAuth)",
-      dispenser: "API Documentation (Swagger, Postman)",
+      core: "Node.js, Express, FastAPI, Python",
+      ui: "API Documentation (Swagger, Postman)",
+      architecture: "RESTful APIs & GraphQL Endpoints",
+      performance: "Server-side Security & Auth (JWT/OAuth)",
     },
     notes: [
       "Architects scalable APIs and microservices with high concurrent capacity.",
@@ -85,12 +79,10 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     img: "/classic_suit_blueprint.png", // Using classic with CSS filters
     cadNumber: "CAD-AI-882",
     specs: {
-      armor: "OpenAI API, Claude, Llama Models",
-      tensile: "LangChain & Vector DBs (Chroma/Pinecone)",
-      webbing: "Structured Prompt Engineering & LLM Tuning",
-      tech: "Retrieval-Augmented Generation (RAG)",
-      kinetic: "Machine Learning & Automation Workflows",
-      dispenser: "Python scripting & data analysis",
+      core: "OpenAI API, Claude, Llama Models",
+      ui: "Prompt Engineering & LLM Tuning",
+      architecture: "LangChain & Vector DBs (Chroma/Pinecone)",
+      performance: "Retrieval-Augmented Generation (RAG)",
     },
     notes: [
       "Integrates large language models for intelligent automation & agents.",
@@ -157,10 +149,10 @@ const QUOTES_LIST = [
 ];
 
 const INITIAL_LOGS = [
-  "> STARK-TECH SPIDER-SUIT HUD OS v2.4 INITIALIZED",
+  "> THENUSHAN_OS v2.4 INITIALIZED",
   "> NEURAL LINK: CONNECTED [USER: THENUSHAN SRITHARAN]",
-  "> WEBSHOOTER PRESSURE: 350 PSI [OPTIMAL]",
-  "> SPIDER-SENSE PRECOGNITIVE GRID: ONLINE",
+  "> CREATIVITY MODULE: 100% [OPTIMAL]",
+  "> LOGIC-SENSE PRECOGNITIVE GRID: ONLINE",
   "> USE THE TABS ABOVE TO SWITCH BETWEEN TERMINAL, HISTORY, QUOTES, AND BLUEPRINTS!",
 ];
 
@@ -221,9 +213,9 @@ export const SpideyTerminalConsole: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-red-500 selection:text-black">
+    <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-red-500 selection:text-black transition-transform -skew-x-6">
       {/* Tab Navigation Header Bar */}
-      <div className="bg-[#140608] border border-red-500/40 rounded-xl p-2 mb-3 shadow-[0_0_20px_rgba(220,38,38,0.25)] flex flex-wrap items-center justify-between gap-2">
+      <div className="bg-black/40 backdrop-blur-md border-y border-white/20 rounded-none p-2 mb-3 shadow-[0_0_20px_rgba(220,38,38,0.25)] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1">
           {[
             { id: "terminal", label: "Terminal Stream", icon: TerminalIcon },
@@ -236,9 +228,9 @@ export const SpideyTerminalConsole: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as ConsoleTab)}
-                className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 ${
+                className={`px-3 py-1.5 rounded-none border-y text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 italic uppercase tracking-wider ${
                   isActive
-                    ? "bg-gradient-to-r from-red-600 to-blue-600 border-red-400 text-white shadow-[0_0_12px_rgba(239,68,68,0.6)]"
+                    ? "bg-red-600 border-red-500 text-white shadow-[0_0_12px_rgba(239,68,68,0.6)]"
                     : "bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10 hover:border-red-500/30"
                 }`}
               >
@@ -249,9 +241,9 @@ export const SpideyTerminalConsole: React.FC = () => {
           })}
         </div>
 
-        <div className="hidden md:flex items-center gap-2 text-[10px] text-white/50 pr-2">
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-          <span>STARK HUD v2.4</span>
+        <div className="hidden md:flex items-center gap-2 text-[10px] text-white/50 pr-2 font-bold italic tracking-widest uppercase">
+          <span className="w-2 h-2 rounded-none bg-red-500 animate-pulse" />
+          <span>PS5 HUD v2.4</span>
         </div>
       </div>
 
@@ -269,7 +261,7 @@ export const SpideyTerminalConsole: React.FC = () => {
               className="flex-1 flex flex-col sm:flex-row gap-4 overflow-hidden"
             >
               {/* Holographic 3D Suit Display (Left side) */}
-              <div className="hidden sm:flex w-1/3 bg-black/60 border border-red-500/20 rounded-xl p-4 flex-col items-center justify-center shadow-inner relative overflow-hidden group">
+              <div className="hidden sm:flex w-1/3 bg-black/40 backdrop-blur-xl border-y border-white/20 rounded-none p-4 flex-col items-center justify-center shadow-inner relative overflow-hidden group">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_70%)] opacity-50 group-hover:opacity-100 transition-opacity" />
                 
                 {/* Real 3D Rotating Suit Hologram */}
@@ -300,7 +292,7 @@ export const SpideyTerminalConsole: React.FC = () => {
 
               {/* Terminal Log Area & Input Form (Right side) */}
               <div className="flex-1 flex flex-col overflow-hidden">
-                <div ref={terminalScrollRef} className="flex-1 overflow-y-auto bg-black/70 border border-red-500/20 rounded-xl p-4 space-y-1.5 font-mono text-[11px] sm:text-xs shadow-inner">
+                <div ref={terminalScrollRef} className="flex-1 overflow-y-auto bg-black/40 backdrop-blur-xl border-y border-white/20 rounded-none p-4 space-y-1.5 font-mono text-[11px] sm:text-xs shadow-inner">
                   {logs.map((log, idx) => (
                     <div
                       key={idx}
@@ -319,7 +311,7 @@ export const SpideyTerminalConsole: React.FC = () => {
 
                 <form
                   onSubmit={handleCommand}
-                  className="mt-3 flex items-center gap-2 bg-[#120507] border border-red-500/30 rounded-xl p-2 shadow-md"
+                  className="mt-3 flex items-center gap-2 bg-black/40 backdrop-blur-md border-y border-white/20 rounded-none p-2 shadow-md"
                 >
                   <span className="text-red-400 font-bold text-xs pl-2 shrink-0">spidey@hud:~$</span>
                   <input
@@ -332,7 +324,7 @@ export const SpideyTerminalConsole: React.FC = () => {
                   <button
                     type="submit"
                     disabled={!inputVal.trim()}
-                    className="px-3 py-1.5 bg-red-600 hover:bg-red-500 disabled:opacity-40 rounded-lg text-white font-bold flex items-center gap-1 text-xs transition-colors shadow"
+                    className="px-3 py-1.5 bg-red-600 hover:bg-red-500 disabled:opacity-40 rounded-none text-white font-bold flex items-center gap-1 text-xs transition-colors shadow italic uppercase"
                   >
                     <span>Run</span>
                     <Send className="w-3 h-3" />
@@ -350,9 +342,9 @@ export const SpideyTerminalConsole: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="flex-1 overflow-y-auto pr-1 space-y-3 bg-black/60 border border-red-500/20 rounded-xl p-4 shadow-inner"
+              className="flex-1 overflow-y-auto pr-1 space-y-3 bg-black/40 backdrop-blur-xl border-y border-white/20 rounded-none p-4 shadow-inner"
             >
-              <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider border-b border-red-500/20 pb-2">
+              <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-widest italic border-b border-red-500/30 pb-2">
                 <BookOpen className="w-4 h-4 text-red-500" />
                 <span>THENUSHAN'S JOURNEY & HISTORICAL CHRONICLES</span>
               </div>
@@ -361,13 +353,13 @@ export const SpideyTerminalConsole: React.FC = () => {
                 {HISTORY_EVENTS.map((item, idx) => (
                   <div
                     key={idx}
-                    className="bg-[#160709]/80 border border-red-500/20 rounded-lg p-3.5 space-y-1 shadow-sm hover:border-red-500/40 transition-colors"
+                    className="bg-black/40 border-y border-white/10 rounded-none p-3.5 space-y-1 shadow-sm hover:border-red-500/40 transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-red-400 uppercase tracking-wide">
+                      <span className="text-xs font-bold text-white uppercase tracking-wide italic">
                         {item.title}
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-none bg-red-500/20 text-red-300 font-bold italic">
                         {item.year}
                       </span>
                     </div>
@@ -386,9 +378,9 @@ export const SpideyTerminalConsole: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="flex-1 overflow-y-auto pr-1 space-y-3 bg-black/60 border border-red-500/20 rounded-xl p-4 shadow-inner"
+              className="flex-1 overflow-y-auto pr-1 space-y-3 bg-black/40 backdrop-blur-xl border-y border-white/20 rounded-none p-4 shadow-inner"
             >
-              <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider border-b border-red-500/20 pb-2">
+              <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-widest italic border-b border-red-500/30 pb-2">
                 <Quote className="w-4 h-4 text-red-500" />
                 <span>ENGINEERING PHILOSOPHIES & FAMOUS ARCHIVES</span>
               </div>
@@ -397,14 +389,14 @@ export const SpideyTerminalConsole: React.FC = () => {
                 {QUOTES_LIST.map((q, idx) => (
                   <div
                     key={idx}
-                    className="bg-[#18080a]/90 border border-red-500/30 rounded-lg p-3.5 space-y-2 flex flex-col justify-between shadow-sm hover:border-red-500/50 transition-colors"
+                    className="bg-black/40 border-y border-white/10 rounded-none p-3.5 space-y-2 flex flex-col justify-between shadow-sm hover:border-red-500/50 transition-colors"
                   >
-                    <p className="text-[11px] text-red-100 font-serif italic leading-relaxed">
+                    <p className="text-[11px] text-white font-bold italic tracking-wide leading-relaxed">
                       &quot;{q.quote}&quot;
                     </p>
                     <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[10px]">
                       <span className="text-white/60 font-semibold">— {q.author}</span>
-                      <span className="px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 font-bold">
+                      <span className="px-1.5 py-0.5 rounded-none bg-red-500/20 text-red-300 font-bold uppercase italic tracking-widest">
                         {q.tag}
                       </span>
                     </div>
@@ -422,15 +414,15 @@ export const SpideyTerminalConsole: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="flex-1 overflow-y-auto bg-[#071322] border-2 border-cyan-500/40 rounded-xl p-4 space-y-4 shadow-[0_0_30px_rgba(6,182,212,0.25)] relative text-cyan-200 bg-[linear-gradient(to_right,#0f243a_1px,transparent_1px),linear-gradient(to_bottom,#0f243a_1px,transparent_1px)] bg-[size:18px_18px]"
+              className="flex-1 overflow-y-auto bg-black/40 backdrop-blur-xl border-y border-white/20 rounded-none p-4 space-y-4 shadow-[0_0_30px_rgba(220,38,38,0.15)] relative text-white"
             >
               {/* CAD Top Header */}
-              <div className="flex items-center justify-between border-b border-cyan-500/30 pb-2">
-                <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs uppercase tracking-widest">
-                  <Cpu className="w-4 h-4 text-cyan-400 animate-pulse" />
-                  <span>THENUSHAN'S LABS // ARCHITECTURAL TECH STACK BLUEPRINTS</span>
+              <div className="flex items-center justify-between border-b border-red-500/30 pb-2">
+                <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-widest italic">
+                  <Cpu className="w-4 h-4 text-red-500 animate-pulse" />
+                  <span>THENUSHAN'S LABS // PS5 ARCHITECTURE BLUEPRINTS</span>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">
+                <span className="text-[9px] px-2 py-0.5 rounded-none bg-red-500/20 text-red-100 font-bold italic">
                   SCALE 1:1 FULL BLUEPRINT
                 </span>
               </div>
@@ -441,10 +433,10 @@ export const SpideyTerminalConsole: React.FC = () => {
                   <button
                     key={bp.id}
                     onClick={() => setActiveBlueprint(bp)}
-                    className={`px-3 py-1.5 rounded-md border text-[10px] font-bold transition-all shrink-0 ${
+                    className={`px-3 py-1.5 rounded-none border-y text-[10px] font-bold uppercase tracking-wider italic transition-all shrink-0 ${
                       activeBlueprint.id === bp.id
-                        ? "bg-cyan-500 text-black border-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.8)]"
-                        : "bg-cyan-950/40 border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/50"
+                        ? "bg-red-600 text-white border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]"
+                        : "bg-white/5 border-white/20 text-white/70 hover:bg-white/10"
                     }`}
                   >
                     {bp.name}
@@ -453,29 +445,27 @@ export const SpideyTerminalConsole: React.FC = () => {
               </div>
 
               {/* Blueprint Graphic & Engineering Specs Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch bg-[#050e18]/90 p-4 rounded-lg border border-cyan-500/30 relative">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch bg-black/40 p-4 rounded-none border-y border-white/20 relative">
                 {/* Crosshair Corner Details */}
-                <span className="absolute top-1 left-2 text-[10px] text-cyan-500/50">+ 00.00</span>
-                <span className="absolute top-1 right-2 text-[10px] text-cyan-500/50">+ 90.00</span>
+                <span className="absolute top-1 left-2 text-[10px] text-white/50">+ 00.00</span>
+                <span className="absolute top-1 right-2 text-[10px] text-white/50">+ 90.00</span>
 
                 {/* Left Column: Blueprint CAD Image Render */}
-                <div className="md:col-span-5 relative aspect-square rounded-lg border border-cyan-500/40 bg-[#040c14] flex flex-col items-center justify-center p-3 overflow-hidden shadow-inner">
+                <div className="md:col-span-5 relative aspect-square rounded-none border border-white/10 bg-black/60 flex flex-col items-center justify-center p-3 overflow-hidden shadow-inner">
                   {/* Grid Crosshairs */}
-                  <div className="absolute inset-0 border border-cyan-500/20 pointer-events-none" />
-                  <div className="absolute top-1/2 w-full h-[1px] bg-cyan-500/20" />
-                  <div className="absolute left-1/2 h-full w-[1px] bg-cyan-500/20" />
+                  <div className="absolute inset-0 border border-white/5 pointer-events-none" />
+                  <div className="absolute top-1/2 w-full h-[1px] bg-white/5" />
+                  <div className="absolute left-1/2 h-full w-[1px] bg-white/5" />
 
                   {/* Suit Image with Cyan Blueprint Filter */}
                   <img
                     src={activeBlueprint.img}
                     alt={activeBlueprint.name}
-                    className={`max-h-full object-contain filter drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] ${
-                      activeBlueprint.id === "stealth" ? "hue-rotate-90 brightness-75 contrast-125 saturate-50" : ""
-                    }`}
+                    className="max-h-full object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] hue-rotate-[180deg] saturate-0 brightness-200"
                   />
 
                   {/* CAD Overlay Label */}
-                  <div className="absolute bottom-2 left-2 text-[8px] bg-cyan-950/80 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/40">
+                  <div className="absolute bottom-2 left-2 text-[8px] bg-black/80 text-white px-1.5 py-0.5 rounded-none border border-white/20 italic tracking-widest">
                     FIG 1.1 — {activeBlueprint.designation}
                   </div>
                 </div>
@@ -483,46 +473,46 @@ export const SpideyTerminalConsole: React.FC = () => {
                 {/* Right Column: Engineering Specifications & CAD Stamp */}
                 <div className="md:col-span-7 flex flex-col justify-between space-y-3 text-[10px]">
                   <div className="space-y-2">
-                    <div className="text-cyan-300 font-bold text-sm border-b border-cyan-500/30 pb-1">
+                    <div className="text-white font-bold text-sm border-b border-red-500/30 pb-1 italic uppercase tracking-wider">
                       {activeBlueprint.name}
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 pt-1">
-                      <div className="bg-[#081829] p-2 rounded border border-cyan-500/20">
-                        <span className="text-cyan-400/70 block text-[9px] uppercase font-bold">
-                          Armor Composition
+                      <div className="bg-white/5 p-2 rounded-none border-y border-white/10">
+                        <span className="text-white/50 block text-[9px] uppercase font-bold italic tracking-widest">
+                          Core Technologies
                         </span>
-                        <span className="text-cyan-100 font-semibold">{activeBlueprint.specs.armor}</span>
+                        <span className="text-white font-semibold">{activeBlueprint.specs.core}</span>
                       </div>
 
-                      <div className="bg-[#081829] p-2 rounded border border-cyan-500/20">
-                        <span className="text-cyan-400/70 block text-[9px] uppercase font-bold">
-                          Tensile Capacity
+                      <div className="bg-white/5 p-2 rounded-none border-y border-white/10">
+                        <span className="text-white/50 block text-[9px] uppercase font-bold italic tracking-widest">
+                          UI & Tools
                         </span>
-                        <span className="text-cyan-100 font-semibold">{activeBlueprint.specs.tensile}</span>
+                        <span className="text-white font-semibold">{activeBlueprint.specs.ui}</span>
                       </div>
 
-                      <div className="bg-[#081829] p-2 rounded border border-cyan-500/20">
-                        <span className="text-cyan-400/70 block text-[9px] uppercase font-bold">
-                          Webbing Compound
+                      <div className="bg-white/5 p-2 rounded-none border-y border-white/10">
+                        <span className="text-white/50 block text-[9px] uppercase font-bold italic tracking-widest">
+                          Architecture
                         </span>
-                        <span className="text-cyan-100 font-semibold">{activeBlueprint.specs.webbing}</span>
+                        <span className="text-white font-semibold">{activeBlueprint.specs.architecture}</span>
                       </div>
 
-                      <div className="bg-[#081829] p-2 rounded border border-cyan-500/20">
-                        <span className="text-cyan-400/70 block text-[9px] uppercase font-bold">
-                          Impact Dampening
+                      <div className="bg-white/5 p-2 rounded-none border-y border-white/10">
+                        <span className="text-white/50 block text-[9px] uppercase font-bold italic tracking-widest">
+                          Performance
                         </span>
-                        <span className="text-cyan-100 font-semibold">{activeBlueprint.specs.kinetic}</span>
+                        <span className="text-white font-semibold">{activeBlueprint.specs.performance}</span>
                       </div>
                     </div>
 
                     {/* Engineering Notes */}
-                    <div className="bg-[#081829]/70 p-2.5 rounded border border-cyan-500/20 space-y-1">
-                      <span className="text-cyan-400 font-bold block text-[9px] uppercase">
+                    <div className="bg-white/5 p-2.5 rounded-none border-y border-white/10 space-y-1">
+                      <span className="text-red-400 font-bold block text-[9px] uppercase italic tracking-widest">
                         ENGINEERING SCHEMATIC NOTES:
                       </span>
-                      <ul className="list-disc list-inside space-y-0.5 text-[10px] text-cyan-200/90">
+                      <ul className="list-disc list-inside space-y-0.5 text-[10px] text-white/80">
                         {activeBlueprint.notes.map((note, idx) => (
                           <li key={idx}>{note}</li>
                         ))}
@@ -531,14 +521,14 @@ export const SpideyTerminalConsole: React.FC = () => {
                   </div>
 
                   {/* CAD Title Block Stamp */}
-                  <div className="bg-cyan-950/60 border border-cyan-500/50 rounded p-2 flex flex-wrap items-center justify-between gap-2 text-[9px] text-cyan-300 font-mono">
+                  <div className="bg-black/40 border border-white/20 rounded-none p-2 flex flex-wrap items-center justify-between gap-2 text-[9px] text-white font-mono uppercase italic tracking-widest">
                     <div>
-                      <div><span className="text-cyan-400 font-bold">PROJECT:</span> TECH STACK SCHEMATICS</div>
-                      <div><span className="text-cyan-400 font-bold">DESIGNERS:</span> T. SRITHARAN / T. STARK</div>
+                      <div><span className="text-red-400 font-bold">PROJECT:</span> PS5 UI SCHEMATICS</div>
+                      <div><span className="text-red-400 font-bold">DESIGNERS:</span> T. SRITHARAN / INSOMNIAC</div>
                     </div>
                     <div className="text-right">
-                      <div><span className="text-cyan-400 font-bold">DRAWING NO:</span> {activeBlueprint.cadNumber}</div>
-                      <div><span className="text-cyan-400 font-bold">STATUS:</span> APPROVED • SCALE 1:1</div>
+                      <div><span className="text-red-400 font-bold">DRAWING NO:</span> {activeBlueprint.cadNumber}</div>
+                      <div><span className="text-red-400 font-bold">STATUS:</span> APPROVED • SCALE 1:1</div>
                     </div>
                   </div>
                 </div>
