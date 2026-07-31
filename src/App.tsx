@@ -39,6 +39,17 @@ export function App() {
     return () => observer.disconnect();
   }, []);
 
+  // Refresh GSAP ScrollTrigger whenever the layout drastically changes (like toggling Spidey Mode)
+  useEffect(() => {
+    // Wait a short moment for DOM to settle after unmounting LaptopStory
+    const timeoutId = setTimeout(() => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        ScrollTrigger.refresh();
+      });
+    }, 100);
+    return () => clearTimeout(timeoutId);
+  }, [isSpiderman]);
+
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
 

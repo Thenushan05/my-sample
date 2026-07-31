@@ -94,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const laserTextTargetRef = useRef<HTMLDivElement>(null);
 
   const [roleIndex, setRoleIndex] = useState(0);
-  const [isFunMode, setIsFunMode] = useState(true);
+  const [isFunMode, setIsFunMode] = useState(false);
   const [isLaserActive, setIsLaserActive] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [laserTitleIdx, setLaserTitleIdx] = useState(0);
