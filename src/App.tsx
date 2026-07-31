@@ -94,9 +94,11 @@ export function App() {
               <HeroSection onExploreClick={scrollToStory} />
             </section>
 
-            {/* Section 2 to 5: 3D Storyteller (Hidden in normal mode) OR Spidey Terminal HUD (Spidey Mode) */}
+            {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman ? null : (
+              {!isSpiderman ? (
+                <LaptopStory />
+              ) : (
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
                   {/* HUD Frame */}
                   <div className="relative rounded-2xl overflow-hidden border-2 border-red-600/50 shadow-[0_0_40px_rgba(220,38,38,0.35)] bg-[#090a0f]/95 backdrop-blur-md flex flex-col h-[580px] transition-all duration-500">

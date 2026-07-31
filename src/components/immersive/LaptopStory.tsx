@@ -106,8 +106,8 @@ export const LaptopStory: React.FC = () => {
   const [activeAppId, setActiveAppId] = useState<string | null>(null)
   const [screenGlow, setScreenGlow] = useState(0)
 
-  // Dual mode state
-  const [isInteractive, setIsInteractive] = useState(true)
+  // Dual mode state: Default to false to hide 3D scroll story and show Code Console / Terminal Snake directly
+  const [isInteractive, setIsInteractive] = useState(false)
   const [isLaptopUnlocked, setIsLaptopUnlocked] = useState(false)
   const [isUnlocking, setIsUnlocking] = useState(false)
   const [lockError, setLockError] = useState(false)
