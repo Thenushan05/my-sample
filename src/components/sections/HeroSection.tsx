@@ -89,7 +89,6 @@ const PRO_TECH_LOGOS = [
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const contactBtnRef = useRef<HTMLDivElement>(null);
   const laserTextTargetRef = useRef<HTMLDivElement>(null);
@@ -226,11 +225,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   }, []);
 
   useEffect(() => {
-    if (!textRef.current) return;
-
     const ctx = gsap.context(() => {
       // Fade and blur hero text out as visitor scrolls
-      gsap.to(textRef.current, {
+      gsap.to(".hero-fade-element", {
         opacity: 0,
         y: -60,
         filter: "blur(8px)",
@@ -462,115 +459,120 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       </div>
 
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
-        <div ref={textRef} className="flex-1 text-center lg:text-left max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)]"
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
-            Available for New Projects
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="hero-name text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-4 leading-none"
-          >
-            {personal.name}
-          </motion.h1>
-
-          <div className="h-10 md:h-12 relative overflow-hidden mb-6">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={roleIndex}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="text-lg md:text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 font-mono"
-              >
-                {ROLES[roleIndex]}
-              </motion.p>
-            </AnimatePresence>
+        <div className="max-lg:contents lg:flex-1 lg:max-w-2xl lg:flex lg:flex-col text-center lg:text-left w-full">
+          
+          <div className="hero-fade-element order-1 flex flex-col items-center lg:items-start w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+            >
+              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
+              Available for New Projects
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="hero-name text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-4 leading-none w-full"
+            >
+              {personal.name}
+            </motion.h1>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-            className="hero-tagline text-sm md:text-base text-white/50 leading-relaxed max-w-md mb-10"
-          >
-            I design and build intelligent, scalable, and visually engaging digital products that solve real business problems.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.0 }}
-            className="flex flex-wrap gap-4 items-center justify-center lg:justify-start"
-          >
-            <Button variant="glow" onClick={onExploreClick}>
-              Explore My Work
-            </Button>
-            
-            <div ref={contactBtnRef} className="transition-all duration-300 rounded-full">
-              <Button variant="secondary" onClick={scrollToContact}>
-                Contact Me
-              </Button>
+          <div className="hero-fade-element order-3 flex flex-col items-center lg:items-start w-full">
+            <div className="h-10 md:h-12 relative overflow-hidden mb-6 mt-4 lg:mt-0">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={roleIndex}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="text-lg md:text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 font-mono"
+                >
+                  {ROLES[roleIndex]}
+                </motion.p>
+              </AnimatePresence>
             </div>
 
-            <ShareButton />
-          </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.8 }}
+              className="hero-tagline text-sm md:text-base text-white/50 leading-relaxed max-w-md mb-10 mx-auto lg:mx-0"
+            >
+              I design and build intelligent, scalable, and visually engaging digital products that solve real business problems.
+            </motion.p>
 
-          {/* --- LASER IMPACT & TYPING REVEAL TARGET --- */}
-          <AnimatePresence>
-            {isFunMode && (
-              <motion.div
-                initial={{ opacity: 0, y: 15, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: "auto" }}
-                exit={{ opacity: 0, y: 15, height: 0 }}
-                transition={{ duration: 0.4 }}
-                ref={laserTextTargetRef}
-                className={`mt-6 inline-flex items-center gap-3.5 px-5 py-3 rounded-2xl border transition-all duration-500 max-w-full overflow-hidden ${
-                  isLaserActive
-                    ? currentTheme.box
-                    : "border-neutral-300 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/60 shadow-lg text-neutral-800 dark:text-white"
-                }`}
-              >
-                {/* Glowing Laser Impact Core Point */}
-                <div className="relative flex items-center justify-center shrink-0">
-                  <div
-                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
-                      isLaserActive
-                        ? "bg-white shadow-[0_0_15px_#ffffff,0_0_30px_#ffffff] scale-125 animate-ping"
-                        : "bg-neutral-400 dark:bg-red-500/30"
-                    }`}
-                  />
-                  {isLaserActive && (
-                    <div className={`absolute w-6 h-6 rounded-full blur-sm animate-pulse ${currentTheme.cursor}`} />
-                  )}
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="flex flex-wrap gap-4 items-center justify-center lg:justify-start"
+            >
+              <Button variant="glow" onClick={onExploreClick}>
+                Explore My Work
+              </Button>
+              
+              <div ref={contactBtnRef} className="transition-all duration-300 rounded-full">
+                <Button variant="secondary" onClick={scrollToContact}>
+                  Contact Me
+                </Button>
+              </div>
 
-                <div className="font-mono text-sm sm:text-base md:text-lg font-extrabold tracking-widest uppercase flex items-center min-h-[28px]">
-                  <span className={isLaserActive ? currentTheme.text : "text-neutral-700 dark:text-white/50 text-xs tracking-normal font-semibold"}>
-                    {typedText || (isLaserActive ? "" : "⚡ HOVER PORTRAIT TO POWER ON LASER...")}
-                  </span>
-                  {isLaserActive && (
-                    <span className={`w-2.5 h-6 ml-1.5 animate-pulse ${currentTheme.cursor}`} />
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              <ShareButton />
+            </motion.div>
+
+            {/* --- LASER IMPACT & TYPING REVEAL TARGET --- */}
+            <AnimatePresence>
+              {isFunMode && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: "auto" }}
+                  exit={{ opacity: 0, y: 15, height: 0 }}
+                  transition={{ duration: 0.4 }}
+                  ref={laserTextTargetRef}
+                  className={`mt-6 inline-flex items-center justify-center lg:justify-start gap-3.5 px-5 py-3 rounded-2xl border transition-all duration-500 max-w-full overflow-hidden ${
+                    isLaserActive
+                      ? currentTheme.box
+                      : "border-neutral-300 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/60 shadow-lg text-neutral-800 dark:text-white"
+                  }`}
+                >
+                  {/* Glowing Laser Impact Core Point */}
+                  <div className="relative flex items-center justify-center shrink-0">
+                    <div
+                      className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
+                        isLaserActive
+                          ? "bg-white shadow-[0_0_15px_#ffffff,0_0_30px_#ffffff] scale-125 animate-ping"
+                          : "bg-neutral-400 dark:bg-red-500/30"
+                      }`}
+                    />
+                    {isLaserActive && (
+                      <div className={`absolute w-6 h-6 rounded-full blur-sm animate-pulse ${currentTheme.cursor}`} />
+                    )}
+                  </div>
+
+                  <div className="font-mono text-sm sm:text-base md:text-lg font-extrabold tracking-widest uppercase flex items-center min-h-[28px]">
+                    <span className={isLaserActive ? currentTheme.text : "text-neutral-700 dark:text-white/50 text-xs tracking-normal font-semibold"}>
+                      {typedText || (isLaserActive ? "" : "⚡ HOVER PORTRAIT TO POWER ON LASER...")}
+                    </span>
+                    {isLaserActive && (
+                      <span className={`w-2.5 h-6 ml-1.5 animate-pulse ${currentTheme.cursor}`} />
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8"
+          className="order-2 lg:order-none relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8"
           onMouseEnter={updateLaserTargets}
           onMouseLeave={() => setIsLaserActive(false)}
         >

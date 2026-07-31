@@ -172,19 +172,23 @@ export const Navbar: React.FC = () => {
           </a>
         </div>
 
-        {/* Mobile Menu Trigger */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-white/70 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded p-1"
-          aria-label="Toggle Navigation Menu"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile Menu Trigger & Toggles */}
+        <div className="flex md:hidden items-center gap-2">
+          <AnimatedThemeToggler className="theme-toggler scale-90" variant="circle" duration={500} />
+          <SpidermanToggler className="scale-90" />
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-slate-900 dark:text-white/70 hover:text-slate-600 dark:hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded p-1 ml-1"
+            aria-label="Toggle Navigation Menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[#030712]/95 border-b border-white/5 backdrop-blur-lg px-6 py-6 transition-all duration-300">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-[#030712]/95 border-b border-slate-200 dark:border-white/5 backdrop-blur-lg px-6 py-6 transition-all duration-300 shadow-xl">
           <ul className="flex flex-col gap-5">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.slice(1);
@@ -193,7 +197,7 @@ export const Navbar: React.FC = () => {
                   <a
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`text-sm tracking-wider uppercase font-medium block py-1.5 ${isActive ? "text-blue-400" : "text-white/60"
+                    className={`text-sm tracking-wider uppercase font-medium block py-1.5 ${isActive ? "text-blue-500 dark:text-blue-400" : "text-slate-600 dark:text-white/60"
                       }`}
                   >
                     {item.label}
@@ -201,11 +205,7 @@ export const Navbar: React.FC = () => {
                 </li>
               );
             })}
-            <li className="pt-2 border-t border-white/5 flex items-center justify-between gap-3">
-              <span className="text-[11px] uppercase tracking-wider text-white/40 font-mono">Spidey Mode</span>
-              <SpidermanToggler />
-            </li>
-            <li>
+            <li className="pt-2 border-t border-slate-200 dark:border-white/5">
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, "#contact")}
