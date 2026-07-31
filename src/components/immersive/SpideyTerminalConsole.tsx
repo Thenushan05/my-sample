@@ -39,136 +39,126 @@ interface SuitBlueprint {
 // --- DATA ---
 const SUIT_BLUEPRINTS: SuitBlueprint[] = [
   {
-    id: "classic",
-    name: "Classic Red & Blue Web-Suit",
-    designation: "STARK-TECH MARK I",
+    id: "frontend",
+    name: "Frontend Engineering Stack",
+    designation: "REACT-TS MARK V",
     img: "/classic_suit_blueprint.png",
-    cadNumber: "CAD-SPIDEY-001",
+    cadNumber: "CAD-FRONTEND-001",
     specs: {
-      armor: "Tri-Weave Kevlar & Micro-Spandex",
-      tensile: "350 PSI (Synthetic Webbing)",
-      webbing: "Liquid Poly-Compound #4",
-      tech: "Expressive HUD Shutters",
-      kinetic: "88.4% Impact Dampening",
-      dispenser: "Wrist Solenoid Triggers",
+      armor: "React, TypeScript, Next.js, HTML5",
+      tensile: "Tailwind CSS & Framer Motion",
+      webbing: "State Management (Redux/Zustand)",
+      tech: "Vite, Webpack, Responsive HUD Design",
+      kinetic: "SEO & High-Performance Core Optimization",
+      dispenser: "Package Managers (npm, yarn)",
     },
     notes: [
-      "Lightweight breathable elastane base with heat-bonded red webbing.",
-      "Dual wrist-mounted mechanical web dispensers with safety cutoffs.",
-      "Conveyance lens shutters synchronized with user ocular movement.",
+      "Constructs immersive, interactive user interfaces with rich animations.",
+      "Optimizes client-side performance, core web vitals, and responsiveness.",
+      "Ensures clean component structures and robust typing definitions.",
     ],
   },
   {
-    id: "ironspider",
-    name: "Iron Spider Nanotech Suit",
-    designation: "NANOTECH MARK III",
+    id: "backend",
+    name: "Backend & Database Stack",
+    designation: "NODE-POSTGRES MARK II",
     img: "/iron_spider_blueprint.png",
-    cadNumber: "CAD-STARK-309",
+    cadNumber: "CAD-BACKEND-309",
     specs: {
-      armor: "Liquid Gold-Titanium Nanotech",
-      tensile: "950 PSI (Reinforced Filament)",
-      webbing: "Micro-Solenoid Weave",
-      tech: "4 Mechanical Waldo Spider-Arms",
-      kinetic: "99.2% Sub-Orbital Dampening",
-      dispenser: "Pressurized Electro-Web",
+      armor: "Node.js, Express, FastAPI, Python",
+      tensile: "PostgreSQL, MySQL, Redis, MongoDB",
+      webbing: "RESTful APIs & GraphQL Endpoints",
+      tech: "Prisma ORM & SQL Query Optimization",
+      kinetic: "Server-side Security & Auth (JWT/OAuth)",
+      dispenser: "API Documentation (Swagger, Postman)",
     },
     notes: [
-      "Stark Nanotech deployment via chest emblem housing.",
-      "4 extendable robotic spider-arms for climbing, defense, and maneuvering.",
-      "Integrated parachute, life support, and neural link interface.",
+      "Architects scalable APIs and microservices with high concurrent capacity.",
+      "Designs robust database schemas, normalization, and caching strategies.",
+      "Implements secure middleware pipelines and error handling frameworks.",
     ],
   },
   {
-    id: "stealth",
-    name: "Stealth Big Time Suit",
-    designation: "OSCORP MATRIX V4",
-    img: "/classic_suit_blueprint.png", // Using classic with CSS filters for stealth variant
-    cadNumber: "CAD-OSCORP-882",
+    id: "ai",
+    name: "AI & Automation Stack",
+    designation: "OPENAI-LANGCHAIN MARK I",
+    img: "/classic_suit_blueprint.png", // Using classic with CSS filters
+    cadNumber: "CAD-AI-882",
     specs: {
-      armor: "Light-Bending Mesh & Carbon Fiber",
-      tensile: "480 PSI",
-      webbing: "Sound-Dampening Filament",
-      tech: "Sonic Frequency Disruptor",
-      kinetic: "92.0% Noise & Thermal Absorption",
-      dispenser: "Silent Solenoid Valves",
+      armor: "OpenAI API, Claude, Llama Models",
+      tensile: "LangChain & Vector DBs (Chroma/Pinecone)",
+      webbing: "Structured Prompt Engineering & LLM Tuning",
+      tech: "Retrieval-Augmented Generation (RAG)",
+      kinetic: "Machine Learning & Automation Workflows",
+      dispenser: "Python scripting & data analysis",
     },
     notes: [
-      "Bends light and sound waves to achieve complete active invisibility.",
-      "Built-in sonic damping fields cancel high-frequency acoustic attacks.",
-      "Variable color neon piping (Neon Green / Red alert modes).",
+      "Integrates large language models for intelligent automation & agents.",
+      "Implements prompt templates and chains for reliable outputs.",
+      "Minimizes AI hallucination and optimizes response token efficiency.",
     ],
   },
 ];
 
 const HISTORY_EVENTS = [
   {
-    year: "1962",
-    title: "Midtown Science Exhibit Bite",
-    desc: "Peter Parker attends a public demonstration of nuclear physics and is bitten by an irradiated spider, absorbing 15x superhuman strength, agility, wall-crawling, and precognitive Spider-Sense.",
+    year: "2020",
+    title: "Foundational Projects & Academic Start",
+    desc: "Began developing full-stack applications and AI systems, building software solutions for education management and plant disease detection using deep learning.",
   },
   {
-    year: "1962",
-    title: "The Foundational Oath",
-    desc: "\"With great power comes great responsibility.\" After the tragic loss of Uncle Ben, Peter vows to use his intelligence and gifts to protect the innocent.",
+    year: "2021",
+    title: "Web Developer Core",
+    desc: "Joined Creative Agency Co. to deliver high-performance web applications using React, TypeScript, and Node.js, improving page load speeds by 45%.",
   },
   {
-    year: "1964",
-    title: "Arch-Nemeses & Sinister Six",
-    desc: "Battles Green Goblin, Doctor Octopus, Electro, Sandman, Mysterio, and Kraven the Hunter. Develops specialized web formulas and tactical counters.",
+    year: "2022",
+    title: "QA Automation & Reliability",
+    desc: "Optimized application reliability at Digital Innovations Inc. by designing Cypress/Jest test suites and building automated CI/CD pipelines.",
   },
   {
-    year: "1984",
-    title: "Secret Wars & Alien Symbiote",
-    desc: "Recovers the alien black suit on Battleworld, enhancing web fluid capacity and strength before discovering its parasitic nature.",
+    year: "2023",
+    title: "Prompt Engineering Specialist",
+    desc: "Engineered 100+ production-grade prompts and agent chains using LangChain, Claude, and GPT models to reduce hallucination and automate tasks.",
   },
   {
-    year: "2018",
-    title: "Into the Spider-Verse",
-    desc: "\"Anyone can wear the mask.\" The multiversal Web of Life and Destiny expands across Miles Morales, Gwen Stacy, Spider-Man 2099, and parallel realities.",
+    year: "2023 - Pres.",
+    title: "Business Requirements & Client Delivery",
+    desc: "Led digital transformation projects at Tech Solutions Ltd., authoring comprehensive BRDs, facilitating 25+ client workshops, and bridging business needs with tech implementation.",
   },
 ];
 
 const QUOTES_LIST = [
   {
-    quote: "With great power comes great responsibility.",
-    author: "Uncle Ben / Peter Parker",
+    quote: "Design is not just what it looks like and feels like. Design is how it works.",
+    author: "Steve Jobs",
     tag: "Core Creed",
   },
   {
-    quote: "Whatever comes our way, whatever battle we have raging inside us, we always have a choice.",
-    author: "Peter Parker",
-    tag: "Resilience",
+    quote: "Simplicity is the ultimate sophistication.",
+    author: "Leonardo da Vinci",
+    tag: "Aesthetics",
   },
   {
-    quote: "You can't think about saving the world. You have to think about saving one person.",
-    author: "Peter Parker",
-    tag: "Heroism",
-  },
-  {
-    quote: "Anyone can wear the mask. You could wear the mask. If you didn't know that before, I hope you do now.",
-    author: "Miles Morales",
-    tag: "Spider-Verse",
-  },
-  {
-    quote: "No matter how many times I get hit, I always find a way to get back up.",
-    author: "Peter Parker",
+    quote: "With great capability comes great responsibility to write clean, maintainable code.",
+    author: "Thenushan Sritharan",
     tag: "Perseverance",
   },
   {
-    quote: "My Spider-Sense is tingling!",
-    author: "Peter Parker",
-    tag: "Precognition",
+    quote: "The best way to predict the future is to invent it.",
+    author: "Alan Kay",
+    tag: "Innovation",
   },
   {
-    quote: "It's pizza time!",
-    author: "Peter Parker",
-    tag: "Iconic",
+    quote: "First, solve the problem. Then, write the code.",
+    author: "John Johnson",
+    tag: "Strategy",
   },
 ];
 
 const INITIAL_LOGS = [
   "> STARK-TECH SPIDER-SUIT HUD OS v2.4 INITIALIZED",
-  "> NEURAL LINK: CONNECTED [USER: PETER PARKER]",
+  "> NEURAL LINK: CONNECTED [USER: THENUSHAN SRITHARAN]",
   "> WEBSHOOTER PRESSURE: 350 PSI [OPTIMAL]",
   "> SPIDER-SENSE PRECOGNITIVE GRID: ONLINE",
   "> USE THE TABS ABOVE TO SWITCH BETWEEN TERMINAL, HISTORY, QUOTES, AND BLUEPRINTS!",
@@ -364,7 +354,7 @@ export const SpideyTerminalConsole: React.FC = () => {
             >
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider border-b border-red-500/20 pb-2">
                 <BookOpen className="w-4 h-4 text-red-500" />
-                <span>SPIDER-MAN ORIGIN & HISTORICAL CHRONICLES</span>
+                <span>THENUSHAN'S JOURNEY & HISTORICAL CHRONICLES</span>
               </div>
 
               <div className="space-y-3 pt-1">
@@ -400,7 +390,7 @@ export const SpideyTerminalConsole: React.FC = () => {
             >
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider border-b border-red-500/20 pb-2">
                 <Quote className="w-4 h-4 text-red-500" />
-                <span>SPIDER-VERSE FAMOUS QUOTES & ARCHIVES</span>
+                <span>ENGINEERING PHILOSOPHIES & FAMOUS ARCHIVES</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
@@ -438,7 +428,7 @@ export const SpideyTerminalConsole: React.FC = () => {
               <div className="flex items-center justify-between border-b border-cyan-500/30 pb-2">
                 <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs uppercase tracking-widest">
                   <Cpu className="w-4 h-4 text-cyan-400 animate-pulse" />
-                  <span>STARK INDUSTRIES // ARCHITECTURAL CAD SUIT SCHEMATICS</span>
+                  <span>THENUSHAN'S LABS // ARCHITECTURAL TECH STACK BLUEPRINTS</span>
                 </div>
                 <span className="text-[9px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">
                   SCALE 1:1 FULL BLUEPRINT
@@ -543,8 +533,8 @@ export const SpideyTerminalConsole: React.FC = () => {
                   {/* CAD Title Block Stamp */}
                   <div className="bg-cyan-950/60 border border-cyan-500/50 rounded p-2 flex flex-wrap items-center justify-between gap-2 text-[9px] text-cyan-300 font-mono">
                     <div>
-                      <div><span className="text-cyan-400 font-bold">PROJECT:</span> SPIDER-SUIT BLUEPRINT</div>
-                      <div><span className="text-cyan-400 font-bold">DESIGNERS:</span> P. PARKER / T. STARK</div>
+                      <div><span className="text-cyan-400 font-bold">PROJECT:</span> TECH STACK SCHEMATICS</div>
+                      <div><span className="text-cyan-400 font-bold">DESIGNERS:</span> T. SRITHARAN / T. STARK</div>
                     </div>
                     <div className="text-right">
                       <div><span className="text-cyan-400 font-bold">DRAWING NO:</span> {activeBlueprint.cadNumber}</div>
