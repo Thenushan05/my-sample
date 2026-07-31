@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── CSS Custom Properties for Theming ────────── */
+/* â”€â”€ CSS Custom Properties for Theming â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   --color-bg: #f8fafc;
   --color-bg-secondary: #f1f5f9;
@@ -59,7 +59,7 @@ html.dark {
   --color-project-orb: 0.1;
 }
 
-/* ── Spider-Man "Brand New Day" Accent Theme ──── */
+/* â”€â”€ Spider-Man "Brand New Day" Accent Theme â”€â”€â”€â”€ */
 html.spiderman {
   --color-nav-link-active: #ef233c;
   --color-border-strong: rgba(239, 35, 60, 0.35);
@@ -162,7 +162,7 @@ html.spiderman .gooey-nav-container nav ul li.active {
   color: #ef4444 !important;
 }
 
-/* ── View Transitions API (Theme Toggler) ─────── */
+/* â”€â”€ View Transitions API (Theme Toggler) â”€â”€â”€â”€â”€â”€â”€ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -173,7 +173,7 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
   animation-duration: var(--magicui-theme-toggle-vt-duration);
 }
 
-/* ── Base Reset ──────────────────────────────── */
+/* â”€â”€ Base Reset â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *,
 *::before,
 *::after {
@@ -219,7 +219,7 @@ html.lenis {
   pointer-events: none;
 }
 
-/* ── Custom Scrollbar ────────────────────────── */
+/* â”€â”€ Custom Scrollbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -237,20 +237,20 @@ html.lenis {
   background: rgba(59, 130, 246, 0.6);
 }
 
-/* ── Selection ───────────────────────────────── */
+/* â”€â”€ Selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
   color: #ffffff;
 }
 
-/* ── Focus Styles (Accessibility) ─────────────── */
+/* â”€â”€ Focus Styles (Accessibility) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *:focus-visible {
   outline: 2px solid rgba(59, 130, 246, 0.7);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ── 3D Perspective Utilities ────────────────── */
+/* â”€â”€ 3D Perspective Utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .perspective-\[1000px\] {
   perspective: 1000px;
 }
@@ -264,7 +264,7 @@ html.lenis {
   will-change: transform, opacity;
 }
 
-/* ── Animations ─────────────────────────────── */
+/* â”€â”€ Animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes floatParticle {
   0% {
     transform: translateY(0) translateX(0) scale(1);
@@ -313,7 +313,7 @@ html.lenis {
   background: rgba(128, 128, 128, 0.2);
 }
 
-/* ── Light Mode Overrides ─────────────────────── */
+/* â”€â”€ Light Mode Overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* Override Tailwind's white color with theme text color in light mode */
 :root:not(.dark):not(.spiderman) .text-white {
   color: var(--color-text);
@@ -452,7 +452,7 @@ html.lenis {
 :root:not(.dark):not(.spiderman) .gooey-nav-container nav ul li::after {
   background: var(--color-overlay);
 }
-@layer utilities {
+
   @keyframes shine {
     to {
       background-position: 200% center;
@@ -494,6 +494,60 @@ html.lenis {
     95% {
       transform: translate(0, 0);
       opacity: 0;
-    }
   }
+}
+
+/* â”€â”€ System Console Normal Mode Overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+:root:not(.spiderman) .sys-console .text-red-400,
+:root:not(.spiderman) .sys-console .text-red-300,
+:root:not(.spiderman) .sys-console .text-red-100\/90,
+:root:not(.spiderman) .sys-console .text-red-500 {
+  color: #3b82f6 !important;
+}
+
+:root:not(.spiderman) .sys-console .bg-red-500,
+:root:not(.spiderman) .sys-console .bg-red-600 {
+  background-color: #2563eb !important;
+}
+
+:root:not(.spiderman) .sys-console .bg-red-500\/20,
+:root:not(.spiderman) .sys-console .bg-red-400\/20 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+:root:not(.spiderman) .sys-console .border-red-500 {
+  border-color: #3b82f6 !important;
+}
+
+:root:not(.spiderman) .sys-console .border-red-500\/50 {
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+:root:not(.spiderman) .sys-console .border-red-500\/40 {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+:root:not(.spiderman) .sys-console .border-red-500\/30 {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+:root:not(.spiderman) .sys-console .border-red-500\/10 {
+  border-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+:root:not(.spiderman) .sys-console .hover\:border-red-500\/30:hover {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+:root:not(.spiderman) .sys-console .hover\:border-red-500\/40:hover {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+:root:not(.spiderman) .sys-console .hover\:border-red-500\/50:hover {
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+:root:not(.spiderman) .sys-console .shadow-\[0_0_12px_rgba\(239\,68\,68\,0\.6\)\],
+:root:not(.spiderman) .sys-console .shadow-\[0_0_15px_rgba\(220\,38\,38\,0\.5\)\] {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4) !important;
 }

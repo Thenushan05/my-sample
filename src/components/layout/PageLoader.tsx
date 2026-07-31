@@ -126,7 +126,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
   const [logs, setLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    const duration = 2200;
+    const duration = 600;
     const intervalTime = 20;
     const steps = duration / intervalTime;
     let currentStep = 0;

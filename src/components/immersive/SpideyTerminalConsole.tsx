@@ -213,7 +213,7 @@ export const SpideyTerminalConsole: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-red-500 selection:text-black transition-transform -skew-x-6">
+    <div className="w-full h-full flex flex-col font-mono text-xs text-white selection:bg-blue-500 [.spiderman_&]:selection:bg-red-500 selection:text-black transition-transform [.spiderman_&]:-skew-x-6">
       {/* Tab Navigation Header Bar */}
       <div className="bg-black/40 backdrop-blur-md border-y border-white/20 rounded-none p-2 mb-3 shadow-[0_0_20px_rgba(220,38,38,0.25)] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1">
