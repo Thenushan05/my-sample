@@ -66,9 +66,9 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
                 aria-pressed={isActive}
                 title={isActive ? "Disable Spidey Mode" : "Enable Spidey Mode"}
                 className={cn(
-                    "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden",
+                    "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
                     isActive
-                        ? "bg-black/90 border-red-500/80 shadow-[0_0_18px_rgba(239,68,68,0.8)] ring-2 ring-red-500/50"
+                        ? "bg-black/95 border-red-500/90 shadow-[0_0_20px_rgba(239,68,68,0.85)] ring-2 ring-red-500/60"
                         : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
                 )}
@@ -78,10 +78,10 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
                     src={spideyLogo}
                     alt="Spidey Mode"
                     className={cn(
-                        "w-5 h-5 object-contain transition-all duration-300 pointer-events-none",
+                        "w-7 h-7 object-contain transition-all duration-300 pointer-events-none",
                         isActive
-                            ? "scale-110 filter drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse"
-                            : "opacity-85 hover:opacity-100 group-hover:scale-105"
+                            ? "scale-115 filter drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse"
+                            : "opacity-90 hover:opacity-100 group-hover:scale-110"
                     )}
                 />
                 <span className="sr-only">Toggle Spidey Mode</span>

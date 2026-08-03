@@ -4,6 +4,7 @@ import { skillCategories, techStack } from "../../data/skills";
 import { SectionHeading } from "../ui/SectionHeading";
 import { GlassCard } from "../ui/GlassCard";
 import { IconCloud } from "../ui/IconCloud";
+import spideyLogo from "../../assets/spidey-logo.png";
 
 const slugs = [
   "typescript",
@@ -116,28 +117,61 @@ export const SkillsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Full Tech Stack Breakdown */}
+        {/* Full Tech Stack Breakdown with Spidey Vibe */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="tech-stack-section bg-white/[0.01] border border-white/5 p-4 sm:p-6 md:p-8 transition-all duration-500 skew-0 md:-skew-x-6 rounded-none border-white/20 border-y border-x-0 [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-xl"
+          className="tech-stack-section relative bg-white/[0.01] border border-white/5 p-4 sm:p-6 md:p-8 transition-all duration-500 skew-0 md:-skew-x-6 rounded-none border-white/20 border-y border-x-0 [.spiderman_&]:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] [.spiderman_&]:from-red-950/40 [.spiderman_&]:via-black/80 [.spiderman_&]:to-black/95 [.spiderman_&]:border-red-600/40 [.spiderman_&]:shadow-[0_0_35px_rgba(239,68,68,0.25)] [.spiderman_&]:backdrop-blur-xl overflow-hidden"
         >
-          <h4 className="text-white/40 text-xs tracking-wider uppercase font-bold font-mono mb-4 sm:mb-6 transition-colors [.spiderman_&]:text-white italic">
-            Technical Stack Overview
-          </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+          {/* Top accent web shooter bar for Spidey Mode */}
+          <div className="hidden [.spiderman_&]:block absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-red-600 via-blue-600 to-red-600 shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+
+          {/* Section Header */}
+          <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10 [.spiderman_&]:border-red-500/30">
+            <div className="flex items-center gap-2.5">
+              <img
+                src={spideyLogo}
+                alt="Spidey Emblem"
+                className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse hidden [.spiderman_&]:block"
+              />
+              <h4 className="text-white/70 text-xs sm:text-sm tracking-widest uppercase font-extrabold font-mono transition-colors [.spiderman_&]:text-red-400 italic">
+                Technical Stack Overview
+              </h4>
+            </div>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase text-white/40 [.spiderman_&]:text-blue-400 [.spiderman_&]:font-bold italic">
+              <span className="hidden [.spiderman_&]:inline">🕷️ STARK & OSCORP MAINFRAME GRID</span>
+              <span className="inline [.spiderman_&]:hidden">CORE ARCHITECTURE GRID</span>
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
             {Object.entries(techStack).map(([category, items]) => (
-              <div key={category} className="space-y-3">
-                <span className="text-[10px] sm:text-xs font-bold tracking-wider text-blue-400 uppercase font-mono transition-colors [.spiderman_&]:text-red-500 italic block">
-                  {category}
-                </span>
-                <ul className="space-y-1.5 text-xs text-white/50 font-mono transition-colors italic">
+              <div
+                key={category}
+                className="relative group p-3.5 sm:p-4 rounded-xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] [.spiderman_&]:rounded-none [.spiderman_&]:border-red-500/30 [.spiderman_&]:bg-black/60 [.spiderman_&]:hover:border-red-500/80 [.spiderman_&]:hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] overflow-hidden"
+              >
+                {/* Spidey web line accent top corner */}
+                <div className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden [.spiderman_&]:block">
+                  <div className="absolute top-0 right-0 w-full h-[1px] bg-gradient-to-l from-red-500 to-transparent" />
+                  <div className="absolute top-0 right-0 h-full w-[1px] bg-gradient-to-b from-red-500 to-transparent" />
+                </div>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 [.spiderman_&]:bg-red-500 [.spiderman_&]:shadow-[0_0_8px_#ef4444]" />
+                  <span className="text-xs font-extrabold tracking-wider text-blue-400 uppercase font-mono transition-colors [.spiderman_&]:text-red-400 italic block">
+                    {category}
+                  </span>
+                </div>
+
+                <ul className="space-y-2 text-xs text-white/60 font-mono transition-colors italic">
                   {items.map((item) => (
-                    <li key={item} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-violet-500/80 transition-all [.spiderman_&]:bg-red-500 rounded-none shrink-0" />
-                      <span className="truncate">{item}</span>
+                    <li key={item} className="flex items-center gap-2 group/item">
+                      <span className="text-[10px] text-violet-400/80 transition-all [.spiderman_&]:text-red-400 [.spiderman_&]:group-hover/item:text-blue-400 shrink-0">
+                        🕷️
+                      </span>
+                      <span className="truncate group-hover/item:text-white transition-colors">{item}</span>
                     </li>
                   ))}
                 </ul>
