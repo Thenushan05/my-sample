@@ -1,3 +1,5 @@
+import spideyLogoSrc from '../../../assets/spidey-logo.png';
+
 /**
  * Generates a data URL for a custom ID card face with the given name and title.
  * This is drawn on a canvas matching the card texture resolution.
@@ -150,19 +152,37 @@ export async function generateCardFace(
     ctx.font = '58px "Inter", "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(title, cx, H * 0.73);
+    ctx.fillText(title, cx, H * 0.72);
 
-    // Decorative line
-    ctx.strokeStyle = isSpiderman ? 'rgba(239, 68, 68, 0.6)' : 'rgba(139, 92, 246, 0.4)';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(W * 0.22, H * 0.80);
-    ctx.lineTo(W * 0.78, H * 0.80);
-    ctx.stroke();
+    // Draw Spidey Logo image on card if Spidey mode active
+    if (isSpiderman) {
+        try {
+            const logoImg = await new Promise<HTMLImageElement>((resolve, reject) => {
+                const image = new Image();
+                image.crossOrigin = 'anonymous';
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+                image.src = spideyLogoSrc;
+            });
+            const logoW = 120;
+            const logoH = logoW * (logoImg.height / logoImg.width);
+            ctx.drawImage(logoImg, cx - logoW / 2, H * 0.81, logoW, logoH);
+        } catch (e) {
+            console.warn('Failed to load spidey logo for lanyard card:', e);
+        }
+    } else {
+        // Decorative line
+        ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(W * 0.22, H * 0.80);
+        ctx.lineTo(W * 0.78, H * 0.80);
+        ctx.stroke();
+    }
 
     // Subtle bottom text
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-    ctx.font = '34px "Inter", "Segoe UI", Arial, sans-serif';
+    ctx.fillStyle = isSpiderman ? '#ef4444' : 'rgba(255, 255, 255, 0.4)';
+    ctx.font = 'bold 34px "Inter", "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(isSpiderman ? 'MARVEL • SPIDEY MODE' : 'ID: #PORT-2026', cx, H * 0.92);

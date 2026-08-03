@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SpiderSuit3D } from "./SpiderSuit3D";
+import spideyLogo from "../../assets/spidey-logo.png";
 import {
   Terminal as TerminalIcon,
   BookOpen,
@@ -231,9 +232,9 @@ export const SpideyTerminalConsole: React.FC = () => {
           })}
         </div>
 
-        <div className="hidden md:flex items-center gap-2 text-[10px] text-white/50 pr-2 font-bold italic tracking-widest uppercase">
-          <span className="w-2 h-2 rounded-none bg-red-500 animate-pulse" />
-          <span>PS5 HUD v2.4</span>
+        <div className="hidden md:flex items-center gap-2 text-[10px] text-white/70 pr-2 font-bold italic tracking-widest uppercase bg-red-950/40 border border-red-500/30 px-2.5 py-1 rounded-none shadow-[0_0_10px_rgba(239,68,68,0.3)]">
+          <img src={spideyLogo} alt="" className="w-4 h-4 object-contain filter drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+          <span className="text-red-400">SPIDEY-HUD v2.4</span>
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { ShareButton } from "../ui/ShareButton";
 import { Antigravity } from "../immersive/Antigravity";
 import profileImage from "../../assets/profile.png";
+import spideyLogo from "../../assets/spidey-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -466,10 +467,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)]"
             >
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
-              Available for New Projects
+              {isSpiderman ? (
+                <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain filter drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+              ) : (
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
+              )}
+              {isSpiderman ? "Friendly Neighborhood Developer" : "Available for New Projects"}
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

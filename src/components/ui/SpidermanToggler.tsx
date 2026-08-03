@@ -2,25 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { cn } from "../../lib/utils"
-
-const SpiderIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg viewBox="0 0 512 512" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-        <path d="M501.491,288.032l-153.832-61.279c-1.212-1.157-2.453-2.283-3.707-3.395h151.364c9.214,0,16.684-7.47,16.684-16.684
-			c0-9.214-7.47-16.684-16.684-16.684H324.755l70.97-28.271c6.346-2.527,10.51-8.668,10.51-15.5V22.422
-			c0-9.214-7.47-16.684-16.684-16.684c-9.214,0-16.684,7.47-16.684,16.684v112.485l-39.875,15.884
-			c0.089-1.514,0.147-3.035,0.147-4.57c0-42.534-34.604-77.138-77.138-77.138s-77.138,34.604-77.138,77.138
-			c0,1.535,0.058,3.058,0.147,4.57l-39.875-15.884V22.422c0-9.214-7.47-16.684-16.684-16.684s-16.684,7.47-16.684,16.684v123.799
-			c0,6.832,4.164,12.972,10.51,15.5l70.97,28.271H16.684C7.47,189.992,0,197.462,0,206.676c0,9.214,7.47,16.684,16.684,16.684
-			h151.364c-1.255,1.111-2.495,2.238-3.707,3.395L10.509,288.032C4.163,290.56,0,296.7,0,303.531V406.22
-			c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684v-91.376l98.443-39.214
-			c-4.296,11.258-7.102,23.243-8.179,35.718l-49.599,19.757c-6.347,2.528-10.51,8.668-10.51,15.5v142.973
-			c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684v-131.66l28.366-11.3
-			C136.491,408.588,190.841,455.734,256,455.734s119.509-47.145,130.741-109.115l28.366,11.3v131.66
-			c0,9.214,7.47,16.684,16.684,16.684c9.214,0,16.684-7.47,16.684-16.684V346.605c0-6.832-4.163-12.971-10.51-15.5l-49.599-19.757
-			c-1.076-12.474-3.882-24.46-8.179-35.719l98.443,39.214v91.376c0,9.214,7.47,16.684,16.684,16.684
-			c9.214,0,16.684-7.47,16.684-16.684V303.531C512,296.7,507.837,290.56,501.491,288.032z"/>
-    </svg>
-)
+import spideyLogo from "../../assets/spidey-logo.png"
 
 /** Toggles the `spiderman` accent theme (independent of light/dark mode). */
 export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">> = ({
@@ -77,33 +59,43 @@ export const SpidermanToggler: React.FC<React.ComponentPropsWithoutRef<"button">
     }, [showGuide])
 
     return (
-        <div className={cn("relative inline-flex", className)}>
+        <div className={cn("relative inline-flex group", className)}>
             <button
                 type="button"
                 onClick={toggle}
                 aria-pressed={isActive}
                 title={isActive ? "Disable Spidey Mode" : "Enable Spidey Mode"}
                 className={cn(
-                    "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border",
+                    "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden",
                     isActive
-                        ? "bg-gradient-to-br from-red-600 to-blue-700 border-red-400/60 text-white shadow-[0_0_16px_rgba(220,38,38,0.6)]"
+                        ? "bg-black/90 border-red-500/80 shadow-[0_0_18px_rgba(239,68,68,0.8)] ring-2 ring-red-500/50"
                         : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
                 )}
                 {...props}
             >
-                <SpiderIcon className="w-4 h-4" />
+                <img
+                    src={spideyLogo}
+                    alt="Spidey Mode"
+                    className={cn(
+                        "w-5 h-5 object-contain transition-all duration-300 pointer-events-none",
+                        isActive
+                            ? "scale-110 filter drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse"
+                            : "opacity-85 hover:opacity-100 group-hover:scale-105"
+                    )}
+                />
                 <span className="sr-only">Toggle Spidey Mode</span>
             </button>
 
             {/* Quick Guide Tooltip */}
             {showGuide && (
                 <div className="absolute right-0 top-full mt-4 w-max animate-bounce pointer-events-none z-50">
-                    <div className="bg-red-600 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-xl border border-red-400 relative">
+                    <div className="bg-red-600 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-xl border border-red-400 relative flex items-center gap-2">
                         {/* Upward pointing triangle */}
                         <div className="absolute -top-1.5 right-3 w-3 h-3 bg-red-600 border-t border-l border-red-400 rotate-45" />
-                        <span className="relative z-10 flex items-center gap-1.5 uppercase tracking-wider">
-                            🕷️ Try Spidey Mode!
+                        <img src={spideyLogo} alt="" className="w-3.5 h-3.5 object-contain filter brightness-200 invert" />
+                        <span className="relative z-10 uppercase tracking-wider">
+                            Try Spidey Mode!
                         </span>
                     </div>
                 </div>

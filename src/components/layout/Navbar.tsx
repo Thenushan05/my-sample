@@ -5,6 +5,7 @@ import { AnimatedThemeToggler } from "../ui/AnimatedThemeToggler";
 import { SpidermanToggler } from "../ui/SpidermanToggler";
 import { motion } from "framer-motion";
 import logoImg from "../../assets/logo.png";
+import spideyLogo from "../../assets/spidey-logo.png";
 
 interface NavItem {
   label: string;
@@ -127,9 +128,7 @@ export const Navbar: React.FC = () => {
               : "bg-gradient-to-br from-blue-500 to-violet-600"
           }`}>
             {isSpiderman ? (
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white drop-shadow-[0_0_4px_rgba(0,0,0,0.8)]" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C11.5 3.5 10 5.5 8 6C6 6.5 3.5 5 2 4.5C3.5 7 6 8.5 7.5 9.5C6 11 3.5 12.5 1 13C3 13.5 5.5 13 7 12C6.5 14 4.5 17 2 19C4.5 18.5 7 16.5 8.5 14.5C9.5 16 11 19 12 22C13 19 14.5 16 15.5 14.5C17 16.5 19.5 18.5 22 19C19.5 17 17.5 14 17 12C18.5 13 21 13.5 23 13C20.5 12.5 18 11 16.5 9.5C18 8.5 20.5 7 22 4.5C20.5 5 18 6.5 16 6C14 5.5 12.5 3.5 12 2Z" />
-              </svg>
+              <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
             ) : (
               <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}
