@@ -94,29 +94,19 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
 
 const HISTORY_EVENTS = [
   {
-    year: "2020",
-    title: "Foundational Projects & Academic Start",
-    desc: "Began developing full-stack applications and AI systems, building software solutions for education management and plant disease detection using deep learning.",
+    year: "2024 (Oct-Feb)",
+    title: "Intern Frontend Developer",
+    desc: "Joined Codelantic Pvt Ltd as Intern Frontend Developer, building dynamic web features and responsive UI components using Angular.",
   },
   {
-    year: "2021",
-    title: "Web Developer Core",
-    desc: "Joined Creative Agency Co. to deliver high-performance web applications using React, TypeScript, and Node.js, improving page load speeds by 45%.",
+    year: "2025 (Mar-Dec)",
+    title: "Associate Software Engineer - Frontend",
+    desc: "Served as Associate Software Engineer Frontend at Codelantic Pvt Ltd, engineering scalable web applications and high-performance UI components.",
   },
   {
-    year: "2022",
-    title: "QA Automation & Reliability",
-    desc: "Optimized application reliability at Digital Innovations Inc. by designing Cypress/Jest test suites and building automated CI/CD pipelines.",
-  },
-  {
-    year: "2023",
-    title: "Prompt Engineering Specialist",
-    desc: "Engineered 100+ production-grade prompts and agent chains using LangChain, Claude, and GPT models to reduce hallucination and automate tasks.",
-  },
-  {
-    year: "2023 - Pres.",
-    title: "Business Requirements & Client Delivery",
-    desc: "Led digital transformation projects at Tech Solutions Ltd., authoring comprehensive BRDs, facilitating 25+ client workshops, and bridging business needs with tech implementation.",
+    year: "2026 (Jun-Pres)",
+    title: "Associate Product Developer - AI Fullstack",
+    desc: "Joined MagickTech Pvt Ltd as Associate Product Developer (AI Fullstack), building end-to-end fullstack applications powered by AI capabilities.",
   },
 ];
 
