@@ -25,20 +25,24 @@ export const ProjectsSection: React.FC = () => {
     >
       {/* Background gradient orbs */}
       <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 [.spiderman_&]:bg-red-600/30 [.ironman_&]:bg-cyan-500/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
-      <div className="project-orb absolute bottom-1/4 -right-48 w-96 h-96 bg-violet-500/10 [.spiderman_&]:bg-red-600/20 [.ironman_&]:bg-amber-500/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
-
-      {/* PS4 Menu Glassmorphism Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 [.ironman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20 [.ironman_&]:border-cyan-500/30" />
+      {/* PS4 Menu Background (Spiderman) */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20" />
+      
+      {/* J.A.R.V.I.S HUD Grid Background (Iron Man) */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 [.ironman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-[#020813] bg-[linear-gradient(rgba(6,182,212,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.1)_1px,transparent_1px)] bg-[size:40px_40px] border-y border-cyan-500/40 shadow-[inset_0_0_100px_rgba(2,8,19,1)]">
+        {/* Inner glow over grid */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.15)_0%,rgba(2,8,19,0.9)_70%)]" />
+      </div>
 
       {/* Section decorative line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-white/10 to-transparent" />
 
-      <div className="max-w-6xl mx-auto relative">
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-12 md:mb-20 [.ironman_&]:flex [.ironman_&]:flex-col [.ironman_&]:items-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] uppercase italic [.spiderman_&]:-skew-x-6 [.ironman_&]:tracking-wider [.ironman_&]:text-center transition-all duration-500">
             Featured{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:via-amber-400 [.ironman_&]:to-red-500 transition-all duration-700">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:via-amber-400 [.ironman_&]:to-cyan-200 transition-all duration-700">
               Projects
             </span>
           </h2>
@@ -63,10 +67,10 @@ export const ProjectsSection: React.FC = () => {
                       setActiveTab("desktop")
                       setActiveImageIdx(0)
                     }}
-                    className={`group relative p-4 text-left rounded-xl transition-all duration-300 [.spiderman_&]:-skew-x-6 [.spiderman_&]:rounded-none [.spiderman_&]:border-l-4 [.ironman_&]:stark-hud-panel [.ironman_&]:text-center [.ironman_&]:flex-1 [.ironman_&]:min-w-[200px] ${
+                    className={`group relative p-4 text-left rounded-xl transition-all duration-300 [.spiderman_&]:-skew-x-6 [.spiderman_&]:rounded-none [.spiderman_&]:border-l-4 [.ironman_&]:stark-hud-panel [.ironman_&]:text-center [.ironman_&]:flex-1 [.ironman_&]:min-w-[200px] [.ironman_&]:rounded-sm [.ironman_&]:border ${
                       isActive
-                        ? "bg-white dark:bg-white/10 shadow-lg border-transparent [.spiderman_&]:bg-red-600/90 [.spiderman_&]:border-white [.spiderman_&]:shadow-[0_0_20px_rgba(220,38,38,0.5)]"
-                        : "hover:bg-white/50 dark:hover:bg-white/5 border-transparent [.spiderman_&]:bg-black/40 [.spiderman_&]:border-white/20 hover:[.spiderman_&]:bg-red-600/20 hover:[.spiderman_&]:border-red-500"
+                        ? "bg-white dark:bg-white/10 shadow-lg border-transparent [.spiderman_&]:bg-red-600/90 [.spiderman_&]:border-white [.spiderman_&]:shadow-[0_0_20px_rgba(220,38,38,0.5)] [.ironman_&]:bg-cyan-900/40 [.ironman_&]:border-cyan-400 [.ironman_&]:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                        : "hover:bg-white/50 dark:hover:bg-white/5 border-transparent [.spiderman_&]:bg-black/40 [.spiderman_&]:border-white/20 hover:[.spiderman_&]:bg-red-600/20 hover:[.spiderman_&]:border-red-500 [.ironman_&]:border-cyan-900/50 hover:[.ironman_&]:border-cyan-500/50 hover:[.ironman_&]:bg-cyan-900/20"
                     }`}
                   >
                     <span
@@ -77,19 +81,19 @@ export const ProjectsSection: React.FC = () => {
                     
                     <div className="flex items-center justify-between mb-2 [.ironman_&]:justify-center">
                       <span className={`text-[10px] font-mono tracking-wider uppercase transition-colors ${
-                        isActive ? "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/80" : "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/50"
+                        isActive ? "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/80 [.ironman_&]:text-amber-400" : "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/50 [.ironman_&]:text-cyan-500"
                       }`}>
                         {project.category}
                       </span>
                     </div>
 
                     <h3 className={`text-lg font-bold transition-colors uppercase italic tracking-wider ${
-                      isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white [.ironman_&]:text-amber-400" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white [.ironman_&]:text-white/60 [.ironman_&]:group-hover:text-amber-500"
+                      isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white [.ironman_&]:text-cyan-100" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white [.ironman_&]:text-cyan-600 [.ironman_&]:group-hover:text-cyan-300"
                     }`}>
                       {project.title}
                     </h3>
 
-                    <p className="text-xs text-slate-500 dark:text-white/40 mt-2 line-clamp-2">
+                    <p className="text-xs text-slate-500 dark:text-white/40 mt-2 line-clamp-2 [.ironman_&]:text-cyan-400/60">
                       {project.description}
                     </p>
                   </button>
@@ -100,15 +104,15 @@ export const ProjectsSection: React.FC = () => {
 
           {/* Right Column: Detailed Project Viewer */}
           <div className="lg:col-span-7 [.ironman_&]:w-full">
-            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-2xl [.ironman_&]:stark-hud-panel [.ironman_&]:items-center">
+            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-2xl [.ironman_&]:stark-hud-panel">
               
               {/* Header inside viewer */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6 [.ironman_&]:flex-col [.ironman_&]:justify-center">
                 <div className="[.spiderman_&]:-skew-x-6 [.ironman_&]:text-center">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white uppercase italic tracking-widest leading-tight transition-all duration-500">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white [.ironman_&]:text-cyan-200 uppercase italic tracking-widest leading-tight transition-all duration-500">
                     {activeProject.title}
                   </h3>
-                  <span className="text-xs font-mono text-blue-500 dark:text-blue-400 [.spiderman_&]:text-red-400 [.spiderman_&]:tracking-[0.3em] uppercase tracking-wider block mt-1 transition-colors">
+                  <span className="text-xs font-mono text-blue-500 dark:text-blue-400 [.spiderman_&]:text-red-400 [.spiderman_&]:tracking-[0.3em] uppercase tracking-wider block mt-1 transition-colors [.ironman_&]:text-amber-500">
                     {activeProject.category}
                   </span>
                 </div>
@@ -117,10 +121,10 @@ export const ProjectsSection: React.FC = () => {
                 <div className="flex gap-2 [.spiderman_&]:-skew-x-6">
                   <button
                     onClick={() => setActiveTab("desktop")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic [.ironman_&]:rounded-sm [.ironman_&]:font-bold [.ironman_&]:tracking-wider ${
                       activeTab === "desktop"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)] [.ironman_&]:bg-cyan-500/20 [.ironman_&]:text-cyan-200 [.ironman_&]:border [.ironman_&]:border-cyan-400 [.ironman_&]:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50 [.ironman_&]:text-cyan-600 [.ironman_&]:bg-transparent [.ironman_&]:border [.ironman_&]:border-transparent hover:[.ironman_&]:text-cyan-300"
                     }`}
                   >
                     <ImageIcon className="size-3.5" />
@@ -128,10 +132,10 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("mobile")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic [.ironman_&]:rounded-sm [.ironman_&]:font-bold [.ironman_&]:tracking-wider ${
                       activeTab === "mobile"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)] [.ironman_&]:bg-cyan-500/20 [.ironman_&]:text-cyan-200 [.ironman_&]:border [.ironman_&]:border-cyan-400 [.ironman_&]:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50 [.ironman_&]:text-cyan-600 [.ironman_&]:bg-transparent [.ironman_&]:border [.ironman_&]:border-transparent hover:[.ironman_&]:text-cyan-300"
                     }`}
                   >
                     <Smartphone className="size-3.5" />
@@ -139,10 +143,10 @@ export const ProjectsSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab("architecture")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg transition-all [.spiderman_&]:rounded-none uppercase [.spiderman_&]:font-bold italic [.ironman_&]:rounded-sm [.ironman_&]:font-bold [.ironman_&]:tracking-wider ${
                       activeTab === "architecture"
-                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50"
+                        ? "bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm [.spiderman_&]:bg-white [.spiderman_&]:text-red-600 [.spiderman_&]:shadow-[0_0_15px_rgba(255,255,255,0.5)] [.ironman_&]:bg-cyan-500/20 [.ironman_&]:text-cyan-200 [.ironman_&]:border [.ironman_&]:border-cyan-400 [.ironman_&]:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                        : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white [.spiderman_&]:text-white/60 [.spiderman_&]:bg-black/50 [.spiderman_&]:border [.spiderman_&]:border-white/20 [.spiderman_&]:hover:text-white [.spiderman_&]:hover:border-white/50 [.ironman_&]:text-cyan-600 [.ironman_&]:bg-transparent [.ironman_&]:border [.ironman_&]:border-transparent hover:[.ironman_&]:text-cyan-300"
                     }`}
                   >
                     <Network className="size-3.5" />

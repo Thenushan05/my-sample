@@ -14,6 +14,7 @@ export const ThemeBackground: React.FC = () => {
     let animationFrameId: number;
     let time = 0;
 
+    // The clean geometric blueprint doesn't need particles
     const handleResize = () => {
       if (!canvas) return;
       width = canvas.width = window.innerWidth;
@@ -31,72 +32,134 @@ export const ThemeBackground: React.FC = () => {
       const isDark = document.documentElement.classList.contains("dark");
 
       if (isIronman) {
-        // 🦾 IRON MAN JARVIS HUD TARGETING SYSTEM
-        time += 0.01;
-        const cyanLine = "rgba(6, 182, 212, 0.35)";
-        const cyanNode = "rgba(6, 182, 212, 0.7)";
-        const goldAccent = "rgba(245, 158, 11, 0.5)";
-
+        // 🏗️ ELEGANT ARC REACTOR BLUEPRINT (Like Spiderweb)
+        time += 0.001; // Extremely slow, majestic rotation
         const centerX = width / 2;
-        const centerY = height * 0.45;
+        const centerY = height / 2;
+        const maxRadius = Math.max(width, height) * 0.8;
 
-        // 1. Concentric JARVIS Arc Reactor HUD Rings (Animated)
-        const rings = [
-          { r: 150, speed: 0.8, dash: [0], thick: 2, color: "rgba(6, 182, 212, 0.5)" },
-          { r: 180, speed: -0.5, dash: [10, 15], thick: 1, color: "rgba(245, 158, 11, 0.4)" },
-          { r: 300, speed: -0.2, dash: [30, 15, 10, 15], thick: 1.5, color: cyanLine },
-          { r: 450, speed: 0.15, dash: [80, 40], thick: 1, color: "rgba(6, 182, 212, 0.2)" },
-          { r: 480, speed: 0.1, dash: [4, 8], thick: 3, color: "rgba(6, 182, 212, 0.1)" },
-          { r: 650, speed: -0.05, dash: [2, 12], thick: 1, color: "rgba(245, 158, 11, 0.2)" },
-          { r: 850, speed: 0.02, dash: [150, 80, 20, 80], thick: 1.5, color: cyanLine }
-        ];
+        // Deep cosmic purple background for high text contrast
+        const bgGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(width, height));
+        bgGlow.addColorStop(0, "rgba(20, 5, 40, 1)"); // Extremely dark purple at center
+        bgGlow.addColorStop(0.5, "rgba(5, 1, 15, 1)"); // Near black
+        bgGlow.addColorStop(1, "rgba(0, 0, 0, 1)"); // Pure black at edges
+        ctx.fillStyle = bgGlow;
+        ctx.fillRect(0, 0, width, height);
 
-        // Central Arc Glow
+        ctx.save();
+        ctx.translate(centerX, centerY);
+
+        // --- DETAILED ARC REACTOR CORE ---
+        ctx.save();
+        
+        const reactorPulse = Math.sin(time * 50) * 0.05 + 0.95; 
+        
+        // 1. Outer Glow Base (Dimmed for text visibility)
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = "rgba(34, 211, 238, 0.2)";
+
+        // 2. Outer Ring Casing
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(6, 182, 212, 0.03)";
+        ctx.arc(0, 0, 110, 0, Math.PI * 2);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(34, 211, 238, 0.15)";
+        ctx.stroke();
+
+        ctx.shadowBlur = 10;
+
+        // 3. Inner Coil Ring (10 segments)
+        ctx.beginPath();
+        ctx.arc(0, 0, 85, 0, Math.PI * 2);
+        ctx.lineWidth = 30;
+        // Circumference = 2 * PI * 85 = 534.07
+        // 10 Segments -> Dash pattern length = 53.407
+        ctx.setLineDash([35, 18.407]);
+        ctx.strokeStyle = "rgba(34, 211, 238, 0.25)";
+        ctx.stroke();
+        ctx.setLineDash([]); // reset
+
+        // 4. Triangle / Palladium core struts (Like Mark VI)
+        ctx.save();
+        ctx.rotate(-time * 0.5); // Very slow counter-rotation for the inner struts
+        ctx.beginPath();
+        for (let i = 0; i < 3; i++) {
+          const angle = (i * Math.PI * 2) / 3 - Math.PI / 2;
+          ctx.lineTo(Math.cos(angle) * 65, Math.sin(angle) * 65);
+        }
+        ctx.closePath();
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+        ctx.stroke();
+        ctx.restore();
+
+        // 5. The intense center glowing core (Faded to act as watermark)
+        ctx.beginPath();
+        ctx.arc(0, 0, 45 * reactorPulse, 0, Math.PI * 2);
+        const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 45 * reactorPulse);
+        coreGradient.addColorStop(0, "rgba(255, 255, 255, 0.3)");
+        coreGradient.addColorStop(0.2, "rgba(255, 255, 255, 0.15)");
+        coreGradient.addColorStop(0.6, "rgba(34, 211, 238, 0.1)");
+        coreGradient.addColorStop(1, "rgba(34, 211, 238, 0)");
+        
+        ctx.fillStyle = coreGradient;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = "rgba(255, 255, 255, 0.15)";
         ctx.fill();
 
-        rings.forEach((ring) => {
-          ctx.save();
-          ctx.translate(centerX, centerY);
-          ctx.rotate(time * ring.speed);
+        ctx.restore();
+        // --------------------------------
+
+        ctx.rotate(time);
+
+        // Thin, elegant blueprint lines
+        ctx.lineWidth = 1.0;
+        ctx.strokeStyle = "rgba(34, 211, 238, 0.25)"; // Faint crisp cyan
+        ctx.shadowBlur = 0; // No blurry neon glows, keep it crisp like the web
+
+        // 1. Concentric Blueprint Rings
+        const numRings = 12;
+        for (let i = 1; i <= numRings; i++) {
+          const r = (i / numRings) * maxRadius;
           ctx.beginPath();
-          ctx.arc(0, 0, ring.r, 0, Math.PI * 2);
-          ctx.strokeStyle = ring.color;
-          ctx.lineWidth = ring.thick;
-          ctx.setLineDash(ring.dash);
+          ctx.arc(0, 0, r, 0, Math.PI * 2);
           ctx.stroke();
-          ctx.restore();
-        });
+          
+          // Thicker structural rings at certain intervals
+          if (i % 3 === 0) {
+             ctx.beginPath();
+             ctx.arc(0, 0, r + 4, 0, Math.PI * 2);
+             ctx.stroke();
+             ctx.beginPath();
+             ctx.arc(0, 0, r - 4, 0, Math.PI * 2);
+             ctx.stroke();
+          }
+        }
 
-        // Crosshairs
-        ctx.strokeStyle = goldAccent;
-        ctx.lineWidth = 1.5;
+        // 2. Radial Structural Spokes
+        const numSpokes = 24;
         ctx.beginPath();
-        ctx.moveTo(centerX - 900, centerY);
-        ctx.lineTo(centerX + 900, centerY);
-        ctx.moveTo(centerX, centerY - 900);
-        ctx.lineTo(centerX, centerY + 900);
+        for (let i = 0; i < numSpokes; i++) {
+          const angle = (i / numSpokes) * Math.PI * 2;
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius);
+        }
         ctx.stroke();
 
-        // Animated Radar Sweep Line
-        const sweepY = (Math.sin(time * 2) * 0.5 + 0.5) * height;
-        ctx.strokeStyle = "rgba(6, 182, 212, 0.5)";
-        ctx.lineWidth = 2;
+        // 3. Hexagonal Inner Truss Bracing
+        const hexRadius = maxRadius * 0.25;
         ctx.beginPath();
-        ctx.moveTo(0, sweepY);
-        ctx.lineTo(width, sweepY);
+        for (let i = 0; i < 6; i++) {
+          const angle = (i / 6) * Math.PI * 2;
+          const nextAngle = ((i + 1) / 6) * Math.PI * 2;
+          ctx.moveTo(Math.cos(angle) * hexRadius, Math.sin(angle) * hexRadius);
+          ctx.lineTo(Math.cos(nextAngle) * hexRadius, Math.sin(nextAngle) * hexRadius);
+        }
         ctx.stroke();
 
-        const sweepX = (Math.cos(time * 1.5) * 0.5 + 0.5) * width;
-        ctx.beginPath();
-        ctx.moveTo(sweepX, 0);
-        ctx.lineTo(sweepX, height);
-        ctx.stroke();
+        ctx.restore();
 
-        // Corner HUD Reticles
-        drawCornerHUD(ctx, width, height, "rgba(6, 182, 212, 0.6)", "rgba(245, 158, 11, 0.6)");
+        // Draw Corner HUD Reticles (Static)
+        drawCornerHUD(ctx, width, height, "rgba(34, 211, 238, 0.3)", "rgba(245, 158, 11, 0.1)");
 
         animationFrameId = requestAnimationFrame(drawPattern);
         return;

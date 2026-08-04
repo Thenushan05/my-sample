@@ -170,7 +170,6 @@ export const Navbar: React.FC = () => {
             }}
           />
 
-          <AnimatedThemeToggler className="theme-toggler" variant="circle" duration={500} />
           <SpidermanToggler />
 
           <a
@@ -185,7 +184,6 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Menu Trigger & Toggles */}
         <div className="flex md:hidden items-center gap-2">
-          <AnimatedThemeToggler className="theme-toggler scale-90" variant="circle" duration={500} />
           <SpidermanToggler className="scale-90" />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

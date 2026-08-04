@@ -187,7 +187,7 @@ export function App() {
               <ScrollReveal>
                 <SkillsSection />
               </ScrollReveal>
-              <ScrollReveal>
+              <ScrollReveal triggerStart="top 98%">
                 <ProjectsSection />
               </ScrollReveal>
               <ScrollReveal>

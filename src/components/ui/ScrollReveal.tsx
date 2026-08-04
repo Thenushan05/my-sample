@@ -11,6 +11,7 @@ interface ScrollRevealProps {
   duration?: number;
   delay?: number;
   className?: string;
+  triggerStart?: string;
 }
 
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({ 
@@ -18,7 +19,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   yOffset = 40,
   duration = 0.8,
   delay = 0,
-  className = ""
+  className = "",
+  triggerStart = "top 85%"
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
@@ -41,7 +43,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
           ease: "power3.out",
           scrollTrigger: {
             trigger: ref.current,
-            start: "top 85%", // Trigger when element's top is 85% down viewport
+            start: triggerStart,
             toggleActions: "play none none reverse", // Re-hide when scrolling back up
           },
         }

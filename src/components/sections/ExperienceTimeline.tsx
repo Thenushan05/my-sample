@@ -176,10 +176,10 @@ export const ExperienceTimeline: React.FC = () => {
               return (
                 <motion.div
                   key={exp.id}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-120px" }}
-                  transition={{ duration: 0.5, delay: (i % 4) * 0.08, ease: "easeOut" }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: (i % 4) * 0.1, ease: "easeOut" }}
                   className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-14 md:items-center transition-transform duration-500 [.spiderman_&]:-skew-x-6"
                 >
                   {/* Node - mobile */}

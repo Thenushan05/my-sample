@@ -39,7 +39,7 @@ export const SpiderCrawl: React.FC = () => {
   const lineY2 = useMotionTemplate`calc(${yPos} + ${dragY}px + ${WEB_OFFSET_Y}px)`;
 
   return (
-    <div className="fixed top-0 right-4 sm:right-12 md:right-20 h-full w-[200px] z-[60] pointer-events-none flex flex-col items-center">
+    <div className="fixed top-0 right-0 sm:right-4 md:right-8 h-full w-[200px] z-[60] pointer-events-none flex flex-col items-center">
       <WebAnchorSplatSVG />
 
       {/* Dynamic SVG Web Thread */}

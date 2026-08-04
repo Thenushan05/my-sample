@@ -74,8 +74,9 @@ const IronManFigure: React.FC = () => {
 export const IronManFlight: React.FC = () => {
   const { scrollY } = useScroll();
   
-  // Extend arrays to 20,000px so he never stops flying on long pages!
-  const scrollRange = Array.from({ length: 21 }, (_, i) => i * 1000); // [0, 1000, 2000, ... 20000]
+  // Extend arrays to 24,000px so he never stops flying on long pages!
+  // Changed from 1000px per sweep to 400px per sweep so he comes back much faster
+  const scrollRange = Array.from({ length: 61 }, (_, i) => i * 400); 
   
   // y: alternate between 850 (bottom) and -100 (top)
   const yRange = scrollRange.map((_, i) => (i % 2 === 0 ? 850 : -100));
@@ -86,10 +87,10 @@ export const IronManFlight: React.FC = () => {
   const xRange = scrollRange.map((_, i) => xPattern[i % xPattern.length]);
   const xOffset = useTransform(scrollY, scrollRange, xRange);
 
-  // rotateZ: Needs specific turn timings right before/after the 1000px marks
+  // rotateZ: Needs specific turn timings right before/after the 400px marks
   const rotateStops: number[] = [];
   const rotateVals: number[] = [];
-  for (let i = 0; i <= 20; i++) {
+  for (let i = 0; i <= 60; i++) {
     const isUpwards = i % 2 === 0;
     // Base angles depending on the x trajectory
     const xStart = xPattern[i % xPattern.length];
@@ -104,9 +105,9 @@ export const IronManFlight: React.FC = () => {
       rotateStops.push(0);
       rotateVals.push(angle);
     } else {
-      rotateStops.push(i * 1000 - 50);
+      rotateStops.push(i * 400 - 50);
       rotateVals.push(rotateVals[rotateVals.length - 1]);
-      rotateStops.push(i * 1000 + 50);
+      rotateStops.push(i * 400 + 50);
       rotateVals.push(angle);
     }
   }
