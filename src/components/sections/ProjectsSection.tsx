@@ -24,35 +24,35 @@ export const ProjectsSection: React.FC = () => {
       className="relative w-full py-32 px-6 overflow-hidden bg-transparent"
     >
       {/* Background gradient orbs */}
-      <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 [.spiderman_&]:bg-red-600/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
-      <div className="project-orb absolute bottom-1/4 -right-48 w-96 h-96 bg-violet-500/10 [.spiderman_&]:bg-red-600/20 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
+      <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 [.spiderman_&]:bg-red-600/30 [.ironman_&]:bg-cyan-500/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
+      <div className="project-orb absolute bottom-1/4 -right-48 w-96 h-96 bg-violet-500/10 [.spiderman_&]:bg-red-600/20 [.ironman_&]:bg-amber-500/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
 
       {/* PS4 Menu Glassmorphism Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20" />
+      <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 [.ironman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20 [.ironman_&]:border-cyan-500/30" />
 
       {/* Section decorative line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-white/10 to-transparent" />
 
       <div className="max-w-6xl mx-auto relative">
         {/* Header */}
-        <div className="mb-12 md:mb-20">
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] uppercase italic [.spiderman_&]:-skew-x-6 [.spiderman_&]:tracking-wide transition-all duration-500">
+        <div className="mb-12 md:mb-20 [.ironman_&]:flex [.ironman_&]:flex-col [.ironman_&]:items-center">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-[1.1] uppercase italic [.spiderman_&]:-skew-x-6 [.ironman_&]:tracking-wider [.ironman_&]:text-center transition-all duration-500">
             Featured{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white transition-all duration-700">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 [.spiderman_&]:from-red-500 [.spiderman_&]:via-red-500 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:via-amber-400 [.ironman_&]:to-red-500 transition-all duration-700">
               Projects
             </span>
           </h2>
-          <p className="text-slate-600 dark:text-white/60 max-w-2xl text-lg uppercase italic tracking-widest [.spiderman_&]:text-xs [.spiderman_&]:text-white/80 transition-all duration-500">
+          <p className="text-slate-600 dark:text-white/60 max-w-2xl text-lg uppercase italic tracking-widest [.spiderman_&]:text-xs [.spiderman_&]:text-white/80 [.ironman_&]:text-xs [.ironman_&]:text-cyan-300 [.ironman_&]:text-center transition-all duration-500">
             Real-world applications built with modern technologies — from architecture to production. Click on a project to explore.
           </p>
         </div>
 
         {/* Interactive Showcase Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch [.ironman_&]:flex [.ironman_&]:flex-col">
           
           {/* Left Column: Project Selection Tabs */}
-          <div className="lg:col-span-5">
-            <div className="flex flex-col gap-2">
+          <div className="lg:col-span-5 [.ironman_&]:w-full">
+            <div className="flex flex-col gap-2 [.ironman_&]:flex-row [.ironman_&]:flex-wrap [.ironman_&]:justify-center">
               {projects.map((project, idx) => {
                 const isActive = idx === activeIdx
                 return (
@@ -63,19 +63,19 @@ export const ProjectsSection: React.FC = () => {
                       setActiveTab("desktop")
                       setActiveImageIdx(0)
                     }}
-                    className={`group relative p-4 text-left rounded-xl transition-all duration-300 [.spiderman_&]:-skew-x-6 [.spiderman_&]:rounded-none [.spiderman_&]:border-l-4 ${
+                    className={`group relative p-4 text-left rounded-xl transition-all duration-300 [.spiderman_&]:-skew-x-6 [.spiderman_&]:rounded-none [.spiderman_&]:border-l-4 [.ironman_&]:stark-hud-panel [.ironman_&]:text-center [.ironman_&]:flex-1 [.ironman_&]:min-w-[200px] ${
                       isActive
                         ? "bg-white dark:bg-white/10 shadow-lg border-transparent [.spiderman_&]:bg-red-600/90 [.spiderman_&]:border-white [.spiderman_&]:shadow-[0_0_20px_rgba(220,38,38,0.5)]"
                         : "hover:bg-white/50 dark:hover:bg-white/5 border-transparent [.spiderman_&]:bg-black/40 [.spiderman_&]:border-white/20 hover:[.spiderman_&]:bg-red-600/20 hover:[.spiderman_&]:border-red-500"
                     }`}
                   >
                     <span
-                      className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-blue-500 to-violet-500 transition-transform duration-300 origin-top [.spiderman_&]:hidden ${
+                      className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-blue-500 to-violet-500 transition-transform duration-300 origin-top [.spiderman_&]:hidden [.ironman_&]:hidden ${
                         isActive ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"
                       }`}
                     />
                     
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center justify-between mb-2 [.ironman_&]:justify-center">
                       <span className={`text-[10px] font-mono tracking-wider uppercase transition-colors ${
                         isActive ? "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/80" : "text-blue-500 dark:text-blue-400 [.spiderman_&]:text-white/50"
                       }`}>
@@ -84,7 +84,7 @@ export const ProjectsSection: React.FC = () => {
                     </div>
 
                     <h3 className={`text-lg font-bold transition-colors uppercase italic tracking-wider ${
-                      isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white"
+                      isActive ? "text-slate-900 dark:text-white [.spiderman_&]:text-white [.ironman_&]:text-amber-400" : "text-slate-700 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white [.spiderman_&]:text-white/70 [.spiderman_&]:group-hover:text-white [.ironman_&]:text-white/60 [.ironman_&]:group-hover:text-amber-500"
                     }`}>
                       {project.title}
                     </h3>
@@ -99,12 +99,12 @@ export const ProjectsSection: React.FC = () => {
           </div>
 
           {/* Right Column: Detailed Project Viewer */}
-          <div className="lg:col-span-7">
-            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-2xl">
+          <div className="lg:col-span-7 [.ironman_&]:w-full">
+            <div className="h-full flex flex-col p-6 sm:p-8 rounded-3xl bg-slate-100/40 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-2xl [.ironman_&]:stark-hud-panel [.ironman_&]:items-center">
               
               {/* Header inside viewer */}
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="[.spiderman_&]:-skew-x-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 [.ironman_&]:flex-col [.ironman_&]:justify-center">
+                <div className="[.spiderman_&]:-skew-x-6 [.ironman_&]:text-center">
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white [.spiderman_&]:text-white uppercase italic tracking-widest leading-tight transition-all duration-500">
                     {activeProject.title}
                   </h3>
@@ -152,7 +152,7 @@ export const ProjectsSection: React.FC = () => {
               </div>
 
               {/* Viewer body container */}
-              <div className="relative rounded-2xl overflow-hidden bg-slate-950/20 [.spiderman_&]:bg-transparent [.spiderman_&]:rounded-none border border-slate-200 dark:border-white/[0.05] [.spiderman_&]:border-none mb-6 flex-1 min-h-[480px] flex items-center justify-center transition-all duration-500 [.spiderman_&]:-skew-x-6">
+              <div className="relative rounded-2xl overflow-hidden bg-slate-950/20 [.spiderman_&]:bg-transparent [.spiderman_&]:rounded-none border border-slate-200 dark:border-white/[0.05] [.spiderman_&]:border-none mb-6 flex-1 min-h-[480px] flex items-center justify-center transition-all duration-500 [.spiderman_&]:-skew-x-6 [.ironman_&]:skew-x-0">
                 
                 
                 {/* HUD Corners - Sharp Tech Brackets */}
@@ -186,7 +186,7 @@ export const ProjectsSection: React.FC = () => {
                         <Safari
                           imageSrc={activeProject.images[activeImageIdx]}
                           url={activeProject.liveUrl?.replace("https://", "") || "example.com"}
-                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-none transition-all duration-500 [.spiderman_&]:skew-x-6"
+                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-none transition-all duration-500 [.spiderman_&]:skew-x-6 [.ironman_&]:skew-x-0 [.ironman_&]:border-cyan-500/30"
                         />
 
                         {/* Right Arrow */}
@@ -208,7 +208,7 @@ export const ProjectsSection: React.FC = () => {
                             key={i}
                             onClick={() => setActiveImageIdx(i)}
                             className={`size-2 rounded-full transition-all ${
-                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 w-4" : "bg-slate-400 dark:bg-white/20"
+                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 [.ironman_&]:bg-amber-400 w-4" : "bg-slate-400 dark:bg-white/20 [.ironman_&]:bg-cyan-900"
                             }`}
                           />
                         ))}
@@ -239,7 +239,7 @@ export const ProjectsSection: React.FC = () => {
 
                         <Iphone
                           src={activeProject.images[activeImageIdx]}
-                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-[40px] transition-all duration-500 [.spiderman_&]:skew-x-6"
+                          className="w-full shadow-2xl border border-slate-200/50 dark:border-white/5 [.spiderman_&]:border-white/10 [.spiderman_&]:rounded-[40px] transition-all duration-500 [.spiderman_&]:skew-x-6 [.ironman_&]:skew-x-0 [.ironman_&]:border-cyan-500/30"
                         />
 
                         {/* Right Arrow */}
@@ -261,7 +261,7 @@ export const ProjectsSection: React.FC = () => {
                             key={i}
                             onClick={() => setActiveImageIdx(i)}
                             className={`size-2 rounded-full transition-all ${
-                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 w-4" : "bg-slate-400 dark:bg-white/20"
+                              i === activeImageIdx ? "bg-blue-500 [.spiderman_&]:bg-red-500 [.ironman_&]:bg-amber-400 w-4" : "bg-slate-400 dark:bg-white/20 [.ironman_&]:bg-cyan-900"
                             }`}
                           />
                         ))}
@@ -288,12 +288,12 @@ export const ProjectsSection: React.FC = () => {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-slate-600 dark:text-white/70 leading-relaxed mb-6">
+              <p className="text-sm text-slate-600 dark:text-white/70 leading-relaxed mb-6 [.ironman_&]:text-center">
                 {activeProject.longDescription}
               </p>
 
               {/* Technologies */}
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-6 [.ironman_&]:justify-center">
                 {activeProject.technologies.map((tech) => (
                   <span
                     key={tech}
@@ -305,7 +305,7 @@ export const ProjectsSection: React.FC = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-4 mt-auto pt-4 border-t border-slate-300 dark:border-white/[0.05]">
+              <div className="flex items-center gap-4 mt-auto pt-4 border-t border-slate-300 dark:border-white/[0.05] [.ironman_&]:justify-center [.ironman_&]:w-full">
                 {activeProject.githubUrl && (
                   <a
                     href={activeProject.githubUrl}

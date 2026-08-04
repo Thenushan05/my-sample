@@ -6,8 +6,11 @@ import { personal } from "../../data/personal";
 import { Button } from "../ui/Button";
 import { ShareButton } from "../ui/ShareButton";
 import { Antigravity } from "../immersive/Antigravity";
+import { IronManFlight } from "../immersive/IronManFlight";
+import { IronManWalk } from "../immersive/IronManWalk";
 import profileImage from "../../assets/profile.png";
-import spideyLogo from "../../assets/spidey-logo.png";
+import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,7 +71,6 @@ const LASER_COLORS = [
 ];
 
 const PRO_TECH_LOGOS = [
-  // Farthest Outer Ring = Big Logos (size: "lg") floating right around the halo
   { name: "React", slug: "react", color: "61DAFB", lightColor: "0284C7", size: "lg", pos: "top-[8%] -left-[10%] sm:-left-[14%]" },
   { name: "Java", slug: "java", color: "ED8B00", customUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg", size: "lg", pos: "top-[5%] -right-[10%] sm:-right-[14%]" },
   { name: "Node.js", slug: "nodedotjs", color: "5FA04E", lightColor: "16A34A", size: "lg", pos: "top-[42%] -left-[12%] sm:-left-[16%]" },
@@ -76,8 +78,6 @@ const PRO_TECH_LOGOS = [
   { name: "Python", slug: "python", color: "3776AB", size: "lg", pos: "bottom-[15%] -left-[8%] sm:-left-[12%]" },
   { name: "Angular", slug: "angular", color: "DD0031", size: "lg", pos: "bottom-[12%] -right-[8%] sm:-right-[12%]" },
   { name: "Docker", slug: "docker", color: "2496ED", lightColor: "0284C7", size: "lg", pos: "-top-[4%] left-[34%]" },
-
-  // Nearest Inner Ring = Small Logos (size: "sm") floating close near cheeks & shoulders
   { name: "PostgreSQL", slug: "postgresql", color: "4169E1", size: "sm", pos: "top-[22%] left-[4%] sm:left-[8%]" },
   { name: "Tailwind CSS", slug: "tailwindcss", color: "06B6D4", lightColor: "0891B2", size: "sm", pos: "top-[18%] right-[4%] sm:right-[8%]" },
   { name: "GraphQL", slug: "graphql", color: "E10098", size: "sm", pos: "top-[55%] left-[6%] sm:left-[10%]" },
@@ -85,8 +85,6 @@ const PRO_TECH_LOGOS = [
   { name: "Git", slug: "git", color: "F05032", size: "sm", pos: "bottom-[20%] left-[15%] sm:left-[18%]" },
   { name: "Prisma", slug: "prisma", color: "ffffff", lightColor: "0F172A", size: "sm", pos: "bottom-[18%] right-[15%] sm:right-[18%]" },
 ];
-
-
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -102,7 +100,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [laserColorIdx, setLaserColorIdx] = useState(0);
   const [typingPhase, setTypingPhase] = useState<"typing" | "pausing" | "deleting">("typing");
 
-  // User-calibrated exact pupil coordinates for profile portrait
   const [pupilPos, setPupilPos] = useState({
     leftX: 0.244,
     leftY: 0.271,
@@ -110,19 +107,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
     rightY: 0.257,
   });
   const [isAdjustingLasers, setIsAdjustingLasers] = useState(false);
-  const [adjustingEye, setAdjustingEye] = useState<"left" | "right">("left");
   const [copyToast, setCopyToast] = useState(false);
 
-  // Reflects the global "Spidey Mode" toggle (html.spiderman) so the portrait can suit up
   const [isSpiderman, setIsSpiderman] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("spiderman")
   );
+  const [isIronman, setIsIronman] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("ironman")
+  );
+  const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
-    const syncSpiderman = () =>
+    const syncHeroModes = () => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
-    syncSpiderman();
-    const observer = new MutationObserver(syncSpiderman);
+      setIsIronman(document.documentElement.classList.contains("ironman"));
+    };
+    syncHeroModes();
+    const observer = new MutationObserver(syncHeroModes);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
@@ -136,25 +137,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
     if (!isFunMode || !imgRef.current || !laserTextTargetRef.current) return;
     const imgRect = imgRef.current.getBoundingClientRect();
     const targetRect = laserTextTargetRef.current.getBoundingClientRect();
-
-    // Exact user-calibrated pupil centers using live pupilPos
     const leftPupilX = imgRect.left + imgRect.width * pupilPos.leftX;
     const leftPupilY = imgRect.top + imgRect.height * pupilPos.leftY;
-
     const rightPupilX = imgRect.left + imgRect.width * pupilPos.rightX;
     const rightPupilY = imgRect.top + imgRect.height * pupilPos.rightY;
-
-    // Target point is the left-center impact area of our laser typing container
     const targetX = targetRect.left + 24;
     const targetY = targetRect.top + targetRect.height / 2;
-
-    // Calculate left eye vector
     const leftDx = targetX - leftPupilX;
     const leftDy = targetY - leftPupilY;
     const leftLength = Math.hypot(leftDx, leftDy);
     const leftAngle = (Math.atan2(leftDy, leftDx) * 180) / Math.PI;
-
-    // Calculate right eye vector
     const rightDx = targetX - rightPupilX;
     const rightDy = targetY - rightPupilY;
     const rightLength = Math.hypot(rightDx, rightDy);
@@ -188,10 +180,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setTypingPhase("typing");
       return;
     }
-
     const currentTitle = LASER_TITLES[laserTitleIdx];
     let timer: ReturnType<typeof setTimeout>;
-
     if (typingPhase === "typing") {
       if (typedText.length < currentTitle.length) {
         timer = setTimeout(() => {
@@ -212,22 +202,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
         setTypingPhase("typing");
       }
     }
-
     return () => clearTimeout(timer);
   }, [isLaserActive, typedText, typingPhase, laserTitleIdx]);
 
   useEffect(() => {
-    // Role text rotator
     const interval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % ROLES.length);
     }, 2500);
-
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Fade and blur hero text out as visitor scrolls
       gsap.to(".hero-fade-element", {
         opacity: 0,
         y: -60,
@@ -240,7 +226,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
         },
       });
     }, containerRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -252,30 +237,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
 
   return (
     <div ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-16 pt-28 pb-12 lg:pt-32 lg:pb-12">
-      {/* Top Right Corner Fun Mode & Laser Calibration Controls */}
+      {isIronman && <IronManFlight />}
+      {isIronman && <IronManWalk />}
       <div className="hidden md:flex absolute top-24 right-4 md:top-28 md:right-8 z-40 items-center gap-2 sm:gap-3">
-        {/* 
-        {isFunMode && (
-          <button
-            onClick={() => {
-              const nextState = !isAdjustingLasers;
-              setIsAdjustingLasers(nextState);
-              if (nextState) setIsLaserActive(true);
-            }}
-            className={`group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold tracking-wide transition-all duration-300 shadow-sm cursor-pointer select-none backdrop-blur-md ${
-              isAdjustingLasers
-                ? "bg-fuchsia-950/90 border-fuchsia-500 text-fuchsia-300 shadow-[0_0_20px_rgba(217,70,239,0.5)] scale-105 ring-2 ring-fuchsia-400/50"
-                : "bg-white/90 dark:bg-neutral-900/90 border-neutral-300 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:border-purple-500 hover:text-purple-400"
-            }`}
-            title="Adjust exact laser eye positions on your portrait"
-          >
-            <span className="text-sm">🎯</span>
-            <span className="hidden sm:inline">Adjust Laser Eyes</span>
-            <span className="sm:hidden">Adjust</span>
-          </button>
-        )}
-        */}
-
         <button
           onClick={() => {
             if (isFunMode) {
@@ -308,142 +272,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
         </button>
       </div>
 
-      {/* Floating Interactive Laser Calibration Panel (Commented out after calibration)
-      <AnimatePresence>
-        {isAdjustingLasers && isFunMode && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-20 right-4 sm:right-10 z-[60] w-[320px] sm:w-[380px] bg-neutral-950/95 border-2 border-purple-500/70 rounded-2xl p-4 sm:p-5 shadow-[0_0_40px_rgba(168,85,247,0.5)] backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
-          >
-            <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
-              <div>
-                <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 text-purple-300">
-                  <span>🎯</span> Laser Pupil Calibration
-                </h3>
-                <p className="text-[11px] text-neutral-400 mt-0.5">
-                  Click directly on your image or use sliders to fit laser right on your eyes!
-                </p>
-              </div>
-              <button
-                onClick={() => setIsAdjustingLasers(false)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer"
-                title="Close Calibration"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 bg-neutral-900 p-1 rounded-xl border border-neutral-800">
-              <button
-                onClick={() => setAdjustingEye("left")}
-                className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                  adjustingEye === "left"
-                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/30"
-                    : "text-neutral-400 hover:text-white"
-                }`}
-              >
-                <span>🟢</span> Left Eye (Eye 1)
-              </button>
-              <button
-                onClick={() => setAdjustingEye("right")}
-                className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                  adjustingEye === "right"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
-                    : "text-neutral-400 hover:text-white"
-                }`}
-              >
-                <span>🔵</span> Right Eye (Eye 2)
-              </button>
-            </div>
-
-            <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-2.5 text-center">
-              <span className="text-xs text-purple-300 font-medium animate-pulse">
-                👆 Active: Click directly on the {adjustingEye === "left" ? "🟢 LEFT Eye" : "🔵 RIGHT Eye"} on your portrait to set exact position!
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-3 bg-neutral-900/60 p-3 rounded-xl border border-neutral-800/80">
-              <div className="flex items-center justify-between text-xs font-semibold text-neutral-300">
-                <span>Horizontal (X %):</span>
-                <span className="text-purple-400 font-mono">
-                  {(pupilPos[adjustingEye === "left" ? "leftX" : "rightX"] * 100).toFixed(1)}%
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={Math.round(pupilPos[adjustingEye === "left" ? "leftX" : "rightX"] * 1000)}
-                onChange={(e) => {
-                  const val = Number(e.target.value) / 1000;
-                  const newPos = { ...pupilPos, [adjustingEye === "left" ? "leftX" : "rightX"]: val };
-                  setPupilPos(newPos);
-                  localStorage.setItem("custom_laser_pupils", JSON.stringify(newPos));
-                }}
-                className="w-full accent-purple-500 cursor-pointer"
-              />
-
-              <div className="flex items-center justify-between text-xs font-semibold text-neutral-300 mt-1">
-                <span>Vertical (Y %):</span>
-                <span className="text-purple-400 font-mono">
-                  {(pupilPos[adjustingEye === "left" ? "leftY" : "rightY"] * 100).toFixed(1)}%
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={Math.round(pupilPos[adjustingEye === "left" ? "leftY" : "rightY"] * 1000)}
-                onChange={(e) => {
-                  const val = Number(e.target.value) / 1000;
-                  const newPos = { ...pupilPos, [adjustingEye === "left" ? "leftY" : "rightY"]: val };
-                  setPupilPos(newPos);
-                  localStorage.setItem("custom_laser_pupils", JSON.stringify(newPos));
-                }}
-                className="w-full accent-purple-500 cursor-pointer"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2 pt-1">
-              <button
-                onClick={() => {
-                  const codeToCopy = JSON.stringify(pupilPos, null, 2);
-                  navigator.clipboard?.writeText(codeToCopy);
-                  setCopyToast(true);
-                  setTimeout(() => setCopyToast(false), 2500);
-                }}
-                className="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md shadow-purple-500/20 cursor-pointer flex items-center justify-center gap-2"
-              >
-                <span>📋 Copy Exact Positions ({copyToast ? "Copied!" : "JSON"})</span>
-              </button>
-
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => {
-                    const defaults = { leftX: 0.268, leftY: 0.252, rightX: 0.381, rightY: 0.245 };
-                    setPupilPos(defaults);
-                    localStorage.setItem("custom_laser_pupils", JSON.stringify(defaults));
-                  }}
-                  className="py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-medium rounded-xl transition-colors cursor-pointer"
-                >
-                  🔄 Reset Default
-                </button>
-                <button
-                  onClick={() => setIsAdjustingLasers(false)}
-                  className="py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-xl transition-colors shadow-sm cursor-pointer"
-                >
-                  ✅ Done & Save
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      */}
-
       <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
         <Antigravity
           count={300}
@@ -461,26 +289,68 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
 
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
         <div className="max-lg:contents lg:flex-1 lg:max-w-2xl lg:flex lg:flex-col text-center lg:text-left w-full">
-          
           <div className="hero-fade-element order-1 flex flex-col items-center lg:items-start w-full">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)]"
             >
-              {isSpiderman ? (
-                <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain filter drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+              {isIronman ? (
+                <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
+              ) : isSpiderman ? (
+                <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
-              {isSpiderman ? "Friendly Neighborhood Developer" : "Available for New Projects"}
+              {isIronman ? "STARK INDUSTRIES • MARK LXXXV SUITED" : isSpiderman ? "Friendly Neighborhood Developer" : "Available for New Projects"}
             </motion.div>
+
+            <AnimatePresence>
+              {isIronman && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full mb-6 p-4 bg-black/90 border border-cyan-500/50 rounded-none shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-2xl text-left font-mono relative overflow-hidden"
+                >
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 via-amber-400 to-red-600 shadow-[0_0_10px_#06b6d4]" />
+                  <div className="flex items-center justify-between gap-4 pb-2 border-b border-cyan-500/30">
+                    <div className="flex items-center gap-2 text-cyan-400 font-extrabold tracking-widest text-xs uppercase italic">
+                      <img src={arcReactorLogo} alt="" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_#06b6d4] animate-pulse" />
+                      <span>J.A.R.V.I.S. TACTICAL HUD ONLINE</span>
+                    </div>
+                    <span className="text-[10px] text-amber-400 font-bold tracking-wider uppercase animate-pulse">
+                      MARK LXXXV • CAPACITOR 100%
+                    </span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-cyan-200">
+                    <div className="bg-cyan-950/40 p-2 border border-cyan-500/30">
+                      <span className="text-cyan-400 font-extrabold block">ARC REACTOR:</span> 3.2 Gigawatts
+                    </div>
+                    <div 
+                      className="bg-cyan-950/40 p-2 border border-cyan-500/30 cursor-pointer hover:bg-cyan-800/60 transition-colors"
+                      onClick={() => setIsMaskOn(!isMaskOn)}
+                    >
+                      <span className="text-amber-400 font-extrabold block">HELMET MASK:</span> {isMaskOn ? "DEPLOYED" : "STANDBY (CLICK)"}
+                    </div>
+                    <div className="bg-cyan-950/40 p-2 border border-cyan-500/30">
+                      <span className="text-cyan-400 font-extrabold block">TARGET LOCK:</span> ACTIVE
+                    </div>
+                    <div className="bg-cyan-950/40 p-2 border border-cyan-500/30">
+                      <span className="text-amber-400 font-extrabold block">PILOT:</span> T. SRITHARAN
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="hero-name text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-4 leading-none w-full"
+              className="hero-name text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-4 leading-none w-full [.ironman_&]:text-cyan-300 [.ironman_&]:drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]"
             >
               {personal.name}
             </motion.h1>
@@ -530,7 +400,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <ShareButton />
             </motion.div>
 
-            {/* --- LASER IMPACT & TYPING REVEAL TARGET --- */}
             <AnimatePresence>
               {isFunMode && (
                 <motion.div
@@ -545,7 +414,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       : "border-neutral-300 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/60 shadow-lg text-neutral-800 dark:text-white"
                   }`}
                 >
-                  {/* Glowing Laser Impact Core Point */}
                   <div className="relative flex items-center justify-center shrink-0">
                     <div
                       className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
@@ -581,7 +449,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
           onMouseEnter={updateLaserTargets}
           onMouseLeave={() => setIsLaserActive(false)}
         >
-          {/* Pure Radial Glow Behind Portrait (No GPU blur box clipping or drop-shadow squares) */}
           <div
             style={{
               background: isLaserActive && isFunMode
@@ -594,7 +461,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
           />
 
           <div className="relative inline-block z-10">
-            {/* Professional Mode Pure Floating PNG Logo Constellation */}
             <AnimatePresence>
               {!isFunMode && (
                 <div className="absolute inset-0 pointer-events-none z-40">
@@ -629,7 +495,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       className={`absolute ${tech.pos} pointer-events-auto flex items-center justify-center p-1.5 rounded-2xl hover:scale-125 transition-all duration-300 group/logo cursor-pointer`}
                       title={tech.name}
                     >
-                      {/* Light Mode High-Contrast PNG Icon */}
                       <img
                         src={(tech as any).customUrl || `https://cdn.simpleicons.org/${tech.slug}/${(tech as any).lightColor || tech.color}`}
                         alt={tech.name}
@@ -639,7 +504,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                             : "w-10 h-10 sm:w-13 sm:h-13 md:w-16 md:h-16 drop-shadow-[0_8px_18px_rgba(0,0,0,0.45)] group-hover/logo:drop-shadow-[0_0_24px_rgba(2,132,199,0.8)]"
                         } object-contain transition-all duration-300`}
                       />
-                      {/* Dark Mode Glowing PNG Icon */}
                       <img
                         src={(tech as any).customUrl || `https://cdn.simpleicons.org/${tech.slug}/${tech.color}`}
                         alt={tech.name}
@@ -655,45 +519,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               )}
             </AnimatePresence>
 
-            {/* Interactive Click-to-position overlay when adjusting lasers (Commented out after calibration)
-            {isAdjustingLasers && isFunMode && (
-              <div
-                onClick={(e) => {
-                  if (!imgRef.current) return;
-                  const rect = imgRef.current.getBoundingClientRect();
-                  const x = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-                  const y = Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height));
-
-                  const newPos = {
-                    ...pupilPos,
-                    [adjustingEye === "left" ? "leftX" : "rightX"]: Number(x.toFixed(3)),
-                    [adjustingEye === "left" ? "leftY" : "rightY"]: Number(y.toFixed(3)),
-                  };
-                  setPupilPos(newPos);
-                  localStorage.setItem("custom_laser_pupils", JSON.stringify(newPos));
-                }}
-                className="absolute inset-0 z-40 cursor-crosshair rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border-2 border-dashed border-purple-400 flex items-center justify-center backdrop-blur-[1px] transition-all"
-                title={`Click anywhere to place ${adjustingEye === "left" ? "LEFT (🟢)" : "RIGHT (🔵)"} eye laser target`}
-              >
-                <div className="bg-black/90 text-purple-300 text-xs font-semibold px-3.5 py-2 rounded-full border border-purple-500/60 shadow-xl pointer-events-none animate-bounce flex items-center gap-2">
-                  <span>🎯</span>
-                  <span>Click exactly on your {adjustingEye === "left" ? "🟢 LEFT Eye" : "🔵 RIGHT Eye"} to set position!</span>
-                </div>
-              </div>
-            )}
-            */}
-
             <div
               className={`relative z-10 grid grid-cols-1 grid-rows-1 items-center justify-center transition-all duration-700 ${
                 isLaserActive && isFunMode ? "scale-105" : "group-hover:scale-105"
               }`}
             >
-              {/* Base Profile Image */}
               <motion.img
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -702,7 +537,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 className="col-start-1 row-start-1 relative z-10 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain"
               />
 
-              {/* Suit Up Overlay - Exact same size as base image */}
               <AnimatePresence>
                 {isSpiderman && (
                   <motion.img
@@ -717,6 +551,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
                     }}
                     className="col-start-1 row-start-1 z-20 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain"
+                  />
+                )}
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {isIronman && !isMaskOn && (
+                  <motion.img
+                    initial={{ clipPath: "inset(100% 0 0 0)", filter: "brightness(1.8) saturate(1.4)" }}
+                    animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1.1) saturate(1.2)" }}
+                    exit={{ clipPath: "inset(100% 0 0 0)" }}
+                    transition={{ duration: 1.4, ease: "easeInOut" }}
+                    src="/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png"
+                    alt="Iron Man Mark LXXXV Suit"
+                    onClick={() => setIsMaskOn(!isMaskOn)}
+                    style={{
+                      cursor: 'pointer',
+                      maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                      WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+                    }}
+                    className="col-start-1 row-start-1 z-20 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain filter drop-shadow-[0_0_25px_rgba(6,182,212,0.7)]"
+                  />
+                )}
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {isIronman && isMaskOn && (
+                  <motion.img
+                    initial={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", filter: "brightness(1.5) saturate(1.5)" }}
+                    animate={{ clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", filter: "brightness(1) saturate(1)" }}
+                    exit={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", filter: "brightness(1.5) saturate(1.5)", transition: { duration: 0.5 } }}
+                    transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
+                    src="/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.jpg"
+                    alt="Iron Man Helmet Transformed"
+                    onClick={() => setIsMaskOn(false)}
+                    style={{ cursor: 'pointer' }}
+                    className="col-start-1 row-start-1 z-30 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain filter drop-shadow-[0_0_30px_rgba(6,182,212,0.8)]"
                   />
                 )}
               </AnimatePresence>

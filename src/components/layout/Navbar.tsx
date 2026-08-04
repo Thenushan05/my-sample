@@ -5,7 +5,8 @@ import { AnimatedThemeToggler } from "../ui/AnimatedThemeToggler";
 import { SpidermanToggler } from "../ui/SpidermanToggler";
 import { motion } from "framer-motion";
 import logoImg from "../../assets/logo.png";
-import spideyLogo from "../../assets/spidey-logo.png";
+import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 interface NavItem {
   label: string;
@@ -32,17 +33,16 @@ export const Navbar: React.FC = () => {
     return true;
   });
   const [isSpiderman, setIsSpiderman] = useState(false);
+  const [isIronman, setIsIronman] = useState(false);
 
   useEffect(() => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === "class") {
-          setIsSpiderman(document.documentElement.classList.contains("spiderman"));
-        }
-      });
+    const observer = new MutationObserver(() => {
+      setIsSpiderman(document.documentElement.classList.contains("spiderman"));
+      setIsIronman(document.documentElement.classList.contains("ironman"));
     });
-    observer.observe(document.documentElement, { attributes: true });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     setIsSpiderman(document.documentElement.classList.contains("spiderman"));
+    setIsIronman(document.documentElement.classList.contains("ironman"));
     return () => observer.disconnect();
   }, []);
 
@@ -50,7 +50,6 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Simple active section detection
       const sections = NAV_ITEMS.map((item) => {
         const id = item.href.slice(1);
         const element = document.getElementById(id);
@@ -59,22 +58,24 @@ export const Navbar: React.FC = () => {
           return {
             id,
             offsetTop: rect.top + window.scrollY,
-            rect,
+            height: rect.height,
           };
         }
         return null;
       }).filter(Boolean);
 
-      const scrollPos = window.scrollY + 200;
-      let currentSection = "hero";
+      const scrollPosition = window.scrollY + 200;
 
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        if (section && scrollPos >= section.offsetTop) {
-          currentSection = section.id;
+      for (const section of sections) {
+        if (
+          section &&
+          scrollPosition >= section.offsetTop &&
+          scrollPosition < section.offsetTop + section.height
+        ) {
+          setActiveSection(section.id);
+          break;
         }
       }
-      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -84,38 +85,44 @@ export const Navbar: React.FC = () => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false);
-    const targetId = href.slice(1);
+    const targetId = href.replace("#", "");
     const element = document.getElementById(targetId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+      setActiveSection(targetId);
+      setIsMobileMenuOpen(false);
     }
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-[49] transition-all duration-300 ${
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? `border-b backdrop-blur-md py-4 ${
-              isSpiderman ? 'bg-black/90 dark:bg-black/90' : 'bg-[var(--color-navbar-bg)]'
-            }`
-          : 'bg-transparent py-6'
+          ? "bg-slate-900/80 dark:bg-[#030712]/80 backdrop-blur-md border-b border-slate-800/50 dark:border-white/5 py-3 shadow-lg"
+          : "bg-transparent py-5"
       }`}
-      style={{
-        backgroundImage: isSpiderman && isScrolled
-
-          ? 'radial-gradient(ellipse at center top, rgba(220, 38, 38, 0.15) 0%, transparent 70%)'
-          : 'none',
-        borderColor: isSpiderman ? (isScrolled ? 'rgba(220, 38, 38, 0.5)' : 'transparent') : (isScrolled ? 'var(--color-border)' : 'transparent'),
-      }}
     >
       {/* Spider-Man Web shooter glowing bottom border */}
       {isSpiderman && isScrolled && (
         <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-red-600 via-red-500 to-blue-600 shadow-[0_0_12px_rgba(220,38,38,0.6)] pointer-events-none" />
       )}
 
+      {/* Iron Man Repulsor glowing bottom border */}
+      {isIronman && isScrolled && (
+        <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-amber-500 via-cyan-400 to-red-600 shadow-[0_0_12px_rgba(6,182,212,0.8)] pointer-events-none" />
+      )}
+
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between relative z-10">
-        {/* Initials / Spidey Logo */}
+        {/* Initials / Hero Logo */}
         <motion.a
           layoutId="header-logo"
           href="#hero"
@@ -123,19 +130,23 @@ export const Navbar: React.FC = () => {
           className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md"
         >
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-bold tracking-tight shadow-md group-hover:scale-105 transition-all ${
-            isSpiderman 
-              ? "bg-gradient-to-br from-red-600 via-red-700 to-blue-700 border border-red-400/60 shadow-[0_0_18px_rgba(239,68,68,0.8)] rotate-[-4deg]" 
-              : "bg-gradient-to-br from-blue-500 to-violet-600"
+            isIronman
+              ? "bg-gradient-to-br from-black via-amber-950 to-red-950 border border-cyan-400/80 shadow-[0_0_18px_rgba(6,182,212,0.9)]"
+              : isSpiderman 
+                ? "bg-gradient-to-br from-red-600 via-red-700 to-blue-700 border border-red-400/60 shadow-[0_0_18px_rgba(239,68,68,0.8)] rotate-[-4deg]" 
+                : "bg-gradient-to-br from-blue-500 to-violet-600"
           }`}>
-            {isSpiderman ? (
-              <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
+            {isIronman ? (
+              <img src={arcReactorLogo} alt="Iron Man Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
+            ) : isSpiderman ? (
+              <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
             ) : (
               <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}
           </div>
           <div className="flex flex-col">
             <span className={`text-sm font-extrabold tracking-wider uppercase hidden md:inline-block transition-colors ${
-              isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : "text-slate-900 dark:text-white"
+              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : "text-slate-900 dark:text-white"
             }`}>
               Thenushan Sritharan
             </span>
@@ -218,6 +229,6 @@ export const Navbar: React.FC = () => {
           </ul>
         </div>
       )}
-    </nav>
+    </header>
   );
 };

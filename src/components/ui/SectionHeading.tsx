@@ -1,5 +1,6 @@
 import React from "react";
-import spideyLogo from "../../assets/spidey-logo.png";
+import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 interface SectionHeadingProps {
   title: string;
@@ -13,15 +14,20 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   align = "center",
 }) => {
   return (
-    <div className={`space-y-2 mb-12 ${align === "center" ? "text-center" : "text-left"} transition-transform duration-500 [.spiderman_&]:-skew-x-6`}>
+    <div className={`space-y-2 mb-12 ${align === "center" ? "text-center" : "text-center md:text-left"} transition-transform duration-500 [.spiderman_&]:-skew-x-6`}>
       {subtitle && (
-        <div className={`flex items-center gap-2 ${align === "center" ? "justify-center" : "justify-start"}`}>
+        <div className={`flex items-center gap-2 ${align === "center" ? "justify-center" : "justify-center md:justify-start"}`}>
           <img
             src={spideyLogo}
             alt=""
-            className="w-4 h-4 object-contain hidden [.spiderman_&]:block filter drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse"
+            className="w-4 h-4 object-contain hidden [.spiderman_&]:block mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse"
           />
-          <span className="text-[10px] tracking-[0.25em] font-semibold text-blue-400 [.spiderman_&]:text-red-400 uppercase block transition-colors">
+          <img
+            src={arcReactorLogo}
+            alt=""
+            className="w-4 h-4 object-contain hidden [.ironman_&]:block filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse"
+          />
+          <span className="text-[10px] tracking-[0.25em] font-semibold text-blue-400 [.spiderman_&]:text-red-400 [.ironman_&]:text-cyan-400 uppercase block transition-colors">
             {subtitle}
           </span>
         </div>
@@ -30,7 +36,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         {title}
       </h2>
       <div
-        className={`h-[2px] w-12 bg-gradient-to-r from-blue-500 to-violet-500 [.spiderman_&]:from-red-600 [.spiderman_&]:to-white rounded-full [.spiderman_&]:rounded-none transition-all duration-500 ${align === "center" ? "mx-auto" : "mr-auto"
+        className={`h-[2px] w-12 bg-gradient-to-r from-blue-500 to-violet-500 [.spiderman_&]:from-red-600 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:to-amber-400 rounded-full [.spiderman_&]:rounded-none transition-all duration-500 ${align === "center" ? "mx-auto" : "mx-auto md:mr-auto"
           }`}
       />
     </div>

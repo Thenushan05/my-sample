@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* â”€â”€ CSS Custom Properties for Theming â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── CSS Custom Properties for Theming ──── */
 :root {
   --color-bg: #f8fafc;
   --color-bg-secondary: #f1f5f9;
@@ -59,11 +60,204 @@ html.dark {
   --color-project-orb: 0.1;
 }
 
-/* â”€â”€ Spider-Man "Brand New Day" Accent Theme â”€â”€â”€â”€ */
+/* ── Spider-Man "Brand New Day" Accent Theme ──── */
 html.spiderman {
   --color-nav-link-active: #ef233c;
   --color-border-strong: rgba(239, 35, 60, 0.35);
   --color-card-hover-border: rgba(239, 35, 60, 0.35);
+}
+
+/* 🦾 Iron Man "Mark LXXXV" JARVIS HUD Theme */
+html.ironman {
+  --color-nav-link-active: #06b6d4;
+  --color-border-strong: rgba(6, 182, 212, 0.45);
+  --color-card-hover-border: rgba(6, 182, 212, 0.8);
+}
+
+html.ironman body {
+  background-color: #000000 !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  cursor: none !important;
+}
+
+/* Force Share Tech Mono on all elements in Ironman mode, overriding Tailwind font-sans */
+html.ironman * {
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+/* Glowing text for headings in Iron Man mode */
+html.ironman h1, html.ironman h2, html.ironman h3, html.ironman h4, html.ironman h5, html.ironman h6 {
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.6), 0 0 20px rgba(6, 182, 212, 0.3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Iron Man Arc Reactor glowing ambient background wash */
+html.ironman body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 10% 90%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
+    #000000;
+}
+
+/* Iron Man HUD Tactical Blueprint Grid Background */
+html.ironman body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: 
+    radial-gradient(rgba(6, 182, 212, 0.5) 1.5px, transparent 1.5px),
+    linear-gradient(to right, rgba(6, 182, 212, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.2) 1px, transparent 1px);
+  background-size: 40px 40px, 80px 80px, 80px 80px;
+}
+
+/* Global color overrides for Iron Man mode (Stark Cyan & Gold) */
+html.ironman .text-emerald-400,
+html.ironman .text-emerald-300,
+html.ironman .text-emerald-500,
+html.ironman .text-blue-400,
+html.ironman .text-blue-500 {
+  color: #06b6d4 !important;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+html.ironman .text-violet-400,
+html.ironman .text-purple-400 {
+  color: #f59e0b !important;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+html.ironman .border-emerald-500\/10,
+html.ironman .border-emerald-500\/20,
+html.ironman .border-emerald-500\/30,
+html.ironman .border-emerald-500\/40,
+html.ironman .border-emerald-500\/60,
+html.ironman .border-blue-500\/20,
+html.ironman .border-blue-500\/30,
+html.ironman .border-cyan-500\/20 {
+  border-color: rgba(6, 182, 212, 0.45) !important;
+}
+
+html.ironman .bg-emerald-500\/10,
+html.ironman .bg-emerald-500\/20,
+html.ironman .bg-blue-500\/10,
+html.ironman .bg-cyan-500\/10 {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+}
+
+html.ironman .from-emerald-500,
+html.ironman .from-emerald-600,
+html.ironman .from-blue-400,
+html.ironman .from-blue-500,
+html.ironman .from-blue-600,
+html.ironman .from-cyan-500 {
+  --tw-gradient-from: #06b6d4 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.ironman .to-teal-400,
+html.ironman .to-teal-600,
+html.ironman .to-violet-500,
+html.ironman .to-violet-600,
+html.ironman .to-blue-500 {
+  --tw-gradient-to: #0891b2 !important;
+}
+
+html.ironman .shadow-emerald-500\/30,
+html.ironman .shadow-emerald-500\/50,
+html.ironman .shadow-blue-500\/30,
+html.ironman .shadow-blue-500\/50,
+html.ironman .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(6, 182, 212, 0.6) !important;
+}
+
+html.ironman .gooey-nav-container nav ul li.active {
+  color: #06b6d4 !important;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+}
+
+/* Circular / Concentric targeting panel used in Iron Man mode */
+html.ironman .stark-hud-panel {
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.08), transparent 70%) !important;
+  border: 1px solid rgba(6, 182, 212, 0.4) !important;
+  border-radius: 2rem !important;
+  box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.1), 0 0 15px rgba(6, 182, 212, 0.2) !important;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+html.ironman .stark-hud-panel::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed rgba(245, 158, 11, 0.3);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+html.ironman .stark-hud-panel:hover {
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.15), transparent 80%) !important;
+  border-color: rgba(6, 182, 212, 0.8) !important;
+  box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.2), 0 0 25px rgba(6, 182, 212, 0.4) !important;
+}
+
+html.ironman .stark-hud-panel:hover::before {
+  border-color: rgba(245, 158, 11, 0.6);
+  animation: ironman-rotate-slow 20s linear infinite;
+}
+
+@keyframes ironman-rotate-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Scanline overlay for console */
+html.ironman .crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Typing animation */
+@keyframes ironman-typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes ironman-blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgba(245, 158, 11, 1); }
+}
+
+html.ironman .typewriter-text {
+  overflow: hidden;
+  border-right: 2px solid rgba(245, 158, 11, 1);
+  white-space: nowrap;
+  animation: ironman-typing 1.5s steps(30, end), ironman-blink-caret .75s step-end infinite;
+  display: inline-block;
 }
 
 /* Red/blue ambient wash, layered above the base ThemeBackground */
