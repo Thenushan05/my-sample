@@ -4,7 +4,7 @@ import { skillCategories, techStack } from "../../data/skills";
 import { SectionHeading } from "../ui/SectionHeading";
 import { GlassCard } from "../ui/GlassCard";
 import { IconCloud } from "../ui/IconCloud";
-import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 const slugs = [
@@ -92,8 +92,24 @@ export const SkillsSection: React.FC = () => {
 
           {/* Right Column: Dynamic 3D tag cloud (Right-aligned and larger) */}
           <div className="lg:col-span-7 flex justify-center lg:justify-end overflow-hidden [.ironman_&]:justify-center [.ironman_&]:w-full">
-            <div className="relative flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-100/30 dark:bg-white/[0.01] border border-slate-200 dark:border-white/5 shadow-sm min-h-[320px] sm:min-h-[440px] md:min-h-[520px] w-full max-w-[340px] sm:max-w-[460px] md:max-w-[520px] transition-all duration-500 rounded-none border-white/20 border-y border-x-0 [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-xl mx-auto lg:ml-auto lg:mr-0 [.ironman_&]:mx-auto [.ironman_&]:stark-hud-panel">
-              <IconCloud images={images} size={cloudSize} />
+            <div className="relative flex items-center justify-center p-2 sm:p-4 md:p-6 bg-transparent border border-slate-200 dark:border-white/5 shadow-sm aspect-square w-full max-w-[340px] sm:max-w-[460px] md:max-w-[520px] transition-all duration-500 rounded-none border-white/20 border-y border-x-0 [.spiderman_&]:rounded-full [.spiderman_&]:border-transparent [.spiderman_&]:shadow-[0_0_50px_rgba(220,38,38,0.15)] mx-auto lg:ml-auto lg:mr-0 [.ironman_&]:mx-auto [.ironman_&]:stark-hud-panel">
+              
+              {/* Spinning Spidey World Rings */}
+              <div className="absolute inset-0 rounded-full border-[3px] border-dashed border-red-500/40 opacity-0 [.spiderman_&]:opacity-100 [.spiderman_&]:animate-[spin_20s_linear_infinite] pointer-events-none" />
+              <div className="absolute inset-4 rounded-full border border-red-500/20 opacity-0 [.spiderman_&]:opacity-100 [.spiderman_&]:animate-[spin_15s_linear_infinite_reverse] pointer-events-none" />
+              <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-transparent to-transparent opacity-0 [.spiderman_&]:opacity-100 pointer-events-none backdrop-blur-sm" />
+              
+              {/* Spider-Man Background Logo */}
+              <img 
+                src={spideyLogo} 
+                alt="" 
+                className="absolute inset-0 m-auto w-[60%] h-[60%] object-contain opacity-0 [.spiderman_&]:opacity-10 pointer-events-none transition-opacity duration-500 text-red-500 [.spiderman_&]:animate-[spin_30s_linear_infinite]" 
+                style={{ filter: "drop-shadow(0 0 20px rgba(239,68,68,0.5))" }}
+              />
+
+              <div className="relative z-10">
+                <IconCloud images={images} size={cloudSize} />
+              </div>
             </div>
           </div>
         </div>

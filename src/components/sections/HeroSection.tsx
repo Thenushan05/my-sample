@@ -9,7 +9,7 @@ import { Antigravity } from "../immersive/Antigravity";
 import { IronManFlight } from "../immersive/IronManFlight";
 import { IronManWalk } from "../immersive/IronManWalk";
 import profileImage from "../../assets/profile.png";
-import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -299,7 +299,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
               ) : isSpiderman ? (
-                <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+                <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
-import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif"
+import spideyLogo from "../../assets/spidey-logo-white.png"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 
 /** Dual Hero Theme Switcher (Spidey Mode 🕷️ & Iron Man Mode 🦾). */
@@ -113,10 +113,9 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                         src={spideyLogo}
                         alt="Spidey Mode"
                         className={cn(
-                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none mix-blend-screen",
-                            "[filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)]",
+                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none",
                             isSpidey
-                                ? "scale-115 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse"
+                                ? "scale-115 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse text-red-500"
                                 : "opacity-90 hover:opacity-100 group-hover:scale-110"
                         )}
                     />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SpiderSuit3D } from "./SpiderSuit3D";
-import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import {
   Terminal as TerminalIcon,
@@ -264,7 +264,7 @@ export const TerminalConsole: React.FC = () => {
         <div className={`hidden md:flex items-center gap-2 text-[10px] text-white/70 pr-2 font-bold italic tracking-widest uppercase bg-slate-950/40 border border-slate-500/30 [.spiderman_&]:bg-red-950/40 [.spiderman_&]:border-red-500/30 px-2.5 py-1 rounded-none`}>
           {isSpiderman ? (
             <>
-              <img src={spideyLogo} alt="" className="w-4 h-4 object-contain mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+              <img src={spideyLogo} alt="" className="w-4 h-4 object-contain drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
               <span className="text-red-400">SPIDEY-HUD v2.4</span>
             </>
           ) : (

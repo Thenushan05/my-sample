@@ -44,8 +44,11 @@ export function IconCloud({ icons, images, size = 500 }: IconCloudProps) {
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
 
-  const radiusVal = size * 0.38
-  const iconSize = size * 0.1
+  const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1
+  const physicalSize = size * dpr
+  
+  const radiusVal = physicalSize * 0.38
+  const iconSize = physicalSize * 0.1
 
   // Create icon canvases once when icons/images change
   useEffect(() => {
@@ -134,8 +137,8 @@ export function IconCloud({ icons, images, size = 500 }: IconCloudProps) {
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect || !canvasRef.current) return
 
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const x = (e.clientX - rect.left) * (canvasRef.current.width / rect.width)
+    const y = (e.clientY - rect.top) * (canvasRef.current.height / rect.height)
 
     const ctx = canvasRef.current.getContext("2d")
     if (!ctx) return
@@ -193,8 +196,8 @@ export function IconCloud({ icons, images, size = 500 }: IconCloudProps) {
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect()
     if (rect) {
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const x = (e.clientX - rect.left) * (canvasRef.current!.width / rect.width)
+      const y = (e.clientY - rect.top) * (canvasRef.current!.height / rect.height)
       setMousePos({ x, y })
     }
 
@@ -315,8 +318,9 @@ export function IconCloud({ icons, images, size = 500 }: IconCloudProps) {
   return (
     <canvas
       ref={canvasRef}
-      width={size}
-      height={size}
+      width={physicalSize}
+      height={physicalSize}
+      style={{ width: "100%", height: "100%", maxWidth: size, maxHeight: size }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

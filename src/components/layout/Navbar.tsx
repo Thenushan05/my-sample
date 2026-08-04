@@ -5,7 +5,7 @@ import { AnimatedThemeToggler } from "../ui/AnimatedThemeToggler";
 import { SpidermanToggler } from "../ui/SpidermanToggler";
 import { motion } from "framer-motion";
 import logoImg from "../../assets/logo.png";
-import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif";
+import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 
 interface NavItem {
@@ -139,7 +139,7 @@ export const Navbar: React.FC = () => {
             {isIronman ? (
               <img src={arcReactorLogo} alt="Iron Man Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
             ) : isSpiderman ? (
-              <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain mix-blend-screen [filter:invert(20%)_sepia(90%)_saturate(5000%)_hue-rotate(350deg)_brightness(100%)_contrast(110%)] drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
+              <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
             ) : (
               <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}

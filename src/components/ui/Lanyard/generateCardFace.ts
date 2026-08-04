@@ -1,4 +1,4 @@
-import spideyLogoSrc from '../../../assets/il_570xN.3228576578_i800.avif';
+import spideyLogoSrc from '../../../assets/spidey-logo-white.png';
 import arcReactorLogoSrc from '../../../assets/arc-reactor-logo.png';
 
 /**
