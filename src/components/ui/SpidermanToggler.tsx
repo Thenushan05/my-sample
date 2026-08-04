@@ -47,6 +47,15 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         localStorage.setItem("has_seen_hero_guide", "true");
     };
 
+    const maintainScrollPosition = (action: () => void) => {
+        action();
+        
+        // Scroll to the home page (hero section) when changing modes
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 100);
+    };
+
     const toggleSpidey = useCallback((e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault();
@@ -54,19 +63,21 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
         handleDismissGuide(); // Hide tooltip on interaction
 
-        const next = !document.documentElement.classList.contains("spiderman")
-        document.documentElement.classList.remove("ironman")
-        document.documentElement.classList.toggle("spiderman", next)
-        
-        if (next) {
-            document.documentElement.classList.add("dark")
-            localStorage.setItem("theme", "dark")
-            window.dispatchEvent(new Event("themeChange"))
-        }
+        maintainScrollPosition(() => {
+            const next = !document.documentElement.classList.contains("spiderman")
+            document.documentElement.classList.remove("ironman")
+            document.documentElement.classList.toggle("spiderman", next)
+            
+            if (next) {
+                document.documentElement.classList.add("dark")
+                localStorage.setItem("theme", "dark")
+                window.dispatchEvent(new Event("themeChange"))
+            }
 
-        localStorage.setItem("hero_mode", next ? "spiderman" : "none")
-        setIsSpidey(next)
-        setIsIronman(false)
+            localStorage.setItem("hero_mode", next ? "spiderman" : "none")
+            setIsSpidey(next)
+            setIsIronman(false)
+        });
     }, [])
 
     const toggleIronman = useCallback((e?: React.MouseEvent) => {
@@ -76,20 +87,21 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
         handleDismissGuide(); // Hide tooltip on interaction
 
-        const next = !document.documentElement.classList.contains("ironman")
-        document.documentElement.classList.remove("spiderman")
-        document.documentElement.classList.toggle("ironman", next)
+        maintainScrollPosition(() => {
+            const next = !document.documentElement.classList.contains("ironman")
+            document.documentElement.classList.remove("spiderman")
+            document.documentElement.classList.toggle("ironman", next)
 
-        
-        if (next) {
-            document.documentElement.classList.add("dark")
-            localStorage.setItem("theme", "dark")
-            window.dispatchEvent(new Event("themeChange"))
-        }
+            if (next) {
+                document.documentElement.classList.add("dark")
+                localStorage.setItem("theme", "dark")
+                window.dispatchEvent(new Event("themeChange"))
+            }
 
-        localStorage.setItem("hero_mode", next ? "ironman" : "none")
-        setIsIronman(next)
-        setIsSpidey(false)
+            localStorage.setItem("hero_mode", next ? "ironman" : "none")
+            setIsIronman(next)
+            setIsSpidey(false)
+        });
     }, [])
 
     return (

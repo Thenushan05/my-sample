@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 // --- TYPES ---
-type ConsoleTab = "terminal" | "history" | "quotes" | "blueprints";
+type ConsoleTab = "terminal" | "history" | "quotes" | "blueprints" | "tracker";
 
 interface SuitBlueprint {
   id: string;
@@ -240,6 +240,7 @@ export const TerminalConsole: React.FC = () => {
             { id: "history", label: "Origin & History", icon: BookOpen },
             { id: "quotes", label: "Quotes & Lore", icon: Quote },
             { id: "blueprints", label: "CAD Suit Blueprints", icon: Cpu },
+            { id: "tracker", label: "Spider-Tracer", icon: Compass },
           ].map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -556,6 +557,100 @@ export const TerminalConsole: React.FC = () => {
                       <div><span className="text-red-400 font-bold">DRAWING NO:</span> {activeBlueprint.cadNumber}</div>
                       <div><span className="text-red-400 font-bold">STATUS:</span> APPROVED • SCALE 1:1</div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 5: SPIDER-TRACER / STARK RADAR */}
+          {activeTab === "tracker" && (
+            <motion.div
+              key="tab-tracker"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="flex-1 flex flex-col md:flex-row gap-4 overflow-hidden"
+            >
+              <div className="flex-1 bg-black/40 backdrop-blur-xl border-y border-white/20 p-4 flex flex-col items-center justify-center shadow-inner relative overflow-hidden group">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,transparent_60%)] [.spiderman_&]:bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_60%)]" />
+                
+                {/* Radar Grid / Holographic Map */}
+                <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-blue-500/40 [.spiderman_&]:border-red-500/40 flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.2)] [.spiderman_&]:shadow-[0_0_50px_rgba(239,68,68,0.3)] overflow-hidden">
+                  
+                  {/* Dotted Grid Pattern */}
+                  <div className="absolute inset-0 opacity-20 [.spiderman_&]:opacity-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 1px, transparent 1px)', backgroundSize: '12px 12px', backgroundPosition: 'center' }} />
+                  <div className="absolute inset-0 opacity-0 [.spiderman_&]:opacity-30" style={{ backgroundImage: 'radial-gradient(circle, rgba(239, 68, 68, 0.8) 1px, transparent 1px)', backgroundSize: '12px 12px', backgroundPosition: 'center' }} />
+
+                  <div className="absolute inset-0 rounded-full border border-blue-500/20 [.spiderman_&]:border-red-500/20 scale-75" />
+                  <div className="absolute inset-0 rounded-full border border-blue-500/10 [.spiderman_&]:border-red-500/10 scale-50" />
+                  
+                  {/* Crosshairs */}
+                  <div className="absolute w-full h-[1px] bg-blue-500/40 [.spiderman_&]:bg-red-500/40" />
+                  <div className="absolute h-full w-[1px] bg-blue-500/40 [.spiderman_&]:bg-red-500/40" />
+                  
+                  {/* Radar Sweep */}
+                  <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_70%,rgba(59,130,246,0.5)_100%)] [.spiderman_&]:bg-[conic-gradient(from_0deg,transparent_70%,rgba(239,68,68,0.5)_100%)] animate-[spin_3s_linear_infinite]" />
+                  
+                  {/* Tracker Blips */}
+                  {isSpiderman ? (
+                    // Movie-accurate Spider-Tracer Blip
+                    <div className="absolute top-[25%] left-[55%] flex items-center justify-center group/tracer cursor-crosshair z-20">
+                      <div className="absolute w-16 h-16 border border-red-500/80 rounded-full animate-ping group-hover/tracer:animate-none group-hover/tracer:border-red-400 group-hover/tracer:shadow-[0_0_20px_rgba(239,68,68,0.5)] transition-all" />
+                      <div className="absolute w-24 h-[1px] bg-red-500/60 transition-transform duration-300 group-hover/tracer:scale-150" />
+                      <div className="absolute h-24 w-[1px] bg-red-500/60 transition-transform duration-300 group-hover/tracer:scale-150" />
+                      
+                      {/* The Spider-Tracer itself */}
+                      <img 
+                        src={spideyLogo} 
+                        alt="Spider-Tracer" 
+                        className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(239,68,68,1)] animate-pulse transition-transform duration-300 group-hover/tracer:scale-110" 
+                        style={{ filter: "brightness(0) saturate(100%) invert(34%) sepia(85%) saturate(3065%) hue-rotate(339deg) brightness(97%) contrast(92%)" }} 
+                      />
+
+                      {/* Tooltip Hover Panel */}
+                      <div className="absolute left-8 sm:left-12 top-0 opacity-0 group-hover/tracer:opacity-100 transition-opacity duration-300 pointer-events-none w-44 sm:w-52 bg-black/90 backdrop-blur-md border border-red-500/50 p-2 sm:p-3 text-left shadow-[0_0_20px_rgba(239,68,68,0.4)] z-50">
+                        <div className="text-red-400 font-bold border-b border-red-500/30 pb-1 mb-1.5 text-[10px] tracking-widest uppercase italic flex justify-between items-center">
+                          <span>TARGET IDENTIFIED</span>
+                          <span className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                        </div>
+                        <ul className="text-[9px] sm:text-[10px] text-white/80 space-y-1 font-mono">
+                          <li><span className="text-red-500 font-bold">NAME:</span> T. SRITHARAN</li>
+                          <li><span className="text-red-500 font-bold">ALIAS:</span> FRONTEND-SPIDER</li>
+                          <li><span className="text-red-500 font-bold">LOC:</span> YOUR LOCATION</li>
+                          <li><span className="text-red-500 font-bold">STATUS:</span> WEB-SLINGING CODE</li>
+                        </ul>
+                        <div className="mt-2 w-full h-[2px] bg-gradient-to-r from-red-500 to-transparent" />
+                      </div>
+                    </div>
+                  ) : (
+                    // Iron Man standard blips
+                    <>
+                      <div className="absolute top-[20%] left-[30%] w-3 h-3 bg-blue-500 rounded-full animate-ping shadow-[0_0_15px_rgba(59,130,246,1)]" />
+                      <div className="absolute top-[60%] left-[70%] w-2 h-2 bg-blue-400 rounded-full animate-ping shadow-[0_0_10px_rgba(59,130,246,1)]" style={{ animationDelay: '1.5s' }} />
+                      <div className="absolute top-[40%] right-[20%] w-2.5 h-2.5 bg-amber-400 rounded-full animate-ping shadow-[0_0_10px_rgba(251,191,36,1)]" style={{ animationDelay: '0.7s' }} />
+                    </>
+                  )}
+                  
+                  {/* Center Dot */}
+                  <div className="absolute w-2 h-2 bg-white rounded-full shadow-[0_0_10px_white]" />
+                </div>
+                
+                <div className="mt-8 text-center z-10 border border-white/10 bg-black/40 p-4 w-full max-w-md backdrop-blur-md">
+                  <h3 className="text-blue-400 [.spiderman_&]:text-red-400 font-bold text-lg italic tracking-widest uppercase mb-1">
+                    {isSpiderman ? "Spider-Tracer Active" : "Stark Global Scan"}
+                  </h3>
+                  <p className="text-white/60 text-xs mx-auto font-mono">
+                    {isSpiderman 
+                      ? "Searching for anomalous signatures within a 5-mile radius... Multiple targets acquired."
+                      : "Scanning satellite telemetry. Analyzing sub-orbital frequencies... Target locked."}
+                  </p>
+                  
+                  <div className="mt-3 flex justify-between text-[10px] text-white/40 font-mono">
+                    <span>LAT: 40.7128° N</span>
+                    <span className="text-blue-400 [.spiderman_&]:text-red-400 animate-pulse">LIVE TRACKING</span>
+                    <span>LON: 74.0060° W</span>
                   </div>
                 </div>
               </div>
