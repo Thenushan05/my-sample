@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
 import spideyLogo from "../../assets/il_570xN.3228576578_i800.avif"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
@@ -9,6 +10,7 @@ import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
     const [isSpidey, setIsSpidey] = useState(false)
     const [isIronman, setIsIronman] = useState(false)
+    const [showOnboarding, setShowOnboarding] = useState(false)
 
     useEffect(() => {
         const updateThemeStates = () => {
@@ -25,14 +27,33 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             attributeFilter: ["class"],
         })
 
+        // Check if user has seen the guide. If not, show onboarding after a delay.
+        const hasSeenGuide = localStorage.getItem("has_seen_hero_guide")
+        if (!hasSeenGuide) {
+            const timer = setTimeout(() => {
+                setShowOnboarding(true)
+            }, 2500)
+            return () => clearTimeout(timer)
+        }
+
         return () => observer.disconnect()
     }, [])
+
+    const handleDismissGuide = (e?: React.MouseEvent) => {
+        if (e) {
+            e.stopPropagation();
+        }
+        setShowOnboarding(false);
+        localStorage.setItem("has_seen_hero_guide", "true");
+    };
 
     const toggleSpidey = useCallback((e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
+        handleDismissGuide(); // Hide tooltip on interaction
+
         const next = !document.documentElement.classList.contains("spiderman")
         document.documentElement.classList.remove("ironman")
         document.documentElement.classList.toggle("spiderman", next)
@@ -53,9 +74,12 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             e.preventDefault();
             e.stopPropagation();
         }
+        handleDismissGuide(); // Hide tooltip on interaction
+
         const next = !document.documentElement.classList.contains("ironman")
         document.documentElement.classList.remove("spiderman")
         document.documentElement.classList.toggle("ironman", next)
+
         
         if (next) {
             document.documentElement.classList.add("dark")
@@ -69,7 +93,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     }, [])
 
     return (
-        <div className={cn("flex items-center gap-2", className)}>
+        <div className={cn("relative flex items-center gap-2", className)}>
             {/* Spidey Mode Button */}
             <div className="relative inline-flex group">
                 <button
@@ -128,6 +152,40 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     <span className="sr-only">Toggle Iron Man Mode</span>
                 </button>
             </div>
+
+            {/* Onboarding Tooltip */}
+            <AnimatePresence>
+                {showOnboarding && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                        className="absolute top-[120%] right-0 w-64 md:w-72 bg-slate-900/95 dark:bg-black/95 border border-slate-700/50 dark:border-white/10 rounded-xl p-4 shadow-2xl z-[100] backdrop-blur-md"
+                    >
+                        {/* Triangle pointer */}
+                        <div className="absolute -top-2 right-12 w-4 h-4 bg-slate-900/95 dark:bg-black/95 border-t border-l border-slate-700/50 dark:border-white/10 rotate-45" />
+                        
+                        <div className="relative z-10 flex flex-col gap-2">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-white font-bold text-sm uppercase tracking-wide">Choose Your Hero</h3>
+                                <button 
+                                    onClick={handleDismissGuide}
+                                    className="text-slate-400 hover:text-white transition-colors"
+                                    aria-label="Dismiss onboarding"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <p className="text-slate-300 text-xs leading-relaxed">
+                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong> or <strong className="text-cyan-400 font-bold">Iron Man</strong>. Click the icons above to activate immersive mode!
+                            </p>
+                        </div>
+                        
+                        {/* Glow effect behind tooltip */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-cyan-500/10 rounded-xl blur-md -z-10" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

@@ -12,9 +12,17 @@
         document.documentElement.classList.add('dark');
       }
 
-      var spidey = localStorage.getItem('spidey_mode');
-      if (spidey === 'true') {
+      var hero = localStorage.getItem('hero_mode');
+      if (hero === 'spiderman') {
         document.documentElement.classList.add('spiderman');
+      } else if (hero === 'ironman') {
+        document.documentElement.classList.add('ironman');
+      } else if (!hero) {
+        var oldSpidey = localStorage.getItem('spidey_mode');
+        if (oldSpidey === 'true') {
+          document.documentElement.classList.add('spiderman');
+          localStorage.setItem('hero_mode', 'spiderman');
+        }
       }
     })();
   </script>
