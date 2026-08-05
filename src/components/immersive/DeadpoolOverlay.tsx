@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 
 /** Deadpool talks to the reader. That is the whole bit. */
 const FOURTH_WALL_LINES = [
@@ -39,12 +40,14 @@ interface Slash {
   angle: number;
 }
 
-const KatanaCursor: React.FC<{ x: number; y: number; swinging: boolean }> = ({ x, y, swinging }) => (
-  <motion.div
-    className="fixed z-[10000] pointer-events-none"
-    animate={{ x: x - 6, y: y - 6 }}
-    transition={{ type: "spring", stiffness: 1400, damping: 60, mass: 0.25 }}
-  >
+const KatanaCursor: React.FC<{
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+  swinging: boolean;
+}> = ({ x, y, swinging }) => (
+  // style (not animate) so the blade sits exactly on the pointer with no
+  // spring lag — the swing below is the only thing that animates.
+  <motion.div className="fixed left-0 top-0 z-[10000] pointer-events-none" style={{ x, y }}>
     <motion.div
       animate={{ rotate: swinging ? [-38, 22, -38] : -38 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
@@ -90,7 +93,8 @@ const KatanaCursor: React.FC<{ x: number; y: number; swinging: boolean }> = ({ x
 );
 
 export const DeadpoolOverlay: React.FC = () => {
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const cursorX = useMotionValue(-200);
+  const cursorY = useMotionValue(-200);
   const [swinging, setSwinging] = useState(false);
   const [slashes, setSlashes] = useState<Slash[]>([]);
   const [lineIdx, setLineIdx] = useState(0);
@@ -98,7 +102,11 @@ export const DeadpoolOverlay: React.FC = () => {
   const slashId = useRef(0);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
+    // Motion values keep the blade glued to the pointer without re-rendering
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorX.set(e.clientX - 6);
+      cursorY.set(e.clientY - 6);
+    };
 
     // Timers are tracked so switching modes mid-swing doesn't leave them running
     const timers = new Set<number>();
@@ -121,14 +129,14 @@ export const DeadpoolOverlay: React.FC = () => {
       later(() => setSlashes((prev) => prev.filter((s) => s.id !== id)), 600);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("click", handleClick);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("click", handleClick);
       timers.forEach((id) => clearTimeout(id));
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   // Rotate the narration box: show a line, hide it, swap, repeat.
   useEffect(() => {
@@ -148,7 +156,7 @@ export const DeadpoolOverlay: React.FC = () => {
 
   return (
     <>
-      <KatanaCursor x={mousePos.x} y={mousePos.y} swinging={swinging} />
+      <KatanaCursor x={cursorX} y={cursorY} swinging={swinging} />
 
       {/* Katana slashes left behind by clicks */}
       <AnimatePresence>

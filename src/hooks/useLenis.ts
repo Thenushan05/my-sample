@@ -3,6 +3,14 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+/**
+ * The live Lenis instance, so callers outside React (the hero-mode switcher)
+ * can drive a scroll and be told when it finishes. Null before the page
+ * finishes loading, or when the user prefers reduced motion.
+ */
+let lenisInstance: Lenis | null = null;
+export const getLenis = () => lenisInstance;
+
 export function useLenis(enabled = true) {
   useEffect(() => {
     if (!enabled) return;
@@ -22,6 +30,8 @@ export function useLenis(enabled = true) {
       infinite: false,
     });
 
+    lenisInstance = lenis;
+
     // Synchronize Lenis scrolling with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -32,6 +42,7 @@ export function useLenis(enabled = true) {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      if (lenisInstance === lenis) lenisInstance = null;
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
     };

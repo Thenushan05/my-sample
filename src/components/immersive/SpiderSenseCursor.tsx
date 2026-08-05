@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
 /** Anything worth tingling about. */
 const TARGET_SELECTOR =
   'a, button, input, textarea, select, [role="button"], [data-spider-target]';
 
-const SIZE = 44;
+const SIZE = 30;
 const C = SIZE / 2;
 const SPOKES = 8;
-const R = 20;
+const R = 13;
+
+/** Spider-sense wave overlay box (larger than the reticle so waves clear it). */
+const SENSE_BOX = 60;
+const SC = SENSE_BOX / 2;
+const SENSE_WAVES = [14, 19, 24];
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
 const pt = (angle: number, r: number, cx = C, cy = C) =>
@@ -30,41 +35,42 @@ const ring = (r: number) => {
   }
   return d;
 };
-const RINGS = [8.5, 14, 19].map(ring);
+const RINGS = [5.5, 9, 12.5].map(ring);
 
-/** Arc of a spider-sense wave, drawn in an 88×88 overlay box. */
-const senseArc = (r: number, startDeg: number, endDeg: number) => {
-  const cx = 44;
-  const cy = 44;
-  return `M${pt(rad(startDeg), r, cx, cy)} A${r},${r} 0 0 1 ${pt(rad(endDeg), r, cx, cy)}`;
-};
-
-const SENSE_WAVES = [20, 28, 36];
+const senseArc = (r: number, startDeg: number, endDeg: number) =>
+  `M${pt(rad(startDeg), r, SC, SC)} A${r},${r} 0 0 1 ${pt(rad(endDeg), r, SC, SC)}`;
 
 export const SpiderSenseCursor: React.FC = () => {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
+  // Position lives in motion values, not state — a state update per mousemove
+  // re-renders the whole tree and makes the cursor visibly trail the pointer.
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
   const [tingling, setTingling] = useState(false);
+  const lastEl = useRef<Element | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      const target = e.target as Element | null;
-      setTingling(Boolean(target?.closest?.(TARGET_SELECTOR)));
+      x.set(e.clientX - C);
+      y.set(e.clientY - C);
+
+      // closest() walks the DOM, so only run it when the pointer actually
+      // crosses into a different element.
+      const el = e.target as Element | null;
+      if (el !== lastEl.current) {
+        lastEl.current = el;
+        setTingling(Boolean(el?.closest?.(TARGET_SELECTOR)));
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [x, y]);
 
   return (
-    <motion.div
-      className="fixed z-[10000] pointer-events-none"
-      animate={{ x: pos.x - C, y: pos.y - C }}
-      transition={{ x: { duration: 0 }, y: { duration: 0 } }}
-    >
+    <motion.div style={{ x, y }} className="fixed left-0 top-0 z-[10000] pointer-events-none">
       <motion.div
-        animate={{ scale: tingling ? 1.3 : 1 }}
-        transition={{ type: "spring", stiffness: 520, damping: 26 }}
+        animate={{ scale: tingling ? 1.35 : 1 }}
+        transition={{ type: "spring", stiffness: 600, damping: 28 }}
         className="relative"
         style={{ width: SIZE, height: SIZE }}
       >
@@ -79,14 +85,14 @@ export const SpiderSenseCursor: React.FC = () => {
               ? { duration: 0.3, ease: "easeOut" }
               : { duration: 22, repeat: Infinity, ease: "linear" }
           }
-          className="absolute inset-0 drop-shadow-[0_0_5px_rgba(255,255,255,0.85)]"
+          className="absolute inset-0 drop-shadow-[0_0_4px_rgba(255,255,255,0.85)]"
         >
           {STRANDS.map((d) => (
             <path
               key={d}
               d={d}
               stroke={tingling ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.6)"}
-              strokeWidth="1"
+              strokeWidth="0.8"
               fill="none"
               strokeLinecap="round"
             />
@@ -96,7 +102,7 @@ export const SpiderSenseCursor: React.FC = () => {
               key={d}
               d={d}
               stroke={tingling ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.45)"}
-              strokeWidth="0.9"
+              strokeWidth="0.7"
               fill="none"
             />
           ))}
@@ -106,10 +112,10 @@ export const SpiderSenseCursor: React.FC = () => {
         <motion.span
           animate={{ scale: tingling ? [1, 1.5, 1] : 1 }}
           transition={{ duration: 0.65, repeat: tingling ? Infinity : 0, ease: "easeInOut" }}
-          className={`absolute left-1/2 top-1/2 h-[5px] w-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full ${
+          className={`absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full ${
             tingling
-              ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"
-              : "bg-white shadow-[0_0_8px_rgba(255,255,255,0.95)]"
+              ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,1)]"
+              : "bg-white shadow-[0_0_6px_rgba(255,255,255,0.95)]"
           }`}
         />
 
@@ -117,9 +123,9 @@ export const SpiderSenseCursor: React.FC = () => {
         <AnimatePresence>
           {tingling && (
             <svg
-              viewBox="0 0 88 88"
-              width={88}
-              height={88}
+              viewBox={`0 0 ${SENSE_BOX} ${SENSE_BOX}`}
+              width={SENSE_BOX}
+              height={SENSE_BOX}
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible"
             >
               {SENSE_WAVES.map((r, i) =>
@@ -132,7 +138,7 @@ export const SpiderSenseCursor: React.FC = () => {
                     d={d}
                     fill="none"
                     stroke="#f8fafc"
-                    strokeWidth="2.4"
+                    strokeWidth="1.9"
                     strokeLinecap="round"
                     initial={{ opacity: 0, scale: 0.7 }}
                     animate={{ opacity: [0, 1, 0], scale: [0.7, 1.12, 1.3] }}
@@ -143,7 +149,10 @@ export const SpiderSenseCursor: React.FC = () => {
                       repeat: Infinity,
                       ease: "easeOut",
                     }}
-                    style={{ transformOrigin: "44px 44px", filter: "drop-shadow(0 0 6px rgba(239,68,68,0.9))" }}
+                    style={{
+                      transformOrigin: `${SC}px ${SC}px`,
+                      filter: "drop-shadow(0 0 5px rgba(239,68,68,0.9))",
+                    }}
                   />
                 ))
               )}

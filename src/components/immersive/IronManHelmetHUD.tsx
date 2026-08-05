@@ -1,39 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
 /** Anything the HUD should treat as a hostile worth locking onto. */
 const TARGET_SELECTOR = 'a, button, input, textarea, select, [role="button"], [data-hud-target]';
 
 export const IronManHelmetHUD: React.FC = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Motion values, not state: a re-render per mousemove is what makes a
+  // custom cursor lag behind the real pointer.
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
   const [locked, setLocked] = useState(false);
+  const lastEl = useRef<Element | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      x.set(e.clientX - 24); // centre the 48x48 cursor
+      y.set(e.clientY - 24);
 
-      // Targeting computer: lock whenever the pointer is over something clickable
-      const target = e.target as Element | null;
-      setLocked(Boolean(target?.closest?.(TARGET_SELECTOR)));
+      // Targeting computer: only re-query when the pointer changes element,
+      // since closest() walks the DOM every call.
+      const el = e.target as Element | null;
+      if (el !== lastEl.current) {
+        lastEl.current = el;
+        setLocked(Boolean(el?.closest?.(TARGET_SELECTOR)));
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [x, y]);
 
   return (
     <>
       {/* Interactive Targeting Reticle Cursor */}
       <motion.div
-        className="fixed z-[10000] pointer-events-none mix-blend-screen"
-        animate={{
-          x: mousePos.x - 24, // center the 48x48 cursor
-          y: mousePos.y - 24,
-        }}
-        transition={{ x: { duration: 0 }, y: { duration: 0 } }}
+        className="fixed left-0 top-0 z-[10000] pointer-events-none mix-blend-screen"
+        style={{ x, y }}
       >
         <motion.div
           animate={{ scale: locked ? 1.45 : 1 }}

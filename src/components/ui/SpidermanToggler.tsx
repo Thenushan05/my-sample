@@ -1,8 +1,9 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
+import { getLenis } from "../../hooks/useLenis"
 import spideyLogo from "../../assets/spidey-logo-white.png"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
@@ -16,6 +17,8 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isIronman, setIsIronman] = useState(false)
     const [isDeadpool, setIsDeadpool] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
+    /** Guards against re-toggling while the page is still travelling home. */
+    const switching = useRef(false)
 
     useEffect(() => {
         const updateThemeStates = () => {
@@ -56,13 +59,45 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         localStorage.setItem("has_seen_hero_guide", "true");
     };
 
-    const maintainScrollPosition = (action: () => void) => {
-        action();
-        
-        // Scroll to the home page (hero section) when changing modes
-        setTimeout(() => {
+    /**
+     * Ride the page back to the hero, then run `done`.
+     *
+     * The whole payoff of a hero mode — the suit-up, the portrait reveal, the
+     * loader — lives at the top of the page. Firing it while the reader is
+     * halfway down means the animation plays off-screen and is over before
+     * the scroll lands, so the transformation waits until we're home.
+     */
+    const scrollHomeThen = (done: () => void) => {
+        if (window.scrollY < 4) {
+            done();
+            return;
+        }
+
+        let finished = false;
+        const finish = () => {
+            if (finished) return;
+            finished = true;
+            // Let the scroll settle for a beat so the reveal isn't clipped
+            window.setTimeout(done, 120);
+        };
+
+        const lenis = getLenis();
+        if (lenis) {
+            lenis.scrollTo(0, { duration: 0.9, onComplete: finish });
+        } else {
+            // No Lenis (still loading, or reduced-motion): poll the native scroll
             window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 100);
+            const start = performance.now();
+            const check = () => {
+                if (window.scrollY < 4) return finish();
+                if (performance.now() - start > 1400) return finish();
+                requestAnimationFrame(check);
+            };
+            requestAnimationFrame(check);
+        }
+
+        // Safety net: never strand the toggle if the scroll is interrupted
+        window.setTimeout(finish, 1600);
     };
 
     /**
@@ -78,7 +113,11 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
         handleDismissGuide(); // Hide tooltip on interaction
 
-        maintainScrollPosition(() => {
+        // Ignore extra clicks while a switch is already travelling home
+        if (switching.current) return;
+        switching.current = true;
+
+        scrollHomeThen(() => {
             const root = document.documentElement
             const next = !root.classList.contains(mode)
 
@@ -95,6 +134,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsSpidey(next && mode === "spiderman")
             setIsIronman(next && mode === "ironman")
             setIsDeadpool(next && mode === "deadpool")
+            switching.current = false
         });
     }, [])
 
