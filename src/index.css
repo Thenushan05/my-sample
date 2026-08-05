@@ -81,9 +81,14 @@ html.ironman body {
   cursor: none !important;
 }
 
-/* Force Share Tech Mono on all elements in Ironman mode, overriding Tailwind font-sans */
-html.ironman * {
+/* Force Share Tech Mono on all elements in Ironman mode, overriding Tailwind font-sans.
+   cursor is here too: Tailwind preflight puts `cursor: pointer` on buttons, which
+   beats the inherited `none` from body and shows a second system cursor next to
+   the reticle. */
+html.ironman *,
+html.ironman *:hover {
   font-family: 'Share Tech Mono', monospace !important;
+  cursor: none !important;
 }
 
 /* Glowing text for headings in Iron Man mode */
@@ -264,6 +269,14 @@ html.ironman .typewriter-text {
 /* Red/blue ambient wash, layered above the base ThemeBackground */
 html.spiderman body {
   background-color: #05020a !important; /* Force darker background in spiderman mode */
+  cursor: none !important; /* SpiderSenseCursor draws the web reticle instead */
+}
+
+/* Keep the custom reticle as the only pointer, including over the
+   draggable Spider-Man, which would otherwise show a second system cursor. */
+html.spiderman *,
+html.spiderman *:hover {
+  cursor: none !important;
 }
 html.spiderman body::before {
   content: "";
@@ -375,6 +388,13 @@ html.deadpool body {
   background-color: #0b0203 !important;
   cursor: none !important;
   /* Katana cursor is drawn by DeadpoolOverlay */
+}
+
+/* Tailwind preflight sets `cursor: pointer` on buttons, which beats the
+   inherited `none` and draws a second system cursor next to the katana. */
+html.deadpool *,
+html.deadpool *:hover {
+  cursor: none !important;
 }
 
 /* Comic-book hand lettering for headings; body copy stays readable */

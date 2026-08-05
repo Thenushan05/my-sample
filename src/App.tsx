@@ -16,6 +16,8 @@ import { ScrollReveal } from "./components/ui/ScrollReveal";
 import { SpiderwebBackground } from "./components/immersive/SpiderwebBackground";
 import { SpiderCrawl } from "./components/immersive/SpiderCrawl";
 import { SpidermanDrop } from "./components/immersive/SpidermanDrop";
+import { SpiderSenseCursor } from "./components/immersive/SpiderSenseCursor";
+import { WebShooter } from "./components/immersive/WebShooter";
 import { TerminalConsole } from "./components/immersive/TerminalConsole";
 import { PageLoader } from "./components/layout/PageLoader";
 import { SpidermanLoader } from "./components/immersive/SpidermanLoader";
@@ -119,6 +121,8 @@ export function App() {
           {isSpiderman && <SpiderwebBackground />}
           {isSpiderman && <SpiderCrawl />}
           {isSpiderman && <SpidermanDrop />}
+          {isSpiderman && <SpiderSenseCursor />}
+          {isSpiderman && <WebShooter />}
 
           {/* Immersive Deadpool Mode Effects */}
           {isDeadpool && <BloodSplatterBackground />}

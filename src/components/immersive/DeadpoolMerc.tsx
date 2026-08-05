@@ -228,8 +228,10 @@ export const DeadpoolMerc: React.FC = () => {
       ? { key: `idle-${lineIdx}`, text: IDLE_LINES[lineIdx] }
       : null;
 
+  // z-[9999] puts him above the fourth-wall caption box (z-[9998]) so he walks
+  // in front of it, and below the katana cursor (z-[10000]).
   return (
-    <div className="fixed bottom-6 left-0 w-full h-36 z-[58] pointer-events-none overflow-hidden">
+    <div className="fixed bottom-6 left-0 w-full h-36 z-[9999] pointer-events-none overflow-hidden">
       <motion.div style={{ x }} className="absolute bottom-0">
         {/* He turns to face the reader the moment he stops walking.
             The recoil layer sits outside the facing flip so a hit reads the

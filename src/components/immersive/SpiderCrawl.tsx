@@ -75,10 +75,8 @@ export const SpiderCrawl: React.FC = () => {
           bounceStiffness: 150, // Higher stiffness for faster snap back
           bounceDamping: 4,     // Low damping for lots of pendulum swinging!
         }}
-        whileDrag={{ 
-          scale: 1.05,
-          cursor: "grabbing"
-        }}
+        whileDrag={{ scale: 1.05 }}
+        data-spider-target
         style={{ 
           x: dragX, 
           y: dragY,
@@ -93,7 +91,7 @@ export const SpiderCrawl: React.FC = () => {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="-mt-4 flex flex-col items-center pointer-events-auto cursor-grab select-none group"
+        className="-mt-4 flex flex-col items-center pointer-events-auto select-none group"
       >
         <img
           src="/4576132-middle-Picsart-BackgroundRemover.png"
