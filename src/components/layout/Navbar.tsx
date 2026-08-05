@@ -227,7 +227,9 @@ export const Navbar: React.FC = () => {
                   <a
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`text-sm tracking-wider uppercase font-medium block py-1.5 ${isActive ? "text-blue-500 dark:text-blue-400" : "text-slate-600 dark:text-white/60"
+                    className={`text-sm tracking-wider uppercase font-medium block py-1.5 ${isActive
+                      ? "text-blue-500 dark:text-blue-400 [.deadpool_&]:inline-block [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:!text-[#fff8e7] [.deadpool_&]:border-2 [.deadpool_&]:border-black [.deadpool_&]:px-2.5 [.deadpool_&]:-rotate-1 [.deadpool_&]:shadow-[4px_4px_0_rgba(0,0,0,0.85)]"
+                      : "text-slate-600 dark:text-white/60"
                       }`}
                   >
                     {item.label}

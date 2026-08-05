@@ -528,9 +528,88 @@ html.deadpool .shadow-cyan-500\/30 {
   --tw-shadow-color: rgba(220, 20, 60, 0.6) !important;
 }
 
-html.deadpool .gooey-nav-container nav ul li.active {
-  color: #dc143c !important;
-  text-shadow: 0 0 12px rgba(220, 20, 60, 0.9);
+/* ── Deadpool: bloody nav selection ──────────────────────────────
+   The gooey nav's pastel pill becomes a wet blood splat that drips,
+   and the burst particles become flung droplets. */
+
+/* Shadow the gooey particle palette for this container only */
+html.deadpool .gooey-nav-container {
+  --color-1: #dc143c;
+  --color-2: #b91c1c;
+  --color-3: #7f1d1d;
+  --color-4: #fde047;
+  /* one caption-yellow fleck for contrast */
+}
+
+/* The static pill and the travelling one, both inked in blood */
+html.deadpool .gooey-nav-container nav ul li.active::after,
+html.deadpool .gooey-nav-container .effect.filter::after {
+  background: linear-gradient(180deg, #ef2b4f 0%, #c11228 55%, #7f1d1d 100%);
+  /* Irregular corners so it reads hand-drawn, not like a UI chip */
+  border-radius: 7px 15px 9px 13px / 13px 7px 15px 9px;
+  box-shadow:
+    0 0 0 2px #0a0000,
+    4px 4px 0 rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(220, 20, 60, 0.6);
+}
+
+/* Bone-white comic lettering on the splat — the old rule turned this
+   crimson, which is invisible now that the pill itself is crimson. */
+html.deadpool .gooey-nav-container nav ul li.active,
+html.deadpool .gooey-nav-container .effect.text.active {
+  color: #fff8e7;
+  -webkit-text-stroke: 0.6px rgba(0, 0, 0, 0.9);
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Blood running off the bottom of the selected item */
+html.deadpool .gooey-nav-container nav ul li.active::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 100%;
+  height: 18px;
+  z-index: -1;
+  pointer-events: none;
+  transform-origin: top center;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(5px 11px at 22% 0%, #b91c1c 98%, transparent 100%),
+    radial-gradient(4px 18px at 52% 0%, #a81324 98%, transparent 100%),
+    radial-gradient(5px 8px at 79% 0%, #b91c1c 98%, transparent 100%);
+  filter: drop-shadow(0 2px 3px rgba(139, 0, 20, 0.85));
+  animation: dp-nav-drip 2.8s ease-in-out infinite;
+}
+
+@keyframes dp-nav-drip {
+  0%, 100% { transform: scaleY(0.7); }
+  50% { transform: scaleY(1); }
+}
+
+/* Selection animation: ink hitting paper, not a pill easing open */
+html.deadpool .gooey-nav-container .effect.active::after {
+  animation: dp-nav-splat 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes dp-nav-splat {
+  0% { transform: scale(0.15) rotate(-9deg); opacity: 0; }
+  55% { transform: scale(1.2) rotate(3.5deg); opacity: 1; }
+  78% { transform: scale(0.94) rotate(-1.5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Particles become blood droplets rather than tidy dots */
+html.deadpool .gooey-nav-container .point {
+  border-radius: 62% 38% 55% 45% / 48% 62% 38% 52%;
+  box-shadow: 0 0 7px rgba(220, 20, 60, 0.85);
+}
+
+/* Unselected items smear red on hover */
+html.deadpool .gooey-nav-container nav ul li:not(.active):hover {
+  color: #ef2b4f;
+  text-shadow: 0 0 10px rgba(220, 20, 60, 0.75);
 }
 
 html.deadpool ::selection {
