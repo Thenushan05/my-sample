@@ -142,144 +142,121 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         });
     }, [])
 
+    const [isOpen, setIsOpen] = useState(false)
+
+    // Close dropdown if clicked outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as Element;
+            if (!target.closest('.hero-dropdown')) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
+
+    const handleSelectMode = (mode: HeroMode | "none") => {
+        setIsOpen(false);
+        if (mode === "none") {
+            // Revert to normal mode (but keep dark mode)
+            const root = document.documentElement;
+            HERO_MODES.forEach((m) => root.classList.remove(m));
+            root.classList.add("dark");
+            localStorage.setItem("hero_mode", "none");
+            localStorage.setItem("theme", "dark");
+            setIsSpidey(false);
+            setIsIronman(false);
+            setIsDeadpool(false);
+            setIsThor(false);
+            window.dispatchEvent(new Event("themeChange"));
+        } else {
+            // The toggleMode already does exactly what we need for enabling
+            toggleMode(mode);
+        }
+    }
+
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : "none";
+
     return (
-        <div className={cn("relative flex items-center gap-2", className)}>
-            {/* Spidey Mode Button */}
-            <div className="relative inline-flex group">
-                <button
-                    type="button"
-                    onClick={(e) => toggleMode("spiderman", e)}
-                    aria-pressed={isSpidey}
-                    title={isSpidey ? "Disable Spidey Mode" : "Enable Spidey Mode"}
-                    className={cn(
-                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
-                        isSpidey
-                            ? "bg-black/95 border-red-500/90 shadow-[0_0_20px_rgba(239,68,68,0.85)] ring-2 ring-red-500/60"
-                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
+        <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
+            
+            {/* Dropdown Trigger Button */}
+            <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className="relative flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-900/10 hover:border-slate-900/30 dark:border-white/10 dark:hover:border-white/30 bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 transition-all text-xs font-medium tracking-wider text-slate-900 dark:text-white uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+                <span className="hidden sm:inline">Theme</span>
+                <span className="flex items-center justify-center w-5 h-5 opacity-80">
+                    {currentMode === "spiderman" && <img src={spideyLogo} alt="Spidey" className="w-5 h-5 object-contain" />}
+                    {currentMode === "ironman" && <img src={arcReactorLogo} alt="Iron Man" className="w-5 h-5 object-contain" />}
+                    {currentMode === "deadpool" && <DeadpoolMaskIcon muted={false} className="w-5 h-5 object-contain text-white" />}
+                    {currentMode === "thor" && <MjolnirIcon muted={false} className="w-5 h-5 object-contain text-white" />}
+                    {currentMode === "none" && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
                     )}
-                >
-                    <img
-                        src={spideyLogo}
-                        alt="Spidey Mode"
-                        className={cn(
-                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none",
-                            isSpidey
-                                ? "scale-115 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse text-red-500"
-                                : "opacity-90 hover:opacity-100 group-hover:scale-110"
-                        )}
-                    />
-                    <span className="sr-only">Toggle Spidey Mode</span>
-                </button>
-            </div>
+                </span>
+                <svg className={cn("w-3 h-3 transition-transform", isOpen ? "rotate-180" : "")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
 
-            {/* Iron Man Mode Button */}
-            <div className="relative inline-flex group">
-                <button
-                    type="button"
-                    onClick={(e) => toggleMode("ironman", e)}
-                    aria-pressed={isIronman}
-                    title={isIronman ? "Disable Iron Man Mode" : "Enable Iron Man Mode"}
-                    className={cn(
-                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
-                        isIronman
-                            ? "bg-black/95 border-cyan-400/90 shadow-[0_0_20px_rgba(6,182,212,0.85)] ring-2 ring-amber-400/60"
-                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
-                    )}
-                >
-                    <img
-                        src={arcReactorLogo}
-                        alt="Iron Man Mode"
-                        className={cn(
-                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none",
-                            isIronman
-                                ? "scale-115 filter drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse"
-                                : "opacity-90 hover:opacity-100 group-hover:scale-110"
-                        )}
-                    />
-                    <span className="sr-only">Toggle Iron Man Mode</span>
-                </button>
-            </div>
-
-            {/* Deadpool Mode Button */}
-            <div className="relative inline-flex group">
-                <button
-                    type="button"
-                    onClick={(e) => toggleMode("deadpool", e)}
-                    aria-pressed={isDeadpool}
-                    title={isDeadpool ? "Disable Deadpool Mode" : "Enable Deadpool Mode"}
-                    className={cn(
-                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
-                        isDeadpool
-                            ? "bg-black/95 border-red-700/90 shadow-[0_0_20px_rgba(220,20,60,0.9)] ring-2 ring-yellow-400/50"
-                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700",
-                    )}
-                >
-                    {/* Blood smear that wipes across the button while active */}
-                    {isDeadpool && (
-                        <motion.span
-                            aria-hidden
-                            initial={{ scaleX: 0, opacity: 0 }}
-                            animate={{ scaleX: 1, opacity: [0, 0.85, 0.45] }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="absolute inset-x-0 bottom-0 h-1/2 origin-left bg-gradient-to-t from-red-800/90 to-transparent pointer-events-none"
-                        />
-                    )}
-                    <DeadpoolMaskIcon
-                        muted={!isDeadpool}
-                        className={cn(
-                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none relative z-10",
-                            isDeadpool
-                                ? "scale-115 drop-shadow-[0_0_10px_rgba(220,20,60,1)] animate-pulse"
-                                : "opacity-90 hover:opacity-100 group-hover:scale-110 group-hover:rotate-[-6deg]"
-                        )}
-                    />
-                    <span className="sr-only">Toggle Deadpool Mode</span>
-                </button>
-            </div>
-
-            {/* Thor Mode Button */}
-            <div className="relative inline-flex group">
-                <button
-                    type="button"
-                    onClick={(e) => toggleMode("thor", e)}
-                    aria-pressed={isThor}
-                    title={isThor ? "Disable Thor Mode" : "Enable Thor Mode"}
-                    className={cn(
-                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
-                        isThor
-                            ? "bg-black/95 border-sky-300/90 shadow-[0_0_22px_rgba(125,211,252,0.9)] ring-2 ring-amber-300/50"
-                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300",
-                    )}
-                >
-                    {/* Charge crackling around the hammer while active */}
-                    {isThor && (
-                        <motion.span
-                            aria-hidden
-                            animate={{ opacity: [0.25, 0.9, 0.35, 1, 0.3] }}
-                            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(125,211,252,0.55)_0%,transparent_70%)] pointer-events-none"
-                        />
-                    )}
-                    <MjolnirIcon
-                        muted={!isThor}
-                        className={cn(
-                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none relative z-10",
-                            isThor
-                                ? "scale-110 drop-shadow-[0_0_10px_rgba(125,211,252,1)]"
-                                : "opacity-90 hover:opacity-100 group-hover:scale-110 group-hover:-rotate-12"
-                        )}
-                    />
-                    <span className="sr-only">Toggle Thor Mode</span>
-                </button>
-            </div>
-
-            {/* Onboarding Tooltip */}
+            {/* Dropdown Menu */}
             <AnimatePresence>
-                {showOnboarding && (
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
+                        className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl z-50 overflow-hidden"
+                    >
+                        <div className="flex flex-col py-1">
+                            <button
+                                onClick={() => handleSelectMode("none")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "none" && "bg-slate-50 dark:bg-slate-800/50 font-bold")}
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 opacity-70">
+                                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                Default Theme
+                            </button>
+                            <button
+                                onClick={() => handleSelectMode("spiderman")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "spiderman" && "text-red-600 dark:text-red-400 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <img src={spideyLogo} alt="" className="w-4 h-4 object-contain opacity-80" />
+                                Spider-Man
+                            </button>
+                            <button
+                                onClick={() => handleSelectMode("ironman")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "ironman" && "text-cyan-600 dark:text-cyan-400 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <img src={arcReactorLogo} alt="" className="w-4 h-4 object-contain opacity-80" />
+                                Iron Man
+                            </button>
+                            <button
+                                onClick={() => handleSelectMode("deadpool")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "deadpool" && "text-red-700 dark:text-red-500 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <DeadpoolMaskIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Deadpool
+                            </button>
+                            <button
+                                onClick={() => handleSelectMode("thor")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "thor" && "text-sky-600 dark:text-sky-400 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <MjolnirIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Thor
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Onboarding Tooltip (only if menu is closed to avoid clutter) */}
+            <AnimatePresence>
+                {showOnboarding && !isOpen && (
                     <motion.div
                         initial={{ opacity: 0, y: 15, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -287,7 +264,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                         className="absolute top-[120%] right-0 w-64 md:w-72 bg-slate-900/95 dark:bg-black/95 border border-slate-700/50 dark:border-white/10 rounded-xl p-4 shadow-2xl z-[100] backdrop-blur-md"
                     >
                         {/* Triangle pointer */}
-                        <div className="absolute -top-2 right-12 w-4 h-4 bg-slate-900/95 dark:bg-black/95 border-t border-l border-slate-700/50 dark:border-white/10 rotate-45" />
+                        <div className="absolute -top-2 right-6 w-4 h-4 bg-slate-900/95 dark:bg-black/95 border-t border-l border-slate-700/50 dark:border-white/10 rotate-45" />
                         
                         <div className="relative z-10 flex flex-col gap-2">
                             <div className="flex items-center justify-between">
@@ -301,7 +278,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong>. Click the icons above to activate immersive mode!
+                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong>!
                             </p>
                         </div>
 

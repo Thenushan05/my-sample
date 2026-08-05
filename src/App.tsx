@@ -142,7 +142,7 @@ export function App() {
           {isDeadpool && <DeadpoolOverlay />}
           {isDeadpool && <DeadpoolMerc />}
 
-          {/* Immersive Thor Mode Effects — sigils sit behind the weather */}
+          {/* Immersive Thor Mode Effects */}
           {isThor && <AsgardSigils />}
           {isThor && <StormBackground />}
           {isThor && <ThorOverlay />}

@@ -631,11 +631,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 )}
               </AnimatePresence>
 
-              {/* Thor: summoned by lightning.
-                  This portrait ships on a SOLID BLACK background rather than
-                  transparent, so it's composited with mix-blend-mode: screen —
-                  against the near-black storm the black drops out cleanly and
-                  he reads as emerging from the clouds. */}
+              {/* Thor: summoned by lightning. */}
               <AnimatePresence>
                 {isThor && (
                   <motion.div
@@ -650,10 +646,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       animate={{ opacity: 1, scale: 1, filter: "brightness(1.06) contrast(1.06)" }}
                       exit={{ opacity: 0, scale: 1.04, filter: "brightness(2.2)" }}
                       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                      src={THOR_PORTRAIT}
+                      src="/thorme_nobg.png"
                       alt="Asgardian Armour"
                       style={{
-                        mixBlendMode: "screen",
                         maskImage: "radial-gradient(ellipse at 50% 42%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 97%)",
                         WebkitMaskImage: "radial-gradient(ellipse at 50% 42%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 97%)",
                       }}
