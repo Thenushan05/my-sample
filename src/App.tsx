@@ -33,9 +33,15 @@ import { BloodSplatterBackground } from "./components/immersive/BloodSplatterBac
 import { ThorOverlay } from "./components/immersive/ThorOverlay";
 import { ThorConsole } from "./components/immersive/ThorConsole";
 import { ThorLoader } from "./components/immersive/ThorLoader";
-import { ThorRuneStave } from "./components/immersive/ThorRuneStave";
 import { StormBackground } from "./components/immersive/StormBackground";
 import { AsgardSigils } from "./components/immersive/AsgardSigils";
+import { MjolnirThrow } from "./components/immersive/MjolnirThrow";
+import { VenomOverlay } from "./components/immersive/VenomOverlay";
+import { VenomConsole } from "./components/immersive/VenomConsole";
+import { VenomLoader } from "./components/immersive/VenomLoader";
+import { SymbioteBackground } from "./components/immersive/SymbioteBackground";
+import { VenomCrawl } from "./components/immersive/VenomCrawl";
+import { VenomSpiderIcon } from "./components/ui/VenomSpiderIcon";
 import { MjolnirIcon } from "./components/ui/MjolnirIcon";
 
 import { LayoutGroup } from "framer-motion";
@@ -55,6 +61,9 @@ export function App() {
   const [isThor, setIsThor] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("thor")
   );
+  const [isVenom, setIsVenom] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("venom")
+  );
 
   useEffect(() => {
     const syncModes = () => {
@@ -62,6 +71,7 @@ export function App() {
       setIsIronman(document.documentElement.classList.contains("ironman"));
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
       setIsThor(document.documentElement.classList.contains("thor"));
+      setIsVenom(document.documentElement.classList.contains("venom"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -78,7 +88,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool, isThor]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -102,6 +112,8 @@ export function App() {
             <DeadpoolLoader key="deadpool-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isThor ? (
             <ThorLoader key="thor-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isVenom ? (
+            <VenomLoader key="venom-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -114,7 +126,7 @@ export function App() {
       {/* ── Main App Content ──────────────────────── */}
       <div className={`relative w-full min-h-screen text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : "#8B5CF6"}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : "#8B5CF6"}
           sparkSize={isIronman || isThor ? 12 : 8}
           sparkRadius={isIronman || isThor ? 28 : 20}
           sparkCount={isIronman || isThor ? 12 : 10}
@@ -146,7 +158,12 @@ export function App() {
           {isThor && <AsgardSigils />}
           {isThor && <StormBackground />}
           {isThor && <ThorOverlay />}
-          {isThor && <ThorRuneStave />}
+          {isThor && <MjolnirThrow />}
+
+          {/* Immersive Venom Mode Effects */}
+          {isVenom && <SymbioteBackground />}
+          {isVenom && <VenomOverlay />}
+          {isVenom && <VenomCrawl />}
 
           {/* ── Page Layout ───────────────────────────── */}
           <main>
@@ -157,8 +174,52 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool && !isThor ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom ? (
                 <LaptopStory />
+              ) : isVenom ? (
+                /* Venom gets a living membrane, not a panel */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  {/* Title, grown out of the mass */}
+                  <div className="relative z-20 -mb-4 flex items-end justify-between gap-3">
+                    <div className="venom-chip flex items-center gap-2.5 px-4 py-2 shadow-[0_0_26px_rgba(185,194,205,0.35)]">
+                      <VenomSpiderIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(233,237,242,1)]" />
+                      <span className="text-sm sm:text-base tracking-[0.14em] text-white">
+                        Symbiote Link
+                      </span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest text-[#c084fc]">
+                        KLYNTAR // HOST BONDED
+                      </span>
+                    </div>
+
+                    <div className="venom-chip hidden sm:block px-3 py-1.5">
+                      <span className="text-[10px] tracking-[0.2em] text-[#e8f0fc]">
+                        We know what you are looking for
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* The mass itself */}
+                  <div className="relative venom-flesh venom-alive h-[580px] flex flex-col overflow-hidden">
+                    {/* Tendrils gripping the inside of the frame */}
+                    {["top-6 left-3 rotate-[18deg]", "bottom-8 left-3 -rotate-[24deg]", "top-10 right-3 -rotate-[18deg]", "bottom-6 right-3 rotate-[24deg]"].map((pos) => (
+                      <span
+                        key={pos}
+                        className={`absolute ${pos} z-30 h-16 w-[3px] rounded-full bg-gradient-to-b from-[#c084fc]/70 to-transparent`}
+                      />
+                    ))}
+
+                    <div className="flex-1 overflow-hidden relative flex flex-col p-3 sm:p-4">
+                      <VenomConsole />
+                    </div>
+                  </div>
+
+                  {/* Closing whisper */}
+                  <div className="relative z-20 -mt-4 flex justify-end">
+                    <div className="venom-chip px-3 py-1.5 text-[10px] tracking-[0.2em] text-[#e9edf2]">
+                      Keep scrolling. We are not finished. 🖤
+                    </div>
+                  </div>
+                </div>
               ) : isThor ? (
                 /* Thor gets a rune-cut stone tablet, not a HUD window */
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">

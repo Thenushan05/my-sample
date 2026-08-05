@@ -8,9 +8,10 @@ import spideyLogo from "../../assets/spidey-logo-white.png"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
 import { MjolnirIcon } from "./MjolnirIcon"
+import { VenomSpiderIcon } from "./VenomSpiderIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
@@ -18,6 +19,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isIronman, setIsIronman] = useState(false)
     const [isDeadpool, setIsDeadpool] = useState(false)
     const [isThor, setIsThor] = useState(false)
+    const [isVenom, setIsVenom] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -29,6 +31,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsIronman(document.documentElement.classList.contains("ironman"))
                 setIsDeadpool(document.documentElement.classList.contains("deadpool"))
                 setIsThor(document.documentElement.classList.contains("thor"))
+                setIsVenom(document.documentElement.classList.contains("venom"))
             }
         }
 
@@ -138,6 +141,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsIronman(next && mode === "ironman")
             setIsDeadpool(next && mode === "deadpool")
             setIsThor(next && mode === "thor")
+            setIsVenom(next && mode === "venom")
             switching.current = false
         });
     }, [])
@@ -169,6 +173,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsIronman(false);
             setIsDeadpool(false);
             setIsThor(false);
+            setIsVenom(false);
             window.dispatchEvent(new Event("themeChange"));
         } else {
             // The toggleMode already does exactly what we need for enabling
@@ -176,7 +181,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
     }
 
-    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : "none";
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : "none";
 
     return (
         <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
@@ -193,6 +198,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     {currentMode === "ironman" && <img src={arcReactorLogo} alt="Iron Man" className="w-5 h-5 object-contain" />}
                     {currentMode === "deadpool" && <DeadpoolMaskIcon muted={false} className="w-5 h-5 object-contain text-white" />}
                     {currentMode === "thor" && <MjolnirIcon muted={false} className="w-5 h-5 object-contain text-white" />}
+                    {currentMode === "venom" && <VenomSpiderIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "none" && (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                             <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -249,6 +255,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 <MjolnirIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
                                 Thor
                             </button>
+                            <button
+                                onClick={() => handleSelectMode("venom")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "venom" && "text-zinc-700 dark:text-zinc-200 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <VenomSpiderIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Venom
+                            </button>
                         </div>
                     </motion.div>
                 )}
@@ -278,12 +291,12 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong>!
+                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong> or <strong className="text-zinc-200 font-bold">Venom</strong>!
                             </p>
                         </div>
 
                         {/* Glow effect behind tooltip */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-sky-400/10 rounded-xl blur-md -z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-zinc-400/10 rounded-xl blur-md -z-10" />
                     </motion.div>
                 )}
             </AnimatePresence>

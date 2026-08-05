@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -627,11 +628,12 @@ html.deadpool .gooey-nav-container nav ul li:not(.active):hover {
 html.thor {
   --color-nav-link-active: #7dd3fc;
   --color-border-strong: rgba(125, 211, 252, 0.45);
-  --color-card-hover-border: rgba(212, 175, 106, 0.85);
+  --color-card-hover-border: rgba(125, 211, 252, 0.85);
 }
 
 html.thor body {
-  background-color: #04070f !important;
+  /* Deep storm blue — cold all the way down */
+  background-color: #040a16 !important;
   cursor: none !important;
   /* Mjölnir cursor is drawn by ThorOverlay */
 }
@@ -672,7 +674,9 @@ html.thor .gooey-nav-container .effect.text {
   letter-spacing: 0.1em;
 }
 
-/* Storm wash: the light comes from above, where the lightning lives */
+/* Storm wash: cold from top to bottom. Brightest where the lightning lives
+   (above) and behind the central sigil, deepening to near-black navy at the
+   floor so the white-hot bolts stay the brightest thing on the page. */
 html.thor body::before {
   content: "";
   position: fixed;
@@ -684,10 +688,15 @@ html.thor body::before {
   z-index: -40;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% -15%, rgba(125, 211, 252, 0.3) 0%, transparent 58%),
-    radial-gradient(ellipse at 12% 10%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
-    radial-gradient(circle at 85% 85%, rgba(212, 175, 106, 0.1) 0%, transparent 50%),
-    linear-gradient(180deg, #0a1424 0%, #05080f 55%, #04070f 100%);
+    /* storm light bleeding over the top edge */
+    radial-gradient(ellipse at 50% -18%, rgba(186, 230, 253, 0.26) 0%, transparent 48%),
+    /* charge pooling behind the central sigil */
+    radial-gradient(circle at 50% 46%, rgba(56, 189, 248, 0.18) 0%, transparent 54%),
+    /* cold light spilling in from the lower corners */
+    radial-gradient(circle at 8% 88%, rgba(37, 99, 235, 0.16) 0%, transparent 48%),
+    radial-gradient(circle at 92% 82%, rgba(125, 211, 252, 0.12) 0%, transparent 46%),
+    /* storm-blue body deepening to a near-black navy floor */
+    linear-gradient(180deg, #0d2038 0%, #0a1830 40%, #061020 72%, #040a16 100%);
 }
 
 /* Interlaced Norse knotwork, tiled — worn engraving on the standing stone.
@@ -703,11 +712,27 @@ html.thor body::after {
   height: 100dvh;
   z-index: -39;
   pointer-events: none;
-  opacity: 0.16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%237dd3fc' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M0 40Q20 20 40 40T80 40'/%3E%3Cpath d='M40 0Q20 20 40 40T40 80'/%3E%3Cpath d='M0 0Q20 20 40 0'/%3E%3Cpath d='M40 80Q60 60 80 80'/%3E%3C/g%3E%3Cg fill='none' stroke='%23d4af6a' stroke-width='0.9' stroke-linecap='round' opacity='0.8'%3E%3Cpath d='M0 40Q20 60 40 40T80 40'/%3E%3Cpath d='M40 0Q60 20 40 40T40 80'/%3E%3Ccircle cx='40' cy='40' r='3.2'/%3E%3Ccircle cx='0' cy='40' r='2'/%3E%3Ccircle cx='80' cy='40' r='2'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse at 50% 18%, black 2%, rgba(0, 0, 0, 0.4) 45%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 18%, black 2%, rgba(0, 0, 0, 0.4) 45%, transparent 72%);
+  opacity: 0.3;
+  background-image:
+    /* Knotwork carved into the face, in cold storm blue */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='none' stroke='%237dd3fc' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M0 45Q22 22 45 45T90 45'/%3E%3Cpath d='M45 0Q22 22 45 45T45 90'/%3E%3Cpath d='M0 0Q22 22 45 0'/%3E%3Cpath d='M45 90Q68 68 90 90'/%3E%3C/g%3E%3Cg fill='none' stroke='%232563eb' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M0 45Q22 68 45 45T90 45'/%3E%3Cpath d='M45 0Q68 22 45 45T45 90'/%3E%3Ccircle cx='45' cy='45' r='3.4'/%3E%3Ccircle cx='0' cy='45' r='2'/%3E%3Ccircle cx='90' cy='45' r='2'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Hairline cracks running through the stone */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23020617' stroke-width='1.4' stroke-linecap='round' opacity='0.6'%3E%3Cpath d='M-10 62L58 96L44 148L112 176L96 232L168 258'/%3E%3Cpath d='M232 -10L214 54L268 88L246 150L300 190L286 250'/%3E%3Cpath d='M58 96L104 70L152 92'/%3E%3Cpath d='M112 176L166 156'/%3E%3Cpath d='M268 88L214 108'/%3E%3Cpath d='M0 286L72 306L140 288L210 312'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Bedded strata, uneven like a quarried block */
+    repeating-linear-gradient(
+      177deg,
+      rgba(2, 6, 23, 0.36) 0 2px,
+      transparent 2px 19px,
+      rgba(125, 211, 252, 0.06) 19px 20px,
+      transparent 20px 46px
+    ),
+    /* Weathering blotches */
+    radial-gradient(ellipse 42% 30% at 18% 24%, rgba(2, 6, 23, 0.42) 0%, transparent 70%),
+    radial-gradient(ellipse 38% 26% at 78% 62%, rgba(2, 6, 23, 0.38) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 22% at 46% 88%, rgba(37, 99, 235, 0.16) 0%, transparent 72%);
+  background-size: 90px 90px, 320px 320px, auto, auto, auto, auto;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 8%, rgba(0, 0, 0, 0.55) 52%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 8%, rgba(0, 0, 0, 0.55) 52%, transparent 88%);
 }
 
 /* Accent remap: hacker-green / blue utilities become lightning blue,
@@ -844,21 +869,259 @@ html.thor .thor-tablet::before,
   50% { transform: translateY(-7px); }
 }
 
-/* Sacred geometry turning behind the storm. Handed to the compositor so the
-   sigil canvases can be painted once instead of held in a rAF loop. */
-@keyframes thor-sigil-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Columns of runic inscription drifting down the page. The column is 200%
-   tall and travels exactly half its height, so the loop is seamless. */
-@keyframes thor-rune-drift {
-  from { transform: translateY(-50%); }
-  to { transform: translateY(0%); }
-}
-
 html.thor .thor-live-edge {
   animation: thor-arc 2.4s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Venom "WE ARE VENOM" — Symbiote Theme
+   Design language: void black and toothy white — the comic palette.
+   No hue anywhere; the purple is a movie-ism.
+   Not a HUD (Iron Man), not a neon web (Spider-Man), not a comic page
+   (Deadpool), not carved stone (Thor) — this one is a LIVING SURFACE.
+   Everything is wet, everything oozes, nothing sits still for long.
+   ══════════════════════════════════════════════════════════════ */
+html.venom {
+  --color-nav-link-active: #e9edf2;
+  --color-border-strong: rgba(185, 194, 205, 0.5);
+  --color-card-hover-border: rgba(244, 247, 251, 0.85);
+}
+
+html.venom body {
+  /* Void — the symbiote swallows light */
+  background-color: #050506 !important;
+  cursor: none !important;
+  /* Tendril cursor is drawn by VenomOverlay */
+}
+
+/* Tailwind preflight puts `cursor: pointer` on buttons, which beats the
+   inherited `none` and draws a second system cursor next to the tendril. */
+html.venom *,
+html.venom *:hover {
+  cursor: none !important;
+}
+
+/* Dripping monster capitals */
+html.venom h1,
+html.venom h2,
+html.venom h3,
+html.venom h4 {
+  font-family: 'Creepster', 'Impact', cursive !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f4f7fb;
+  text-shadow:
+    0 0 14px rgba(185, 194, 205, 0.75),
+    0 0 38px rgba(107, 114, 128, 0.4),
+    2px 3px 0 rgba(0, 0, 0, 0.95);
+}
+
+/* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
+   positioned exactly over the <li>. If the two don't share a font and
+   letter-spacing they render at different widths and you see doubled,
+   ghosted text — so the overlay must be listed here alongside the li. */
+html.venom button,
+html.venom .gooey-nav-container nav ul li,
+html.venom .gooey-nav-container nav ul li a,
+html.venom .gooey-nav-container .effect.text {
+  font-family: 'Creepster', 'Impact', cursive !important;
+  letter-spacing: 0.08em;
+}
+
+/* Wet symbiote wash — light pools where the mass is thickest */
+html.venom body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    /* the host glow, dead centre */
+    radial-gradient(circle at 50% 42%, rgba(107, 114, 128, 0.26) 0%, transparent 56%),
+    /* mass creeping in from the corners */
+    radial-gradient(ellipse at 4% 6%, rgba(75, 82, 89, 0.3) 0%, transparent 48%),
+    radial-gradient(ellipse at 96% 92%, rgba(75, 82, 89, 0.26) 0%, transparent 46%),
+    radial-gradient(ellipse at 50% 104%, rgba(23, 24, 27, 0.35) 0%, transparent 52%),
+    linear-gradient(180deg, #08090a 0%, #07030c 46%, #050506 100%);
+}
+
+/* Living membrane: oily sheen cells with a wet specular crawl */
+html.venom body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.42;
+  background-image:
+    /* veins running under the surface */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23b9c2cd' stroke-width='1.3' stroke-linecap='round' opacity='0.55'%3E%3Cpath d='M-10 40Q30 12 70 38T150 34'/%3E%3Cpath d='M-10 104Q34 78 70 102T150 96'/%3E%3Cpath d='M40 -10Q16 34 42 70T36 150'/%3E%3Cpath d='M104 -10Q84 36 106 72T100 150'/%3E%3Cpath d='M42 70L70 102M70 38L106 72'/%3E%3C/g%3E%3Cg fill='%23e9edf2' opacity='0.5'%3E%3Ccircle cx='70' cy='38' r='2.6'/%3E%3Ccircle cx='42' cy='70' r='2.2'/%3E%3Ccircle cx='106' cy='72' r='2.2'/%3E%3Ccircle cx='70' cy='102' r='2.6'/%3E%3C/g%3E%3C/svg%3E"),
+    /* wet highlights sitting on the mass */
+    radial-gradient(ellipse 24% 14% at 22% 18%, rgba(244, 247, 251, 0.09) 0%, transparent 62%),
+    radial-gradient(ellipse 18% 11% at 74% 34%, rgba(244, 247, 251, 0.07) 0%, transparent 62%),
+    radial-gradient(ellipse 26% 15% at 58% 76%, rgba(233, 237, 242, 0.09) 0%, transparent 64%),
+    /* deep pockets between the muscle */
+    radial-gradient(ellipse 34% 24% at 8% 62%, rgba(0, 0, 0, 0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 22% at 92% 22%, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
+  background-size: 140px 140px, auto, auto, auto, auto, auto;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 6%, rgba(0, 0, 0, 0.6) 50%, transparent 86%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 6%, rgba(0, 0, 0, 0.6) 50%, transparent 86%);
+}
+
+/* Accent remap: hacker-green / blue utilities become bone white,
+   violet / purple utilities become mid grey. */
+html.venom .text-emerald-400,
+html.venom .text-emerald-300,
+html.venom .text-emerald-500,
+html.venom .text-blue-400,
+html.venom .text-blue-500,
+html.venom .text-cyan-400 {
+  color: #e9edf2 !important;
+  text-shadow: 0 0 12px rgba(185, 194, 205, 0.7);
+}
+
+html.venom .text-violet-400,
+html.venom .text-zinc-200 {
+  color: #f1f5f9 !important;
+  text-shadow: 0 0 12px rgba(244, 247, 251, 0.5);
+}
+
+html.venom .border-emerald-500\/10,
+html.venom .border-emerald-500\/20,
+html.venom .border-emerald-500\/30,
+html.venom .border-emerald-500\/40,
+html.venom .border-emerald-500\/60,
+html.venom .border-blue-500\/20,
+html.venom .border-blue-500\/30,
+html.venom .border-cyan-500\/20 {
+  border-color: rgba(185, 194, 205, 0.45) !important;
+}
+
+html.venom .bg-emerald-500\/10,
+html.venom .bg-emerald-500\/20,
+html.venom .bg-blue-500\/10,
+html.venom .bg-cyan-500\/10 {
+  background-color: rgba(107, 114, 128, 0.18) !important;
+}
+
+html.venom .from-emerald-500,
+html.venom .from-emerald-600,
+html.venom .from-blue-400,
+html.venom .from-blue-500,
+html.venom .from-blue-600,
+html.venom .from-cyan-500 {
+  --tw-gradient-from: #b9c2cd !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.venom .to-teal-400,
+html.venom .to-teal-600,
+html.venom .to-violet-500,
+html.venom .to-violet-600,
+html.venom .to-blue-500 {
+  --tw-gradient-to: #141517 !important;
+}
+
+html.venom .shadow-emerald-500\/30,
+html.venom .shadow-emerald-500\/50,
+html.venom .shadow-blue-500\/30,
+html.venom .shadow-blue-500\/50,
+html.venom .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(185, 194, 205, 0.6) !important;
+}
+
+html.venom ::selection {
+  background: rgba(107, 114, 128, 0.6);
+  color: #f4f7fb;
+}
+
+html.venom ::-webkit-scrollbar-thumb {
+  background: rgba(185, 194, 205, 0.55);
+}
+
+html.venom ::-webkit-scrollbar-thumb:hover {
+  background: rgba(233, 237, 242, 0.95);
+}
+
+/* ── Living membrane panel (Venom's answer to .stark-hud-panel) ──
+   Glossy black mass with a bone-white rim-light and a wet top highlight.
+   Corners are deliberately uneven — the symbiote does not do right angles. */
+html.venom .venom-flesh,
+.venom-flesh {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(107, 114, 128, 0.22) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(20, 10, 30, 0.96) 0%, rgba(6, 3, 10, 0.98) 100%);
+  border: 1px solid rgba(185, 194, 205, 0.45);
+  border-radius: 26px 12px 30px 14px / 14px 28px 12px 26px;
+  box-shadow:
+    inset 0 1px 0 rgba(244, 247, 251, 0.28),
+    inset 0 0 70px rgba(75, 82, 89, 0.35),
+    0 0 44px rgba(107, 114, 128, 0.3),
+    0 16px 44px rgba(0, 0, 0, 0.8);
+}
+
+/* Wet specular running along the top of the mass */
+html.venom .venom-flesh::before,
+.venom-flesh::before {
+  content: "";
+  position: absolute;
+  inset: 4px 8px auto 8px;
+  height: 34%;
+  border-radius: 24px 10px 40px 30px / 18px 30px 14px 20px;
+  background: linear-gradient(180deg, rgba(244, 247, 251, 0.1) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Tendril-drawn plaque, used for tabs and chips */
+.venom-chip {
+  font-family: 'Creepster', 'Impact', cursive;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, rgba(20, 21, 23, 0.9) 0%, rgba(10, 4, 16, 0.95) 100%);
+  border: 1px solid rgba(185, 194, 205, 0.5);
+  border-radius: 12px 5px 14px 6px / 6px 13px 5px 12px;
+  color: #f4f7fb;
+}
+
+/* Ooze creeping along an edge */
+.venom-ooze-edge {
+  background: linear-gradient(180deg, #0f1011 0%, #0d0318 58%, transparent 100%);
+  filter: drop-shadow(0 4px 8px rgba(75, 82, 89, 0.9));
+}
+
+/* The mass never rests: a slow wet undulation */
+@keyframes venom-writhe {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(1px, -2px) scale(1.008); }
+  50% { transform: translate(-2px, 1px) scale(0.994); }
+  75% { transform: translate(2px, 2px) scale(1.006); }
+}
+
+/* Slime pulsing through a vein */
+@keyframes venom-pulse {
+  0%, 100% { opacity: 0.35; filter: brightness(1); }
+  45% { opacity: 1; filter: brightness(1.6); }
+  60% { opacity: 0.5; }
+}
+
+/* A drip stretching then letting go */
+@keyframes venom-drip {
+  0% { transform: scaleY(0.5); }
+  55% { transform: scaleY(1.15); }
+  100% { transform: scaleY(0.5); }
+}
+
+html.venom .venom-alive {
+  animation: venom-writhe 7s ease-in-out infinite;
 }
 
 /* ── Thor: nav selection is thunder cracked into stone ────────────

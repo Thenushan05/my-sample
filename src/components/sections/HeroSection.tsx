@@ -13,6 +13,7 @@ import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
+import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -73,7 +74,50 @@ const LASER_COLORS = [
 ];
 
 const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
-const THOR_PORTRAIT = "/thorme.png";
+const THOR_PORTRAIT = "/thorme_nobg.png";
+const VENOM_PORTRAIT = "/venom-nobg.png";
+
+/**
+ * The symbiote spread.
+ *
+ * A real Venom transformation isn't a wipe — the mass takes hold at one point
+ * and creeps outward in lobes until it has covered everything. These are five
+ * polygons with an identical point count so clip-path can morph between them,
+ * each a larger version of the same irregular outline centred on the chest.
+ * The per-point noise is fixed, so the shape grows outward rather than
+ * wobbling randomly on every frame.
+ */
+const VENOM_SPREAD = (() => {
+  const POINTS = 26;
+  const cx = 50;
+  const cy = 56;
+  const noise = Array.from(
+    { length: POINTS },
+    (_, i) => 0.72 + ((Math.sin(i * 2.3) + Math.sin(i * 5.1)) * 0.5 + 1) * 0.28
+  );
+  const at = (r: number) =>
+    "polygon(" +
+    Array.from({ length: POINTS }, (_, i) => {
+      const a = (i / POINTS) * Math.PI * 2;
+      const rr = r * noise[i];
+      return (cx + Math.cos(a) * rr).toFixed(1) + "% " + (cy + Math.sin(a) * rr * 1.3).toFixed(1) + "%";
+    }).join(", ") +
+    ")";
+
+  return [at(2), at(20), at(52), at(96), at(165)];
+})();
+
+/** Feelers that run ahead of the spread, then retract into the mass. */
+const VENOM_FEELERS = [
+  { d: "M50 56 C 44 44, 30 36, 22 20", delay: 0.18 },
+  { d: "M50 56 C 57 44, 71 36, 79 20", delay: 0.26 },
+  { d: "M50 56 C 40 62, 26 66, 14 62", delay: 0.36 },
+  { d: "M50 56 C 61 62, 75 66, 87 62", delay: 0.44 },
+  { d: "M50 56 C 48 72, 42 84, 34 97", delay: 0.54 },
+  { d: "M50 56 C 53 72, 59 84, 67 97", delay: 0.62 },
+  { d: "M50 56 C 50 44, 50 30, 50 10", delay: 0.70 },
+];
+
 
 /**
  * Katana cuts across the portrait. Adjacent bands share their edge
@@ -141,6 +185,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isThor, setIsThor] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("thor")
   );
+  const [isVenom, setIsVenom] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("venom")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
@@ -149,6 +196,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsIronman(document.documentElement.classList.contains("ironman"));
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
       setIsThor(document.documentElement.classList.contains("thor"));
+      setIsVenom(document.documentElement.classList.contains("venom"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -322,7 +370,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)]"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -332,6 +380,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <DeadpoolMaskIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(220,20,60,1)] animate-pulse" />
               ) : isThor ? (
                 <MjolnirIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(125,211,252,1)] animate-pulse" />
+              ) : isVenom ? (
+                <VenomSpiderIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(233,237,242,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -343,7 +393,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     ? "MERC WITH A PORTFOLIO • MAXIMUM EFFORT"
                     : isThor
                       ? "ASGARD • GOD OF THUNDER & DEPLOYMENTS"
-                      : "Available for New Projects"}
+                      : isVenom
+                        ? "WE ARE VENOM • WE SHIP TOGETHER"
+                        : "Available for New Projects"}
             </motion.div>
 
             <AnimatePresence>
@@ -568,7 +620,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -631,6 +683,109 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 )}
               </AnimatePresence>
 
+              {/* Venom: the symbiote takes hold.
+                  The portrait is a transparent PNG now, so it composites
+                  normally — a screen blend would wash the black suit out
+                  against the void. The reveal is an organic clip-path spread
+                  from the chest outward rather than a wipe. */}
+              <AnimatePresence>
+                {isVenom && (
+                  <motion.div
+                    key="venom-portrait"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="col-start-1 row-start-1 z-20 relative"
+                  >
+                    {/* Invisible sizer: fixes the box so the overlays align */}
+                    <img
+                      src={VENOM_PORTRAIT}
+                      alt=""
+                      aria-hidden
+                      className="block w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain opacity-0 pointer-events-none"
+                    />
+
+                    <motion.img
+                      initial={{ clipPath: VENOM_SPREAD[0], filter: "grayscale(1) contrast(1.5) brightness(0.7)" }}
+                      animate={{
+                        clipPath: VENOM_SPREAD,
+                        filter: [
+                          "grayscale(1) contrast(1.5) brightness(0.7)",
+                          "grayscale(1) contrast(1.35) brightness(0.85)",
+                          "grayscale(1) contrast(1.2) brightness(0.95)",
+                          "grayscale(1) contrast(1.12) brightness(1)",
+                          "grayscale(1) contrast(1.1) brightness(1)",
+                        ],
+                      }}
+                      exit={{ clipPath: VENOM_SPREAD[0], opacity: 0 }}
+                      transition={{ duration: 1.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.18, 0.44, 0.72, 1] }}
+                      src={VENOM_PORTRAIT}
+                      alt="Symbiote Suit"
+                      style={{
+                        maskImage: "radial-gradient(ellipse at 50% 44%, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 97%)",
+                        WebkitMaskImage: "radial-gradient(ellipse at 50% 44%, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 97%)",
+                      }}
+                      className="absolute inset-0 h-full w-full object-contain"
+                    />
+
+                    {/* Feelers running ahead of the mass */}
+                    <svg
+                      viewBox="0 0 100 100"
+                      preserveAspectRatio="none"
+                      className="absolute inset-0 h-full w-full overflow-visible pointer-events-none"
+                    >
+                      {VENOM_FEELERS.map((f) => (
+                        <motion.path
+                          key={f.d}
+                          d={f.d}
+                          fill="none"
+                          stroke="#0b0b0d"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: [0, 1, 1, 0.15], opacity: [0, 1, 0.8, 0] }}
+                          transition={{ duration: 1.7, delay: f.delay, ease: "easeOut", times: [0, 0.4, 0.7, 1] }}
+                          vectorEffect="non-scaling-stroke"
+                          style={{ filter: "drop-shadow(0 0 4px rgba(0,0,0,0.95))" }}
+                        />
+                      ))}
+                      {/* Wet highlight riding each feeler */}
+                      {VENOM_FEELERS.map((f) => (
+                        <motion.path
+                          key={"hl-" + f.d}
+                          d={f.d}
+                          fill="none"
+                          stroke="#f4f7fb"
+                          strokeWidth="0.5"
+                          strokeLinecap="round"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: [0, 1, 1, 0.15], opacity: [0, 0.85, 0.4, 0] }}
+                          transition={{ duration: 1.7, delay: f.delay + 0.04, ease: "easeOut", times: [0, 0.4, 0.7, 1] }}
+                          vectorEffect="non-scaling-stroke"
+                        />
+                      ))}
+                    </svg>
+
+                    {/* Wet sheen crawling over the mass, never still */}
+                    <motion.div
+                      animate={{ opacity: [0.14, 0.34, 0.18], scale: [1, 1.04, 1] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_42%_32%,rgba(244,247,251,0.2)_0%,transparent_58%)]"
+                    />
+
+                    {/* It has opinions */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 2 }}
+                      className="venom-chip absolute bottom-[5%] right-[2%] px-3 py-1.5 text-[10px] tracking-[0.16em] sm:text-[11px] pointer-events-none"
+                    >
+                      We Are Venom
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Thor: summoned by lightning. */}
               <AnimatePresence>
                 {isThor && (
@@ -646,7 +801,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       animate={{ opacity: 1, scale: 1, filter: "brightness(1.06) contrast(1.06)" }}
                       exit={{ opacity: 0, scale: 1.04, filter: "brightness(2.2)" }}
                       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                      src="/thorme_nobg.png"
+                      src={THOR_PORTRAIT}
                       alt="Asgardian Armour"
                       style={{
                         maskImage: "radial-gradient(ellipse at 50% 42%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 97%)",
@@ -846,7 +1001,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${

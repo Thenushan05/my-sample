@@ -103,16 +103,22 @@ export const StormBackground: React.FC = () => {
       alpha: 0.1 + Math.random() * 0.3,
     });
 
-    let rain: RainDrop[] = Array.from({ length: 190 }, () => spawnDrop(true));
+    // Thinned from a downpour to a steadier fall, so the carved sigils and
+    // knotwork behind it stay legible
+    const RAIN_COUNT = 130;
+    let rain: RainDrop[] = Array.from({ length: RAIN_COUNT }, () => spawnDrop(true));
 
     const drawClouds = () => {
       // Three parallax bands of cloud, each a soft ellipse field drifting
       // at its own rate. Cheap stand-in for volumetric cloud, reads well
       // behind the rain.
+      // Cold storm cloud, lit from above. Brightest band on top where the
+      // lightning sits, deepening to slate-blue below so the white-hot bolts
+      // stay the brightest thing on screen.
       const bands = [
-        { y: height * 0.02, r: height * 0.3, drift: 0.006, alpha: 0.3, tint: "125,211,252" },
-        { y: height * 0.12, r: height * 0.24, drift: -0.009, alpha: 0.22, tint: "148,163,184" },
-        { y: height * 0.24, r: height * 0.18, drift: 0.013, alpha: 0.14, tint: "100,116,139" },
+        { y: height * 0.02, r: height * 0.3, drift: 0.006, alpha: 0.26, tint: "186,230,253" },
+        { y: height * 0.13, r: height * 0.26, drift: -0.009, alpha: 0.2, tint: "125,178,232" },
+        { y: height * 0.26, r: height * 0.2, drift: 0.013, alpha: 0.15, tint: "56,96,168" },
       ];
 
       bands.forEach((band, bi) => {
@@ -135,7 +141,8 @@ export const StormBackground: React.FC = () => {
     const drawRain = () => {
       ctx.lineCap = "round";
       rain.forEach((drop, i) => {
-        ctx.strokeStyle = `rgba(186, 230, 253, ${drop.alpha})`;
+        // Rain catching the cold light of the storm above
+        ctx.strokeStyle = `rgba(191, 219, 254, ${drop.alpha})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         // Driven at an angle, like wind-blown rain
@@ -187,10 +194,11 @@ export const StormBackground: React.FC = () => {
 
       // Sky lit by the strike, painted before the rain so drops catch the light
       if (flash > 0.01) {
+        // White-hot where the bolt enters, falling away through storm blue
         const glow = ctx.createLinearGradient(0, 0, 0, height);
-        glow.addColorStop(0, `rgba(186, 230, 253, ${flash * 0.4})`);
-        glow.addColorStop(0.45, `rgba(125, 211, 252, ${flash * 0.14})`);
-        glow.addColorStop(1, "rgba(125, 211, 252, 0)");
+        glow.addColorStop(0, `rgba(224, 242, 254, ${flash * 0.4})`);
+        glow.addColorStop(0.4, `rgba(125, 211, 252, ${flash * 0.18})`);
+        glow.addColorStop(1, "rgba(37, 99, 235, 0)");
         ctx.fillStyle = glow;
         ctx.fillRect(0, 0, width, height);
         flash *= 0.86;
@@ -205,7 +213,7 @@ export const StormBackground: React.FC = () => {
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      rain = Array.from({ length: 190 }, () => spawnDrop(true));
+      rain = Array.from({ length: RAIN_COUNT }, () => spawnDrop(true));
       bolts = [];
     };
 

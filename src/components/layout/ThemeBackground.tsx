@@ -282,9 +282,9 @@ export const ThemeBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#04070f] transition-colors duration-700 pointer-events-none select-none">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] transition-colors duration-700 pointer-events-none select-none">
       {/* Ambient background glows */}
-      <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden">
+      <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.95)_0%,rgba(3,7,18,1)_100%)]" />
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-600/5 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-600/5 rounded-full blur-[140px]" />
@@ -304,11 +304,20 @@ export const ThemeBackground: React.FC = () => {
         <div className="absolute bottom-[-12%] right-[-12%] w-[62%] h-[62%] bg-[#450a0a]/60 rounded-full blur-[150px]" />
       </div>
 
-      {/* Thor Ambient Glows — storm light from above, bronze warmth below */}
+      {/* Venom Ambient Glows — the mass pools in the corners and swallows the middle */}
+      <div className="absolute inset-0 hidden [.venom_&]:block">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(126,34,206,0.2)_0%,rgba(5,3,8,0.99)_66%)]" />
+        <div className="absolute top-[-14%] left-[-12%] w-[62%] h-[62%] bg-purple-800/28 rounded-full blur-[170px]" />
+        <div className="absolute bottom-[-14%] right-[-12%] w-[58%] h-[58%] bg-[#3b0764]/45 rounded-full blur-[160px]" />
+        <div className="absolute bottom-[-10%] left-[-8%] w-[50%] h-[50%] bg-fuchsia-900/22 rounded-full blur-[150px]" />
+      </div>
+
+      {/* Thor Ambient Glows — storm light above, deep charge pooling below */}
       <div className="absolute inset-0 hidden [.thor_&]:block">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(125,211,252,0.24)_0%,rgba(4,7,15,0.98)_68%)]" />
-        <div className="absolute top-[-14%] left-[-10%] w-[64%] h-[64%] bg-sky-400/15 rounded-full blur-[170px]" />
-        <div className="absolute bottom-[-12%] right-[-12%] w-[58%] h-[58%] bg-[#b08d57]/15 rounded-full blur-[160px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(186,230,253,0.2)_0%,rgba(4,10,22,0.98)_62%)]" />
+        <div className="absolute top-[-14%] left-[-10%] w-[60%] h-[60%] bg-sky-200/12 rounded-full blur-[180px]" />
+        <div className="absolute bottom-[-14%] left-[-8%] w-[58%] h-[58%] bg-blue-700/22 rounded-full blur-[170px]" />
+        <div className="absolute bottom-[-10%] right-[-12%] w-[54%] h-[54%] bg-[#0ea5e9]/16 rounded-full blur-[160px]" />
       </div>
 
       <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden">
@@ -320,7 +329,7 @@ export const ThemeBackground: React.FC = () => {
       {/* FULLSCREEN CANVAS GEOMETRY */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden opacity-90"
+        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden opacity-90"
       />
     </div>
   );
