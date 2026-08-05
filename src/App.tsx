@@ -21,6 +21,13 @@ import { PageLoader } from "./components/layout/PageLoader";
 import { SpidermanLoader } from "./components/immersive/SpidermanLoader";
 import { IronManHelmetHUD } from "./components/immersive/IronManHelmetHUD";
 import { IronManConsole } from "./components/immersive/IronManConsole";
+import { IronManRepulsor } from "./components/immersive/IronManRepulsor";
+import { IronManSuitUp } from "./components/immersive/IronManSuitUp";
+import { DeadpoolOverlay } from "./components/immersive/DeadpoolOverlay";
+import { DeadpoolConsole } from "./components/immersive/DeadpoolConsole";
+import { DeadpoolLoader } from "./components/immersive/DeadpoolLoader";
+import { DeadpoolMerc } from "./components/immersive/DeadpoolMerc";
+import { BloodSplatterBackground } from "./components/immersive/BloodSplatterBackground";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -33,11 +40,15 @@ export function App() {
   const [isIronman, setIsIronman] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("ironman")
   );
+  const [isDeadpool, setIsDeadpool] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("deadpool")
+  );
 
   useEffect(() => {
     const syncModes = () => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
       setIsIronman(document.documentElement.classList.contains("ironman"));
+      setIsDeadpool(document.documentElement.classList.contains("deadpool"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -54,7 +65,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman]);
+  }, [isSpiderman, isIronman, isDeadpool]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -74,6 +85,8 @@ export function App() {
         {!loadingComplete && (
           isSpiderman ? (
             <SpidermanLoader key="spidey-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isDeadpool ? (
+            <DeadpoolLoader key="deadpool-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -85,17 +98,32 @@ export function App() {
 
       {/* ── Main App Content ──────────────────────── */}
       <div className={`relative w-full min-h-screen text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
-        <ClickSpark sparkColor="#8B5CF6" sparkSize={8} sparkRadius={20} sparkCount={10} duration={500} extraScale={1.2}>
+        <ClickSpark
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : "#8B5CF6"}
+          sparkSize={isIronman ? 12 : 8}
+          sparkRadius={isIronman ? 28 : 20}
+          sparkCount={isIronman ? 12 : 10}
+          duration={500}
+          extraScale={1.2}
+        >
           {/* Cinematic ambient lighting backgrounds */}
           <ThemeBackground />
 
           {/* Immersive HUD Overlays */}
           {isIronman && <IronManHelmetHUD />}
+          {isIronman && <IronManRepulsor />}
+          {/* Remounts on every activation, so the suit-up replays each time */}
+          {isIronman && loadingComplete && <IronManSuitUp />}
 
           {/* Immersive Spidey Mode Effects */}
           {isSpiderman && <SpiderwebBackground />}
           {isSpiderman && <SpiderCrawl />}
           {isSpiderman && <SpidermanDrop />}
+
+          {/* Immersive Deadpool Mode Effects */}
+          {isDeadpool && <BloodSplatterBackground />}
+          {isDeadpool && <DeadpoolOverlay />}
+          {isDeadpool && <DeadpoolMerc />}
 
           {/* ── Page Layout ───────────────────────────── */}
           <main>
@@ -106,8 +134,53 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman ? (
+              {!isSpiderman && !isIronman && !isDeadpool ? (
                 <LaptopStory />
+              ) : isDeadpool ? (
+                /* Deadpool gets a printed comic page instead of a HUD window */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  {/* Issue banner */}
+                  <div className="relative z-20 flex items-end justify-between gap-3 -mb-3">
+                    <div
+                      className="border-[3px] border-black bg-[#dc143c] px-4 py-1.5 shadow-[6px_6px_0_rgba(0,0,0,0.85)]"
+                      style={{ transform: "rotate(-1.8deg)" }}
+                    >
+                      <span className="text-white text-xl sm:text-2xl tracking-wider" style={{ fontFamily: "'Bangers', cursive" }}>
+                        Deadpool
+                      </span>
+                      <span className="ml-2 font-mono text-[10px] uppercase tracking-widest text-yellow-200">
+                        Issue #42 • The Merc With A Portfolio
+                      </span>
+                    </div>
+
+                    <div
+                      className="hidden sm:block border-[3px] border-black bg-[#f7f1e3] px-3 py-1 shadow-[5px_5px_0_rgba(0,0,0,0.85)]"
+                      style={{ transform: "rotate(2.5deg)" }}
+                    >
+                      <span className="text-[10px] uppercase tracking-widest text-[#140000]" style={{ fontFamily: "'Bangers', cursive" }}>
+                        Approved by absolutely nobody
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* The page itself */}
+                  <div className="relative dp-panel h-[580px] flex flex-col overflow-hidden">
+                    {/* Staples along the spine */}
+                    <div className="absolute left-0 top-1/4 h-8 w-1.5 bg-slate-400/70 z-30 rounded-r-sm" />
+                    <div className="absolute left-0 bottom-1/4 h-8 w-1.5 bg-slate-400/70 z-30 rounded-r-sm" />
+
+                    <div className="flex-1 overflow-hidden relative flex flex-col p-2.5 sm:p-3">
+                      <DeadpoolConsole />
+                    </div>
+                  </div>
+
+                  {/* Closing caption strip */}
+                  <div className="relative z-20 -mt-3 flex justify-end">
+                    <div className="dp-caption px-3 py-1.5 text-[11px]" style={{ transform: "rotate(1.2deg)" }}>
+                      Next issue: he actually ships it. Keep scrolling →
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
                   {/* HUD Frame */}

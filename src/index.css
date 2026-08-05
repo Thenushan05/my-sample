@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Special+Elite&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -354,6 +355,247 @@ html.spiderman .shadow-cyan-500\/30 {
 
 html.spiderman .gooey-nav-container nav ul li.active {
   color: #ef4444 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Deadpool "Merc with a Mouth" — Blood & Comic Book Theme
+   Design language: crimson blood + bone white + yellow caption
+   boxes, hand-lettered comic type, halftone print dots, hard
+   black panel borders. Deliberately NOT a HUD (that's Iron Man)
+   and NOT a neon web (that's Spider-Man) — this one is a
+   blood-soaked comic page.
+   ══════════════════════════════════════════════════════════════ */
+html.deadpool {
+  --color-nav-link-active: #dc143c;
+  --color-border-strong: rgba(220, 20, 60, 0.5);
+  --color-card-hover-border: rgba(220, 20, 60, 0.85);
+}
+
+html.deadpool body {
+  background-color: #0b0203 !important;
+  cursor: none !important;
+  /* Katana cursor is drawn by DeadpoolOverlay */
+}
+
+/* Comic-book hand lettering for headings; body copy stays readable */
+html.deadpool h1,
+html.deadpool h2,
+html.deadpool h3,
+html.deadpool h4 {
+  font-family: 'Bangers', 'Impact', cursive !important;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: #f7f1e3;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.9);
+  paint-order: stroke fill;
+  text-shadow:
+    3px 3px 0 #7f1d1d,
+    5px 5px 0 rgba(0, 0, 0, 0.85),
+    0 0 26px rgba(220, 20, 60, 0.45);
+}
+
+/* Typewriter "mission file" type for small caps / mono labels */
+html.deadpool .font-mono,
+html.deadpool code,
+html.deadpool pre {
+  font-family: 'Special Elite', 'Courier New', monospace !important;
+}
+
+html.deadpool button,
+html.deadpool .gooey-nav-container nav ul li {
+  font-family: 'Bangers', 'Impact', cursive !important;
+  letter-spacing: 0.06em;
+}
+
+/* Blood wash: pooled crimson at the edges, dark clot in the middle */
+html.deadpool body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(190, 18, 40, 0.34) 0%, transparent 55%),
+    radial-gradient(circle at 8% 88%, rgba(139, 0, 20, 0.28) 0%, transparent 50%),
+    radial-gradient(circle at 92% 78%, rgba(220, 20, 60, 0.16) 0%, transparent 45%),
+    #0b0203;
+}
+
+/* Halftone comic print dots + newsprint grain */
+html.deadpool body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    radial-gradient(rgba(220, 20, 60, 0.85) 1.1px, transparent 1.2px),
+    radial-gradient(rgba(255, 255, 255, 0.16) 0.8px, transparent 0.9px);
+  background-size: 9px 9px, 9px 9px;
+  background-position: 0 0, 4.5px 4.5px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 10%, rgba(0, 0, 0, 0.35) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 10%, rgba(0, 0, 0, 0.35) 70%);
+}
+
+/* Accent remap: hacker-green / blue utilities become blood crimson,
+   violet / purple utilities become Deadpool caption-box yellow. */
+html.deadpool .text-emerald-400,
+html.deadpool .text-emerald-300,
+html.deadpool .text-emerald-500,
+html.deadpool .text-blue-400,
+html.deadpool .text-blue-500,
+html.deadpool .text-cyan-400 {
+  color: #ef2b4f !important;
+  text-shadow: 0 0 10px rgba(220, 20, 60, 0.55);
+}
+
+html.deadpool .text-violet-400,
+html.deadpool .text-purple-400 {
+  color: #fde047 !important;
+  text-shadow: 0 0 10px rgba(253, 224, 71, 0.45);
+}
+
+html.deadpool .border-emerald-500\/10,
+html.deadpool .border-emerald-500\/20,
+html.deadpool .border-emerald-500\/30,
+html.deadpool .border-emerald-500\/40,
+html.deadpool .border-emerald-500\/60,
+html.deadpool .border-blue-500\/20,
+html.deadpool .border-blue-500\/30,
+html.deadpool .border-cyan-500\/20 {
+  border-color: rgba(220, 20, 60, 0.5) !important;
+}
+
+html.deadpool .bg-emerald-500\/10,
+html.deadpool .bg-emerald-500\/20,
+html.deadpool .bg-blue-500\/10,
+html.deadpool .bg-cyan-500\/10 {
+  background-color: rgba(220, 20, 60, 0.16) !important;
+}
+
+html.deadpool .from-emerald-500,
+html.deadpool .from-emerald-600,
+html.deadpool .from-blue-400,
+html.deadpool .from-blue-500,
+html.deadpool .from-blue-600,
+html.deadpool .from-cyan-500 {
+  --tw-gradient-from: #dc143c !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.deadpool .to-teal-400,
+html.deadpool .to-teal-600,
+html.deadpool .to-violet-500,
+html.deadpool .to-violet-600,
+html.deadpool .to-blue-500 {
+  --tw-gradient-to: #450a0a !important;
+}
+
+html.deadpool .shadow-emerald-500\/30,
+html.deadpool .shadow-emerald-500\/50,
+html.deadpool .shadow-blue-500\/30,
+html.deadpool .shadow-blue-500\/50,
+html.deadpool .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(220, 20, 60, 0.6) !important;
+}
+
+html.deadpool .gooey-nav-container nav ul li.active {
+  color: #dc143c !important;
+  text-shadow: 0 0 12px rgba(220, 20, 60, 0.9);
+}
+
+html.deadpool ::selection {
+  background: rgba(220, 20, 60, 0.55);
+  color: #fff8e7;
+}
+
+html.deadpool ::-webkit-scrollbar-thumb {
+  background: rgba(220, 20, 60, 0.55);
+}
+
+html.deadpool ::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 20, 60, 0.9);
+}
+
+/* ── Comic panel surface (Deadpool's answer to .stark-hud-panel) ──
+   Hard black keyline, offset drop shadow, torn newsprint interior. */
+html.deadpool .dp-panel,
+.dp-panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(24, 4, 8, 0.96) 0%, rgba(10, 2, 3, 0.98) 100%);
+  border: 3px solid #0a0000;
+  outline: 2px solid rgba(220, 20, 60, 0.55);
+  outline-offset: -6px;
+  border-radius: 4px;
+  box-shadow:
+    8px 8px 0 rgba(0, 0, 0, 0.85),
+    0 0 40px rgba(220, 20, 60, 0.22),
+    inset 0 0 60px rgba(139, 0, 20, 0.28);
+}
+
+/* Halftone texture usable on any surface */
+.dp-halftone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.9) 1px, transparent 1.1px);
+  background-size: 6px 6px;
+  mix-blend-mode: overlay;
+}
+
+/* Yellow narration caption box — Deadpool's signature 4th-wall device */
+.dp-caption {
+  font-family: 'Bangers', 'Impact', cursive;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #fde047 0%, #f5c518 100%);
+  color: #140000;
+  border: 3px solid #0a0000;
+  border-radius: 3px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+/* Wet blood edge used along panel tops */
+.dp-blood-edge {
+  background: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 55%, transparent 100%);
+  filter: drop-shadow(0 4px 6px rgba(139, 0, 20, 0.9));
+}
+
+@keyframes dp-drip {
+  0% { transform: translateY(-100%) scaleY(0.4); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translateY(115vh) scaleY(1.6); opacity: 0.9; }
+}
+
+@keyframes dp-jitter {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-1px, 1px) rotate(-0.4deg); }
+  40% { transform: translate(1px, -1px) rotate(0.4deg); }
+  60% { transform: translate(-1px, -1px) rotate(-0.2deg); }
+  80% { transform: translate(1px, 1px) rotate(0.2deg); }
+}
+
+/* Comic pages are printed slightly off-register — so is this one */
+html.deadpool .dp-jitter:hover {
+  animation: dp-jitter 0.35s steps(2, end) infinite;
+}
+
+@keyframes dp-pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.5); }
+  50% { box-shadow: 0 0 22px 6px rgba(220, 20, 60, 0.18); }
 }
 
 /* â”€â”€ View Transitions API (Theme Toggler) â”€â”€â”€â”€â”€â”€â”€ */

@@ -5,11 +5,16 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
 import spideyLogo from "../../assets/spidey-logo-white.png"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
+import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
 
-/** Dual Hero Theme Switcher (Spidey Mode 🕷️ & Iron Man Mode 🦾). */
+type HeroMode = "spiderman" | "ironman" | "deadpool"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool"]
+
+/** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
     const [isSpidey, setIsSpidey] = useState(false)
     const [isIronman, setIsIronman] = useState(false)
+    const [isDeadpool, setIsDeadpool] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
 
     useEffect(() => {
@@ -17,6 +22,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             if (typeof document !== "undefined") {
                 setIsSpidey(document.documentElement.classList.contains("spiderman"))
                 setIsIronman(document.documentElement.classList.contains("ironman"))
+                setIsDeadpool(document.documentElement.classList.contains("deadpool"))
             }
         }
 
@@ -28,15 +34,18 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         })
 
         // Check if user has seen the guide. If not, show onboarding after a delay.
+        let timer: ReturnType<typeof setTimeout> | undefined
         const hasSeenGuide = localStorage.getItem("has_seen_hero_guide")
         if (!hasSeenGuide) {
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 setShowOnboarding(true)
             }, 2500)
-            return () => clearTimeout(timer)
         }
 
-        return () => observer.disconnect()
+        return () => {
+            if (timer) clearTimeout(timer)
+            observer.disconnect()
+        }
     }, [])
 
     const handleDismissGuide = (e?: React.MouseEvent) => {
@@ -56,7 +65,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }, 100);
     };
 
-    const toggleSpidey = useCallback((e?: React.MouseEvent) => {
+    /**
+     * Hero modes are mutually exclusive classes on <html>. Toggling one
+     * always clears the other two, forces dark mode (every hero palette
+     * assumes a near-black base) and persists the choice for the
+     * pre-paint boot script in index.html.
+     */
+    const toggleMode = useCallback((mode: HeroMode, e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -64,43 +79,22 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         handleDismissGuide(); // Hide tooltip on interaction
 
         maintainScrollPosition(() => {
-            const next = !document.documentElement.classList.contains("spiderman")
-            document.documentElement.classList.remove("ironman")
-            document.documentElement.classList.toggle("spiderman", next)
-            
+            const root = document.documentElement
+            const next = !root.classList.contains(mode)
+
+            HERO_MODES.forEach((m) => root.classList.remove(m))
+            root.classList.toggle(mode, next)
+
             if (next) {
-                document.documentElement.classList.add("dark")
+                root.classList.add("dark")
                 localStorage.setItem("theme", "dark")
                 window.dispatchEvent(new Event("themeChange"))
             }
 
-            localStorage.setItem("hero_mode", next ? "spiderman" : "none")
-            setIsSpidey(next)
-            setIsIronman(false)
-        });
-    }, [])
-
-    const toggleIronman = useCallback((e?: React.MouseEvent) => {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        handleDismissGuide(); // Hide tooltip on interaction
-
-        maintainScrollPosition(() => {
-            const next = !document.documentElement.classList.contains("ironman")
-            document.documentElement.classList.remove("spiderman")
-            document.documentElement.classList.toggle("ironman", next)
-
-            if (next) {
-                document.documentElement.classList.add("dark")
-                localStorage.setItem("theme", "dark")
-                window.dispatchEvent(new Event("themeChange"))
-            }
-
-            localStorage.setItem("hero_mode", next ? "ironman" : "none")
-            setIsIronman(next)
-            setIsSpidey(false)
+            localStorage.setItem("hero_mode", next ? mode : "none")
+            setIsSpidey(next && mode === "spiderman")
+            setIsIronman(next && mode === "ironman")
+            setIsDeadpool(next && mode === "deadpool")
         });
     }, [])
 
@@ -110,7 +104,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             <div className="relative inline-flex group">
                 <button
                     type="button"
-                    onClick={toggleSpidey}
+                    onClick={(e) => toggleMode("spiderman", e)}
                     aria-pressed={isSpidey}
                     title={isSpidey ? "Disable Spidey Mode" : "Enable Spidey Mode"}
                     className={cn(
@@ -139,7 +133,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             <div className="relative inline-flex group">
                 <button
                     type="button"
-                    onClick={toggleIronman}
+                    onClick={(e) => toggleMode("ironman", e)}
                     aria-pressed={isIronman}
                     title={isIronman ? "Disable Iron Man Mode" : "Enable Iron Man Mode"}
                     className={cn(
@@ -161,6 +155,44 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                         )}
                     />
                     <span className="sr-only">Toggle Iron Man Mode</span>
+                </button>
+            </div>
+
+            {/* Deadpool Mode Button */}
+            <div className="relative inline-flex group">
+                <button
+                    type="button"
+                    onClick={(e) => toggleMode("deadpool", e)}
+                    aria-pressed={isDeadpool}
+                    title={isDeadpool ? "Disable Deadpool Mode" : "Enable Deadpool Mode"}
+                    className={cn(
+                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
+                        isDeadpool
+                            ? "bg-black/95 border-red-700/90 shadow-[0_0_20px_rgba(220,20,60,0.9)] ring-2 ring-yellow-400/50"
+                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700",
+                    )}
+                >
+                    {/* Blood smear that wipes across the button while active */}
+                    {isDeadpool && (
+                        <motion.span
+                            aria-hidden
+                            initial={{ scaleX: 0, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: [0, 0.85, 0.45] }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="absolute inset-x-0 bottom-0 h-1/2 origin-left bg-gradient-to-t from-red-800/90 to-transparent pointer-events-none"
+                        />
+                    )}
+                    <DeadpoolMaskIcon
+                        muted={!isDeadpool}
+                        className={cn(
+                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none relative z-10",
+                            isDeadpool
+                                ? "scale-115 drop-shadow-[0_0_10px_rgba(220,20,60,1)] animate-pulse"
+                                : "opacity-90 hover:opacity-100 group-hover:scale-110 group-hover:rotate-[-6deg]"
+                        )}
+                    />
+                    <span className="sr-only">Toggle Deadpool Mode</span>
                 </button>
             </div>
 
@@ -188,12 +220,12 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong> or <strong className="text-cyan-400 font-bold">Iron Man</strong>. Click the icons above to activate immersive mode!
+                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong> or <strong className="text-rose-500 font-bold">Deadpool</strong>. Click the icons above to activate immersive mode!
                             </p>
                         </div>
-                        
+
                         {/* Glow effect behind tooltip */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-cyan-500/10 rounded-xl blur-md -z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-rose-700/10 rounded-xl blur-md -z-10" />
                     </motion.div>
                 )}
             </AnimatePresence>

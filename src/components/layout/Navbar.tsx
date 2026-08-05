@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import logoImg from "../../assets/logo.png";
 import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 
 interface NavItem {
   label: string;
@@ -34,15 +35,17 @@ export const Navbar: React.FC = () => {
   });
   const [isSpiderman, setIsSpiderman] = useState(false);
   const [isIronman, setIsIronman] = useState(false);
+  const [isDeadpool, setIsDeadpool] = useState(false);
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
+    const syncModes = () => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
       setIsIronman(document.documentElement.classList.contains("ironman"));
-    });
+      setIsDeadpool(document.documentElement.classList.contains("deadpool"));
+    };
+    const observer = new MutationObserver(syncModes);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    setIsSpiderman(document.documentElement.classList.contains("spiderman"));
-    setIsIronman(document.documentElement.classList.contains("ironman"));
+    syncModes();
     return () => observer.disconnect();
   }, []);
 
@@ -121,6 +124,20 @@ export const Navbar: React.FC = () => {
         <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-amber-500 via-cyan-400 to-red-600 shadow-[0_0_12px_rgba(6,182,212,0.8)] pointer-events-none" />
       )}
 
+      {/* Deadpool: the navbar bleeds instead of glowing */}
+      {isDeadpool && isScrolled && (
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+          <div className="dp-blood-edge h-[3px] w-full" />
+          {[8, 21, 34, 47, 58, 71, 84, 93].map((left, i) => (
+            <span
+              key={left}
+              style={{ left: `${left}%`, height: 5 + ((i * 7) % 12) }}
+              className="absolute top-[2px] w-[3px] rounded-b-full bg-[#b91c1c]"
+            />
+          ))}
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between relative z-10">
         {/* Initials / Hero Logo */}
         <motion.a
@@ -132,21 +149,25 @@ export const Navbar: React.FC = () => {
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-bold tracking-tight shadow-md group-hover:scale-105 transition-all ${
             isIronman
               ? "bg-gradient-to-br from-black via-amber-950 to-red-950 border border-cyan-400/80 shadow-[0_0_18px_rgba(6,182,212,0.9)]"
-              : isSpiderman 
-                ? "bg-gradient-to-br from-red-600 via-red-700 to-blue-700 border border-red-400/60 shadow-[0_0_18px_rgba(239,68,68,0.8)] rotate-[-4deg]" 
-                : "bg-gradient-to-br from-blue-500 to-violet-600"
+              : isSpiderman
+                ? "bg-gradient-to-br from-red-600 via-red-700 to-blue-700 border border-red-400/60 shadow-[0_0_18px_rgba(239,68,68,0.8)] rotate-[-4deg]"
+                : isDeadpool
+                  ? "!rounded-none bg-[#dc143c] border-[3px] border-black shadow-[4px_4px_0_rgba(0,0,0,0.85)] rotate-[-3deg]"
+                  : "bg-gradient-to-br from-blue-500 to-violet-600"
           }`}>
             {isIronman ? (
               <img src={arcReactorLogo} alt="Iron Man Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
             ) : isSpiderman ? (
               <img src={spideyLogo} alt="Spidey Mode" className="w-5 h-5 object-contain drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
+            ) : isDeadpool ? (
+              <DeadpoolMaskIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]" />
             ) : (
               <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}
           </div>
           <div className="flex flex-col">
             <span className={`text-sm font-extrabold tracking-wider uppercase hidden md:inline-block transition-colors ${
-              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : "text-slate-900 dark:text-white"
+              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : isDeadpool ? "text-[#f7f1e3] drop-shadow-[2px_2px_0_rgba(127,29,29,1)]" : "text-slate-900 dark:text-white"
             }`}>
               Thenushan Sritharan
             </span>

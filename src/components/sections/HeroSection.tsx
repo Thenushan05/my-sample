@@ -11,6 +11,7 @@ import { IronManWalk } from "../immersive/IronManWalk";
 import profileImage from "../../assets/profile.png";
 import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -115,12 +116,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isIronman, setIsIronman] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("ironman")
   );
+  const [isDeadpool, setIsDeadpool] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("deadpool")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
     const syncHeroModes = () => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
       setIsIronman(document.documentElement.classList.contains("ironman"));
+      setIsDeadpool(document.documentElement.classList.contains("deadpool"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -294,16 +299,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)]"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
               ) : isSpiderman ? (
                 <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
+              ) : isDeadpool ? (
+                <DeadpoolMaskIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(220,20,60,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
-              {isIronman ? "STARK INDUSTRIES • MARK LXXXV SUITED" : isSpiderman ? "Friendly Neighborhood Developer" : "Available for New Projects"}
+              {isIronman
+                ? "STARK INDUSTRIES • MARK LXXXV SUITED"
+                : isSpiderman
+                  ? "Friendly Neighborhood Developer"
+                  : isDeadpool
+                    ? "MERC WITH A PORTFOLIO • MAXIMUM EFFORT"
+                    : "Available for New Projects"}
             </motion.div>
 
             <AnimatePresence>
@@ -528,7 +541,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -591,6 +604,68 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 )}
               </AnimatePresence>
 
+              {/* Deadpool: the portrait gets "inked in" like a comic panel —
+                  desaturated line art first, then full colour slams into place. */}
+              <AnimatePresence>
+                {isDeadpool && (
+                  <motion.div
+                    key="deadpool-portrait"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="col-start-1 row-start-1 z-20 relative flex items-center justify-center"
+                  >
+                    <motion.img
+                      initial={{ scale: 1.14, rotate: -3.5, filter: "grayscale(1) contrast(1.7)" }}
+                      animate={{ scale: 1, rotate: -1, filter: "grayscale(0) contrast(1.08) saturate(1.15)" }}
+                      exit={{ scale: 1.08, opacity: 0 }}
+                      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                      src="/deadpoolme_nobg.png"
+                      alt="Deadpool Suit"
+                      style={{
+                        maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 96%)",
+                        WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 96%)",
+                      }}
+                      className="w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain drop-shadow-[0_0_35px_rgba(220,20,60,0.55)]"
+                    />
+
+                    {/* Two katana slashes across the panel on entry */}
+                    {[0, 1].map((i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        animate={{ scaleX: [0, 1, 1], opacity: [0, 1, 0] }}
+                        transition={{ duration: 0.8, delay: 0.45 + i * 0.28, ease: "easeOut" }}
+                        style={{ rotate: i === 0 ? -32 : 28 }}
+                        className="absolute h-[3px] w-[125%] bg-gradient-to-r from-transparent via-white to-transparent shadow-[0_0_22px_rgba(255,255,255,0.95)] pointer-events-none"
+                      />
+                    ))}
+
+                    {/* Halftone ink flash */}
+                    <motion.div
+                      initial={{ opacity: 0.55 }}
+                      animate={{ opacity: 0 }}
+                      transition={{ duration: 1.2, delay: 0.3 }}
+                      className="absolute inset-0 pointer-events-none mix-blend-overlay"
+                      style={{
+                        backgroundImage: "radial-gradient(rgba(255,255,255,0.9) 1.2px, transparent 1.3px)",
+                        backgroundSize: "7px 7px",
+                      }}
+                    />
+
+                    {/* He has notes */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 14, rotate: 6 }}
+                      animate={{ opacity: 1, y: 0, rotate: 3 }}
+                      transition={{ duration: 0.5, delay: 1.35 }}
+                      className="dp-caption absolute bottom-[6%] right-[2%] max-w-[11rem] px-2.5 py-1.5 text-[10px] sm:text-[11px] pointer-events-none"
+                    >
+                      That's him. I just wear the suit better.
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Pixel Grid Wave - Masked strictly to the PNG subject silhouette */}
               <AnimatePresence>
                 {isSpiderman && (
@@ -645,7 +720,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && (
+            {isFunMode && !isSpiderman && !isDeadpool && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -676,7 +751,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && (
+            {isFunMode && !isSpiderman && !isDeadpool && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
