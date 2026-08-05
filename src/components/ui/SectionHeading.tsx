@@ -2,6 +2,7 @@ import React from "react";
 import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon";
+import { MjolnirIcon } from "./MjolnirIcon";
 
 interface SectionHeadingProps {
   title: string;
@@ -29,7 +30,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
             className="w-4 h-4 object-contain hidden [.ironman_&]:block animate-pulse"
           />
           <DeadpoolMaskIcon className="w-4 h-4 hidden [.deadpool_&]:block animate-pulse" />
-          <span className="text-[10px] tracking-[0.25em] font-semibold text-blue-400 [.spiderman_&]:text-red-400 [.ironman_&]:text-cyan-400 [.deadpool_&]:text-yellow-300 uppercase block transition-colors">
+          <MjolnirIcon className="w-4 h-4 hidden [.thor_&]:block animate-pulse" />
+          <span className="text-[10px] tracking-[0.25em] font-semibold text-blue-400 [.spiderman_&]:text-red-400 [.ironman_&]:text-cyan-400 [.deadpool_&]:text-yellow-300 [.thor_&]:text-sky-300 uppercase block transition-colors">
             {subtitle}
           </span>
         </div>
@@ -38,7 +40,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         {title}
       </h2>
       <div
-        className={`h-[2px] w-12 bg-gradient-to-r from-blue-500 to-violet-500 [.spiderman_&]:from-red-600 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:to-amber-400 [.deadpool_&]:h-[5px] [.deadpool_&]:w-20 [.deadpool_&]:from-[#dc143c] [.deadpool_&]:to-[#450a0a] [.deadpool_&]:shadow-[3px_3px_0_rgba(0,0,0,0.85)] rounded-full [.spiderman_&]:rounded-none [.deadpool_&]:rounded-none transition-all duration-500 ${align === "center" ? "mx-auto" : "mx-auto md:mr-auto"
+        className={`h-[2px] w-12 bg-gradient-to-r from-blue-500 to-violet-500 [.spiderman_&]:from-red-600 [.spiderman_&]:to-white [.ironman_&]:from-cyan-400 [.ironman_&]:to-amber-400 [.deadpool_&]:h-[5px] [.deadpool_&]:w-20 [.deadpool_&]:from-[#dc143c] [.deadpool_&]:to-[#450a0a] [.deadpool_&]:shadow-[3px_3px_0_rgba(0,0,0,0.85)] [.thor_&]:w-24 [.thor_&]:from-sky-300 [.thor_&]:to-[#b08d57] [.thor_&]:shadow-[0_0_14px_rgba(125,211,252,0.9)] rounded-full [.spiderman_&]:rounded-none [.deadpool_&]:rounded-none transition-all duration-500 ${align === "center" ? "mx-auto" : "mx-auto md:mr-auto"
           }`}
       />
     </div>

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -421,8 +422,12 @@ html.deadpool pre {
   font-family: 'Special Elite', 'Courier New', monospace !important;
 }
 
+/* Same doubled-label trap as Thor: `.effect.text` is a second copy of the
+   active label and must match the li exactly or it ghosts. */
 html.deadpool button,
-html.deadpool .gooey-nav-container nav ul li {
+html.deadpool .gooey-nav-container nav ul li,
+html.deadpool .gooey-nav-container nav ul li a,
+html.deadpool .gooey-nav-container .effect.text {
   font-family: 'Bangers', 'Impact', cursive !important;
   letter-spacing: 0.06em;
 }
@@ -610,6 +615,363 @@ html.deadpool .gooey-nav-container .point {
 html.deadpool .gooey-nav-container nav ul li:not(.active):hover {
   color: #ef2b4f;
   text-shadow: 0 0 10px rgba(220, 20, 60, 0.75);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Thor "God of Thunder" — Storm & Asgard Theme
+   Design language: electric blue-white lightning, storm-slate
+   depths and engraved bronze. Not a HUD (Iron Man), not a neon web
+   (Spider-Man), not a comic page (Deadpool) — this one is a rune-cut
+   Asgardian relic in the middle of a thunderstorm.
+   ══════════════════════════════════════════════════════════════ */
+html.thor {
+  --color-nav-link-active: #7dd3fc;
+  --color-border-strong: rgba(125, 211, 252, 0.45);
+  --color-card-hover-border: rgba(212, 175, 106, 0.85);
+}
+
+html.thor body {
+  background-color: #04070f !important;
+  cursor: none !important;
+  /* Mjölnir cursor is drawn by ThorOverlay */
+}
+
+/* Tailwind preflight puts `cursor: pointer` on buttons, which beats the
+   inherited `none` and draws a second system cursor next to the hammer. */
+html.thor *,
+html.thor *:hover {
+  cursor: none !important;
+}
+
+/* Engraved Asgardian capitals for headings */
+html.thor h1,
+html.thor h2,
+html.thor h3,
+html.thor h4 {
+  font-family: 'Cinzel', 'Trajan Pro', serif !important;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #eaf6ff;
+  text-shadow:
+    0 0 12px rgba(125, 211, 252, 0.65),
+    0 0 34px rgba(56, 189, 248, 0.35),
+    0 2px 0 rgba(0, 0, 0, 0.9);
+}
+
+/* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
+   positioned exactly over the <li>. If the two don't share a font, weight and
+   letter-spacing they render at different widths and you see doubled, ghosted
+   text — so the overlay must be listed here alongside the li. */
+html.thor button,
+html.thor .gooey-nav-container nav ul li,
+html.thor .gooey-nav-container nav ul li a,
+html.thor .gooey-nav-container .effect.text {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* Storm wash: the light comes from above, where the lightning lives */
+html.thor body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(125, 211, 252, 0.3) 0%, transparent 58%),
+    radial-gradient(ellipse at 12% 10%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(212, 175, 106, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #0a1424 0%, #05080f 55%, #04070f 100%);
+}
+
+/* Interlaced Norse knotwork, tiled — worn engraving on the standing stone.
+   An SVG tile rather than crossed gradients, so the strands actually weave
+   over and under each other instead of forming a flat grid. */
+html.thor body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%237dd3fc' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M0 40Q20 20 40 40T80 40'/%3E%3Cpath d='M40 0Q20 20 40 40T40 80'/%3E%3Cpath d='M0 0Q20 20 40 0'/%3E%3Cpath d='M40 80Q60 60 80 80'/%3E%3C/g%3E%3Cg fill='none' stroke='%23d4af6a' stroke-width='0.9' stroke-linecap='round' opacity='0.8'%3E%3Cpath d='M0 40Q20 60 40 40T80 40'/%3E%3Cpath d='M40 0Q60 20 40 40T40 80'/%3E%3Ccircle cx='40' cy='40' r='3.2'/%3E%3Ccircle cx='0' cy='40' r='2'/%3E%3Ccircle cx='80' cy='40' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at 50% 18%, black 2%, rgba(0, 0, 0, 0.4) 45%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 18%, black 2%, rgba(0, 0, 0, 0.4) 45%, transparent 72%);
+}
+
+/* Accent remap: hacker-green / blue utilities become lightning blue,
+   violet / purple utilities become Asgardian bronze. */
+html.thor .text-emerald-400,
+html.thor .text-emerald-300,
+html.thor .text-emerald-500,
+html.thor .text-blue-400,
+html.thor .text-blue-500,
+html.thor .text-cyan-400 {
+  color: #7dd3fc !important;
+  text-shadow: 0 0 12px rgba(125, 211, 252, 0.6);
+}
+
+html.thor .text-violet-400,
+html.thor .text-purple-400 {
+  color: #d4af6a !important;
+  text-shadow: 0 0 10px rgba(212, 175, 106, 0.45);
+}
+
+html.thor .border-emerald-500\/10,
+html.thor .border-emerald-500\/20,
+html.thor .border-emerald-500\/30,
+html.thor .border-emerald-500\/40,
+html.thor .border-emerald-500\/60,
+html.thor .border-blue-500\/20,
+html.thor .border-blue-500\/30,
+html.thor .border-cyan-500\/20 {
+  border-color: rgba(125, 211, 252, 0.4) !important;
+}
+
+html.thor .bg-emerald-500\/10,
+html.thor .bg-emerald-500\/20,
+html.thor .bg-blue-500\/10,
+html.thor .bg-cyan-500\/10 {
+  background-color: rgba(56, 189, 248, 0.14) !important;
+}
+
+html.thor .from-emerald-500,
+html.thor .from-emerald-600,
+html.thor .from-blue-400,
+html.thor .from-blue-500,
+html.thor .from-blue-600,
+html.thor .from-cyan-500 {
+  --tw-gradient-from: #7dd3fc !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.thor .to-teal-400,
+html.thor .to-teal-600,
+html.thor .to-violet-500,
+html.thor .to-violet-600,
+html.thor .to-blue-500 {
+  --tw-gradient-to: #b08d57 !important;
+}
+
+html.thor .shadow-emerald-500\/30,
+html.thor .shadow-emerald-500\/50,
+html.thor .shadow-blue-500\/30,
+html.thor .shadow-blue-500\/50,
+html.thor .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(125, 211, 252, 0.6) !important;
+}
+
+html.thor ::selection {
+  background: rgba(56, 189, 248, 0.45);
+  color: #eaf6ff;
+}
+
+html.thor ::-webkit-scrollbar-thumb {
+  background: rgba(125, 211, 252, 0.5);
+}
+
+html.thor ::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 211, 252, 0.9);
+}
+
+/* ── Rune-cut stone tablet (Thor's answer to .stark-hud-panel) ──
+   Dark basalt face, bronze bevel, engraved inner rule. */
+html.thor .thor-tablet,
+.thor-tablet {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(14, 24, 40, 0.96) 0%, rgba(5, 9, 18, 0.98) 100%);
+  border: 2px solid #6c552f;
+  border-radius: 14px 14px 6px 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(212, 175, 106, 0.5),
+    inset 0 0 60px rgba(56, 189, 248, 0.1),
+    0 0 40px rgba(56, 189, 248, 0.18),
+    0 14px 40px rgba(0, 0, 0, 0.75);
+}
+
+/* Engraved bronze inner keyline */
+html.thor .thor-tablet::before,
+.thor-tablet::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212, 175, 106, 0.35);
+  border-radius: 9px 9px 3px 3px;
+  pointer-events: none;
+}
+
+/* Bronze plaque, used for tabs and chips */
+.thor-plaque {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #223351 0%, #101a2c 100%);
+  border: 1px solid rgba(212, 175, 106, 0.45);
+  color: #d9e9f7;
+}
+
+/* Live current running through an element's edge */
+@keyframes thor-arc {
+  0%, 100% { opacity: 0.35; filter: brightness(1); }
+  45% { opacity: 1; filter: brightness(1.7); }
+  55% { opacity: 0.5; }
+}
+
+/* Full-viewport thunder flash */
+@keyframes thor-flash {
+  0% { opacity: 0; }
+  8% { opacity: 0.85; }
+  16% { opacity: 0.1; }
+  24% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* Slow hover, for anything meant to be levitating */
+@keyframes thor-hover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* Sacred geometry turning behind the storm. Handed to the compositor so the
+   sigil canvases can be painted once instead of held in a rAF loop. */
+@keyframes thor-sigil-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Columns of runic inscription drifting down the page. The column is 200%
+   tall and travels exactly half its height, so the loop is seamless. */
+@keyframes thor-rune-drift {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0%); }
+}
+
+html.thor .thor-live-edge {
+  animation: thor-arc 2.4s ease-in-out infinite;
+}
+
+/* ── Thor: nav selection is thunder cracked into stone ────────────
+   The gooey pill becomes a basalt slab with a bronze bevel, and the
+   selection animation is an impact — the slab flashes white-hot, a
+   fissure snaps across it, then settles glowing with live current. */
+
+html.thor .gooey-nav-container {
+  --color-1: #7dd3fc;
+  --color-2: #e0f2fe;
+  --color-3: #38bdf8;
+  --color-4: #d4af6a;
+}
+
+/* The slab, static and travelling */
+html.thor .gooey-nav-container nav ul li.active::after,
+html.thor .gooey-nav-container .effect.filter::after {
+  background:
+    linear-gradient(180deg, #2b3b57 0%, #16203a 48%, #0a1120 100%);
+  border-radius: 5px;
+  /* Pushed to -2 so the crack layer (::before, -1) sits on top of the slab.
+     At equal z-index ::after wins on tree order and buries the fissures. */
+  z-index: -2;
+  box-shadow:
+    inset 0 1px 0 rgba(212, 175, 106, 0.7),
+    inset 0 0 0 1px rgba(212, 175, 106, 0.4),
+    inset 0 -8px 14px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(56, 189, 248, 0.4),
+    0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Lightning fissures cut through the slab face. Drawn as an inline SVG so
+   the cracks stay sharp at any tab width (preserveAspectRatio='none'). */
+html.thor .gooey-nav-container nav ul li.active::before,
+html.thor .gooey-nav-container .effect.filter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 5px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 34' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%237dd3fc' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M9 1L19 12L13 18L23 33'/%3E%3Cpath d='M41 0L47 9L38 15L49 24L45 34'/%3E%3Cpath d='M72 1L65 11L77 17L70 27'/%3E%3Cpath d='M93 3L84 13L95 22'/%3E%3Cpath d='M19 12L31 9'/%3E%3Cpath d='M47 9L59 5'/%3E%3Cpath d='M77 17L89 14'/%3E%3Cpath d='M13 18L4 21'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 4px rgba(125, 211, 252, 0.95));
+  animation: thor-crack-glow 2.6s ease-in-out infinite;
+}
+
+@keyframes thor-crack-glow {
+  0%, 100% { opacity: 0.5; }
+  40% { opacity: 1; }
+  62% { opacity: 0.65; }
+  74% { opacity: 1; }
+}
+
+/* Impact on select: strike, crack, settle */
+html.thor .gooey-nav-container .effect.active::after {
+  animation: thor-nav-strike 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.thor .gooey-nav-container .effect.active::before {
+  animation: thor-nav-fissure 0.6s ease-out both, thor-crack-glow 2.6s ease-in-out 0.6s infinite;
+}
+
+@keyframes thor-nav-strike {
+  0% {
+    transform: scale(0.55, 1.5);
+    opacity: 0;
+    filter: brightness(6);
+  }
+  22% {
+    transform: scale(1.12, 0.88);
+    opacity: 1;
+    filter: brightness(4);
+  }
+  45% {
+    transform: scale(0.97, 1.04);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* The fissure races across the slab rather than fading in */
+@keyframes thor-nav-fissure {
+  0% { clip-path: inset(0 100% 0 0); opacity: 1; filter: brightness(3.5); }
+  60% { clip-path: inset(0 0 0 0); opacity: 1; filter: brightness(2.2); }
+  100% { clip-path: inset(0 0 0 0); opacity: 0.6; filter: brightness(1); }
+}
+
+/* Rune-lit lettering on the slab */
+html.thor .gooey-nav-container nav ul li.active,
+html.thor .gooey-nav-container .effect.text.active {
+  color: #eaf6ff;
+  text-shadow:
+    0 0 10px rgba(125, 211, 252, 0.95),
+    0 0 24px rgba(56, 189, 248, 0.55),
+    0 1px 0 rgba(0, 0, 0, 0.9);
+}
+
+/* Unselected items take a faint charge on hover */
+html.thor .gooey-nav-container nav ul li:not(.active):hover {
+  color: #bae6fd;
+  text-shadow: 0 0 12px rgba(125, 211, 252, 0.7);
+}
+
+/* Sparks off the strike read as flecks of current, not tidy dots */
+html.thor .gooey-nav-container .point {
+  border-radius: 40%;
+  box-shadow: 0 0 8px rgba(125, 211, 252, 0.95);
 }
 
 html.deadpool ::selection {

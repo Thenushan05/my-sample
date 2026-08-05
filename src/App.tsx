@@ -30,6 +30,13 @@ import { DeadpoolConsole } from "./components/immersive/DeadpoolConsole";
 import { DeadpoolLoader } from "./components/immersive/DeadpoolLoader";
 import { DeadpoolMerc } from "./components/immersive/DeadpoolMerc";
 import { BloodSplatterBackground } from "./components/immersive/BloodSplatterBackground";
+import { ThorOverlay } from "./components/immersive/ThorOverlay";
+import { ThorConsole } from "./components/immersive/ThorConsole";
+import { ThorLoader } from "./components/immersive/ThorLoader";
+import { ThorRuneStave } from "./components/immersive/ThorRuneStave";
+import { StormBackground } from "./components/immersive/StormBackground";
+import { AsgardSigils } from "./components/immersive/AsgardSigils";
+import { MjolnirIcon } from "./components/ui/MjolnirIcon";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -45,12 +52,16 @@ export function App() {
   const [isDeadpool, setIsDeadpool] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("deadpool")
   );
+  const [isThor, setIsThor] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("thor")
+  );
 
   useEffect(() => {
     const syncModes = () => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
       setIsIronman(document.documentElement.classList.contains("ironman"));
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
+      setIsThor(document.documentElement.classList.contains("thor"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -67,7 +78,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -89,6 +100,8 @@ export function App() {
             <SpidermanLoader key="spidey-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isDeadpool ? (
             <DeadpoolLoader key="deadpool-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isThor ? (
+            <ThorLoader key="thor-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -101,10 +114,10 @@ export function App() {
       {/* ── Main App Content ──────────────────────── */}
       <div className={`relative w-full min-h-screen text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : "#8B5CF6"}
-          sparkSize={isIronman ? 12 : 8}
-          sparkRadius={isIronman ? 28 : 20}
-          sparkCount={isIronman ? 12 : 10}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : "#8B5CF6"}
+          sparkSize={isIronman || isThor ? 12 : 8}
+          sparkRadius={isIronman || isThor ? 28 : 20}
+          sparkCount={isIronman || isThor ? 12 : 10}
           duration={500}
           extraScale={1.2}
         >
@@ -129,6 +142,12 @@ export function App() {
           {isDeadpool && <DeadpoolOverlay />}
           {isDeadpool && <DeadpoolMerc />}
 
+          {/* Immersive Thor Mode Effects — sigils sit behind the weather */}
+          {isThor && <AsgardSigils />}
+          {isThor && <StormBackground />}
+          {isThor && <ThorOverlay />}
+          {isThor && <ThorRuneStave />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -138,8 +157,52 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor ? (
                 <LaptopStory />
+              ) : isThor ? (
+                /* Thor gets a rune-cut stone tablet, not a HUD window */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  {/* Bronze title plaque, hovering above the tablet */}
+                  <div className="relative z-20 -mb-4 flex items-end justify-between gap-3">
+                    <div className="thor-plaque flex items-center gap-2.5 rounded-md px-4 py-2 shadow-[0_0_24px_rgba(56,189,248,0.3)]">
+                      <MjolnirIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(125,211,252,1)]" />
+                      <span className="text-sm sm:text-base tracking-[0.18em] text-sky-100">
+                        Asgard Archive
+                      </span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest text-[#d4af6a]">
+                        BIFRÖST // MIDGARD LINK
+                      </span>
+                    </div>
+
+                    <div className="thor-plaque hidden sm:block rounded-md px-3 py-1.5">
+                      <span className="text-[10px] tracking-[0.2em] text-sky-200">
+                        Whosoever holds this hammer
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* The tablet */}
+                  <div className="relative thor-tablet h-[580px] flex flex-col overflow-hidden">
+                    {/* Bronze rivets down the sides */}
+                    {["top-8 left-2", "bottom-8 left-2", "top-8 right-2", "bottom-8 right-2"].map((pos) => (
+                      <span
+                        key={pos}
+                        className={`absolute ${pos} z-30 h-2.5 w-2.5 rounded-full border border-[#d4af6a]/80 bg-[#b08d57]/60`}
+                      />
+                    ))}
+
+                    <div className="flex-1 overflow-hidden relative flex flex-col p-3 sm:p-4">
+                      <ThorConsole />
+                    </div>
+                  </div>
+
+                  {/* Closing inscription */}
+                  <div className="relative z-20 -mt-4 flex justify-end">
+                    <div className="thor-plaque rounded-md px-3 py-1.5 text-[10px] tracking-[0.2em] text-[#d4af6a]">
+                      …if he be worthy, shall possess the power ⚡
+                    </div>
+                  </div>
+                </div>
               ) : isDeadpool ? (
                 /* Deadpool gets a printed comic page instead of a HUD window */
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">

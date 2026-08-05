@@ -12,6 +12,7 @@ import profileImage from "../../assets/profile.png";
 import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
+import { MjolnirIcon } from "../ui/MjolnirIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,6 +73,7 @@ const LASER_COLORS = [
 ];
 
 const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
+const THOR_PORTRAIT = "/thorme.png";
 
 /**
  * Katana cuts across the portrait. Adjacent bands share their edge
@@ -136,6 +138,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isDeadpool, setIsDeadpool] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("deadpool")
   );
+  const [isThor, setIsThor] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("thor")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
@@ -143,6 +148,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsSpiderman(document.documentElement.classList.contains("spiderman"));
       setIsIronman(document.documentElement.classList.contains("ironman"));
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
+      setIsThor(document.documentElement.classList.contains("thor"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -316,7 +322,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)]"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -324,6 +330,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <img src={spideyLogo} alt="Spidey" className="w-4 h-4 object-contain drop-shadow-[0_0_6px_rgba(239,68,68,1)] animate-pulse" />
               ) : isDeadpool ? (
                 <DeadpoolMaskIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(220,20,60,1)] animate-pulse" />
+              ) : isThor ? (
+                <MjolnirIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(125,211,252,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -333,7 +341,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                   ? "Friendly Neighborhood Developer"
                   : isDeadpool
                     ? "MERC WITH A PORTFOLIO • MAXIMUM EFFORT"
-                    : "Available for New Projects"}
+                    : isThor
+                      ? "ASGARD • GOD OF THUNDER & DEPLOYMENTS"
+                      : "Available for New Projects"}
             </motion.div>
 
             <AnimatePresence>
@@ -558,7 +568,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -618,6 +628,73 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     style={{ cursor: 'pointer' }}
                     className="col-start-1 row-start-1 z-30 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain filter drop-shadow-[0_0_30px_rgba(6,182,212,0.8)]"
                   />
+                )}
+              </AnimatePresence>
+
+              {/* Thor: summoned by lightning.
+                  This portrait ships on a SOLID BLACK background rather than
+                  transparent, so it's composited with mix-blend-mode: screen —
+                  against the near-black storm the black drops out cleanly and
+                  he reads as emerging from the clouds. */}
+              <AnimatePresence>
+                {isThor && (
+                  <motion.div
+                    key="thor-portrait"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="col-start-1 row-start-1 z-20 relative"
+                  >
+                    <motion.img
+                      initial={{ opacity: 0, scale: 1.06, filter: "brightness(2.6) contrast(1.5)" }}
+                      animate={{ opacity: 1, scale: 1, filter: "brightness(1.06) contrast(1.06)" }}
+                      exit={{ opacity: 0, scale: 1.04, filter: "brightness(2.2)" }}
+                      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                      src={THOR_PORTRAIT}
+                      alt="Asgardian Armour"
+                      style={{
+                        mixBlendMode: "screen",
+                        maskImage: "radial-gradient(ellipse at 50% 42%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 97%)",
+                        WebkitMaskImage: "radial-gradient(ellipse at 50% 42%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 97%)",
+                      }}
+                      className="block w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain"
+                    />
+
+                    {/* The bolt that delivered him, striking down the frame */}
+                    <svg className="absolute inset-0 h-full w-full overflow-visible pointer-events-none">
+                      {[38, 62].map((pct, i) => (
+                        <motion.path
+                          key={pct}
+                          d={`M${pct}% 0 L${pct - 5}% 22% L${pct + 4}% 40% L${pct - 3}% 62% L${pct + 2}% 82% L${pct}% 100%`}
+                          fill="none"
+                          stroke="#e0f2fe"
+                          strokeWidth={i === 0 ? 2.5 : 1.6}
+                          strokeLinecap="round"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: [0, 1, 0.2, 1, 0] }}
+                          transition={{ duration: 0.9, delay: 0.15 + i * 0.22, ease: "easeOut" }}
+                          style={{ filter: "drop-shadow(0 0 9px rgba(125,211,252,1))" }}
+                        />
+                      ))}
+                    </svg>
+
+                    {/* Ambient charge still clinging to the armour */}
+                    <motion.div
+                      animate={{ opacity: [0.25, 0.6, 0.3] }}
+                      transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_35%,rgba(125,211,252,0.22)_0%,transparent_62%)]"
+                    />
+
+                    {/* Runic inscription along the bottom */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.3 }}
+                      className="thor-plaque absolute bottom-[5%] right-[2%] rounded-md px-3 py-1.5 text-[10px] tracking-[0.2em] sm:text-[11px] pointer-events-none"
+                    >
+                      Worthy · Since Birth
+                    </motion.div>
+                  </motion.div>
                 )}
               </AnimatePresence>
 
@@ -774,7 +851,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -805,7 +882,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${

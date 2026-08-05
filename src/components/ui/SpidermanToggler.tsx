@@ -7,15 +7,17 @@ import { getLenis } from "../../hooks/useLenis"
 import spideyLogo from "../../assets/spidey-logo-white.png"
 import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
+import { MjolnirIcon } from "./MjolnirIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
     const [isSpidey, setIsSpidey] = useState(false)
     const [isIronman, setIsIronman] = useState(false)
     const [isDeadpool, setIsDeadpool] = useState(false)
+    const [isThor, setIsThor] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -26,6 +28,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsSpidey(document.documentElement.classList.contains("spiderman"))
                 setIsIronman(document.documentElement.classList.contains("ironman"))
                 setIsDeadpool(document.documentElement.classList.contains("deadpool"))
+                setIsThor(document.documentElement.classList.contains("thor"))
             }
         }
 
@@ -134,6 +137,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsSpidey(next && mode === "spiderman")
             setIsIronman(next && mode === "ironman")
             setIsDeadpool(next && mode === "deadpool")
+            setIsThor(next && mode === "thor")
             switching.current = false
         });
     }, [])
@@ -236,6 +240,43 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 </button>
             </div>
 
+            {/* Thor Mode Button */}
+            <div className="relative inline-flex group">
+                <button
+                    type="button"
+                    onClick={(e) => toggleMode("thor", e)}
+                    aria-pressed={isThor}
+                    title={isThor ? "Disable Thor Mode" : "Enable Thor Mode"}
+                    className={cn(
+                        "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border overflow-hidden p-1.5",
+                        isThor
+                            ? "bg-black/95 border-sky-300/90 shadow-[0_0_22px_rgba(125,211,252,0.9)] ring-2 ring-amber-300/50"
+                            : "bg-white/10 hover:bg-white/20 border-white/10 hover:border-white/30 text-white/70 hover:text-white",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300",
+                    )}
+                >
+                    {/* Charge crackling around the hammer while active */}
+                    {isThor && (
+                        <motion.span
+                            aria-hidden
+                            animate={{ opacity: [0.25, 0.9, 0.35, 1, 0.3] }}
+                            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(125,211,252,0.55)_0%,transparent_70%)] pointer-events-none"
+                        />
+                    )}
+                    <MjolnirIcon
+                        muted={!isThor}
+                        className={cn(
+                            "w-7 h-7 object-contain transition-all duration-300 pointer-events-none relative z-10",
+                            isThor
+                                ? "scale-110 drop-shadow-[0_0_10px_rgba(125,211,252,1)]"
+                                : "opacity-90 hover:opacity-100 group-hover:scale-110 group-hover:-rotate-12"
+                        )}
+                    />
+                    <span className="sr-only">Toggle Thor Mode</span>
+                </button>
+            </div>
+
             {/* Onboarding Tooltip */}
             <AnimatePresence>
                 {showOnboarding && (
@@ -260,12 +301,12 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong> or <strong className="text-rose-500 font-bold">Deadpool</strong>. Click the icons above to activate immersive mode!
+                                Experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong>. Click the icons above to activate immersive mode!
                             </p>
                         </div>
 
                         {/* Glow effect behind tooltip */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-rose-700/10 rounded-xl blur-md -z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-sky-400/10 rounded-xl blur-md -z-10" />
                     </motion.div>
                 )}
             </AnimatePresence>
