@@ -326,7 +326,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.5 }}
-                  className="w-full mb-6 p-4 bg-black/90 border border-cyan-500/50 rounded-none shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-2xl text-left font-mono relative overflow-hidden"
+                  className="hidden sm:block w-full mb-6 p-4 bg-black/90 border border-cyan-500/50 rounded-none shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-2xl text-left font-mono relative overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 via-amber-400 to-red-600 shadow-[0_0_10px_#06b6d4]" />
                   <div className="flex items-center justify-between gap-4 pb-2 border-b border-cyan-500/30">
