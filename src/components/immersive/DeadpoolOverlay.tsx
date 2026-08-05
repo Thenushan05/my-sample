@@ -215,8 +215,12 @@ export const DeadpoolOverlay: React.FC = () => {
         ))}
       </div>
 
-      {/* Yellow narration box — Deadpool's fourth-wall device */}
-      <div className="fixed bottom-5 left-4 sm:left-6 z-[9998] pointer-events-none max-w-[16rem] sm:max-w-xs">
+      {/* Yellow narration box — Deadpool's fourth-wall device.
+          Parked above the merc's walking lane at every width: DeadpoolMerc
+          owns bottom-6 up to ~168px once his own speech bubble is counted,
+          and he crosses the full width, so a bottom-left box would collide
+          on desktop too — just further into the scroll. */}
+      <div className="fixed bottom-44 left-4 sm:left-6 z-[9998] pointer-events-none max-w-[13rem] sm:max-w-xs">
         <AnimatePresence mode="wait">
           {captionVisible && (
             <motion.div

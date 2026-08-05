@@ -71,6 +71,23 @@ const LASER_COLORS = [
   },
 ];
 
+const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
+
+/**
+ * Katana cuts across the portrait. Adjacent bands share their edge
+ * coordinates exactly, so once they land there are no gaps.
+ */
+const DEADPOOL_SLICES = [
+  { clip: "polygon(0% 0%, 100% 0%, 100% 17%, 0% 25%)", x: -170, y: -34, r: -4 },
+  { clip: "polygon(0% 25%, 100% 17%, 100% 37%, 0% 45%)", x: 180, y: -14, r: 3 },
+  { clip: "polygon(0% 45%, 100% 37%, 100% 58%, 0% 66%)", x: -190, y: 10, r: -3 },
+  { clip: "polygon(0% 66%, 100% 58%, 100% 79%, 0% 87%)", x: 175, y: 30, r: 4 },
+  { clip: "polygon(0% 87%, 100% 79%, 100% 100%, 0% 100%)", x: -160, y: 48, r: -2 },
+];
+
+/** Left-edge height of each cut, used to place the seam flashes. */
+const DEADPOOL_SEAMS = [25, 45, 66, 87];
+
 const PRO_TECH_LOGOS = [
   { name: "React", slug: "react", color: "61DAFB", lightColor: "0284C7", size: "lg", pos: "top-[8%] -left-[10%] sm:-left-[14%]" },
   { name: "Java", slug: "java", color: "ED8B00", customUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg", size: "lg", pos: "top-[5%] -right-[10%] sm:-right-[14%]" },
@@ -604,8 +621,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 )}
               </AnimatePresence>
 
-              {/* Deadpool: the portrait gets "inked in" like a comic panel —
-                  desaturated line art first, then full colour slams into place. */}
+              {/* Deadpool: he arrives in pieces.
+                  Five katana-cut bands fly in from alternating sides and slam
+                  together, seams flash white, then the ink pass floods to
+                  full colour — the comic gets drawn, cut up and coloured. */}
               <AnimatePresence>
                 {isDeadpool && (
                   <motion.div
@@ -613,39 +632,74 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="col-start-1 row-start-1 z-20 relative flex items-center justify-center"
+                    className="col-start-1 row-start-1 z-20 relative"
                   >
-                    <motion.img
-                      initial={{ scale: 1.14, rotate: -3.5, filter: "grayscale(1) contrast(1.7)" }}
-                      animate={{ scale: 1, rotate: -1, filter: "grayscale(0) contrast(1.08) saturate(1.15)" }}
-                      exit={{ scale: 1.08, opacity: 0 }}
-                      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                      src="/deadpoolme_nobg.png"
-                      alt="Deadpool Suit"
+                    {/* Invisible sizer: fixes the box so every slice lines up exactly */}
+                    <img
+                      src={DEADPOOL_PORTRAIT}
+                      alt=""
+                      aria-hidden
+                      className="block w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain opacity-0 pointer-events-none"
+                    />
+
+                    {/* Ink → colour pass, applied once so all slices grade together */}
+                    <motion.div
+                      initial={{ filter: "grayscale(1) contrast(1.8) brightness(1.18)" }}
+                      animate={{ filter: "grayscale(0) contrast(1.06) saturate(1.2) brightness(1)" }}
+                      transition={{ duration: 0.95, delay: 0.66, ease: "easeOut" }}
                       style={{
                         maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 96%)",
                         WebkitMaskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 96%)",
                       }}
-                      className="w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain drop-shadow-[0_0_35px_rgba(220,20,60,0.55)]"
-                    />
+                      className="absolute inset-0 drop-shadow-[0_0_35px_rgba(220,20,60,0.55)]"
+                    >
+                      {DEADPOOL_SLICES.map((slice, i) => (
+                        <motion.img
+                          key={slice.clip}
+                          src={DEADPOOL_PORTRAIT}
+                          alt={i === 0 ? "Deadpool Suit" : ""}
+                          aria-hidden={i !== 0}
+                          initial={{ x: slice.x, y: slice.y, rotate: slice.r, opacity: 0 }}
+                          animate={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+                          exit={{
+                            x: slice.x * 0.75,
+                            y: slice.y * 0.75,
+                            rotate: slice.r,
+                            opacity: 0,
+                            transition: { duration: 0.4, delay: i * 0.045, ease: "easeIn" },
+                          }}
+                          transition={{ duration: 0.6, delay: i * 0.085, ease: [0.16, 1, 0.3, 1] }}
+                          style={{ clipPath: slice.clip, WebkitClipPath: slice.clip }}
+                          className="absolute inset-0 w-full h-full object-contain"
+                        />
+                      ))}
+                    </motion.div>
 
-                    {/* Two katana slashes across the panel on entry */}
-                    {[0, 1].map((i) => (
+                    {/* Seams flash white as each cut closes */}
+                    {DEADPOOL_SEAMS.map((top, i) => (
                       <motion.div
-                        key={i}
+                        key={top}
                         initial={{ scaleX: 0, opacity: 0 }}
                         animate={{ scaleX: [0, 1, 1], opacity: [0, 1, 0] }}
-                        transition={{ duration: 0.8, delay: 0.45 + i * 0.28, ease: "easeOut" }}
-                        style={{ rotate: i === 0 ? -32 : 28 }}
-                        className="absolute h-[3px] w-[125%] bg-gradient-to-r from-transparent via-white to-transparent shadow-[0_0_22px_rgba(255,255,255,0.95)] pointer-events-none"
+                        transition={{ duration: 0.5, delay: 0.42 + i * 0.085, ease: "easeOut" }}
+                        style={{ top: `${top}%`, rotate: -5 }}
+                        className="absolute left-[-6%] h-[2.5px] w-[112%] bg-gradient-to-r from-transparent via-white to-transparent shadow-[0_0_18px_rgba(255,255,255,0.95)] pointer-events-none"
                       />
                     ))}
 
-                    {/* Halftone ink flash */}
+                    {/* Crimson ink bleeding across the page as the colour lands */}
                     <motion.div
-                      initial={{ opacity: 0.55 }}
+                      initial={{ x: "-115%", opacity: 0.85 }}
+                      animate={{ x: "115%", opacity: 0 }}
+                      transition={{ duration: 1, delay: 0.62, ease: "easeInOut" }}
+                      className="absolute inset-0 pointer-events-none mix-blend-color-dodge bg-gradient-to-r from-transparent via-[#dc143c]/60 to-transparent"
+                    />
+
+                    {/* Halftone print dots settling out */}
+                    <motion.div
+                      initial={{ opacity: 0.6 }}
                       animate={{ opacity: 0 }}
-                      transition={{ duration: 1.2, delay: 0.3 }}
+                      transition={{ duration: 1.3, delay: 0.55 }}
                       className="absolute inset-0 pointer-events-none mix-blend-overlay"
                       style={{
                         backgroundImage: "radial-gradient(rgba(255,255,255,0.9) 1.2px, transparent 1.3px)",
@@ -657,7 +711,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     <motion.div
                       initial={{ opacity: 0, y: 14, rotate: 6 }}
                       animate={{ opacity: 1, y: 0, rotate: 3 }}
-                      transition={{ duration: 0.5, delay: 1.35 }}
+                      transition={{ duration: 0.5, delay: 1.6 }}
                       className="dp-caption absolute bottom-[6%] right-[2%] max-w-[11rem] px-2.5 py-1.5 text-[10px] sm:text-[11px] pointer-events-none"
                     >
                       That's him. I just wear the suit better.
