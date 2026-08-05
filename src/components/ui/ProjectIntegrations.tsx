@@ -41,13 +41,13 @@ const Circle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "z-10 flex size-12 items-center justify-center rounded-full border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)] transition-colors relative group cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 [.spiderman_&]:border-red-900/50 [.spiderman_&]:bg-black [.spiderman_&]:hover:border-red-500 [.spiderman_&]:shadow-[0_0_15px_rgba(220,38,38,0.3)]",
+        "z-10 flex size-12 items-center justify-center rounded-full border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)] transition-colors relative group cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 [.spiderman_&]:border-red-900/50 [.spiderman_&]:bg-black [.spiderman_&]:hover:border-red-500 [.spiderman_&]:shadow-[0_0_15px_rgba(220,38,38,0.3)] [.ironman_&]:border-cyan-500/50 [.ironman_&]:bg-black [.ironman_&]:hover:border-cyan-400 [.deadpool_&]:!rounded-none [.deadpool_&]:!border-black [.deadpool_&]:bg-[#1a0204] [.deadpool_&]:hover:!border-[#dc143c] [.deadpool_&]:shadow-[3px_3px_0_rgba(0,0,0,0.85)]",
         className
       )}
     >
       {children}
       {name && (
-        <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-white/10 font-mono">
+        <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-white/10 font-mono [.deadpool_&]:!rounded-none [.deadpool_&]:!bg-[#fde047] [.deadpool_&]:!text-[#140000] [.deadpool_&]:!border-2 [.deadpool_&]:!border-black [.deadpool_&]:shadow-[3px_3px_0_rgba(0,0,0,0.8)]">
           {name}
         </span>
       )}
@@ -81,21 +81,29 @@ export const ProjectIntegrations: React.FC<ProjectIntegrationsProps> = ({
   const getName = (idx: number) => integrations[idx]?.name || ""
 
   const [isSpidey, setIsSpidey] = useState(false)
-  
+  const [isIronman, setIsIronman] = useState(false)
+  const [isDeadpool, setIsDeadpool] = useState(false)
+
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setIsSpidey(document.documentElement.classList.contains("spiderman"))
-    })
+    const syncModes = () => {
+      const cl = document.documentElement.classList
+      setIsSpidey(cl.contains("spiderman"))
+      setIsIronman(cl.contains("ironman"))
+      setIsDeadpool(cl.contains("deadpool"))
+    }
+    const observer = new MutationObserver(syncModes)
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
-    setIsSpidey(document.documentElement.classList.contains("spiderman"))
+    syncModes()
     return () => observer.disconnect()
   }, [])
 
-  const beamColor = isSpidey ? "#ef4444" : "#3b82f6"
+  // The animated beams are drawn as SVG with a JS colour, so they need the
+  // mode wired through rather than a CSS utility override.
+  const beamColor = isDeadpool ? "#dc143c" : isIronman ? "#06b6d4" : isSpidey ? "#ef4444" : "#3b82f6"
 
   return (
     <div
-      className="relative flex h-[320px] w-full items-center justify-center overflow-hidden bg-slate-950/40 [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-xl rounded-2xl [.spiderman_&]:rounded-none border border-white/[0.05] [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:border-white/20 p-6 md:p-10 transition-colors duration-500 shadow-[0_0_0_rgba(220,38,38,0)]"
+      className="relative flex h-[320px] w-full items-center justify-center overflow-hidden bg-slate-950/40 [.spiderman_&]:bg-black/20 [.spiderman_&]:backdrop-blur-xl rounded-2xl [.spiderman_&]:rounded-none border border-white/[0.05] [.spiderman_&]:border-y [.spiderman_&]:border-x-0 [.spiderman_&]:border-white/20 [.ironman_&]:border-cyan-500/40 [.ironman_&]:bg-[#031b29]/40 [.deadpool_&]:!rounded-none [.deadpool_&]:border-[3px] [.deadpool_&]:!border-black [.deadpool_&]:bg-[#140203]/90 [.deadpool_&]:shadow-[6px_6px_0_rgba(0,0,0,0.8),inset_0_0_50px_rgba(139,0,20,0.3)] p-6 md:p-10 transition-colors duration-500 shadow-[0_0_0_rgba(220,38,38,0)]"
       ref={containerRef}
     >
       <div className="flex size-full flex-col max-w-lg max-h-[200px] items-stretch justify-between gap-10">
@@ -111,7 +119,7 @@ export const ProjectIntegrations: React.FC<ProjectIntegrationsProps> = ({
           <Circle ref={div2Ref} name={getName(1)}>
             {getIconComponent(1)}
           </Circle>
-          <Circle ref={div4Ref} className="size-16 border-blue-500 dark:border-blue-400 [.spiderman_&]:border-white bg-blue-50/50 dark:bg-blue-950/20 [.spiderman_&]:bg-red-600/30 [.spiderman_&]:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+          <Circle ref={div4Ref} className="size-16 border-blue-500 dark:border-blue-400 [.spiderman_&]:border-white bg-blue-50/50 dark:bg-blue-950/20 [.spiderman_&]:bg-red-600/30 [.spiderman_&]:shadow-[0_0_20px_rgba(255,255,255,0.2)] [.ironman_&]:!border-cyan-400 [.ironman_&]:bg-cyan-950/30 [.deadpool_&]:!border-black [.deadpool_&]:!bg-[#dc143c] [.deadpool_&]:shadow-[4px_4px_0_rgba(0,0,0,0.85)]">
             <span className="text-2xl relative z-10">{categoryIcons[category] || "💻"}</span>
           </Circle>
           <Circle ref={div6Ref} name={getName(4)}>
