@@ -24,95 +24,135 @@ const RUNES = [
   "M1 1l5 9 5-9M6 10v9", // algiz
 ];
 
-/** Odin's knot: three interlocking triangles. */
+/** Ancient Odin's Knot (Valknut) paths */
 const VALKNUT_PATHS = [
   "M50 6L88 72H12Z",
   "M50 26L76 72H24Z",
   "M50 46L64 72H36Z",
 ];
 
-/** Helm of Awe: eight tridents radiating from a centre. */
-const AEGIS_ARMS = Array.from({ length: 8 }, (_, i) => i * 45);
+const RUNIC_CIRCLE = Array.from({ length: 24 }, (_, i) => ({
+  deg: i * 15,
+  rune: RUNES[i % RUNES.length]
+}));
 
 /**
  * Norse sacred geometry behind the storm.
  *
  * A massive, static layout of Norse symbols replacing the spinning circles.
- * It features an enormous Aegishjalmur (Helm of Awe) overlaid with a Valknut
- * and drifting runes.
+ * It features an enormous Mjolnir surrounded by a Runic Circle.
  */
 export const AsgardSigils: React.FC = () => (
   <div className="fixed inset-0 z-[1] overflow-hidden pointer-events-none select-none flex items-center justify-center">
     
     <style>{`
-      @keyframes sigil-pulse {
-        0%, 100% { opacity: 0.2; transform: scale(1); filter: brightness(1); }
-        50% { opacity: 0.8; transform: scale(1.02); filter: brightness(1.5); }
+      @keyframes ancient-pulse {
+        0%, 100% { opacity: 0.15; filter: drop-shadow(0 0 10px rgba(217,119,6,0.3)); }
+        50% { opacity: 0.6; filter: drop-shadow(0 0 25px rgba(251,191,36,0.7)); }
       }
-      .sigil-beam {
-        animation: sigil-pulse 6s ease-in-out infinite;
+      .ancient-glow {
+        animation: ancient-pulse 8s ease-in-out infinite;
       }
-      .sigil-beam-slow {
-        animation: sigil-pulse 10s ease-in-out infinite 2s;
+      
+      @keyframes ancient-rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .ancient-dial {
+        animation: ancient-rotate 180s linear infinite;
+        transform-origin: center;
+      }
+
+      @keyframes ember-chase {
+        0%, 100% { opacity: 0.1; filter: drop-shadow(0 0 0px transparent); }
+        10% { opacity: 1; filter: drop-shadow(0 0 15px #fbbf24); } /* amber-400 */
+        40% { opacity: 0.1; filter: drop-shadow(0 0 0px transparent); }
+      }
+      .ember-blink {
+        animation: ember-chase 15s ease-in-out infinite;
+      }
+
+      @keyframes ethereal-ripple {
+        0% { opacity: 0.5; transform: scale(0.5); }
+        100% { opacity: 0; transform: scale(2); }
+      }
+      .ethereal-ripple {
+        animation: ethereal-ripple 12s ease-out infinite;
       }
     `}</style>
 
-    {/* Giant Static Helm of Awe (Aegishjalmur) */}
+    {/* Ancient Mythical Core Glow */}
+    <div className="absolute inset-0 flex items-center justify-center mix-blend-screen pointer-events-none">
+      {/* Deep ancient fiery core */}
+      <div className="ancient-glow absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full bg-[radial-gradient(circle,rgba(217,119,6,0.25)_0%,rgba(180,83,9,0.05)_40%,transparent_70%)]" />
+      {/* Intense center ember */}
+      <div className="ancient-glow absolute w-[15vw] h-[15vw] max-w-[200px] max-h-[200px] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.3)_0%,transparent_60%)]" style={{ animationDelay: '-4s' }} />
+      
+      {/* Ethereal golden ripples */}
+      <div className="ethereal-ripple absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full border border-amber-500/10" />
+      <div className="ethereal-ripple absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full border border-yellow-600/10" style={{ animationDelay: '-6s' }} />
+    </div>
+
+    {/* Giant Static Mjolnir & Rotating Runic Circles */}
     <div className="absolute inset-0 flex items-center justify-center">
       {/* Base faint geometry */}
       <svg
-        viewBox="-50 -50 100 100"
-        className="absolute w-[90vw] h-[90vw] max-w-[1000px] max-h-[1000px] text-amber-500/10"
+        viewBox="0 0 100 100"
+        className="absolute w-[45vw] h-[45vw] max-w-[500px] max-h-[500px] text-amber-700/30"
       >
-        <g fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
-          {AEGIS_ARMS.map((deg) => (
-            <g key={deg} transform={`rotate(${deg})`}>
-              <path d="M0 6V42" />
-              <path d="M-9 42H9M-9 42V33M9 42V33M0 42v-6" />
-              <path d="M-6 22H6" />
+        <g fill="none" stroke="currentColor" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round">
+          {/* Outer and Inner circles (dial) */}
+          <g className="ancient-dial">
+            <circle cx="50" cy="50" r="48" />
+            <circle cx="50" cy="50" r="38" />
+            <g className="opacity-40">
+              {RUNIC_CIRCLE.map((item, i) => (
+                <g key={i} transform={`translate(50, 50) rotate(${item.deg}) translate(0, -43)`}>
+                  <path d={item.rune} transform="scale(0.25) translate(-6, -10)" strokeWidth="2.5" />
+                </g>
+              ))}
             </g>
-          ))}
-          <circle r="5" />
-        </g>
-      </svg>
-      
-      {/* Running Beam Overlay */}
-      <svg
-        viewBox="-50 -50 100 100"
-        className="absolute w-[90vw] h-[90vw] max-w-[1000px] max-h-[1000px] text-amber-300/40 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]"
-      >
-        <g fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="sigil-beam">
-          {AEGIS_ARMS.map((deg) => (
-            <g key={deg} transform={`rotate(${deg})`}>
-              <path d="M0 6V42" />
-              <path d="M-9 42H9M-9 42V33M9 42V33M0 42v-6" />
-              <path d="M-6 22H6" />
-            </g>
-          ))}
-        </g>
-      </svg>
-    </div>
+          </g>
 
-    {/* Giant Static Valknut (Odin's Knot) layered on top */}
-    <div className="absolute inset-0 flex items-center justify-center -translate-y-6">
-      {/* Base faint geometry */}
-      <svg
-        viewBox="0 0 100 84"
-        className="absolute w-[70vw] h-[70vw] max-w-[750px] max-h-[750px] text-sky-200/5"
-      >
-        {VALKNUT_PATHS.map((d) => (
-          <path key={d} d={d} fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-        ))}
+          {/* Valknut (static in center) */}
+          <g strokeWidth="1.2" transform="scale(0.55) translate(40, 30)">
+            {VALKNUT_PATHS.map((d, i) => (
+              <path key={i} d={d} />
+            ))}
+          </g>
+        </g>
       </svg>
       
-      {/* Running Beam Overlay */}
+      {/* Overlay: Glowing Embers */}
       <svg
-        viewBox="0 0 100 84"
-        className="absolute w-[70vw] h-[70vw] max-w-[750px] max-h-[750px] text-sky-200/40 drop-shadow-[0_0_20px_rgba(186,230,253,0.7)]"
+        viewBox="0 0 100 100"
+        className="absolute w-[45vw] h-[45vw] max-w-[500px] max-h-[500px] text-amber-400/60 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)]"
       >
-        {VALKNUT_PATHS.map((d) => (
-          <path key={d} d={d} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" className="sigil-beam-slow" />
-        ))}
+        <g fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
+          <g className="ancient-dial">
+            <circle cx="50" cy="50" r="48" className="ancient-glow" />
+            <circle cx="50" cy="50" r="38" className="ancient-glow" style={{ animationDelay: '-4s' }} />
+            
+            {/* Chasing Blinking Runes Overlay */}
+            {RUNIC_CIRCLE.map((item, i) => (
+              <g 
+                key={i} 
+                className="ember-blink text-amber-100" 
+                style={{ animationDelay: `${i * (15 / 24)}s` }}
+                transform={`translate(50, 50) rotate(${item.deg}) translate(0, -43)`}
+              >
+                <path d={item.rune} transform="scale(0.25) translate(-6, -10)" strokeWidth="3" />
+              </g>
+            ))}
+          </g>
+
+          {/* Glowing Valknut */}
+          <g className="ancient-glow" strokeWidth="1.8" transform="scale(0.55) translate(40, 30)">
+            {VALKNUT_PATHS.map((d, i) => (
+              <path key={i} d={d} />
+            ))}
+          </g>
+        </g>
       </svg>
     </div>
 
@@ -125,6 +165,37 @@ export const AsgardSigils: React.FC = () => (
               d={RUNES[(i * 3) % RUNES.length]}
               stroke="#d4af6a"
               strokeWidth="1.6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ))}
+      </div>
+    ))}
+
+    {/* Columns of inscription drifting down the page like falling script */}
+    {[
+      { left: "10%", dur: 50, delay: 0, op: 0.12 },
+      { left: "30%", dur: 65, delay: -14, op: 0.08 },
+      { left: "70%", dur: 58, delay: -28, op: 0.10 },
+    ].map((col) => (
+      <div
+        key={col.left}
+        className="absolute top-0 hidden h-[200%] flex-col items-center gap-8 md:flex"
+        style={{
+          left: col.left,
+          opacity: col.op,
+          animation: `thor-rune-drift ${col.dur}s linear infinite`,
+          animationDelay: `${col.delay}s`,
+        }}
+      >
+        {Array.from({ length: 28 }).map((_, i) => (
+          <svg key={i} viewBox="0 0 12 20" width="12" height="20" className="shrink-0">
+            <path
+              d={RUNES[(i * 4 + col.dur) % RUNES.length]}
+              stroke="#bae6fd"
+              strokeWidth="1.7"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
