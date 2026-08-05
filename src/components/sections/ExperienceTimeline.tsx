@@ -58,7 +58,9 @@ const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
       {[0, 1].map((ring) => (
         <motion.span
           key={ring}
-          className="absolute inset-0 rounded-full border [.spiderman_&]:!border-white transition-colors duration-500"
+          /* `color` below is an inline style, so a stylesheet can only beat it
+             with !important — hence the `!` on every mode override here. */
+          className="absolute inset-0 rounded-full border [.spiderman_&]:!border-white [.ironman_&]:!border-cyan-400 [.deadpool_&]:!border-[#dc143c] transition-colors duration-500"
           style={{ borderColor: color }}
           animate={{ scale: [1, 2], opacity: [0.5, 0] }}
           transition={{
@@ -70,10 +72,10 @@ const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
         />
       ))}
       <div
-        className="relative w-9 h-9 rounded-full flex items-center justify-center bg-[#030712] border-2 [.spiderman_&]:!border-red-600 [.spiderman_&]:!shadow-[0_0_18px_red] transition-all duration-500"
+        className="relative w-9 h-9 rounded-full flex items-center justify-center bg-[#030712] border-2 [.spiderman_&]:!border-red-600 [.spiderman_&]:!shadow-[0_0_18px_red] [.ironman_&]:!border-cyan-400 [.ironman_&]:!shadow-[0_0_18px_rgba(6,182,212,0.9)] [.deadpool_&]:!border-black [.deadpool_&]:!bg-[#dc143c] [.deadpool_&]:!shadow-[3px_3px_0_rgba(0,0,0,0.85)] transition-all duration-500"
         style={{ borderColor: color, boxShadow: `0 0 18px ${color}` }}
       >
-        <Icon className="w-4 h-4 [.spiderman_&]:!text-white transition-colors duration-500" style={{ color }} />
+        <Icon className="w-4 h-4 [.spiderman_&]:!text-white [.ironman_&]:!text-cyan-300 [.deadpool_&]:!text-[#fff8e7] transition-colors duration-500" style={{ color }} />
       </div>
     </div>
   );
@@ -119,7 +121,7 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
       <ul className="space-y-1.5 mb-6">
         {exp.highlights.map((item, index) => (
           <li key={index} className="flex items-start gap-2.5 text-xs text-white/60 leading-relaxed italic transition-all duration-500">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0 [.spiderman_&]:bg-red-500 [.spiderman_&]:rounded-none transition-all duration-500" />
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60 mt-1.5 flex-shrink-0 [.spiderman_&]:bg-red-500 [.spiderman_&]:rounded-none [.ironman_&]:bg-cyan-400 [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:rounded-none transition-all duration-500" />
             {item}
           </li>
         ))}
@@ -156,9 +158,9 @@ export const ExperienceTimeline: React.FC = () => {
         <div className="relative">
           {/* Center spine - desktop zigzag layout */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/50 via-violet-500/40 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent transition-all duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/50 via-violet-500/40 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent [.ironman_&]:from-cyan-400/60 [.ironman_&]:via-amber-400/40 [.deadpool_&]:from-[#dc143c] [.deadpool_&]:via-[#7f1d1d] transition-all duration-500" />
             <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-cyan-300 [.spiderman_&]:bg-white transition-colors duration-500"
+              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-cyan-300 [.spiderman_&]:bg-white [.deadpool_&]:!bg-[#dc143c] [.deadpool_&]:!shadow-[0_0_14px_3px_rgba(220,20,60,0.85)] transition-colors duration-500"
               style={{ boxShadow: "0 0 14px 3px rgba(103,232,249,0.8)" }}
               animate={{ top: ["0%", "100%"] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
@@ -166,7 +168,7 @@ export const ExperienceTimeline: React.FC = () => {
           </div>
 
           {/* Left rail - mobile */}
-          <div className="md:hidden absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent transition-colors duration-500" />
+          <div className="md:hidden absolute left-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-blue-500 via-violet-500 to-transparent [.spiderman_&]:from-red-600/80 [.spiderman_&]:via-white/40 [.spiderman_&]:to-transparent [.ironman_&]:from-cyan-400 [.ironman_&]:via-amber-400 [.deadpool_&]:from-[#dc143c] [.deadpool_&]:via-[#7f1d1d] transition-colors duration-500" />
 
           <div className="space-y-14 md:space-y-24">
             {experiences.map((exp, i) => {
@@ -185,7 +187,7 @@ export const ExperienceTimeline: React.FC = () => {
                   {/* Node - mobile */}
                   <div className="md:hidden absolute -left-8 top-6 transition-transform duration-500 [.spiderman_&]:skew-x-6">
                     <div
-                      className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712] [.spiderman_&]:!border-white [.spiderman_&]:!bg-red-500"
+                      className="exp-dot w-3.5 h-3.5 rounded-full border-2 bg-[#030712] [.spiderman_&]:!border-white [.spiderman_&]:!bg-red-500 [.ironman_&]:!border-cyan-400 [.deadpool_&]:!border-black [.deadpool_&]:!bg-[#dc143c] [.deadpool_&]:!shadow-[2px_2px_0_rgba(0,0,0,0.85)]"
                       style={{ borderColor: color, boxShadow: `0 0 12px ${color}` }}
                     />
                   </div>
