@@ -9,6 +9,7 @@ import spideyLogo from "../../assets/spidey-logo-white.png";
 import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
+import { CrescentIcon } from "../ui/CrescentIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 
 interface NavItem {
@@ -39,6 +40,7 @@ export const Navbar: React.FC = () => {
   const [isIronman, setIsIronman] = useState(false);
   const [isDeadpool, setIsDeadpool] = useState(false);
   const [isThor, setIsThor] = useState(false);
+  const [isMoonKnight, setIsMoonKnight] = useState(false);
   const [isVenom, setIsVenom] = useState(false);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export const Navbar: React.FC = () => {
       setIsIronman(document.documentElement.classList.contains("ironman"));
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
       setIsThor(document.documentElement.classList.contains("thor"));
+      setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsVenom(document.documentElement.classList.contains("venom"));
     };
     const observer = new MutationObserver(syncModes);
@@ -144,6 +147,14 @@ export const Navbar: React.FC = () => {
         </div>
       )}
 
+      {/* Moon Knight: a bar of moonlight, cold and steady */}
+      {isMoonKnight && isScrolled && (
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+          <div className="mk-moon-edge mk-glow h-[2px] w-full" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#c9a227]/50 to-transparent" />
+        </div>
+      )}
+
       {/* Thor: current arcs along the bottom edge instead of a static glow */}
       {isThor && isScrolled && (
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
@@ -183,6 +194,8 @@ export const Navbar: React.FC = () => {
                   ? "!rounded-none bg-[#dc143c] border-[3px] border-black shadow-[4px_4px_0_rgba(0,0,0,0.85)] rotate-[-3deg]"
                   : isThor
                     ? "bg-gradient-to-br from-[#1b2a44] via-[#0d1524] to-black border border-[#d4af6a]/80 shadow-[0_0_18px_rgba(125,211,252,0.85)]"
+                    : isMoonKnight
+                      ? "bg-gradient-to-br from-[#141a26] via-[#0a0e16] to-black border border-[#c9a227]/70 shadow-[0_0_18px_rgba(242,239,230,0.6)]"
                     : isVenom
                       ? "!rounded-[16px_7px_18px_9px/9px_17px_7px_16px] bg-gradient-to-br from-[#2e1065] via-[#12061f] to-black border border-[#a855f7]/80 shadow-[0_0_20px_rgba(168,85,247,0.9)]"
                       : "bg-gradient-to-br from-blue-500 to-violet-600"
@@ -195,6 +208,8 @@ export const Navbar: React.FC = () => {
               <DeadpoolMaskIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]" />
             ) : isThor ? (
               <MjolnirIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(125,211,252,1)]" />
+            ) : isMoonKnight ? (
+              <CrescentIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(242,239,230,1)]" />
             ) : isVenom ? (
               <VenomSpiderIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(233,237,242,1)]" />
             ) : (
@@ -203,7 +218,7 @@ export const Navbar: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className={`text-sm font-extrabold tracking-wider uppercase hidden md:inline-block transition-colors ${
-              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : isDeadpool ? "text-[#f7f1e3] drop-shadow-[2px_2px_0_rgba(127,29,29,1)]" : isThor ? "text-sky-100 drop-shadow-[0_0_12px_rgba(125,211,252,0.9)]" : isVenom ? "text-zinc-100 drop-shadow-[0_0_12px_rgba(185,194,205,0.9)]" : "text-slate-900 dark:text-white"
+              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : isDeadpool ? "text-[#f7f1e3] drop-shadow-[2px_2px_0_rgba(127,29,29,1)]" : isThor ? "text-sky-100 drop-shadow-[0_0_12px_rgba(125,211,252,0.9)]" : isMoonKnight ? "text-[#f5f2ea] drop-shadow-[0_0_12px_rgba(242,239,230,0.9)]" : isVenom ? "text-zinc-100 drop-shadow-[0_0_12px_rgba(185,194,205,0.9)]" : "text-slate-900 dark:text-white"
             }`}>
               Thenushan Sritharan
             </span>

@@ -9,9 +9,10 @@ import arcReactorLogo from "../../assets/arc-reactor-logo.png"
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
 import { MjolnirIcon } from "./MjolnirIcon"
 import { VenomSpiderIcon } from "./VenomSpiderIcon"
+import { CrescentIcon } from "./CrescentIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
@@ -20,6 +21,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isDeadpool, setIsDeadpool] = useState(false)
     const [isThor, setIsThor] = useState(false)
     const [isVenom, setIsVenom] = useState(false)
+    const [isMoonKnight, setIsMoonKnight] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -32,6 +34,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsDeadpool(document.documentElement.classList.contains("deadpool"))
                 setIsThor(document.documentElement.classList.contains("thor"))
                 setIsVenom(document.documentElement.classList.contains("venom"))
+                setIsMoonKnight(document.documentElement.classList.contains("moonknight"))
             }
         }
 
@@ -142,6 +145,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsDeadpool(next && mode === "deadpool")
             setIsThor(next && mode === "thor")
             setIsVenom(next && mode === "venom")
+            setIsMoonKnight(next && mode === "moonknight")
             switching.current = false
         });
     }, [])
@@ -174,6 +178,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsDeadpool(false);
             setIsThor(false);
             setIsVenom(false);
+            setIsMoonKnight(false);
             window.dispatchEvent(new Event("themeChange"));
         } else {
             // The toggleMode already does exactly what we need for enabling
@@ -181,7 +186,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
     }
 
-    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : "none";
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : "none";
 
     return (
         <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
@@ -199,6 +204,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     {currentMode === "deadpool" && <DeadpoolMaskIcon muted={false} className="w-5 h-5 object-contain text-white" />}
                     {currentMode === "thor" && <MjolnirIcon muted={false} className="w-5 h-5 object-contain text-white" />}
                     {currentMode === "venom" && <VenomSpiderIcon muted={false} className="w-5 h-5 object-contain" />}
+                    {currentMode === "moonknight" && <CrescentIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "none" && (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                             <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -262,6 +268,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 <VenomSpiderIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
                                 Venom
                             </button>
+                            <button
+                                onClick={() => handleSelectMode("moonknight")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "moonknight" && "text-amber-600 dark:text-amber-300 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <CrescentIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Moon Knight
+                            </button>
                         </div>
                     </motion.div>
                 )}
@@ -291,7 +304,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong> or <strong className="text-zinc-200 font-bold">Venom</strong>!
+                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong> or <strong className="text-zinc-200 font-bold">Venom</strong> or <strong className="text-amber-300 font-bold">Moon Knight</strong>!
                             </p>
                         </div>
 

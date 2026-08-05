@@ -42,6 +42,12 @@ import { VenomLoader } from "./components/immersive/VenomLoader";
 import { SymbioteBackground } from "./components/immersive/SymbioteBackground";
 import { VenomCrawl } from "./components/immersive/VenomCrawl";
 import { VenomSpiderIcon } from "./components/ui/VenomSpiderIcon";
+import { KhonshuOverlay } from "./components/immersive/KhonshuOverlay";
+import { MoonKnightConsole } from "./components/immersive/MoonKnightConsole";
+import { MoonKnightLoader } from "./components/immersive/MoonKnightLoader";
+import { MoonPhaseBackground } from "./components/immersive/MoonPhaseBackground";
+import { MoonGlide } from "./components/immersive/MoonGlide";
+import { CrescentIcon } from "./components/ui/CrescentIcon";
 import { MjolnirIcon } from "./components/ui/MjolnirIcon";
 
 import { LayoutGroup } from "framer-motion";
@@ -64,6 +70,9 @@ export function App() {
   const [isVenom, setIsVenom] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("venom")
   );
+  const [isMoonKnight, setIsMoonKnight] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("moonknight")
+  );
 
   useEffect(() => {
     const syncModes = () => {
@@ -72,6 +81,7 @@ export function App() {
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
       setIsThor(document.documentElement.classList.contains("thor"));
       setIsVenom(document.documentElement.classList.contains("venom"));
+      setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -88,7 +98,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -114,6 +124,8 @@ export function App() {
             <ThorLoader key="thor-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isVenom ? (
             <VenomLoader key="venom-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isMoonKnight ? (
+            <MoonKnightLoader key="moonknight-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -126,7 +138,7 @@ export function App() {
       {/* ── Main App Content ──────────────────────── */}
       <div className={`relative w-full min-h-screen text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : "#8B5CF6"}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : "#8B5CF6"}
           sparkSize={isIronman || isThor ? 12 : 8}
           sparkRadius={isIronman || isThor ? 28 : 20}
           sparkCount={isIronman || isThor ? 12 : 10}
@@ -165,6 +177,11 @@ export function App() {
           {isVenom && <VenomOverlay />}
           {isVenom && <VenomCrawl />}
 
+          {/* Immersive Moon Knight Mode Effects */}
+          {isMoonKnight && <MoonPhaseBackground />}
+          {isMoonKnight && <MoonGlide />}
+          {isMoonKnight && <KhonshuOverlay />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -174,7 +191,7 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight ? (
                 <LaptopStory />
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
@@ -217,6 +234,42 @@ export function App() {
                   <div className="relative z-20 -mt-4 flex justify-end">
                     <div className="venom-chip px-3 py-1.5 text-[10px] tracking-[0.2em] text-[#e9edf2]">
                       Keep scrolling. We are not finished. 🖤
+                    </div>
+                  </div>
+                </div>
+              ) : isMoonKnight ? (
+                /* Moon Knight gets a wrapped linen tablet, not a HUD window */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  {/* Cartouche header */}
+                  <div className="relative z-20 -mb-4 flex items-end justify-between gap-3">
+                    <div className="mk-cartouche flex items-center gap-2.5 px-5 py-2 shadow-[0_0_26px_rgba(242,239,230,0.25)]">
+                      <CrescentIcon className="w-5 h-5" />
+                      <span className="text-sm sm:text-base tracking-[0.2em]">
+                        The Suit
+                      </span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest text-[#c9a227]">
+                        FOUR OCCUPANTS
+                      </span>
+                    </div>
+
+                    <div className="mk-cartouche hidden sm:block px-3 py-1.5">
+                      <span className="text-[10px] tracking-[0.2em]">
+                        Servant of Khonshu
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* The linen */}
+                  <div className="relative mk-linen h-[580px] flex flex-col overflow-hidden">
+                    <div className="flex-1 overflow-hidden relative flex flex-col p-3 sm:p-4">
+                      <MoonKnightConsole />
+                    </div>
+                  </div>
+
+                  {/* Closing inscription */}
+                  <div className="relative z-20 -mt-4 flex justify-end">
+                    <div className="mk-cartouche px-3 py-1.5 text-[10px] tracking-[0.2em] text-[#c9a227]">
+                      ☾ The moon sees the work ☾
                     </div>
                   </div>
                 </div>

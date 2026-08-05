@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Marcellus&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1122,6 +1123,263 @@ html.venom .venom-flesh::before,
 
 html.venom .venom-alive {
   animation: venom-writhe 7s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Moon Knight "SUIT UP" — Moonlight & Khonshu Theme
+   Design language: bone-white linen, cold moonlight silver and
+   Egyptian gold on a desert-night sky. Not a HUD (Iron Man), not a
+   neon web (Spider-Man), not a comic page (Deadpool), not carved
+   stone (Thor), not living mass (Venom) — this one is a WRAPPED
+   RELIC: bandage linen, hieroglyph inscription, moon-cold light.
+   ══════════════════════════════════════════════════════════════ */
+html.moonknight {
+  --color-nav-link-active: #f2efe6;
+  --color-border-strong: rgba(242, 239, 230, 0.4);
+  --color-card-hover-border: rgba(201, 162, 39, 0.8);
+}
+
+html.moonknight body {
+  /* Desert night, an hour before the moon is highest */
+  background-color: #05070d !important;
+  cursor: none !important;
+  /* Crescent-dart cursor is drawn by KhonshuOverlay */
+}
+
+/* Tailwind preflight puts `cursor: pointer` on buttons, which beats the
+   inherited `none` and draws a second system cursor next to the dart. */
+html.moonknight *,
+html.moonknight *:hover {
+  cursor: none !important;
+}
+
+/* Inscriptional capitals, cut rather than drawn */
+html.moonknight h1,
+html.moonknight h2,
+html.moonknight h3,
+html.moonknight h4 {
+  font-family: 'Marcellus SC', 'Trajan Pro', serif !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f5f2ea;
+  text-shadow:
+    0 0 16px rgba(242, 239, 230, 0.55),
+    0 0 44px rgba(201, 209, 220, 0.3),
+    0 2px 0 rgba(0, 0, 0, 0.9);
+}
+
+/* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
+   positioned exactly over the <li>. If the two don't share a font and
+   letter-spacing they render at different widths and you see doubled,
+   ghosted text — so the overlay must be listed here alongside the li. */
+html.moonknight button,
+html.moonknight .gooey-nav-container nav ul li,
+html.moonknight .gooey-nav-container nav ul li a,
+html.moonknight .gooey-nav-container .effect.text {
+  font-family: 'Marcellus SC', serif !important;
+  letter-spacing: 0.12em;
+}
+
+/* Moonlight wash — the light source is high and cold, the ground is warm sand */
+html.moonknight body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    /* the moon itself, high and slightly off-centre */
+    radial-gradient(circle at 50% 26%, rgba(242, 239, 230, 0.22) 0%, transparent 42%),
+    /* cold spill across the upper sky */
+    radial-gradient(ellipse at 50% 0%, rgba(201, 209, 220, 0.16) 0%, transparent 55%),
+    /* gold rising off the sand at the horizon */
+    radial-gradient(ellipse at 50% 102%, rgba(201, 162, 39, 0.16) 0%, transparent 50%),
+    /* lapis depth in the corners */
+    radial-gradient(circle at 6% 84%, rgba(27, 58, 92, 0.32) 0%, transparent 48%),
+    radial-gradient(circle at 94% 78%, rgba(27, 58, 92, 0.26) 0%, transparent 46%),
+    linear-gradient(180deg, #070c16 0%, #06090f 48%, #05070d 100%);
+}
+
+/* Linen weave with hieroglyph inscription running through it */
+html.moonknight body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -39;
+  pointer-events: none;
+  opacity: 0.2;
+  background-image:
+    /* bandage linen: two thread directions at slightly different pitch */
+    repeating-linear-gradient(
+      92deg,
+      rgba(242, 239, 230, 0.14) 0 1px,
+      transparent 1px 7px
+    ),
+    repeating-linear-gradient(
+      2deg,
+      rgba(242, 239, 230, 0.09) 0 1px,
+      transparent 1px 9px
+    ),
+    /* inscription band, tiled */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23c9a227' stroke-width='1.6' stroke-linecap='square'%3E%3Cpath d='M20 24h14M27 24v22M20 46h14'/%3E%3Cpath d='M58 20v26M52 20h12M55 33h6'/%3E%3Cpath d='M88 20a8 8 0 0 1 0 16a8 8 0 0 1 0-16M88 36v10'/%3E%3Cpath d='M118 46V20l10 8-10 8'/%3E%3Cpath d='M148 20v26M142 46h12'/%3E%3Cpath d='M22 96h16M30 88v16'/%3E%3Cpath d='M56 88v16l10-8z'/%3E%3Cpath d='M86 88h14v16H86zM93 88v16'/%3E%3Cpath d='M116 104V88h12M116 96h8'/%3E%3Cpath d='M146 88a7 7 0 1 0 0 14M146 95h10'/%3E%3Cpath d='M24 158v-24l12 10-12 10'/%3E%3Cpath d='M54 134v24M48 146h12'/%3E%3Cpath d='M84 134h14v10H84zM91 144v14'/%3E%3Cpath d='M114 134v24h12'/%3E%3Cpath d='M144 158a8 8 0 0 1 0-16M144 142h10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, auto, 180px 180px;
+  mask-image: radial-gradient(ellipse at 50% 34%, black 4%, rgba(0, 0, 0, 0.5) 48%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 34%, black 4%, rgba(0, 0, 0, 0.5) 48%, transparent 84%);
+}
+
+/* Accent remap: hacker-green / blue utilities become moonlight bone,
+   violet / purple utilities become Egyptian gold. */
+html.moonknight .text-emerald-400,
+html.moonknight .text-emerald-300,
+html.moonknight .text-emerald-500,
+html.moonknight .text-blue-400,
+html.moonknight .text-blue-500,
+html.moonknight .text-cyan-400 {
+  color: #f2efe6 !important;
+  text-shadow: 0 0 14px rgba(242, 239, 230, 0.6);
+}
+
+html.moonknight .text-violet-400,
+html.moonknight .text-purple-400 {
+  color: #e0bc4f !important;
+  text-shadow: 0 0 12px rgba(201, 162, 39, 0.5);
+}
+
+html.moonknight .border-emerald-500\/10,
+html.moonknight .border-emerald-500\/20,
+html.moonknight .border-emerald-500\/30,
+html.moonknight .border-emerald-500\/40,
+html.moonknight .border-emerald-500\/60,
+html.moonknight .border-blue-500\/20,
+html.moonknight .border-blue-500\/30,
+html.moonknight .border-cyan-500\/20 {
+  border-color: rgba(242, 239, 230, 0.35) !important;
+}
+
+html.moonknight .bg-emerald-500\/10,
+html.moonknight .bg-emerald-500\/20,
+html.moonknight .bg-blue-500\/10,
+html.moonknight .bg-cyan-500\/10 {
+  background-color: rgba(242, 239, 230, 0.1) !important;
+}
+
+html.moonknight .from-emerald-500,
+html.moonknight .from-emerald-600,
+html.moonknight .from-blue-400,
+html.moonknight .from-blue-500,
+html.moonknight .from-blue-600,
+html.moonknight .from-cyan-500 {
+  --tw-gradient-from: #f2efe6 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.moonknight .to-teal-400,
+html.moonknight .to-teal-600,
+html.moonknight .to-violet-500,
+html.moonknight .to-violet-600,
+html.moonknight .to-blue-500 {
+  --tw-gradient-to: #c9a227 !important;
+}
+
+html.moonknight .shadow-emerald-500\/30,
+html.moonknight .shadow-emerald-500\/50,
+html.moonknight .shadow-blue-500\/30,
+html.moonknight .shadow-blue-500\/50,
+html.moonknight .shadow-cyan-500\/30 {
+  --tw-shadow-color: rgba(242, 239, 230, 0.55) !important;
+}
+
+html.moonknight ::selection {
+  background: rgba(242, 239, 230, 0.35);
+  color: #05070d;
+}
+
+html.moonknight ::-webkit-scrollbar-thumb {
+  background: rgba(242, 239, 230, 0.45);
+}
+
+html.moonknight ::-webkit-scrollbar-thumb:hover {
+  background: rgba(224, 188, 79, 0.9);
+}
+
+/* ── Wrapped linen panel (Moon Knight's answer to .stark-hud-panel) ──
+   Bandage-pale surface over night, bound with a gold inscription rule.
+   Corners are cut flat like a stone cartouche, not rounded like a UI card. */
+html.moonknight .mk-linen,
+.mk-linen {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      92deg,
+      rgba(242, 239, 230, 0.045) 0 1px,
+      transparent 1px 6px
+    ),
+    linear-gradient(180deg, rgba(18, 22, 32, 0.96) 0%, rgba(6, 9, 15, 0.98) 100%);
+  border: 1px solid rgba(242, 239, 230, 0.28);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(242, 239, 230, 0.3),
+    inset 0 0 70px rgba(201, 209, 220, 0.07),
+    0 0 42px rgba(242, 239, 230, 0.12),
+    0 16px 44px rgba(0, 0, 0, 0.8);
+}
+
+/* Gold inscription rule set inside the linen */
+html.moonknight .mk-linen::before,
+.mk-linen::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201, 162, 39, 0.32);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Cartouche chip, used for tabs and labels */
+.mk-cartouche {
+  font-family: 'Marcellus SC', serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, rgba(24, 30, 43, 0.92) 0%, rgba(8, 11, 18, 0.96) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  /* Rounded ends, flat sides — the shape of a real cartouche */
+  border-radius: 999px 999px 999px 999px / 999px 999px 999px 999px;
+  color: #f2efe6;
+}
+
+/* Moonlight running along an edge */
+.mk-moon-edge {
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 239, 230, 0.85) 50%, transparent 100%);
+  filter: drop-shadow(0 0 10px rgba(242, 239, 230, 0.9));
+}
+
+/* The moon does not flicker — it breathes */
+@keyframes mk-moonlight {
+  0%, 100% { opacity: 0.55; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.35); }
+}
+
+/* Linen settling, barely perceptible */
+@keyframes mk-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* A dart leaving the hand */
+@keyframes mk-dart-spin {
+  to { transform: rotate(360deg); }
+}
+
+html.moonknight .mk-glow {
+  animation: mk-moonlight 5.5s ease-in-out infinite;
 }
 
 /* ── Thor: nav selection is thunder cracked into stone ────────────

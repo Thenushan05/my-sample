@@ -320,7 +320,15 @@ export const ThemeBackground: React.FC = () => {
         <div className="absolute bottom-[-10%] right-[-12%] w-[54%] h-[54%] bg-[#0ea5e9]/16 rounded-full blur-[160px]" />
       </div>
 
-      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden">
+      {/* Moon Knight Ambient Glows — cold moonlight above, sand-gold below */}
+      <div className="absolute inset-0 hidden [.moonknight_&]:block">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(242,239,230,0.14)_0%,rgba(5,7,13,0.98)_60%)]" />
+        <div className="absolute top-[-12%] left-1/2 w-[62%] h-[62%] -translate-x-1/2 bg-[#f2efe6]/10 rounded-full blur-[180px]" />
+        <div className="absolute bottom-[-14%] left-[-8%] w-[56%] h-[56%] bg-[#c9a227]/14 rounded-full blur-[170px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[52%] h-[52%] bg-[#1b3a5c]/28 rounded-full blur-[160px]" />
+      </div>
+
+      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/20" />
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-300/10 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-300/10 rounded-full blur-[140px]" />

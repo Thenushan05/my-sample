@@ -14,6 +14,7 @@ import arcReactorLogo from "../../assets/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
+import { CrescentIcon } from "../ui/CrescentIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,6 +77,7 @@ const LASER_COLORS = [
 const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
 const THOR_PORTRAIT = "/thorme_nobg.png";
 const VENOM_PORTRAIT = "/venom-nobg.png";
+const MOONKNIGHT_PORTRAIT = "/moonme.png";
 
 /**
  * The symbiote spread.
@@ -188,6 +190,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isVenom, setIsVenom] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("venom")
   );
+  const [isMoonKnight, setIsMoonKnight] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("moonknight")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
@@ -197,6 +202,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsDeadpool(document.documentElement.classList.contains("deadpool"));
       setIsThor(document.documentElement.classList.contains("thor"));
       setIsVenom(document.documentElement.classList.contains("venom"));
+      setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -382,6 +388,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <MjolnirIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(125,211,252,1)] animate-pulse" />
               ) : isVenom ? (
                 <VenomSpiderIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(233,237,242,1)] animate-pulse" />
+              ) : isMoonKnight ? (
+                <CrescentIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(242,239,230,1)] animate-pulse" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -395,7 +403,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       ? "ASGARD • GOD OF THUNDER & DEPLOYMENTS"
                       : isVenom
                         ? "WE ARE VENOM • WE SHIP TOGETHER"
-                        : "Available for New Projects"}
+                        : isMoonKnight
+                      ? "SERVANT OF KHONSHU • SUIT UP"
+                      : "Available for New Projects"}
             </motion.div>
 
             <AnimatePresence>
@@ -620,7 +630,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -680,6 +690,87 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     style={{ cursor: 'pointer' }}
                     className="col-start-1 row-start-1 z-30 w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain filter drop-shadow-[0_0_30px_rgba(6,182,212,0.8)]"
                   />
+                )}
+              </AnimatePresence>
+
+              {/* Moon Knight: the suit assembles out of moonlight.
+                  This portrait ships on a SOLID BLACK background rather than
+                  transparent, so it is composited with mix-blend-mode: screen —
+                  against the desert night the black drops out cleanly and the
+                  white linen reads as lit by the moon. */}
+              <AnimatePresence>
+                {isMoonKnight && (
+                  <motion.div
+                    key="moonknight-portrait"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="col-start-1 row-start-1 z-20 relative"
+                  >
+                    {/* Invisible sizer: fixes the box so the overlays align */}
+                    <img
+                      src={MOONKNIGHT_PORTRAIT}
+                      alt=""
+                      aria-hidden
+                      className="block w-auto h-auto max-w-[340px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[620px] xl:max-w-[700px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)] xl:max-h-[calc(100vh-170px)] object-contain opacity-0 pointer-events-none"
+                    />
+
+                    {/* The linen wraps on: a moonlight sweep travels down the
+                        figure, and everything it passes is already suited. */}
+                    <motion.img
+                      initial={{ clipPath: "inset(0 0 100% 0)", filter: "brightness(2.4) contrast(1.4)" }}
+                      animate={{ clipPath: "inset(0 0 0% 0)", filter: "brightness(1.05) contrast(1.05)" }}
+                      exit={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                      src={MOONKNIGHT_PORTRAIT}
+                      alt="Moon Knight Suit"
+                      style={{
+                        mixBlendMode: "screen",
+                        maskImage: "radial-gradient(ellipse at 50% 44%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 97%)",
+                        WebkitMaskImage: "radial-gradient(ellipse at 50% 44%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 97%)",
+                      }}
+                      className="absolute inset-0 h-full w-full object-contain"
+                    />
+
+                    {/* The wrapping edge itself — a bar of moonlight running
+                        down the figure, one pass */}
+                    <motion.div
+                      initial={{ top: "-6%", opacity: 0 }}
+                      animate={{ top: ["-6%", "104%"], opacity: [0, 1, 1, 0] }}
+                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], times: [0, 0.12, 0.85, 1] }}
+                      className="absolute inset-x-0 h-16 pointer-events-none"
+                    >
+                      <div className="h-[2px] w-full bg-[#f2efe6] shadow-[0_0_24px_rgba(242,239,230,1),0_0_60px_rgba(242,239,230,0.7)]" />
+                      <div className="h-16 w-full bg-gradient-to-b from-[#f2efe6]/22 to-transparent" />
+                    </motion.div>
+
+                    {/* Crescent struck behind him as the suit lands */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.5, rotate: -30 }}
+                      animate={{ opacity: [0, 0.35, 0.16], scale: 1, rotate: 0 }}
+                      transition={{ duration: 1.6, delay: 0.5, ease: "easeOut" }}
+                      className="absolute left-1/2 top-[34%] -z-10 h-56 w-56 -translate-x-1/2 -translate-y-1/2 pointer-events-none sm:h-72 sm:w-72"
+                    >
+                      <CrescentIcon className="h-full w-full" />
+                    </motion.div>
+
+                    {/* Moonlight clinging to the linen */}
+                    <motion.div
+                      animate={{ opacity: [0.18, 0.42, 0.22] }}
+                      transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_32%,rgba(242,239,230,0.2)_0%,transparent_60%)]"
+                    />
+
+                    {/* Khonshu takes the credit */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.7 }}
+                      className="mk-cartouche absolute bottom-[5%] right-[2%] px-3 py-1.5 text-[10px] tracking-[0.18em] sm:text-[11px] pointer-events-none"
+                    >
+                      I Chose Him
+                    </motion.div>
+                  </motion.div>
                 )}
               </AnimatePresence>
 
@@ -1001,7 +1092,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -1032,7 +1123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
