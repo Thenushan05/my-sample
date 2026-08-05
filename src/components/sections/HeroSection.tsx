@@ -712,9 +712,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                         filter: [
                           "grayscale(1) contrast(1.5) brightness(0.7)",
                           "grayscale(1) contrast(1.35) brightness(0.85)",
-                          "grayscale(1) contrast(1.2) brightness(0.95)",
-                          "grayscale(1) contrast(1.12) brightness(1)",
-                          "grayscale(1) contrast(1.1) brightness(1)",
+                          "grayscale(0.7) contrast(1.18) brightness(0.92)",
+                          "grayscale(0.25) contrast(1.08) brightness(1)",
+                          "grayscale(0) contrast(1.04) brightness(1)",
                         ],
                       }}
                       exit={{ clipPath: VENOM_SPREAD[0], opacity: 0 }}

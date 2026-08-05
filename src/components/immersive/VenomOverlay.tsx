@@ -274,24 +274,6 @@ export const VenomOverlay: React.FC = () => {
 
   return (
     <>
-      {/* Drains the colour out of the ENTIRE page.
-          Recolouring the theme tokens was never going to be enough — the
-          portrait, the project screenshots and the brand-coloured tech logos
-          are all still full-colour images. A viewport-wide backdrop-filter
-          desaturates everything painted beneath it.
-          Deliberately backdrop-filter and NOT `filter` on a wrapper: a filter
-          on an ancestor creates a containing block for fixed positioning,
-          which would break every fixed overlay in the app. This sits below the
-          symbiote chrome (z-9996+) and the cursor (z-10000), all of which are
-          already black and white. */}
-      <div
-        className="fixed inset-0 z-[9995] pointer-events-none"
-        style={{
-          backdropFilter: "grayscale(1) contrast(1.08)",
-          WebkitBackdropFilter: "grayscale(1) contrast(1.08)",
-        }}
-      />
-
       <SymbioteCursor x={cursorX} y={cursorY} hungry={hungry} />
 
       {/* Goo thrown by clicks */}
