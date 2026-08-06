@@ -300,6 +300,22 @@ export const GrandLineBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 z-[1] overflow-hidden pointer-events-none">
       <canvas ref={canvasRef} className="h-full w-full" />
+
+      {/* One Piece logo — sits in the sky, behind page content */}
+      <img
+        src="/one_piece_logo_nobg.png"
+        alt="One Piece"
+        style={{
+          position: "absolute",
+          top: "22%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "clamp(220px, 32vw, 500px)",
+          height: "auto",
+          opacity: 0.85,
+          pointerEvents: "none",
+        }}
+      />
     </div>
   );
 };

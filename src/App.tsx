@@ -201,24 +201,6 @@ export function App() {
           {isLuffy && <Gear5Awakening />}
           {isLuffy && <LuffyRun />}
 
-          {/* One Piece logo — fixed in the sky, in front of everything */}
-          {isLuffy && (
-            <img
-              src="/one_piece_logo_nobg.png"
-              alt="One Piece"
-              style={{
-                position: "fixed",
-                top: "4%",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "clamp(220px, 32vw, 500px)",
-                height: "auto",
-                zIndex: 500,
-                pointerEvents: "none",
-              }}
-            />
-          )}
-
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
