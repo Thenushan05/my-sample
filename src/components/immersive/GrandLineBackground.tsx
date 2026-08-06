@@ -272,6 +272,7 @@ export const GrandLineBackground: React.FC = () => {
 
       // Back to front. The sky blit is opaque, so it also clears the frame.
       if (skyLayer) ctx.drawImage(skyLayer, 0, 0);
+
       clouds.forEach(drawCloud);
       gulls.forEach(drawGull);
       drawGlitter();
@@ -297,9 +298,6 @@ export const GrandLineBackground: React.FC = () => {
   }, []);
 
   return (
-    // z-[1], matching every other immersive backdrop: ThemeBackground owns
-    // z-0 and paints an opaque wash, so a backdrop sharing that layer is at
-    // the mercy of sibling order.
     <div className="fixed inset-0 z-[1] overflow-hidden pointer-events-none">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>

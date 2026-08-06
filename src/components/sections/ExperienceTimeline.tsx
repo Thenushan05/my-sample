@@ -212,11 +212,33 @@ export const ExperienceTimeline: React.FC = () => {
                       <div className="md:pr-6">
                         <ExperienceCard exp={exp} />
                       </div>
-                      <div className="hidden md:block" />
+                      {/* Luffy: the zigzag's off-side cell has always been an
+                          empty spacer div, on every theme, purely to keep the
+                          two-column alternation working — genuinely blank
+                          space, not space taken from anything. No padding
+                          added, so the cell is exactly the size it always
+                          was; the image just sits centred inside it. Only
+                          the first two entries get one at all — five repeats
+                          down one timeline is its own kind of repetitive,
+                          and there are only two spare illustrations left
+                          once Projects and About have theirs. */}
+                      <div className="hidden md:flex md:items-center md:justify-center">
+                        {i === 0 && (
+                          <div className="op-insert hidden [.luffy_&]:block w-28 rotate-[2deg] p-2 sm:w-32">
+                            <img src="/luffy2.png" alt="" className="block w-full" />
+                          </div>
+                        )}
+                      </div>
                     </>
                   ) : (
                     <>
-                      <div className="hidden md:block" />
+                      <div className="hidden md:flex md:items-center md:justify-center">
+                        {i === 1 && (
+                          <div className="op-breakout hidden [.luffy_&]:block w-24 rotate-[-3deg] sm:w-28">
+                            <img src="/luffy4.png" alt="" className="block w-full" />
+                          </div>
+                        )}
+                      </div>
                       <div className="md:pl-6">
                         <ExperienceCard exp={exp} />
                       </div>

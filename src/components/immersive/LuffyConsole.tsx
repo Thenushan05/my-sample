@@ -187,11 +187,7 @@ export const LuffyConsole: React.FC = () => {
             {/* ── BOUNTY: the poster's own face ───────────── */}
             {activeTab === "bounty" && (
               <motion.div key="tab-bounty" {...PANE} className="flex flex-col items-center">
-                {/* The "photo" frame. A halftone sunburst behind the hat does
-                    the job the character portrait would, without pretending
-                    to be artwork this project does not have — and without
-                    leaving the panel a flat, unstyled box the way a plain
-                    tint did. */}
+                {/* The "photo" frame. Halftone sunburst behind the hat. */}
                 <div className="op-burst relative flex h-[136px] w-full max-w-[300px] items-center justify-center overflow-hidden border-2 border-[var(--l-ink)] sm:h-[156px]">
                   <div className="op-speed" />
                   <div className="op-linetone" />

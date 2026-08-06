@@ -3108,13 +3108,16 @@ html.luffy .op-stamp {
 .op-burst {
   position: relative;
   overflow: hidden;
+  /* Deliberately loud: this panel was the one spot in the whole theme that
+     read as an unstyled placeholder rather than a comic page, so the fix
+     needs colour that is unmistakable at a glance, not a tasteful tint. */
   background:
     repeating-conic-gradient(
       from 0deg at 50% 50%,
-      rgba(36, 26, 16, 0.16) 0deg 7deg,
-      transparent 7deg 20deg
+      var(--l-ink) 0deg 5deg,
+      transparent 5deg 20deg
     ),
-    radial-gradient(circle at 50% 50%, var(--l-straw) 0%, var(--l-paper-2) 58%, var(--l-paper-3) 100%);
+    radial-gradient(circle at 50% 50%, #fff3d6 0%, var(--l-straw) 42%, var(--l-red) 130%);
 }
 
 /* The rays creep, the way a shonen splash page's burst never sits still
@@ -3230,4 +3233,56 @@ html.luffy .op-stamp {
   color: var(--l-straw);
   -webkit-text-stroke: 3px var(--l-ink);
   paint-order: stroke fill;
+}
+
+/* ── Device 8: the comic insert ──────────────────────────────
+   For the illustrated artwork dropped into otherwise-empty layout gaps
+   (About's stat grid, Projects' margin, Experience's unused zigzag half) —
+   a pinned photo rather than a floating sticker, so it reads as belonging
+   to the poster-and-board world instead of a logo slapped on top of it.
+   `object-contain`, not `cover`: these are full illustrations with their
+   own silhouette, and cropping into one would cut off the art. */
+.op-insert {
+  position: relative;
+  background: linear-gradient(170deg, var(--l-paper) 0%, var(--l-paper-2) 100%);
+  border: 2.5px solid var(--l-ink);
+  box-shadow: 4px 5px 0 rgba(36, 26, 16, 0.28);
+}
+
+.op-insert img {
+  filter: drop-shadow(0 2px 3px rgba(36, 26, 16, 0.25));
+}
+
+/* A small pin, top-centre, selling the "tacked to the board" read */
+.op-insert::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  z-index: 3;
+  height: 9px;
+  width: 9px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--l-red);
+  border: 1.5px solid var(--l-ink);
+}
+
+/* A second, deliberately different treatment for the same job — a round
+   wax-seal medallion rather than a pinned photo, so two illustrations
+   sitting near each other on the page don't read as the same sticker
+   copy-pasted twice. */
+.op-badge {
+  border-radius: 999px;
+  border: 3px solid var(--l-ink);
+  background: var(--l-paper-2);
+  box-shadow: 0 0 0 3px var(--l-paper), 3px 4px 0 rgba(36, 26, 16, 0.28);
+}
+
+/* A third treatment: no frame at all. For a dynamic action pose, boxing it
+   into a photo or medallion fights the pose — this is a splash-page panel
+   breaking its own border, ink-outlined by the source art itself, with
+   only a grounding shadow. */
+.op-breakout img {
+  filter: drop-shadow(3px 6px 4px rgba(36, 26, 16, 0.35));
 }

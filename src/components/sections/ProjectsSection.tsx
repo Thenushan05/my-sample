@@ -25,6 +25,15 @@ export const ProjectsSection: React.FC = () => {
     >
       {/* Background gradient orbs */}
       <div className="project-orb absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 [.spiderman_&]:bg-red-600/30 [.ironman_&]:bg-cyan-500/30 rounded-full blur-[128px] pointer-events-none transition-colors duration-700" />
+
+      {/* Luffy: the margin outside max-w-6xl is empty at this section's
+          width on any screen wide enough to show it — the same corner the
+          orb above decorates for every other theme, so this adds no space
+          of its own, just fills space that was already going unused.
+          Unframed: a dynamic pose loses its energy boxed into a photo. */}
+      <div className="op-breakout hidden [.luffy_&]:block absolute -right-6 top-1/4 w-40 rotate-[-4deg] opacity-90 pointer-events-none sm:w-52 lg:-right-2 lg:w-60">
+        <img src="/luffy1.png" alt="" className="block w-full" />
+      </div>
       {/* PS4 Menu Background (Spiderman) */}
       <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20" />
       

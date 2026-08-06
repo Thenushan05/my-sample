@@ -58,7 +58,7 @@ export const AboutSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="about-text space-y-6 text-white/60 text-sm md:text-base leading-relaxed transition-all duration-500 [.spiderman_&]:-skew-x-6 [.ironman_&]:text-center [.ironman_&]:max-w-3xl"
+            className="about-text relative space-y-6 text-white/60 text-sm md:text-base leading-relaxed transition-all duration-500 [.spiderman_&]:-skew-x-6 [.ironman_&]:text-center [.ironman_&]:max-w-3xl"
           >
             <p className="about-text italic">
               I am a software engineer focused on transforming complex ideas into useful, scalable, and visually engaging digital products.
@@ -87,6 +87,16 @@ export const AboutSection: React.FC = () => {
                   </span>
                 </div>
               ))}
+            </div>
+
+            {/* Luffy: a medallion badge hung in the gutter between the two
+                grid columns — that gutter is blank on every theme (it's
+                just `gap-16`), so this takes no space of its own; it only
+                decorates space that already goes unused. Absolutely
+                positioned rather than a flow child, so it never pushes the
+                stats grid or adds to this column's height. */}
+            <div className="op-badge hidden [.luffy_&]:flex absolute bottom-0 right-0 h-16 w-16 translate-x-1/2 items-center justify-center overflow-hidden lg:h-20 lg:w-20">
+              <img src="/luffy5.png" alt="" className="h-[130%] w-[130%] object-cover object-[50%_20%]" />
             </div>
           </motion.div>
 
