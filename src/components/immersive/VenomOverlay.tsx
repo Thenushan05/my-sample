@@ -101,20 +101,20 @@ const SymbioteCursor: React.FC<{
   );
 
   const tail = [
-    { tx: t1x, ty: t1y, size: 22, alpha: 0.85 },
-    { tx: t2x, ty: t2y, size: 17, alpha: 0.7 },
-    { tx: t3x, ty: t3y, size: 12, alpha: 0.55 },
-    { tx: t4x, ty: t4y, size: 8, alpha: 0.4 },
+    { tx: t1x, ty: t1y, size: 44, alpha: 0.95 },
+    { tx: t2x, ty: t2y, size: 34, alpha: 0.85 },
+    { tx: t3x, ty: t3y, size: 24, alpha: 0.75 },
+    { tx: t4x, ty: t4y, size: 16, alpha: 0.6 },
   ];
 
   return (
-    <>
+    <div className="fixed inset-0 z-[10000] pointer-events-none mix-blend-difference">
       {/* Trailing mass, painted first so the head sits on top */}
       {tail.map((blob, i) => (
         <motion.div
           key={i}
           style={{ x: blob.tx, y: blob.ty }}
-          className="fixed left-0 top-0 z-[9999] pointer-events-none"
+          className="absolute left-0 top-0 pointer-events-none"
         >
           <motion.div
             animate={{
@@ -129,20 +129,20 @@ const SymbioteCursor: React.FC<{
               width: blob.size,
               height: blob.size,
               opacity: blob.alpha,
-              marginLeft: (40 - blob.size) / 2,
-              marginTop: (40 - blob.size) / 2,
+              marginLeft: (60 - blob.size) / 2,
+              marginTop: (60 - blob.size) / 2,
             }}
-            className="bg-[radial-gradient(circle_at_34%_30%,black_0%,rgba(0,0,0,0.8)_55%,rgba(0,0,0,0.4)_100%)] shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+            className="bg-white"
           />
         </motion.div>
       ))}
 
       {/* The head */}
-      <motion.div className="fixed left-0 top-0 z-[10000] pointer-events-none" style={{ x, y }}>
+      <motion.div className="absolute left-0 top-0 pointer-events-none" style={{ x, y }}>
         <motion.div
           animate={{ scale: hungry ? 1.35 : 1 }}
           transition={{ type: "spring", stiffness: 520, damping: 24 }}
-          className="relative h-10 w-10"
+          className="relative h-16 w-16"
         >
           {/* Liquid body: stretches into the direction of travel */}
           <motion.div style={{ rotate: lean }} className="absolute inset-0">
@@ -160,7 +160,7 @@ const SymbioteCursor: React.FC<{
                   ],
                 }}
                 transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full w-full bg-[radial-gradient(circle_at_32%_26%,black_0%,rgba(0,0,0,0.9)_50%,rgba(0,0,0,0.5)_100%)] shadow-[0_0_18px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.45)]"
+                className="h-full w-full bg-white"
               />
             </motion.div>
           </motion.div>
@@ -172,7 +172,7 @@ const SymbioteCursor: React.FC<{
               animate={{ scaleX: [0.35, 1, 0.5, 1, 0.35], opacity: [0.3, 0.85, 0.4] }}
               transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.24, ease: "easeInOut" }}
               style={{ rotate: `${deg}deg` }}
-              className="absolute left-1/2 top-1/2 h-[2px] w-7 origin-left bg-gradient-to-r from-black via-black/80 to-transparent"
+              className="absolute left-1/2 top-1/2 h-[3px] w-12 origin-left bg-gradient-to-r from-white via-white/80 to-transparent"
             />
           ))}
 
@@ -185,26 +185,26 @@ const SymbioteCursor: React.FC<{
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ duration: 0.16 }}
-                className="absolute inset-0 h-10 w-10 overflow-visible"
+                className="absolute inset-0 h-16 w-16 overflow-visible"
               >
                 <motion.g
                   animate={{ y: [-1.5, 1, -1.5] }}
                   transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <path d="M6 13L10 19L14 13L18 19L22 13L26 19L30 13L34 19" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 13L10 19L14 13L18 19L22 13L26 19L30 13L34 19" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.g>
                 <motion.g
                   animate={{ y: [1.5, -1, 1.5] }}
                   transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <path d="M6 27L10 21L14 27L18 21L22 27L26 21L30 27L34 21" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 27L10 21L14 27L18 21L22 27L26 21L30 27L34 21" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.g>
               </motion.svg>
             )}
           </AnimatePresence>
         </motion.div>
       </motion.div>
-    </>
+    </div>
   );
 };
 
@@ -330,8 +330,10 @@ export const VenomOverlay: React.FC = () => {
         ))}
       </AnimatePresence>
 
-      {/* Ooze hanging off the top edge */}
-      <div className="fixed left-0 top-0 z-[9997] w-full pointer-events-none">
+      {/* Ooze hanging off the top edge.
+          Below the navbar (z-50) on purpose: at z-[9997] the strands painted
+          straight over the nav labels and you could not read the menu. */}
+      <div className="fixed left-0 top-0 z-[40] w-full pointer-events-none">
         <div className="venom-ooze-edge h-5 w-full" />
         {DRIPS.map((drip, i) => (
           <motion.div
@@ -360,10 +362,9 @@ export const VenomOverlay: React.FC = () => {
         ))}
       </div>
 
-      {/* The membrane closing in on the frame */}
+      {/* The membrane closing in on the frame (shadow removed to keep background pure white) */}
       <div className="fixed inset-0 z-[9996] pointer-events-none">
-        <div className="absolute inset-0 shadow-[inset_0_0_130px_rgba(0,0,0,0.3)]" />
-        <div className="venom-alive absolute inset-2 rounded-[28px_14px_30px_16px/16px_30px_14px_28px] border border-black/20" />
+        <div className="venom-alive absolute inset-2 rounded-[28px_14px_30px_16px/16px_30px_14px_28px] border border-[var(--v-line)]" />
       </div>
 
       {/* "We" — always plural */}
@@ -376,7 +377,7 @@ export const VenomOverlay: React.FC = () => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -24, scale: 0.94 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="venom-chip px-3 py-2 text-[11px] leading-snug sm:text-xs text-black bg-white/80 border border-black/20 shadow-[0_0_12px_rgba(0,0,0,0.1)] font-bold"
+              className="venom-chip px-3 py-2 text-[11px] leading-snug sm:text-xs"
             >
               {WE_LINES[lineIdx]}
             </motion.div>

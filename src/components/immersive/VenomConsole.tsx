@@ -43,6 +43,27 @@ const VOICES = [
   { line: "There is no lone genius. There is only WE.", tag: "On Teams" },
 ];
 
+const VITALS = [
+  { label: "Bond Depth", value: 98, note: "Fused" },
+  { label: "Host Control", value: 61, note: "Negotiated" },
+  { label: "Appetite", value: 84, note: "Managed" },
+];
+
+const TABS = [
+  { id: "bond", label: "The Bond", icon: Biohazard },
+  { id: "hosts", label: "Hosts", icon: ScrollText },
+  { id: "traits", label: "Traits", icon: Dna },
+  { id: "voices", label: "Voices", icon: MessagesSquare },
+] as const;
+
+/** Shared entry transition — every pane moves the same way or it reads as noise. */
+const PANE = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.2 },
+};
+
 export const VenomConsole: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ConsoleTab>("bond");
   const [logs, setLogs] = useState<string[]>(BOND_LOG);
@@ -108,311 +129,337 @@ export const VenomConsole: React.FC = () => {
     }
   };
 
-  const TABS = [
-    { id: "bond", label: "The Bond", icon: Biohazard },
-    { id: "hosts", label: "Hosts", icon: ScrollText },
-    { id: "traits", label: "Traits", icon: Dna },
-    { id: "voices", label: "Voices", icon: MessagesSquare },
-  ] as const;
-
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px_10px_24px_12px/12px_22px_10px_20px] border border-black/20 bg-white/80 p-3 text-black selection:bg-zinc-300 sm:p-4">
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px_10px_24px_12px/12px_22px_10px_20px] border border-[var(--v-line-2)] bg-white/90 text-[var(--v-body)]">
       {/* Wet highlight along the top of the mass */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-black to-transparent shadow-[0_0_12px_rgba(0,0,0,0.4)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--v-line-3)] to-transparent" />
 
-      {/* Tabs as tendril-drawn chips */}
-      <div className="relative z-10 mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-black/20 pb-2">
-        <div className="flex items-center gap-1.5 overflow-x-auto py-1">
+      {/* ── Brand bar ─────────────────────────────────────────
+          Identity on the left, live bond readout on the right. The tabs
+          used to live up here too, which left the header doing three jobs
+          in one row; they have their own rail now. */}
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-[var(--v-line)] px-3 py-2.5 sm:px-4">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <motion.div
+            animate={{ scale: [1, 1.06, 1] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="shrink-0"
+          >
+            <VenomSpiderIcon className="h-5 w-5 text-[var(--v-ink)]" />
+          </motion.div>
+          <span
+            className="truncate text-sm tracking-[0.14em] text-[var(--v-ink)] sm:text-base"
+            style={{ fontFamily: "'Creepster', cursive" }}
+          >
+            We Are Venom
+          </span>
+          <span className="hidden shrink-0 font-mono text-[10px] tracking-widest text-[var(--v-faint)] md:inline">
+            KLYNTAR // V-01
+          </span>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <motion.span
+            animate={{ opacity: [1, 0.25, 1] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            className="h-1.5 w-1.5 rounded-full bg-[var(--v-accent)]"
+          />
+          <span className="font-mono text-[10px] tracking-[0.18em] text-[var(--v-muted)]">
+            BOND 98%
+          </span>
+        </div>
+      </header>
+
+      {/* ── Rail + pane ───────────────────────────────────────
+          Horizontal scroller on mobile, vertical rail from sm up. */}
+      <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
+        <nav className="scrollbar-thin flex shrink-0 gap-1.5 overflow-x-auto border-b border-[var(--v-line)] px-3 py-2 sm:w-[8.5rem] sm:flex-col sm:overflow-x-hidden sm:overflow-y-auto sm:border-b-0 sm:border-r sm:px-2 sm:py-3">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`venom-chip flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-[11px] transition-all sm:text-xs font-bold ${
-                  isActive
-                    ? "!border-black !text-black shadow-[0_0_18px_rgba(0,0,0,0.15),inset_0_0_14px_rgba(0,0,0,0.05)] bg-black/5"
-                    : "opacity-65 hover:opacity-100 hover:!border-black/50 text-black/70 hover:text-black"
-                }`}
+                data-active={isActive}
+                aria-pressed={isActive}
+                className="venom-chip venom-tab flex shrink-0 items-center gap-2 px-3 py-2 text-[11px] sm:w-full sm:text-xs"
               >
-                <tab.icon className={`h-3.5 w-3.5 ${isActive ? "text-black" : "text-black/70"}`} />
-                <span>{tab.label}</span>
+                <tab.icon className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">{tab.label}</span>
               </button>
             );
           })}
-        </div>
 
-        <div className="venom-chip hidden items-center gap-2 px-2.5 py-1 text-[10px] md:flex text-black border-black/20 bg-black/5">
-          <VenomSpiderIcon className="h-4 w-4" />
-          <span className="font-bold">We Are Venom</span>
-        </div>
-      </div>
+          <div className="venom-label mt-auto hidden px-1 pt-4 text-[9px] leading-relaxed sm:block">
+            Two minds.
+            <br />
+            One console.
+          </div>
+        </nav>
 
-      <div className="relative z-10 flex-1 overflow-hidden">
-        <AnimatePresence mode="wait">
-          {/* ── THE BOND (terminal) ──────────────────────────── */}
-          {activeTab === "bond" && (
-            <motion.div
-              key="tab-bond"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex h-full flex-col gap-3 sm:flex-row"
-            >
-              {/* Bond vitals */}
-              <div className="hidden w-1/3 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-3 sm:flex">
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1], rotate: [-2, 2, -2] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="mx-auto w-24"
-                >
-                  <VenomSpiderIcon className="w-full drop-shadow-[0_0_18px_rgba(0,0,0,0.5)] text-black" />
-                </motion.div>
-
-                <div
-                  className="mt-4 border-b border-black/20 pb-1 text-center text-[10px] tracking-[0.2em] text-black font-bold"
-                  style={{ fontFamily: "'Creepster', cursive" }}
-                >
-                  Bond Vitals
-                </div>
-
-                <div className="mt-3 flex flex-col gap-2.5 text-[10px] font-bold">
-                  {[
-                    { label: "Bond Depth", value: 98, note: "Fused" },
-                    { label: "Host Control", value: 61, note: "Negotiated" },
-                    { label: "Appetite", value: 84, note: "Managed" },
-                  ].map((stat) => (
-                    <div key={stat.label}>
-                      <div className="mb-1 flex justify-between text-black/70">
-                        <span className="uppercase tracking-wider">{stat.label}</span>
-                        <span className="text-black">{stat.note}</span>
+        <div className="relative min-h-0 flex-1 overflow-hidden p-3 sm:p-4">
+          <AnimatePresence mode="wait">
+            {/* ── THE BOND (vitals + terminal) ───────────────── */}
+            {activeTab === "bond" && (
+              <motion.div key="tab-bond" {...PANE} className="flex h-full flex-col gap-3">
+                {/* Vitals read across the top now — three equal cards instead
+                    of a sidebar, which the tab rail already occupies. */}
+                <div className="grid shrink-0 grid-cols-3 gap-2">
+                  {VITALS.map((stat) => (
+                    <div key={stat.label} className="venom-sunken px-2.5 py-2">
+                      <div className="venom-label text-[8px] sm:text-[9px]">{stat.label}</div>
+                      <div className="mt-1 flex items-baseline gap-1.5">
+                        <span
+                          className="text-base leading-none text-[var(--v-ink)] sm:text-lg"
+                          style={{ fontFamily: "'Creepster', cursive" }}
+                        >
+                          {stat.value}%
+                        </span>
+                        <span className="truncate font-mono text-[9px] text-[var(--v-faint)]">
+                          {stat.note}
+                        </span>
                       </div>
-                      <div className="h-2 rounded-full border border-black/20 bg-black/10">
-                        <motion.div
+                      <div className="venom-meter mt-1.5 h-1.5">
+                        <motion.span
                           initial={{ width: 0 }}
                           animate={{ width: `${stat.value}%` }}
-                          transition={{ duration: 1.2, ease: "easeOut" }}
-                          className="h-full rounded-full bg-gradient-to-r from-black/80 via-black to-black shadow-[0_0_10px_rgba(0,0,0,0.4)]"
+                          transition={{ duration: 1.1, ease: "easeOut" }}
                         />
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="venom-chip mt-auto px-2 py-1.5 text-[10px] leading-snug text-black border-black/20 bg-black/5 font-bold">
-                  We share the credit. Mostly.
-                </div>
-              </div>
-
-              {/* Terminal */}
-              <div className="flex flex-1 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/50">
-                <div
-                  ref={scrollRef}
-                  className="scrollbar-thin flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-black/90 font-medium"
-                >
-                  {logs.map((line, i) => (
-                    <div
-                      key={i}
-                      className={
-                        line.startsWith("we@")
-                          ? "text-black font-bold"
-                          : line.startsWith("◈")
-                            ? "text-black/80 font-semibold"
-                            : ""
-                      }
-                    >
-                      {line || " "}
-                    </div>
-                  ))}
-                </div>
-
-                <form
-                  onSubmit={handleCommand}
-                  className="flex items-center gap-2 border-t border-black/20 bg-white/70 px-3 py-2"
-                >
-                  <span className="font-mono text-[11px] text-black font-bold">we@symbiote:~◈</span>
-                  <input
-                    value={inputVal}
-                    onChange={(e) => setInputVal(e.target.value)}
-                    placeholder="speak. we are listening."
-                    className="flex-1 bg-transparent font-mono text-[11px] text-black placeholder:text-black/40 focus:outline-none font-bold"
-                  />
-                  <button type="submit" aria-label="Send" className="text-black/60 hover:text-black">
-                    <Send className="h-3.5 w-3.5" />
-                  </button>
-                </form>
-              </div>
-            </motion.div>
-          )}
-
-          {/* ── HOSTS (real experience) ──────────────────────── */}
-          {activeTab === "hosts" && (
-            <motion.div
-              key="tab-hosts"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="scrollbar-thin h-full overflow-y-auto pr-1"
-            >
-              <div className="flex flex-col gap-3">
-                {experiences.map((exp) => {
-                  const flavour = HOST_FLAVOUR[exp.id];
-                  return (
-                    <div
-                      key={exp.id}
-                      className="relative rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-3 shadow-[inset_0_1px_0_rgba(0,0,0,0.05)]"
-                    >
-                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 border-b border-black/10 pb-1.5">
-                        <span
-                          className="text-[10px] tracking-[0.18em] text-black font-bold"
-                          style={{ fontFamily: "'Creepster', cursive" }}
-                        >
-                          {flavour?.title ?? "UNRECORDED"}
-                        </span>
-                        <span className="rounded-full border border-black/30 bg-black/5 px-2 py-0.5 text-[9px] tracking-widest text-black font-bold">
-                          {flavour?.state ?? "UNKNOWN"}
-                        </span>
+                {/* Terminal */}
+                <div className="venom-sunken flex min-h-0 flex-1 flex-col bg-white/70">
+                  <div
+                    ref={scrollRef}
+                    className="scrollbar-thin min-h-0 flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-[var(--v-body)]"
+                  >
+                    {logs.map((line, i) => (
+                      <div
+                        key={i}
+                        className={
+                          line.startsWith("we@")
+                            ? "text-[var(--v-ink)] font-semibold"
+                            : line.startsWith("◈")
+                              ? "text-[var(--v-muted)]"
+                              : ""
+                        }
+                      >
+                        {line || " "}
                       </div>
-
-                      <h4 className="text-sm text-black font-extrabold">{exp.role}</h4>
-                      <div className="mb-2 font-mono text-[10px] text-black/60 font-bold">
-                        {exp.company} • {exp.period}
-                      </div>
-                      <p className="mb-2 text-[11px] leading-relaxed text-black/80 font-medium">{exp.description}</p>
-
-                      <ul className="mb-2 flex flex-col gap-1">
-                        {exp.highlights.map((h) => (
-                          <li key={h} className="flex gap-2 text-[11px] text-black/80 font-medium">
-                            <span className="text-black font-bold">◈</span>
-                            <span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div className="flex flex-wrap gap-1">
-                        {exp.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="rounded-full border border-black/20 bg-black/5 px-2 py-0.5 font-mono text-[9px] text-black font-bold"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-
-          {/* ── TRAITS (real skills) ─────────────────────────── */}
-          {activeTab === "traits" && (
-            <motion.div
-              key="tab-traits"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex h-full flex-col gap-3 sm:flex-row"
-            >
-              <div className="scrollbar-thin flex gap-2 overflow-x-auto sm:w-1/3 sm:flex-col sm:overflow-y-auto sm:overflow-x-hidden">
-                {skillCategories.map((cat) => {
-                  const isActive = activeTrait.id === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveTrait(cat)}
-                      className={`venom-chip shrink-0 px-3 py-2 text-left text-[11px] transition-all font-bold ${
-                        isActive
-                          ? "!border-black !text-black shadow-[0_0_18px_rgba(0,0,0,0.15)] bg-black/5"
-                          : "opacity-65 hover:opacity-100 text-black/70 hover:text-black border-black/10"
-                      }`}
-                    >
-                      <span className="mr-1.5">{cat.icon}</span>
-                      {cat.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="relative flex-1 rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-4">
-                <div
-                  className="mb-1 text-[10px] tracking-[0.2em] text-black font-bold"
-                  style={{ fontFamily: "'Creepster', cursive" }}
-                >
-                  What We Are Made Of
-                </div>
-                <h4 className="mb-2 text-base text-black font-extrabold">{activeTrait.label}</h4>
-                <p className="mb-4 border-l-2 border-black/40 pl-2.5 text-[11px] italic text-black/70 font-semibold">
-                  {TRAIT_FLAVOUR[activeTrait.id] ?? "We grew this one ourselves."}
-                </p>
-
-                <div className="grid grid-cols-2 gap-2">
-                  {activeTrait.skills.map((skill) => (
-                    <div
-                      key={skill}
-                      className="rounded-lg border border-black/10 bg-black/5 px-2 py-1.5 font-mono text-[11px] text-black/85 font-bold"
-                    >
-                      {skill}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 opacity-10 text-black">
-                  <VenomSpiderIcon className="h-full w-full" />
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* ── VOICES ───────────────────────────────────────── */}
-          {activeTab === "voices" && (
-            <motion.div
-              key="tab-voices"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex h-full flex-col items-center justify-center gap-5 px-2"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={voiceIdx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.25 }}
-                  className="venom-flesh max-w-lg px-6 py-6 text-center"
-                >
-                  <p className="text-lg leading-snug text-black font-bold" style={{ fontFamily: "'Creepster', cursive" }}>
-                    “{VOICES[voiceIdx].line}”
-                  </p>
-                  <div className="mt-3 font-mono text-[10px] tracking-[0.25em] text-black/70 font-bold">
-                    — {VOICES[voiceIdx].tag.toUpperCase()}
+                    ))}
                   </div>
-                </motion.div>
-              </AnimatePresence>
 
-              <div className="flex items-center gap-2.5">
-                {VOICES.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setVoiceIdx(i)}
-                    aria-label={`Voice ${i + 1}`}
-                    className={`h-2.5 w-2.5 rounded-full border transition-all ${
-                      i === voiceIdx
-                        ? "border-black bg-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-                        : "border-black/30 bg-transparent hover:border-black"
-                    }`}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  <form
+                    onSubmit={handleCommand}
+                    className="flex shrink-0 items-center gap-2 border-t border-[var(--v-line)] px-3 py-2"
+                  >
+                    <span className="shrink-0 font-mono text-[11px] text-[var(--v-accent)]">
+                      we@symbiote:~◈
+                    </span>
+                    <input
+                      value={inputVal}
+                      onChange={(e) => setInputVal(e.target.value)}
+                      placeholder="speak. we are listening."
+                      className="min-w-0 flex-1 bg-transparent font-mono text-[11px] text-[var(--v-ink)] placeholder:text-[var(--v-faint)] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      aria-label="Send"
+                      className="venom-muted shrink-0 transition-colors hover:text-[var(--v-accent)]"
+                    >
+                      <Send className="h-3.5 w-3.5" />
+                    </button>
+                  </form>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── HOSTS (real experience) ────────────────────── */}
+            {activeTab === "hosts" && (
+              <motion.div
+                key="tab-hosts"
+                {...PANE}
+                className="scrollbar-thin h-full overflow-y-auto pr-1"
+              >
+                {/* A spine runs down the left with a node per bond, so the
+                    roles read as a sequence rather than four loose cards. */}
+                <div className="relative flex flex-col gap-3 pl-5">
+                  <span className="absolute bottom-2 left-[3px] top-2 w-px bg-[var(--v-line-2)]" />
+
+                  {experiences.map((exp) => {
+                    const flavour = HOST_FLAVOUR[exp.id];
+                    const isActive = flavour?.state === "ACTIVE";
+                    return (
+                      <div key={exp.id} className="relative">
+                        <span
+                          className={`absolute -left-5 top-3 h-[7px] w-[7px] rounded-full ${
+                            isActive
+                              ? "bg-[var(--v-accent)] ring-4 ring-[rgba(180,18,26,0.14)]"
+                              : "bg-[var(--v-line-3)]"
+                          }`}
+                        />
+
+                        <div className="venom-sunken bg-white/60 p-3">
+                          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                            <span className="venom-label text-[9px]">
+                              {flavour?.title ?? "UNRECORDED"}
+                            </span>
+                            <span
+                              className={`rounded-full px-2 py-0.5 font-mono text-[9px] tracking-widest ${
+                                isActive
+                                  ? "bg-[var(--v-ink)] text-white"
+                                  : "border border-[var(--v-line-2)] text-[var(--v-muted)]"
+                              }`}
+                            >
+                              {flavour?.state ?? "UNKNOWN"}
+                            </span>
+                          </div>
+
+                          <h4 className="text-sm text-[var(--v-ink)]">{exp.role}</h4>
+                          <div className="mb-2 font-mono text-[10px] text-[var(--v-faint)]">
+                            {exp.company} • {exp.period}
+                          </div>
+                          <p className="mb-2 text-[11px] leading-relaxed text-[var(--v-body)]">
+                            {exp.description}
+                          </p>
+
+                          <ul className="mb-2.5 flex flex-col gap-1">
+                            {exp.highlights.map((h) => (
+                              <li
+                                key={h}
+                                className="flex gap-2 text-[11px] leading-relaxed text-[var(--v-body)]"
+                              >
+                                <span className="shrink-0 text-[var(--v-accent)]">◈</span>
+                                <span>{h}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="flex flex-wrap gap-1">
+                            {exp.technologies.map((tech) => (
+                              <span
+                                key={tech}
+                                className="rounded-full border border-[var(--v-line)] bg-white px-2 py-0.5 font-mono text-[9px] text-[var(--v-muted)]"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── TRAITS (real skills) ───────────────────────── */}
+            {activeTab === "traits" && (
+              <motion.div key="tab-traits" {...PANE} className="flex h-full flex-col gap-3">
+                <div className="scrollbar-thin flex shrink-0 gap-1.5 overflow-x-auto pb-1">
+                  {skillCategories.map((cat) => {
+                    const isActive = activeTrait.id === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => setActiveTrait(cat)}
+                        data-active={isActive}
+                        aria-pressed={isActive}
+                        className="venom-chip venom-tab shrink-0 px-3 py-1.5 text-[11px]"
+                      >
+                        <span className="mr-1.5">{cat.icon}</span>
+                        {cat.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="venom-sunken relative min-h-0 flex-1 overflow-y-auto bg-white/60 p-4">
+                  <h4
+                    className="text-lg leading-none text-[var(--v-ink)]"
+                    style={{ fontFamily: "'Creepster', cursive" }}
+                  >
+                    {activeTrait.label}
+                  </h4>
+                  <p className="mb-4 mt-2 border-l-2 border-[var(--v-accent)] pl-2.5 text-[11px] italic leading-relaxed text-[var(--v-muted)]">
+                    {TRAIT_FLAVOUR[activeTrait.id] ?? "We grew this one ourselves."}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
+                    {activeTrait.skills.map((skill) => (
+                      <div
+                        key={skill}
+                        className="rounded-lg border border-[var(--v-line)] bg-white px-2 py-1.5 font-mono text-[11px] text-[var(--v-body)]"
+                      >
+                        {skill}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 text-[var(--v-ink)] opacity-[0.07]">
+                    <VenomSpiderIcon className="h-full w-full" />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── VOICES ─────────────────────────────────────── */}
+            {activeTab === "voices" && (
+              <motion.div
+                key="tab-voices"
+                {...PANE}
+                className="flex h-full flex-col items-center justify-center gap-6 px-2"
+              >
+                <AnimatePresence mode="wait">
+                  <motion.blockquote
+                    key={voiceIdx}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25 }}
+                    className="relative max-w-lg px-6 text-center"
+                  >
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -top-6 left-0 text-6xl leading-none text-[var(--v-line-2)]"
+                      style={{ fontFamily: "'Creepster', cursive" }}
+                    >
+                      “
+                    </span>
+                    <p
+                      className="text-xl leading-snug text-[var(--v-ink)] sm:text-2xl"
+                      style={{ fontFamily: "'Creepster', cursive" }}
+                    >
+                      {VOICES[voiceIdx].line}
+                    </p>
+                    <footer className="venom-label mt-4 text-[10px]">
+                      — {VOICES[voiceIdx].tag}
+                    </footer>
+                  </motion.blockquote>
+                </AnimatePresence>
+
+                <div className="flex items-center gap-2.5">
+                  {VOICES.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setVoiceIdx(i)}
+                      aria-label={`Voice ${i + 1}`}
+                      aria-pressed={i === voiceIdx}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === voiceIdx
+                          ? "w-6 bg-[var(--v-ink)]"
+                          : "w-1.5 bg-[var(--v-line-2)] hover:bg-[var(--v-muted)]"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

@@ -304,13 +304,8 @@ export const ThemeBackground: React.FC = () => {
         <div className="absolute bottom-[-12%] right-[-12%] w-[62%] h-[62%] bg-[#450a0a]/60 rounded-full blur-[150px]" />
       </div>
 
-      {/* Venom Ambient Glows — the mass pools in the corners and swallows the middle */}
-      <div className="absolute inset-0 hidden [.venom_&]:block">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(255,255,255,0.99)_66%)]" />
-        <div className="absolute top-[-14%] left-[-12%] w-[62%] h-[62%] bg-black/5 rounded-full blur-[170px]" />
-        <div className="absolute bottom-[-14%] right-[-12%] w-[58%] h-[58%] bg-black/10 rounded-full blur-[160px]" />
-        <div className="absolute bottom-[-10%] left-[-8%] w-[50%] h-[50%] bg-black/5 rounded-full blur-[150px]" />
-      </div>
+      {/* Venom Ambient Glows — we leave it empty because the canvas draws the pure white background */}
+      <div className="absolute inset-0 hidden [.venom_&]:block overflow-hidden" />
 
       {/* Thor Ambient Glows — storm light above, deep charge pooling below */}
       <div className="absolute inset-0 hidden [.thor_&]:block">
@@ -320,13 +315,8 @@ export const ThemeBackground: React.FC = () => {
         <div className="absolute bottom-[-10%] right-[-12%] w-[54%] h-[54%] bg-[#0ea5e9]/16 rounded-full blur-[160px]" />
       </div>
 
-      {/* Moon Knight Ambient Glows — cold moonlight above, sand-gold below */}
-      <div className="absolute inset-0 hidden [.moonknight_&]:block">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(242,239,230,0.14)_0%,rgba(5,7,13,0.98)_60%)]" />
-        <div className="absolute top-[-12%] left-1/2 w-[62%] h-[62%] -translate-x-1/2 bg-[#f2efe6]/10 rounded-full blur-[180px]" />
-        <div className="absolute bottom-[-14%] left-[-8%] w-[56%] h-[56%] bg-[#c9a227]/14 rounded-full blur-[170px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[52%] h-[52%] bg-[#1b3a5c]/28 rounded-full blur-[160px]" />
-      </div>
+      {/* Moon Knight Ambient Glows — clean deep space */}
+      <div className="absolute inset-0 hidden [.moonknight_&]:block bg-slate-950" />
 
       <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/20" />

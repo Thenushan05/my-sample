@@ -196,32 +196,33 @@ export function App() {
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
-                  {/* Title, grown out of the mass */}
+                  {/* Title, grown out of the mass. The chips carry their own
+                      paper surface now, so nothing here repaints them. */}
                   <div className="relative z-20 -mb-4 flex items-end justify-between gap-3">
-                    <div className="venom-chip flex items-center gap-2.5 px-4 py-2 shadow-[0_0_26px_rgba(0,0,0,0.35)] bg-white/80 border border-black/10">
-                      <VenomSpiderIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(0,0,0,0.5)] text-black" />
-                      <span className="text-sm sm:text-base tracking-[0.14em] text-black font-bold">
+                    <div className="venom-chip flex items-center gap-2.5 px-4 py-2">
+                      <VenomSpiderIcon className="w-5 h-5 venom-ink" />
+                      <span className="text-sm sm:text-base tracking-[0.14em] venom-ink">
                         Symbiote Link
                       </span>
-                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest text-black font-bold">
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest venom-faint">
                         KLYNTAR // HOST BONDED
                       </span>
                     </div>
 
-                    <div className="venom-chip hidden sm:block px-3 py-1.5 bg-white/80 border border-black/10">
-                      <span className="text-[10px] tracking-[0.2em] text-black font-bold">
+                    <div className="venom-chip hidden sm:block px-3 py-1.5">
+                      <span className="text-[10px] tracking-[0.2em] venom-muted">
                         We know what you are looking for
                       </span>
                     </div>
                   </div>
 
                   {/* The mass itself */}
-                  <div className="relative venom-flesh venom-alive h-[580px] flex flex-col overflow-hidden bg-white shadow-[0_0_40px_rgba(0,0,0,0.15)] border border-black/10">
+                  <div className="relative venom-flesh venom-alive h-[580px] flex flex-col overflow-hidden">
                     {/* Tendrils gripping the inside of the frame */}
                     {["top-6 left-3 rotate-[18deg]", "bottom-8 left-3 -rotate-[24deg]", "top-10 right-3 -rotate-[18deg]", "bottom-6 right-3 rotate-[24deg]"].map((pos) => (
                       <span
                         key={pos}
-                        className={`absolute ${pos} z-30 h-16 w-[3px] rounded-full bg-gradient-to-b from-black/70 to-transparent`}
+                        className={`absolute ${pos} z-30 h-16 w-[3px] rounded-full bg-gradient-to-b from-[var(--v-line-3)] to-transparent`}
                       />
                     ))}
 
@@ -232,7 +233,7 @@ export function App() {
 
                   {/* Closing whisper */}
                   <div className="relative z-20 -mt-4 flex justify-end">
-                    <div className="venom-chip px-3 py-1.5 text-[10px] tracking-[0.2em] text-black font-bold bg-white/80 border border-black/10">
+                    <div className="venom-chip px-3 py-1.5 text-[10px] tracking-[0.2em] venom-muted">
                       Keep scrolling. We are not finished. 🖤
                     </div>
                   </div>

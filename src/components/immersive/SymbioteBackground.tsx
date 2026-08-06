@@ -195,19 +195,7 @@ export const SymbioteBackground: React.FC = () => {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Oily mass shifting underneath
-      blobs.forEach((blob) => {
-        const bx = blob.x + Math.cos(t * blob.drift + blob.phase) * blob.r * 0.3;
-        const by = blob.y + Math.sin(t * blob.drift * 1.3 + blob.phase) * blob.r * 0.22;
-        const g = ctx.createRadialGradient(bx, by, 0, bx, by, blob.r);
-        g.addColorStop(0, `rgba(0, 0, 0, ${blob.alpha * 1.6})`);
-        g.addColorStop(0.5, `rgba(0, 0, 0, ${blob.alpha * 0.3})`);
-        g.addColorStop(1, "rgba(0, 0, 0, 0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(bx, by, blob.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
+      // Oily mass shifting underneath (REMOVED to keep background pure white and avoid dirty shadows)
 
       tendrils.forEach(drawTendril);
 
