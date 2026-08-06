@@ -213,23 +213,10 @@ export function App() {
                     </div>
                   </div>
 
-                  {/* The mouth. Content sits between the teeth. */}
-                  <div className="relative venom-jaw venom-alive h-[580px] flex flex-col overflow-hidden">
-                    <div className="venom-veins" />
-
-                    {/* Tendrils gripping the inside of the frame */}
-                    {["top-8 left-3 rotate-[18deg]", "bottom-10 left-3 -rotate-[24deg]", "top-12 right-3 -rotate-[18deg]", "bottom-8 right-3 rotate-[24deg]"].map((pos) => (
-                      <span
-                        key={pos}
-                        className={`absolute ${pos} z-[3] h-16 w-[3px] rounded-full bg-gradient-to-b from-[var(--v-line-3)] to-transparent`}
-                      />
-                    ))}
-
-                    {/* Padded clear of both jaws so the teeth never bite the UI */}
-                    <div className="relative z-[3] flex-1 overflow-hidden flex flex-col px-3 py-5 sm:px-4">
-                      <VenomConsole />
-                    </div>
-                  </div>
+                  {/* The face. It owns its own skull, eyes and mouth, and
+                      sizes to its content — no outer frame, or we would be
+                      back to a panel with a face painted on it. */}
+                  <VenomConsole />
 
                   {/* Closing whisper */}
                   <div className="relative z-20 mt-7 flex justify-end">

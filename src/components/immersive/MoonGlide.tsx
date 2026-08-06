@@ -4,29 +4,51 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-mot
 /** How long without scroll input before the glide becomes a hover. */
 const SETTLE_MS = 300;
 
+/**
+ * The glide, as ONE silhouette: a hooded rise blended into the leading edge,
+ * wings sweeping out to sharp tips, and a trailing edge cut into two deep
+ * scallops.
+ *
+ * Two earlier attempts failed here and both failures were instructive. The
+ * first assembled him from rounded divs — a capsule per arm, a capsule per
+ * leg — which at flying size resolves into a white smudge. The second was a
+ * single path but a symmetric one with six radiating points, which reads as
+ * a starfish, and its hood was a detached circle that read as an insect.
+ *
+ * So this is a CAPE, not a man. No limbs and no face to get wrong: the
+ * leading edge is one unbroken curve, only the trailing edge is broken up,
+ * and the hood is a bump continuous with the silhouette rather than a ball
+ * sitting on top of it. The crescent is the only identifying mark it needs.
+ * Shapes were compared side by side at true flying size before picking this
+ * one — three scallops turned to mush at 143px, two hold.
+ */
+const GLIDER =
+  "M4 64C34 40 78 24 108 20C112 10 120 6 128 8C136 10 140 16 139 23" +
+  "C174 28 212 42 238 60C218 70 196 76 172 78C180 92 180 104 172 114" +
+  "C154 104 138 94 128 86C124 98 116 106 104 112C98 100 96 90 96 82" +
+  "C66 80 30 74 4 64Z";
+
+/* Cut out of the silhouette rather than drawn on top — under difference
+   blending an added dark mark would invert along with everything else, but a
+   hole always shows the true sky (or moon) behind him. */
+const CREST =
+  "M132 44C122 49 116 57 116 66C116 75 122 83 132 88C125 81 121 74 121 66C121 58 125 51 132 44Z";
+
 interface FigureProps {
   gliding: boolean;
 }
 
-/**
- * Moon Knight in silhouette, built from divs the way IronManFigure is.
- *
- * Rendered as a pure white cut-out rather than a shaded figure: he is passing
- * in front of the moon, so what you'd actually see is the cape's outline
- * against the disc. The only detail that survives is the crescent on his
- * chest and the two eye slits.
- */
 const MoonKnightFigure: React.FC<FigureProps> = React.memo(({ gliding }) => {
   // Framer restarts a keyframe animation when the target array is a new
   // reference, so these are memoised — otherwise every parent re-render
   // snaps the cape back to frame one.
   const flow = useMemo(
     () => ({
-      // Cape flares wide in the glide, hangs close when hovering
-      capeSkew: gliding ? [-9, 9, -9] : [-3, 3, -3],
-      capeScale: gliding ? [1, 1.14, 1] : [1, 1.04, 1],
-      cycle: gliding ? 1.5 : 4.2,
-      bob: gliding ? [0, -4, 0] : [0, -9, 0],
+      // Cape catches air in the glide, hangs close when hovering
+      spread: gliding ? [1, 1.07, 1] : [1, 1.02, 1],
+      lift: gliding ? [1, 0.94, 1] : [1, 0.98, 1],
+      cycle: gliding ? 1.6 : 4.4,
+      bob: gliding ? [0, -5, 0] : [0, -11, 0],
     }),
     [gliding]
   );
@@ -35,48 +57,35 @@ const MoonKnightFigure: React.FC<FigureProps> = React.memo(({ gliding }) => {
     <motion.div
       animate={{ y: flow.bob }}
       transition={{ duration: flow.cycle, repeat: Infinity, ease: "easeInOut" }}
-      className="relative h-24 w-32"
-      style={{ filter: "drop-shadow(0 0 14px rgba(242,239,230,0.55))" }}
+      className="h-[86px] w-[143px] sm:h-[104px] sm:w-[173px]"
     >
-      {/* Cape, spread into a glide */}
-      <motion.div
-        animate={{ skewY: flow.capeSkew, scaleX: flow.capeScale }}
+      <motion.svg
+        viewBox="0 0 240 120"
+        className="h-full w-full overflow-visible"
+        animate={{ scaleX: flow.spread, scaleY: flow.lift }}
         transition={{ duration: flow.cycle, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: "50% 20%" }}
-        className="absolute left-1/2 top-3 h-16 w-28 -translate-x-1/2"
+        style={{
+          transformOrigin: "50% 22%",
+          filter: "drop-shadow(0 0 9px rgba(242,239,230,0.45))",
+        }}
       >
-        {/* Scalloped trailing edge — the silhouette that reads as Moon Knight */}
-        <svg viewBox="0 0 120 70" className="h-full w-full">
-          <path
-            d="M60 0C44 0 26 6 6 20c14 2 22 8 26 16-10 2-18 8-24 18 18-6 30-6 38-2-4 8-6 16-4 26 8-12 16-20 24-24 8 4 16 12 24 24 2-10 0-18-4-26 8-4 20-4 38 2-6-10-14-16-24-18 4-8 12-14 26-16C94 6 76 0 60 0Z"
-            fill="#f2efe6"
-            opacity="0.94"
-          />
-        </svg>
-      </motion.div>
-
-      {/* Body: hood and shoulders as one mass */}
-      <div className="absolute left-1/2 top-4 h-14 w-9 -translate-x-1/2 rounded-t-full bg-[#f8f6f0]" />
-
-      {/* Eye slits — the only break in the silhouette */}
-      <span className="absolute left-1/2 top-[1.65rem] h-[3px] w-2 -translate-x-[0.72rem] rotate-[8deg] rounded-full bg-[#05070d]" />
-      <span className="absolute left-1/2 top-[1.65rem] h-[3px] w-2 translate-x-[0.1rem] -rotate-[8deg] rounded-full bg-[#05070d]" />
-
-      {/* Crescent struck into the chest */}
-      <svg viewBox="0 0 44 44" className="absolute left-1/2 top-[2.7rem] h-5 w-5 -translate-x-1/2">
+        {/* Dark body, bone rim. Each half carries him over one backdrop: the
+            near-black fill is the silhouette that reads against the lit moon,
+            the bone outline is what reads against the night sky. evenodd is
+            what makes the crescent a hole rather than a second filled shape
+            sitting on the cape, and non-scaling-stroke keeps the rim an even
+            weight while the cape flutter scales the path. */}
         <path
-          d="M28 5C18.5 8 12 14.6 12 22s6.5 14 16 17c-6.5-4.4-10.5-10.4-10.5-17S21.5 9.4 28 5Z"
+          d={`${GLIDER}${CREST}`}
+          fillRule="evenodd"
           fill="#05070d"
+          fillOpacity="0.92"
+          stroke="#f2efe6"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
         />
-      </svg>
-
-      {/* Arms held out along the cape's leading edge */}
-      <div className="absolute left-1/2 top-[2.4rem] h-[6px] w-11 -translate-x-[2.9rem] -rotate-12 rounded-full bg-[#f8f6f0]" />
-      <div className="absolute left-1/2 top-[2.4rem] h-[6px] w-11 translate-x-[0.35rem] rotate-12 rounded-full bg-[#f8f6f0]" />
-
-      {/* Legs trailing behind in the glide */}
-      <div className="absolute left-1/2 top-[4.3rem] h-[7px] w-9 -translate-x-[1.7rem] rotate-[7deg] rounded-full bg-[#f8f6f0]" />
-      <div className="absolute left-1/2 top-[4.8rem] h-[7px] w-9 -translate-x-[1.3rem] rotate-[13deg] rounded-full bg-[#f8f6f0]" />
+      </motion.svg>
     </motion.div>
   );
 });
@@ -88,21 +97,29 @@ MoonKnightFigure.displayName = "MoonKnightFigure";
  *
  * The edge lanes are taken — Deadpool has the floor, Spider-Man the right
  * rail, Thor the left margin, Venom the ceiling, Iron Man the open sky. So
- * this one flies THROUGH the backdrop instead of around the content: a white
- * cape silhouette crossing in front of the moon, sitting in the background
- * layer where it can never collide with anything.
+ * this one glides THROUGH the backdrop, and it is routed to cross the moon
+ * around mid-page, because a caped silhouette passing over the disc is the
+ * shot this character is known for.
  *
- * He glides down-and-across as you scroll, and when you stop he stops falling
- * and just hovers, cape settling.
+ * He is a near-black body with a bone rim rather than a flat fill, because he
+ * has to read against two very different backdrops. `mix-blend-mode:
+ * difference` was tried first and looks clever — white inverts to dark over
+ * the moon automatically — but difference only separates strongly when the
+ * backdrop is near-black or near-white, and the moon is a mid-grey texture,
+ * so he washed out over the exact thing he is supposed to be crossing.
+ *
+ * He glides while you scroll; when you stop he stops descending and hovers,
+ * cape settling.
  */
 export const MoonGlide: React.FC = () => {
   const { scrollY, scrollYProgress } = useScroll();
 
-  // A shallow diagonal across the sky, passing the moon around mid-page
-  const x = useTransform(scrollYProgress, [0, 1], ["-14vw", "96vw"]);
-  const y = useTransform(scrollYProgress, [0, 0.5, 1], ["6vh", "22vh", "9vh"]);
-  // Banks into the descent, levels out as he climbs again
-  const tilt = useTransform(scrollYProgress, [0, 0.5, 1], [-8, 9, -5]);
+  // A shallow arc across the sky. The moon sits at 50vw / 28vh, so the peak
+  // of this path is tuned to put him over the disc at mid-scroll.
+  const x = useTransform(scrollYProgress, [0, 1], ["-20vw", "104vw"]);
+  const y = useTransform(scrollYProgress, [0, 0.5, 1], ["7vh", "27vh", "11vh"]);
+  // Banks into the descent, levels out as he climbs away
+  const tilt = useTransform(scrollYProgress, [0, 0.5, 1], [-9, 10, -6]);
 
   const [gliding, setGliding] = useState(false);
   const [facing, setFacing] = useState(1);
@@ -124,7 +141,7 @@ export const MoonGlide: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-[2] overflow-hidden pointer-events-none">
-      <motion.div style={{ x, y }} className="absolute left-0 top-0 opacity-90">
+      <motion.div style={{ x, y }} className="absolute left-0 top-0">
         <motion.div style={{ rotate: tilt }}>
           <motion.div
             animate={{ scaleX: gliding ? facing : 1 }}

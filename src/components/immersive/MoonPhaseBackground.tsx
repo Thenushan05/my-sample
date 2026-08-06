@@ -411,6 +411,10 @@ export const MoonPhaseBackground: React.FC = () => {
 
       ctx.clearRect(0, 0, width, height);
 
+      /* Back to front. Every one of these is required: without the sky and
+         dune blits the canvas is transparent and ThemeBackground's flat wash
+         shows through, which reads as "the background is gone" even though
+         the moon is still drawing. */
       if (skyLayer) ctx.drawImage(skyLayer, 0, 0);
       drawStars();
       drawShooter();
@@ -438,7 +442,10 @@ export const MoonPhaseBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[0] overflow-hidden pointer-events-none">
+    // z-[1], matching every other immersive backdrop: ThemeBackground owns
+    // z-0 and paints an opaque wash, so a backdrop sharing that layer is at
+    // the mercy of sibling order.
+    <div className="fixed inset-0 z-[1] overflow-hidden pointer-events-none">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   );

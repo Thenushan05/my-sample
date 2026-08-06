@@ -1436,6 +1436,129 @@ html.venom .venom-flesh::before,
   mix-blend-mode: screen;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   THE MASK
+
+   The section is not a panel on a page — it is his FACE. The skull is
+   the container, the two eyes are content windows, the mouth below them
+   holds the reading material.
+
+   Content is split by SHAPE, which is the whole trick: a tapered eye
+   cannot hold a paragraph, so the eyes carry only short punchy content
+   (who we are, where to go) and everything long lives in the mouth,
+   which is a rectangle and can. Fighting that would have meant either
+   unreadable text or eyes too blunt to read as eyes.
+
+   The eyes are solid bone with void-black type — they are the brightest
+   things on the page, the way they are in every panel he appears in, and
+   black-on-bone is the highest-contrast pairing the theme has.
+   ══════════════════════════════════════════════════════════════ */
+
+/* The skull. Domed cranium, tapering to a jaw. */
+.venom-head {
+  position: relative;
+  border-radius: 50% 50% 34% 34% / 34% 34% 26% 26%;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(246, 245, 241, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 18% 96%, rgba(84, 40, 148, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 88% 8%, rgba(126, 34, 96, 0.16) 0%, transparent 58%),
+    linear-gradient(174deg, #16161f 0%, #0b0b12 44%, #050508 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(246, 245, 241, 0.22),
+    inset 0 -40px 90px -40px rgba(0, 0, 0, 0.95),
+    0 0 90px -20px rgba(84, 40, 148, 0.5),
+    0 30px 80px -24px rgba(0, 0, 0, 0.95);
+}
+
+/* ── The eyes ─────────────────────────────────────────────────
+   A sharp slanted almond, not an oval — round white ovals read as googly
+   cartoon eyes, and the steep inward cant is the single thing that makes
+   two shapes read as HIS face rather than any face.
+
+   The path is a symmetric almond with points at both tips, held in
+   objectBoundingBox units so it fits any eye size, and the slant comes
+   from rotating the element. That means one shape serves both eyes — no
+   mirrored copy to keep in sync. The rotation would tilt the type as
+   well, so .venom-eye-inner counter-rotates it back upright. */
+.venom-eye {
+  position: relative;
+  clip-path: url(#venom-eye);
+  background: linear-gradient(158deg, #ffffff 0%, #f4f2ec 46%, #dcd8cf 100%);
+  color: #05050a;
+  filter: drop-shadow(0 0 30px rgba(246, 245, 241, 0.5));
+}
+
+/* Clockwise on the left eye, anticlockwise on the right: that puts each
+   OUTER tip high and each INNER tip low, pointing down toward the middle of
+   the face. Reversed, the same almonds read wide-eyed and startled rather
+   than like a scowl — the sign of this angle is doing most of the work. */
+.venom-eye--l {
+  transform: rotate(19deg);
+}
+
+.venom-eye--r {
+  transform: rotate(-19deg);
+}
+
+.venom-eye--l .venom-eye-inner {
+  transform: rotate(-19deg);
+}
+
+.venom-eye--r .venom-eye-inner {
+  transform: rotate(19deg);
+}
+
+/* Type has to stay off the curve, and after the counter-rotation the safe
+   region is the almond's inscribed box — this padding is load-bearing, not
+   decoration. Trimming it clips words at the tips. */
+.venom-eye-inner {
+  height: 100%;
+  padding: 6% 19%;
+}
+
+.venom-eye .venom-label {
+  color: rgba(5, 5, 10, 0.6);
+}
+
+/* ── The mouth ────────────────────────────────────────────────
+   Teeth top and bottom, dark throat, and the tongue glowing up from
+   the bottom — the only place the accent hue gets to be a light. */
+.venom-mouth {
+  position: relative;
+  background:
+    radial-gradient(ellipse 66% 130% at 50% 122%, rgba(244, 63, 78, 0.3) 0%, transparent 60%),
+    linear-gradient(180deg, #06060a 0%, #0a0509 62%, #10060b 100%);
+  border-left: 1px solid var(--v-line-2);
+  border-right: 1px solid var(--v-line-2);
+  border-radius: 4px;
+}
+
+.venom-mouth::before,
+.venom-mouth::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 3;
+  background-repeat: repeat-x;
+  background-size: 56px 16px;
+}
+
+/* Upper jaw */
+.venom-mouth::before {
+  top: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='16' viewBox='0 0 56 16'%3E%3Cpath d='M0 0H56V4H47L40 13L33 4H24L15 16L8 4H0Z' fill='%23f6f5f1'/%3E%3C/svg%3E");
+}
+
+/* Lower jaw, offset half a tile so the fangs interlock */
+.venom-mouth::after {
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='16' viewBox='0 0 56 16'%3E%3Cpath d='M0 16H56V12H47L40 3L33 12H24L15 0L8 12H0Z' fill='%23f6f5f1'/%3E%3C/svg%3E");
+  background-position: 28px 0;
+}
+
 /* Ooze creeping along an edge — bone-lit at the lip, black as it hangs */
 .venom-ooze-edge {
   background: linear-gradient(180deg, rgba(246, 245, 241, 0.75) 0%, rgba(120, 120, 132, 0.35) 26%, rgba(6, 6, 9, 0.9) 62%, transparent 100%);

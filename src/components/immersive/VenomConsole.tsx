@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Biohazard, ScrollText, Dna, MessagesSquare, Send } from "lucide-react";
-import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { experiences } from "../../data/experience";
 import { skillCategories } from "../../data/skills";
 import { personal } from "../../data/personal";
@@ -44,8 +43,8 @@ const VOICES = [
 ];
 
 const VITALS = [
-  { label: "Bond Depth", value: 98, note: "Fused" },
-  { label: "Host Control", value: 61, note: "Negotiated" },
+  { label: "Bond", value: 98, note: "Fused" },
+  { label: "Control", value: 61, note: "Shared" },
   { label: "Appetite", value: 84, note: "Managed" },
 ];
 
@@ -64,6 +63,31 @@ const PANE = {
   transition: { duration: 0.2 },
 };
 
+/**
+ * The eye silhouette: one almond with a sharp point at each tip, in
+ * objectBoundingBox units so it fits any eye size. Both eyes share it — the
+ * shape is symmetric, so the left/right difference is purely the rotation
+ * applied in CSS, and there is no mirrored copy to keep in sync.
+ */
+const EyeClip: React.FC = () => (
+  <svg aria-hidden width="0" height="0" className="absolute">
+    <defs>
+      <clipPath id="venom-eye" clipPathUnits="objectBoundingBox">
+        <path d="M0 0.5C0.08 0.16 0.30 0 0.52 0C0.76 0 0.94 0.18 1 0.5C0.94 0.82 0.76 1 0.52 1C0.30 1 0.08 0.84 0 0.5Z" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+/**
+ * Venom mode's main surface: his face.
+ *
+ * The skull is the container. The two eyes are the content windows and the
+ * mouth beneath them holds whatever needs reading. Content is assigned by
+ * SHAPE rather than by importance — the eyes are tapered, so they get short
+ * punchy content (identity, vitals, navigation) and every long-form pane
+ * lives in the mouth, which is rectangular and can actually hold prose.
+ */
 export const VenomConsole: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ConsoleTab>("bond");
   const [logs, setLogs] = useState<string[]>(BOND_LOG);
@@ -130,162 +154,149 @@ export const VenomConsole: React.FC = () => {
   };
 
   return (
-    // No frame of its own: this sits inside the .venom-jaw, and a bordered
-    // panel within a bordered mouth read as a box in a box.
-    <div className="relative flex h-full w-full flex-col overflow-hidden text-[var(--v-body)]">
+    /* Generous horizontal padding is the cheeks. Trim it and the mouth runs
+       edge to edge, at which point the head stops reading as a head and goes
+       back to being a frame around a rectangle. */
+    <div className="venom-head venom-alive relative w-full overflow-hidden px-5 pb-8 pt-10 sm:px-16 sm:pb-10 sm:pt-14">
+      <EyeClip />
+      <div className="venom-veins" />
 
-      {/* ── Brand bar ─────────────────────────────────────────
-          Identity on the left, live bond readout on the right. The tabs
-          used to live up here too, which left the header doing three jobs
-          in one row; they have their own rail now. */}
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-[var(--v-line)] px-3 py-2.5 sm:px-4">
-        <div className="flex min-w-0 items-center gap-2.5">
-          <motion.div
-            animate={{ scale: [1, 1.06, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="shrink-0"
-          >
-            <VenomSpiderIcon className="h-5 w-5 text-[var(--v-ink)]" />
-          </motion.div>
-          <span
-            className="truncate text-sm tracking-[0.14em] text-[var(--v-ink)] sm:text-base"
-            style={{ fontFamily: "'Creepster', cursive" }}
-          >
-            We Are Venom
-          </span>
-          <span className="hidden shrink-0 font-mono text-[10px] tracking-widest text-[var(--v-faint)] md:inline">
-            KLYNTAR // V-01
-          </span>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2">
-          <motion.span
-            animate={{ opacity: [1, 0.25, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="h-1.5 w-1.5 rounded-full bg-[var(--v-accent)]"
-          />
-          <span className="font-mono text-[10px] tracking-[0.18em] text-[var(--v-muted)]">
-            BOND 98%
-          </span>
-        </div>
-      </header>
-
-      {/* ── Rail + pane ───────────────────────────────────────
-          Horizontal scroller on mobile, vertical rail from sm up. */}
-      <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
-        <nav className="scrollbar-thin flex shrink-0 gap-1.5 overflow-x-auto border-b border-[var(--v-line)] px-3 py-2 sm:w-[8.5rem] sm:flex-col sm:overflow-x-hidden sm:overflow-y-auto sm:border-b-0 sm:border-r sm:px-2 sm:py-3">
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                data-active={isActive}
-                aria-pressed={isActive}
-                className="venom-chip venom-tab flex shrink-0 items-center gap-2 px-3 py-2 text-[11px] sm:w-full sm:text-xs"
-              >
-                <tab.icon className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">{tab.label}</span>
-              </button>
-            );
-          })}
-
-          <div className="venom-label mt-auto hidden px-1 pt-4 text-[9px] leading-relaxed sm:block">
-            Two minds.
-            <br />
-            One console.
+      {/* ── The eyes ──────────────────────────────────────────
+          Set close and canted steeply inward. The negative gap is
+          deliberate: the almonds taper to nothing at their tips, so the
+          boxes have to overlap for the shapes to sit as close as they do
+          on the mask. Content stays short — a tapered shape has a small
+          inscribed box, and anything longer gets clipped. */}
+      <div className="relative z-[2] flex items-center justify-center gap-2 sm:gap-5">
+        {/* His right eye: who we are. The emblem is not in here — its SVG
+            hardcodes a near-white fill, so on bone it disappears. */}
+        <div className="venom-eye venom-eye--l h-[156px] w-1/2 max-w-[350px] sm:h-[186px]">
+          <div className="venom-eye-inner flex flex-col items-center justify-center text-center">
+            <div
+              className="text-2xl leading-[0.9] text-[#05050a] sm:text-4xl"
+              style={{ fontFamily: "'Creepster', cursive" }}
+            >
+              We Are
+              <br />
+              Venom
+            </div>
           </div>
-        </nav>
+        </div>
 
-        <div className="relative min-h-0 flex-1 overflow-hidden p-3 sm:p-4">
+        {/* His left eye: where to go */}
+        <div className="venom-eye venom-eye--r h-[156px] w-1/2 max-w-[350px] sm:h-[186px]">
+          <div className="venom-eye-inner flex flex-col items-center justify-center">
+            <div className="flex w-full max-w-[132px] flex-col gap-[3px]">
+              {TABS.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    aria-pressed={isActive}
+                    /* Inverted states: on bone, "selected" means filled with
+                       ink. The venom- prefix opts this out of the global
+                       button remap, which would otherwise force bone type. */
+                    className={`venom-eyetab flex items-center gap-1.5 rounded-[8px_3px_9px_4px/4px_8px_3px_7px] px-2 py-[3px] text-left text-[11px] transition-colors sm:text-xs ${
+                      isActive
+                        ? "bg-[#05050a] text-[#f6f5f1]"
+                        : "text-[rgba(5,5,10,0.62)] hover:bg-[rgba(5,5,10,0.1)] hover:text-[#05050a]"
+                    }`}
+                    style={{ fontFamily: "'Creepster', cursive", letterSpacing: "0.06em" }}
+                  >
+                    <tab.icon className="h-3 w-3 shrink-0" />
+                    <span className="truncate">{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── The mouth ─────────────────────────────────────────
+          Everything that needs reading, plus the vitals — they moved out of
+          the eye because a meter needs a straight run of width and an
+          almond does not have one. Padded clear of both rows of fangs. */}
+      <div className="venom-mouth relative z-[2] mt-4 h-[380px] sm:mt-6 sm:h-[400px]">
+        <div className="relative z-[2] flex h-full flex-col px-3 py-6 sm:px-6">
+          <div className="mb-3 flex shrink-0 items-center gap-3 border-b border-[var(--v-line)] pb-2.5 sm:gap-5">
+            {VITALS.map((stat) => (
+              <div key={stat.label} className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-1">
+                  <span className="venom-label truncate text-[8px] sm:text-[9px]">
+                    {stat.label}
+                  </span>
+                  <span className="shrink-0 font-mono text-[9px] text-[var(--v-ink)]">
+                    {stat.value}%
+                  </span>
+                </div>
+                <div className="venom-meter mt-1 h-[3px]">
+                  <motion.span
+                    initial={{ width: 0 }}
+                    animate={{ width: `${stat.value}%` }}
+                    transition={{ duration: 1.1, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
           <AnimatePresence mode="wait">
-            {/* ── THE BOND (vitals + terminal) ───────────────── */}
+            {/* ── THE BOND (terminal) ─────────────────────── */}
             {activeTab === "bond" && (
-              <motion.div key="tab-bond" {...PANE} className="flex h-full flex-col gap-3">
-                {/* Vitals read across the top now — three equal cards instead
-                    of a sidebar, which the tab rail already occupies. */}
-                <div className="grid shrink-0 grid-cols-3 gap-2">
-                  {VITALS.map((stat) => (
-                    <div key={stat.label} className="venom-sunken px-2.5 py-2">
-                      <div className="venom-label text-[8px] sm:text-[9px]">{stat.label}</div>
-                      <div className="mt-1 flex items-baseline gap-1.5">
-                        <span
-                          className="text-base leading-none text-[var(--v-ink)] sm:text-lg"
-                          style={{ fontFamily: "'Creepster', cursive" }}
-                        >
-                          {stat.value}%
-                        </span>
-                        <span className="truncate font-mono text-[9px] text-[var(--v-faint)]">
-                          {stat.note}
-                        </span>
-                      </div>
-                      <div className="venom-meter mt-1.5 h-1.5">
-                        <motion.span
-                          initial={{ width: 0 }}
-                          animate={{ width: `${stat.value}%` }}
-                          transition={{ duration: 1.1, ease: "easeOut" }}
-                        />
-                      </div>
+              <motion.div key="tab-bond" {...PANE} className="flex h-full min-h-0 flex-col">
+                <div
+                  ref={scrollRef}
+                  className="scrollbar-thin min-h-0 flex-1 overflow-y-auto font-mono text-[11px] leading-relaxed text-[var(--v-body)]"
+                >
+                  {logs.map((line, i) => (
+                    <div
+                      key={i}
+                      className={
+                        line.startsWith("we@")
+                          ? "text-[var(--v-ink)]"
+                          : line.startsWith("◈")
+                            ? "text-[var(--v-muted)]"
+                            : ""
+                      }
+                    >
+                      {line || " "}
                     </div>
                   ))}
                 </div>
 
-                {/* Terminal */}
-                <div className="venom-sunken flex min-h-0 flex-1 flex-col">
-                  <div
-                    ref={scrollRef}
-                    className="scrollbar-thin min-h-0 flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-[var(--v-body)]"
+                <form
+                  onSubmit={handleCommand}
+                  className="mt-2 flex shrink-0 items-center gap-2 border-t border-[var(--v-line)] pt-2"
+                >
+                  <span className="shrink-0 font-mono text-[11px] text-[var(--v-accent)]">
+                    we@symbiote:~◈
+                  </span>
+                  <input
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    placeholder="speak. we are listening."
+                    className="min-w-0 flex-1 bg-transparent font-mono text-[11px] text-[var(--v-ink)] placeholder:text-[var(--v-faint)] focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Send"
+                    className="venom-muted shrink-0 transition-colors hover:text-[var(--v-accent)]"
                   >
-                    {logs.map((line, i) => (
-                      <div
-                        key={i}
-                        className={
-                          line.startsWith("we@")
-                            ? "text-[var(--v-ink)] font-semibold"
-                            : line.startsWith("◈")
-                              ? "text-[var(--v-muted)]"
-                              : ""
-                        }
-                      >
-                        {line || " "}
-                      </div>
-                    ))}
-                  </div>
-
-                  <form
-                    onSubmit={handleCommand}
-                    className="flex shrink-0 items-center gap-2 border-t border-[var(--v-line)] px-3 py-2"
-                  >
-                    <span className="shrink-0 font-mono text-[11px] text-[var(--v-accent)]">
-                      we@symbiote:~◈
-                    </span>
-                    <input
-                      value={inputVal}
-                      onChange={(e) => setInputVal(e.target.value)}
-                      placeholder="speak. we are listening."
-                      className="min-w-0 flex-1 bg-transparent font-mono text-[11px] text-[var(--v-ink)] placeholder:text-[var(--v-faint)] focus:outline-none"
-                    />
-                    <button
-                      type="submit"
-                      aria-label="Send"
-                      className="venom-muted shrink-0 transition-colors hover:text-[var(--v-accent)]"
-                    >
-                      <Send className="h-3.5 w-3.5" />
-                    </button>
-                  </form>
-                </div>
+                    <Send className="h-3.5 w-3.5" />
+                  </button>
+                </form>
               </motion.div>
             )}
 
-            {/* ── HOSTS (real experience) ────────────────────── */}
+            {/* ── HOSTS ───────────────────────────────────── */}
             {activeTab === "hosts" && (
               <motion.div
                 key="tab-hosts"
                 {...PANE}
                 className="scrollbar-thin h-full overflow-y-auto pr-1"
               >
-                {/* A spine runs down the left with a node per bond, so the
-                    roles read as a sequence rather than four loose cards. */}
                 <div className="relative flex flex-col gap-3 pl-5">
                   <span className="absolute bottom-2 left-[3px] top-2 w-px bg-[var(--v-line-2)]" />
 
@@ -297,7 +308,7 @@ export const VenomConsole: React.FC = () => {
                         <span
                           className={`absolute -left-5 top-3 h-[7px] w-[7px] rounded-full ${
                             isActive
-                              ? "bg-[var(--v-accent)] ring-4 ring-[rgba(180,18,26,0.14)]"
+                              ? "bg-[var(--v-accent)] ring-4 ring-[rgba(244,63,78,0.16)]"
                               : "bg-[var(--v-line-3)]"
                           }`}
                         />
@@ -356,9 +367,9 @@ export const VenomConsole: React.FC = () => {
               </motion.div>
             )}
 
-            {/* ── TRAITS (real skills) ───────────────────────── */}
+            {/* ── TRAITS ──────────────────────────────────── */}
             {activeTab === "traits" && (
-              <motion.div key="tab-traits" {...PANE} className="flex h-full flex-col gap-3">
+              <motion.div key="tab-traits" {...PANE} className="flex h-full min-h-0 flex-col gap-3">
                 <div className="scrollbar-thin flex shrink-0 gap-1.5 overflow-x-auto pb-1">
                   {skillCategories.map((cat) => {
                     const isActive = activeTrait.id === cat.id;
@@ -398,15 +409,11 @@ export const VenomConsole: React.FC = () => {
                       </div>
                     ))}
                   </div>
-
-                  <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 text-[var(--v-ink)] opacity-[0.12]">
-                    <VenomSpiderIcon className="h-full w-full" />
-                  </div>
                 </div>
               </motion.div>
             )}
 
-            {/* ── VOICES ─────────────────────────────────────── */}
+            {/* ── VOICES ──────────────────────────────────── */}
             {activeTab === "voices" && (
               <motion.div
                 key="tab-voices"
@@ -420,15 +427,8 @@ export const VenomConsole: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.25 }}
-                    className="relative max-w-lg px-6 text-center"
+                    className="max-w-lg text-center"
                   >
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -top-6 left-0 text-6xl leading-none text-[var(--v-line-2)]"
-                      style={{ fontFamily: "'Creepster', cursive" }}
-                    >
-                      “
-                    </span>
                     <p
                       className="text-xl leading-snug text-[var(--v-ink)] sm:text-2xl"
                       style={{ fontFamily: "'Creepster', cursive" }}
