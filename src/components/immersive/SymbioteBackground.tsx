@@ -162,26 +162,41 @@ export const SymbioteBackground: React.FC = () => {
       for (let i = right.length - 1; i >= 0; i--) ctx.lineTo(right[i][0], right[i][1]);
       ctx.closePath();
 
-      // Black mass. The symbiote eats light: the body is near-pure black and
-      // only the very edge catches a cold grey highlight.
+      // The mass on the void. Black-on-black has no silhouette, so the body
+      // is lifted just off the page — barely a value above the background —
+      // and the shape is actually carried by the bone specular down one
+      // edge. That is how the character is lit everywhere he is drawn: you
+      // read the highlight, not the fill.
       const tipX = ax + Math.cos(angle) * len;
       const tipY = ay + Math.sin(angle) * len;
       const body = ctx.createLinearGradient(ax, ay, tipX, tipY);
-      body.addColorStop(0, "rgba(0, 0, 0, 0.96)");
-      body.addColorStop(0.5, "rgba(0, 0, 0, 0.7)");
-      body.addColorStop(1, "rgba(0, 0, 0, 0)");
+      body.addColorStop(0, "rgba(26, 26, 34, 0.95)");
+      body.addColorStop(0.5, "rgba(15, 15, 21, 0.72)");
+      body.addColorStop(1, "rgba(10, 10, 14, 0)");
       ctx.fillStyle = body;
       ctx.fill();
 
-      // Wet specular running down the spine
+      // Cold violet in the belly, picked up from the ambient pools behind
+      ctx.beginPath();
+      right.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+      const under = ctx.createLinearGradient(ax, ay, tipX, tipY);
+      under.addColorStop(0, "rgba(108, 62, 178, 0.4)");
+      under.addColorStop(0.6, "rgba(84, 40, 148, 0.14)");
+      under.addColorStop(1, "rgba(84, 40, 148, 0)");
+      ctx.strokeStyle = under;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      // Wet specular running down the spine — the bright edge that does the
+      // actual drawing here
       ctx.beginPath();
       left.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
       const sheen = ctx.createLinearGradient(ax, ay, tipX, tipY);
-      sheen.addColorStop(0, "rgba(255, 255, 255, 0.34)");
-      sheen.addColorStop(0.55, "rgba(255, 255, 255, 0.14)");
-      sheen.addColorStop(1, "rgba(255, 255, 255, 0)");
+      sheen.addColorStop(0, "rgba(246, 245, 241, 0.8)");
+      sheen.addColorStop(0.45, "rgba(246, 245, 241, 0.3)");
+      sheen.addColorStop(1, "rgba(246, 245, 241, 0)");
       ctx.strokeStyle = sheen;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.4;
       ctx.stroke();
     };
 

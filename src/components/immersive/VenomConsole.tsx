@@ -130,9 +130,9 @@ export const VenomConsole: React.FC = () => {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px_10px_24px_12px/12px_22px_10px_20px] border border-[var(--v-line-2)] bg-white/90 text-[var(--v-body)]">
-      {/* Wet highlight along the top of the mass */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--v-line-3)] to-transparent" />
+    // No frame of its own: this sits inside the .venom-jaw, and a bordered
+    // panel within a bordered mouth read as a box in a box.
+    <div className="relative flex h-full w-full flex-col overflow-hidden text-[var(--v-body)]">
 
       {/* ── Brand bar ─────────────────────────────────────────
           Identity on the left, live bond readout on the right. The tabs
@@ -231,7 +231,7 @@ export const VenomConsole: React.FC = () => {
                 </div>
 
                 {/* Terminal */}
-                <div className="venom-sunken flex min-h-0 flex-1 flex-col bg-white/70">
+                <div className="venom-sunken flex min-h-0 flex-1 flex-col">
                   <div
                     ref={scrollRef}
                     className="scrollbar-thin min-h-0 flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-[var(--v-body)]"
@@ -302,7 +302,7 @@ export const VenomConsole: React.FC = () => {
                           }`}
                         />
 
-                        <div className="venom-sunken bg-white/60 p-3">
+                        <div className="venom-sunken p-3">
                           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                             <span className="venom-label text-[9px]">
                               {flavour?.title ?? "UNRECORDED"}
@@ -310,7 +310,7 @@ export const VenomConsole: React.FC = () => {
                             <span
                               className={`rounded-full px-2 py-0.5 font-mono text-[9px] tracking-widest ${
                                 isActive
-                                  ? "bg-[var(--v-ink)] text-white"
+                                  ? "bg-[var(--v-ink)] text-[var(--v-paper)]"
                                   : "border border-[var(--v-line-2)] text-[var(--v-muted)]"
                               }`}
                             >
@@ -342,7 +342,7 @@ export const VenomConsole: React.FC = () => {
                             {exp.technologies.map((tech) => (
                               <span
                                 key={tech}
-                                className="rounded-full border border-[var(--v-line)] bg-white px-2 py-0.5 font-mono text-[9px] text-[var(--v-muted)]"
+                                className="rounded-full border border-[var(--v-line)] bg-[var(--v-surface)] px-2 py-0.5 font-mono text-[9px] text-[var(--v-muted)]"
                               >
                                 {tech}
                               </span>
@@ -377,7 +377,7 @@ export const VenomConsole: React.FC = () => {
                   })}
                 </div>
 
-                <div className="venom-sunken relative min-h-0 flex-1 overflow-y-auto bg-white/60 p-4">
+                <div className="venom-sunken relative min-h-0 flex-1 overflow-y-auto p-4">
                   <h4
                     className="text-lg leading-none text-[var(--v-ink)]"
                     style={{ fontFamily: "'Creepster', cursive" }}
@@ -392,14 +392,14 @@ export const VenomConsole: React.FC = () => {
                     {activeTrait.skills.map((skill) => (
                       <div
                         key={skill}
-                        className="rounded-lg border border-[var(--v-line)] bg-white px-2 py-1.5 font-mono text-[11px] text-[var(--v-body)]"
+                        className="rounded-lg border border-[var(--v-line)] bg-[var(--v-surface)] px-2 py-1.5 font-mono text-[11px] text-[var(--v-body)]"
                       >
                         {skill}
                       </div>
                     ))}
                   </div>
 
-                  <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 text-[var(--v-ink)] opacity-[0.07]">
+                  <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 text-[var(--v-ink)] opacity-[0.12]">
                     <VenomSpiderIcon className="h-full w-full" />
                   </div>
                 </div>

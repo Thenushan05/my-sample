@@ -101,10 +101,10 @@ const SymbioteCursor: React.FC<{
   );
 
   const tail = [
-    { tx: t1x, ty: t1y, size: 44, alpha: 0.95 },
-    { tx: t2x, ty: t2y, size: 34, alpha: 0.85 },
-    { tx: t3x, ty: t3y, size: 24, alpha: 0.75 },
-    { tx: t4x, ty: t4y, size: 16, alpha: 0.6 },
+    { tx: t1x, ty: t1y, size: 22, alpha: 0.95 },
+    { tx: t2x, ty: t2y, size: 16, alpha: 0.85 },
+    { tx: t3x, ty: t3y, size: 10, alpha: 0.75 },
+    { tx: t4x, ty: t4y, size: 6, alpha: 0.6 },
   ];
 
   return (
@@ -129,8 +129,8 @@ const SymbioteCursor: React.FC<{
               width: blob.size,
               height: blob.size,
               opacity: blob.alpha,
-              marginLeft: (60 - blob.size) / 2,
-              marginTop: (60 - blob.size) / 2,
+              marginLeft: (32 - blob.size) / 2,
+              marginTop: (32 - blob.size) / 2,
             }}
             className="bg-white"
           />
@@ -142,7 +142,7 @@ const SymbioteCursor: React.FC<{
         <motion.div
           animate={{ scale: hungry ? 1.35 : 1 }}
           transition={{ type: "spring", stiffness: 520, damping: 24 }}
-          className="relative h-16 w-16"
+          className="relative h-8 w-8"
         >
           {/* Liquid body: stretches into the direction of travel */}
           <motion.div style={{ rotate: lean }} className="absolute inset-0">
@@ -172,7 +172,7 @@ const SymbioteCursor: React.FC<{
               animate={{ scaleX: [0.35, 1, 0.5, 1, 0.35], opacity: [0.3, 0.85, 0.4] }}
               transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.24, ease: "easeInOut" }}
               style={{ rotate: `${deg}deg` }}
-              className="absolute left-1/2 top-1/2 h-[3px] w-12 origin-left bg-gradient-to-r from-white via-white/80 to-transparent"
+              className="absolute left-1/2 top-1/2 h-[2px] w-7 origin-left bg-gradient-to-r from-white via-white/80 to-transparent"
             />
           ))}
 
@@ -185,7 +185,7 @@ const SymbioteCursor: React.FC<{
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ duration: 0.16 }}
-                className="absolute inset-0 h-16 w-16 overflow-visible"
+                className="absolute inset-0 h-8 w-8 overflow-visible"
               >
                 <motion.g
                   animate={{ y: [-1.5, 1, -1.5] }}
@@ -294,14 +294,15 @@ export const VenomOverlay: React.FC = () => {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], times: [0, 0.3, 1] }}
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible"
             >
-              <path d={SPLAT_RING} fill="rgba(0,0,0,0.5)" />
-              <path d={SPLAT_CORE} fill="black" stroke="rgba(0,0,0,0.2)" strokeWidth="2" />
+              {/* Goo on the void: the blob is barely off-black, and the bone
+                  rim is what makes it a shape at all. */}
+              <path d={SPLAT_RING} fill="rgba(84,40,148,0.28)" />
+              <path d={SPLAT_CORE} fill="#0d0d13" stroke="rgba(246,245,241,0.75)" strokeWidth="1.4" />
               <path
                 d={SPLAT_CORE}
                 fill="none"
-                stroke="white"
+                stroke="rgba(246,245,241,0.35)"
                 strokeWidth="0.9"
-                opacity="0.5"
                 transform="translate(-2,-3) scale(0.92) translate(5.6,7.8)"
               />
             </motion.svg>
@@ -322,7 +323,7 @@ export const VenomOverlay: React.FC = () => {
                   }}
                   transition={{ duration: 0.65, ease: "easeOut" }}
                   style={{ width: 5 + (i % 3) * 2, height: 5 + (i % 3) * 2 }}
-                  className="absolute left-1/2 top-1/2 rounded-full bg-black shadow-[0_0_8px_rgba(0,0,0,0.5)]"
+                  className="absolute left-1/2 top-1/2 rounded-full bg-[#15151d] shadow-[inset_1px_1px_0_rgba(246,245,241,0.5),0_0_10px_rgba(84,40,148,0.6)]"
                 />
               );
             })}
@@ -352,10 +353,11 @@ export const VenomOverlay: React.FC = () => {
               height: drip.length,
               transformOrigin: "top center",
             }}
-            className="absolute top-4 rounded-b-full bg-gradient-to-b from-black to-black/80 shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
+            className="absolute top-4 rounded-b-full bg-gradient-to-b from-[#2a2a36] via-[#101017] to-[#07070b] shadow-[inset_1px_0_0_rgba(246,245,241,0.35),0_2px_12px_rgba(0,0,0,0.9)]"
           >
+            {/* The bead at the tip catches the light the strand does not */}
             <span
-              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-black"
+              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-br from-[#3a3a48] to-[#08080c] shadow-[inset_1px_1px_0_rgba(246,245,241,0.4)]"
               style={{ width: drip.width * 1.6, height: drip.width * 1.6 }}
             />
           </motion.div>
@@ -377,7 +379,7 @@ export const VenomOverlay: React.FC = () => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -24, scale: 0.94 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="venom-chip px-3 py-2 text-[11px] leading-snug sm:text-xs"
+              className="venom-speak px-3 py-2 text-[11px] leading-snug sm:text-xs"
             >
               {WE_LINES[lineIdx]}
             </motion.div>

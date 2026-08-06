@@ -876,36 +876,48 @@ html.thor .thor-live-edge {
 
 /* ══════════════════════════════════════════════════════════════
    Venom "WE ARE VENOM" — Symbiote Theme
-   Design language: ANTI-VENOM. Bone-white paper, ink-black mass.
-   Two values only — paper and ink — because that is the whole
-   character: a white host with a black thing living on it. There is
-   exactly one hue in the system (the tongue red), and it is never
-   allowed to touch body copy; it marks, it does not narrate.
-   Not a HUD (Iron Man), not a neon web (Spider-Man), not a comic page
-   (Deadpool), not carved stone (Thor) — this one is a LIVING SURFACE.
-   Everything is wet, everything oozes, nothing sits still for long.
+   Design language: THE VOID AND THE GRIN.
 
-   Type ramp — every venom text colour comes from these four tokens,
-   never from an ad-hoc hex. Contrast on white paper:
-     ink   19.1:1   headings, the loud voice
-     body  13.2:1   paragraphs, terminal output
-     muted  6.8:1   labels, meta, timestamps
-     faint  4.6:1   tertiary only, still AA at 14px
+   This is the look the character actually has everywhere he is drawn:
+   near-black, wet, and lit from one side — with only three things ever
+   bright enough to read as white. The spider. The eyes. The teeth.
+
+   So the theme has exactly one light: bone. Everything else is mass.
+   Surfaces are not flat fills but wet gloss — a hard white specular along
+   the top lip, deep shadow in the belly, and a rim where the mass turns
+   away from the light. Corners are never right angles; the symbiote does
+   not do right angles. There is one hue in the whole system, the tongue,
+   and it is used for danger and heat only — never for body copy.
+
+   Not a HUD (Iron Man), not a neon web (Spider-Man), not a comic page
+   (Deadpool), not carved stone (Thor), not linen and moonlight (Moon
+   Knight) — this one is a LIVING SURFACE. Everything is wet, everything
+   oozes, nothing sits still for long.
+
+   Type ramp — every venom text colour comes from these tokens, never an
+   ad-hoc hex. Contrast on the void:
+     ink   18.8:1   headings, the spider-white voice
+     body  11.7:1   paragraphs, terminal output
+     muted  6.0:1   labels, meta
+     faint  4.7:1   tertiary, still AA
+     accent 5.5:1   the tongue — marks, never narrates
    ══════════════════════════════════════════════════════════════ */
 html.venom {
-  --v-ink: #0b0b0d;
-  --v-body: #26292f;
-  --v-muted: #565c65;
-  --v-faint: #6f767f;
-  /* The tongue. Accents, actives and marks — never a paragraph. */
-  --v-accent: #b4121a;
+  /* Bone: the spider, the eyes, the teeth. The only real light here. */
+  --v-ink: #f6f5f1;
+  --v-body: #c2c6ce;
+  --v-muted: #878d97;
+  --v-faint: #757b85;
+  /* The tongue */
+  --v-accent: #f43f4e;
 
-  --v-paper: #ffffff;
-  --v-surface: rgba(255, 255, 255, 0.88);
-  --v-sunken: rgba(11, 11, 13, 0.04);
-  --v-line: rgba(11, 11, 13, 0.10);
-  --v-line-2: rgba(11, 11, 13, 0.22);
-  --v-line-3: rgba(11, 11, 13, 0.62);
+  /* The void */
+  --v-paper: #050506;
+  --v-surface: rgba(246, 245, 241, 0.045);
+  --v-sunken: rgba(0, 0, 0, 0.5);
+  --v-line: rgba(246, 245, 241, 0.1);
+  --v-line-2: rgba(246, 245, 241, 0.22);
+  --v-line-3: rgba(246, 245, 241, 0.5);
 
   --color-nav-link-active: var(--v-ink);
   --color-border-strong: var(--v-line-2);
@@ -913,7 +925,7 @@ html.venom {
 }
 
 html.venom body {
-  /* Bone — the host, before the mass gets to it */
+  /* Void — the symbiote swallows light */
   background-color: var(--v-paper) !important;
   color: var(--v-body);
   cursor: none !important;
@@ -928,10 +940,9 @@ html.venom *:hover {
 }
 
 /* Dripping monster capitals.
-   The old rule stacked two black blurs and a white offset shadow, which on
-   white paper just greys the letterforms out — Creepster's thin drips are
-   the first thing to go muddy. Solid ink and no glow: the shape carries the
-   character, the shadow was only ever fighting it. */
+   On the void the glow does the work the drop-shadow used to: bone letters
+   bleeding a little light into the mass around them, the way the emblem
+   does on every cover he has ever been on. */
 html.venom h1,
 html.venom h2,
 html.venom h3,
@@ -940,7 +951,9 @@ html.venom h4 {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--v-ink);
-  text-shadow: none;
+  text-shadow:
+    0 0 22px rgba(246, 245, 241, 0.28),
+    0 0 60px rgba(246, 245, 241, 0.12);
 }
 
 /* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
@@ -955,40 +968,39 @@ html.venom .gooey-nav-container .effect.text {
   letter-spacing: 0.08em;
 }
 
-/* Wet symbiote wash — light pools where the mass is thickest */
+/* The mass pooling behind the page: cold violet bleeding in from the
+   corners, dead black in the middle where the page copy sits. The hue only
+   ever appears here, well behind the type — it sets the temperature
+   without putting colour anywhere a word has to be read. */
 html.venom body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  inset: 0;
   z-index: -40;
   pointer-events: none;
   background:
-    /* Just pure white with no muddy grey shadows */
-    linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);
+    radial-gradient(ellipse 70% 50% at 12% 0%, rgba(84, 40, 148, 0.3) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 50% at 90% 12%, rgba(126, 34, 96, 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 105%, rgba(52, 30, 110, 0.26) 0%, transparent 66%),
+    #050506;
 }
 
-/* Living membrane: oily sheen cells with a wet specular crawl */
+/* Vignette, so the corners fall away and the middle of the page holds */
 html.venom body::after {
-  display: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -39;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 42%, rgba(0, 0, 0, 0.72) 100%);
 }
 
 /* ── Utility remap ────────────────────────────────────────────
-   The rest of the site is written for dark themes, so its text utilities
-   are all light-on-dark. Rather than repaint every one of them a single
-   flat colour (which is what made this theme read as washed-out), each
-   family lands on the ramp step that matches the JOB it was doing:
-   an accent stays an accent, a bright label stays a label, a dim caption
-   stays dim. The hierarchy the components were built with survives. */
-
-/* Picking Venom also switches the site into `dark` (see SpidermanToggler),
-   so every `dark:` variant stays live underneath this theme. That is why the
-   selectors below match on substring — `[class*="text-cyan-400"]` catches
-   `dark:text-cyan-400` too, and missing those was what left whole panels
-   painting ink text onto a near-black surface. */
+   Picking Venom also switches the site into `dark` (see SpidermanToggler),
+   so the app's own utilities are already light-on-dark and mostly correct.
+   These only pull them onto the venom ramp so the page reads as one
+   temperature instead of the stock slate blues. Selectors match on
+   substring because `dark:text-slate-300` has to be caught too. */
 
 /* Accents — the loud utilities keep being loud, in the one hue we allow */
 html.venom [class*="text-emerald-3"],
@@ -1014,7 +1026,7 @@ html.venom [class*="text-amber-6"] {
   text-shadow: none !important;
 }
 
-/* Near-white utilities were the primary voice — they become ink */
+/* Near-white utilities are the primary voice — bone */
 html.venom [class*="text-white"],
 html.venom [class*="text-slate-1"],
 html.venom [class*="text-slate-2"],
@@ -1025,10 +1037,9 @@ html.venom [class*="text-zinc-2"],
 html.venom [class*="text-neutral-1"],
 html.venom [class*="text-neutral-2"] {
   color: var(--v-ink) !important;
-  text-shadow: none !important;
 }
 
-/* Mid greys were body copy */
+/* Mid greys are body copy */
 html.venom [class*="text-slate-3"],
 html.venom [class*="text-slate-4"],
 html.venom [class*="text-gray-3"],
@@ -1038,10 +1049,9 @@ html.venom [class*="text-zinc-4"],
 html.venom [class*="text-neutral-3"],
 html.venom [class*="text-neutral-4"] {
   color: var(--v-body) !important;
-  text-shadow: none !important;
 }
 
-/* Dim greys were captions and meta — they stay quiet, but stay legible */
+/* Dim greys are captions and meta — quiet, but never under AA */
 html.venom [class*="text-slate-5"],
 html.venom [class*="text-slate-6"],
 html.venom [class*="text-gray-5"],
@@ -1051,60 +1061,10 @@ html.venom [class*="text-zinc-6"],
 html.venom [class*="text-neutral-5"],
 html.venom [class*="text-neutral-6"] {
   color: var(--v-muted) !important;
-  text-shadow: none !important;
 }
 
-/* ── Dark surfaces ────────────────────────────────────────────
-   Panels that stay near-black in every other theme have to become paper
-   here. Without this the ramp above is actively harmful: it pushes their
-   copy to ink and the result is ink-on-black. The list is the dark
-   backgrounds the app actually uses, not a guess. */
-html.venom [class*="bg-slate-800"],
-html.venom [class*="bg-slate-900"],
-html.venom [class*="bg-slate-950"],
-html.venom [class*="bg-zinc-800"],
-html.venom [class*="bg-zinc-900"],
-html.venom [class*="bg-neutral-6"],
-html.venom [class*="bg-neutral-7"],
-html.venom [class*="bg-neutral-8"],
-html.venom [class*="bg-neutral-9"],
-/* Only the fully-opaque blacks — venom's own decorative `bg-black/70`
-   tendrils and drips are meant to stay ink. */
-html.venom [class*="bg-black/9"] {
-  background-color: rgba(255, 255, 255, 0.94) !important;
-}
-
-html.venom [class*="hover:bg-slate-800"]:hover,
-html.venom [class*="hover:bg-slate-900"]:hover,
-html.venom [class*="hover:bg-zinc-800"]:hover {
-  background-color: var(--v-sunken) !important;
-}
-
-/* Decorative confetti and glows. The hero scatters pink and violet chips
-   behind the copy — harmless in a purple theme, but here they are the only
-   hue on the page besides the tongue, and they read as somebody else's
-   design leaking in. Ink at low alpha keeps the texture, drops the colour. */
-html.venom [class*="bg-pink-"],
-html.venom [class*="bg-fuchsia-"],
-html.venom [class*="bg-purple-"],
-html.venom [class*="bg-violet-"],
-html.venom [class*="bg-rose-"] {
-  background-color: rgba(11, 11, 13, 0.13) !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-html.venom [class*="border-slate-7"],
-html.venom [class*="border-slate-8"],
-html.venom [class*="border-slate-9"],
-html.venom [class*="border-slate-2"],
-html.venom [class*="border-white/"] {
-  border-color: var(--v-line-2) !important;
-}
-
-/* Headings and gradient-filled text: ink, never crimson. A heading is
-   structure, not an accent — colouring every h1–h6 red is what made the
-   page read as an error state. */
+/* Headings and gradient-filled text: bone. A heading is structure, not an
+   accent — colouring every h1–h6 red reads as an error state. */
 html.venom h1[class*="text-"],
 html.venom h2[class*="text-"],
 html.venom h3[class*="text-"],
@@ -1116,13 +1076,12 @@ html.venom .bg-clip-text {
   -webkit-text-fill-color: var(--v-ink) !important;
 }
 
-/* Links and buttons read as interactive — ink at rest, tongue on hover.
+/* Links and buttons read as interactive — bone at rest, tongue on hover.
    Anything already wearing a venom-* class has opted into the ramp on
    purpose and is excluded, or these blanket !important rules would stomp
-   states the components define themselves (an active tab's paper-on-ink,
+   states the components define themselves (an active tab's void-on-bone,
    most visibly). Tailwind's size utilities all match [class*="text-"], so
-   without the opt-out escape hatch this selector catches nearly every
-   button on the page. */
+   without the opt-out the selector catches nearly every button. */
 html.venom a[class*="text-"]:not([class*="venom-"]),
 html.venom button[class*="text-"]:not([class*="venom-"]) {
   color: var(--v-ink) !important;
@@ -1136,11 +1095,9 @@ html.venom button[class*="text-"]:not([class*="venom-"]):hover {
   -webkit-text-fill-color: var(--v-accent) !important;
 }
 
-/* Filled gradient CTAs — one solid ink pill with paper type.
-   The rule above turns their `text-white` to ink, which on a filled button
-   is ink on a coloured fill. Matching on all three of gradient + from-hue +
-   text-white keeps the specificity above that rule without !important
-   games, and only ever catches a genuinely filled button. */
+/* Filled gradient CTAs — the white spider on the black suit.
+   Bone fill, void type. Matching gradient + from-hue + text-white keeps
+   this above the rule directly overhead without an !important war. */
 html.venom [class*="bg-gradient"][class*="from-blue-"][class*="text-white"],
 html.venom [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"],
 html.venom [class*="bg-gradient"][class*="from-violet-"][class*="text-white"],
@@ -1150,7 +1107,8 @@ html.venom [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"] {
   color: var(--v-paper) !important;
   -webkit-text-fill-color: var(--v-paper) !important;
   border-color: var(--v-ink) !important;
-  box-shadow: 0 6px 20px -6px rgba(11, 11, 13, 0.55) !important;
+  text-shadow: none !important;
+  box-shadow: 0 0 28px rgba(246, 245, 241, 0.28) !important;
 }
 
 html.venom [class*="bg-gradient"][class*="from-blue-"][class*="text-white"]:hover,
@@ -1159,25 +1117,38 @@ html.venom [class*="bg-gradient"][class*="from-violet-"][class*="text-white"]:ho
 html.venom [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"]:hover {
   background-color: var(--v-accent) !important;
   border-color: var(--v-accent) !important;
-  box-shadow: 0 8px 26px -6px rgba(180, 18, 26, 0.5) !important;
+  color: var(--v-ink) !important;
+  -webkit-text-fill-color: var(--v-ink) !important;
+  box-shadow: 0 0 34px rgba(244, 63, 78, 0.45) !important;
 }
 
-html.venom .border-emerald-500\/10,
-html.venom .border-emerald-500\/20,
-html.venom .border-emerald-500\/30,
-html.venom .border-emerald-500\/40,
-html.venom .border-emerald-500\/60,
-html.venom .border-blue-500\/20,
-html.venom .border-blue-500\/30,
-html.venom .border-cyan-500\/20 {
-  border-color: rgba(0, 0, 0, 0.2) !important;
+/* Borders and tinted panels pulled onto the ramp */
+html.venom [class*="border-emerald-"],
+html.venom [class*="border-blue-"],
+html.venom [class*="border-cyan-"],
+html.venom [class*="border-violet-"],
+html.venom [class*="border-slate-"],
+html.venom [class*="border-white/"] {
+  border-color: var(--v-line-2) !important;
 }
 
-html.venom .bg-emerald-500\/10,
-html.venom .bg-emerald-500\/20,
-html.venom .bg-blue-500\/10,
-html.venom .bg-cyan-500\/10 {
-  background-color: rgba(0, 0, 0, 0.05) !important;
+html.venom [class*="bg-emerald-"],
+html.venom [class*="bg-blue-"],
+html.venom [class*="bg-cyan-"],
+html.venom [class*="bg-teal-"] {
+  background-color: var(--v-surface) !important;
+}
+
+/* Decorative confetti and glows. The hero scatters pink and violet chips
+   behind the copy — here they are colour where the system allows none, so
+   they become faint bone specks instead. */
+html.venom [class*="bg-pink-"],
+html.venom [class*="bg-fuchsia-"],
+html.venom [class*="bg-purple-"],
+html.venom [class*="bg-rose-"] {
+  background-color: rgba(246, 245, 241, 0.14) !important;
+  background-image: none !important;
+  box-shadow: none !important;
 }
 
 html.venom .from-emerald-500,
@@ -1186,7 +1157,7 @@ html.venom .from-blue-400,
 html.venom .from-blue-500,
 html.venom .from-blue-600,
 html.venom .from-cyan-500 {
-  --tw-gradient-from: black !important;
+  --tw-gradient-from: var(--v-ink) !important;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
 }
 
@@ -1194,16 +1165,15 @@ html.venom .to-teal-400,
 html.venom .to-teal-600,
 html.venom .to-violet-500,
 html.venom .to-violet-600,
-html.venom .to-blue-500 {
-  --tw-gradient-to: rgba(255, 255, 255, 0) !important;
+html.venom .to-blue-500,
+html.venom .to-cyan-400 {
+  --tw-gradient-to: rgba(246, 245, 241, 0.35) !important;
 }
 
-html.venom .shadow-emerald-500\/30,
-html.venom .shadow-emerald-500\/50,
-html.venom .shadow-blue-500\/30,
-html.venom .shadow-blue-500\/50,
-html.venom .shadow-cyan-500\/30 {
-  --tw-shadow-color: rgba(0, 0, 0, 0.2) !important;
+html.venom [class*="shadow-emerald-"],
+html.venom [class*="shadow-blue-"],
+html.venom [class*="shadow-cyan-"] {
+  --tw-shadow-color: rgba(246, 245, 241, 0.22) !important;
 }
 
 html.venom ::selection {
@@ -1212,32 +1182,33 @@ html.venom ::selection {
 }
 
 html.venom ::-webkit-scrollbar-thumb {
-  background: var(--v-line-2);
+  background: rgba(246, 245, 241, 0.22);
 }
 
 html.venom ::-webkit-scrollbar-thumb:hover {
-  background: var(--v-line-3);
+  background: rgba(246, 245, 241, 0.45);
 }
 
 /* ── Living membrane panel (Venom's answer to .stark-hud-panel) ──
-   Paper, not void. These primitives used to be glossy black boxes left over
-   from the dark theme, so every consumer had to cancel them with an inline
-   `bg-white/80 text-black` — which is exactly how the text colours drifted
-   apart in the first place. They are light surfaces now and need no help.
-   Corners stay deliberately uneven — the symbiote does not do right angles. */
+   Wet black mass. The whole read comes from one hard specular along the
+   top lip and a bone rim where the surface turns away — a flat dark fill
+   with a border looks like a card, this looks like something with a skin
+   on it. Corners deliberately uneven. */
 html.venom .venom-flesh,
 .venom-flesh {
   position: relative;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(11, 11, 13, 0.045) 0%, transparent 60%),
-    linear-gradient(180deg, #ffffff 0%, #f7f7f8 100%);
+    radial-gradient(ellipse 120% 80% at 50% -10%, rgba(246, 245, 241, 0.09) 0%, transparent 58%),
+    radial-gradient(ellipse 90% 70% at 15% 110%, rgba(84, 40, 148, 0.18) 0%, transparent 62%),
+    linear-gradient(170deg, #17171f 0%, #0b0b11 46%, #060609 100%);
   border: 1px solid var(--v-line-2);
   border-radius: 26px 12px 30px 14px / 14px 28px 12px 26px;
   color: var(--v-body);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 1px 2px rgba(11, 11, 13, 0.04),
-    0 18px 48px -12px rgba(11, 11, 13, 0.22);
+    inset 0 1px 0 rgba(246, 245, 241, 0.3),
+    inset 0 -30px 60px -30px rgba(0, 0, 0, 0.9),
+    0 0 60px -12px rgba(84, 40, 148, 0.4),
+    0 24px 60px -20px rgba(0, 0, 0, 0.95);
 }
 
 /* Wet specular running along the top of the mass */
@@ -1245,10 +1216,10 @@ html.venom .venom-flesh::before,
 .venom-flesh::before {
   content: "";
   position: absolute;
-  inset: 4px 8px auto 8px;
-  height: 34%;
+  inset: 3px 10px auto 10px;
+  height: 38%;
   border-radius: 24px 10px 40px 30px / 18px 30px 14px 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(246, 245, 241, 0.14) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -1257,11 +1228,13 @@ html.venom .venom-flesh::before,
   font-family: 'Creepster', 'Impact', cursive;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(170deg, rgba(28, 28, 36, 0.95) 0%, rgba(8, 8, 12, 0.95) 100%);
   border: 1px solid var(--v-line-2);
   border-radius: 12px 5px 14px 6px / 6px 13px 5px 12px;
   color: var(--v-ink);
-  box-shadow: 0 1px 2px rgba(11, 11, 13, 0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(246, 245, 241, 0.16),
+    0 4px 14px -6px rgba(0, 0, 0, 0.9);
 }
 
 /* ── Type ramp helpers ───────────────────────────────────────
@@ -1286,34 +1259,36 @@ html.venom .venom-flesh::before,
   background: var(--v-sunken);
   border: 1px solid var(--v-line);
   border-radius: 18px 8px 20px 10px / 10px 18px 8px 16px;
+  box-shadow: inset 0 1px 0 rgba(246, 245, 241, 0.06);
 }
 
-/* Tab / toggle built on .venom-chip. Quiet at rest, ink-solid when active —
-   the active state is a fill flip, not a colour shift, so it reads at a
-   glance without a second hue. */
+/* Tab / toggle built on .venom-chip. Quiet at rest, bone-solid when active —
+   the active state is a fill flip, which is the loudest thing this palette
+   can do without reaching for a second hue. */
 .venom-tab {
   color: var(--v-muted);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(246, 245, 241, 0.03);
   border: 1px solid var(--v-line);
+  box-shadow: none;
   transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
 }
 
 .venom-tab:hover {
   color: var(--v-ink);
   border-color: var(--v-line-2);
-  background: #ffffff;
+  background: rgba(246, 245, 241, 0.07);
 }
 
 .venom-tab[data-active="true"] {
   color: var(--v-paper);
   background: var(--v-ink);
   border-color: var(--v-ink);
-  box-shadow: 0 4px 14px -4px rgba(11, 11, 13, 0.55);
+  box-shadow: 0 0 20px -2px rgba(246, 245, 241, 0.45);
 }
 
 /* Meter track + fill, for the bond vitals */
 .venom-meter {
-  background: var(--v-sunken);
+  background: rgba(0, 0, 0, 0.6);
   border: 1px solid var(--v-line);
   border-radius: 999px;
   overflow: hidden;
@@ -1323,14 +1298,148 @@ html.venom .venom-flesh::before,
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #2a2d33 0%, var(--v-ink) 100%);
+  background: linear-gradient(90deg, rgba(246, 245, 241, 0.45) 0%, var(--v-ink) 100%);
+  box-shadow: 0 0 12px rgba(246, 245, 241, 0.45);
 }
 
-/* Ooze creeping along an edge. The old grey drop-shadow smeared into the
-   white paper; ink fading to nothing keeps the edge crisp. */
+/* The grin. Interlocking bone teeth used as a section rule — the one motif
+   nobody mistakes for another character. An inline SVG tile rather than
+   stacked conic gradients: the gradient version depended on exact sweep
+   angles and silently rendered nothing. A path is a path. */
+.venom-grin {
+  height: 22px;
+  /* Two jaws, fangs of uneven length and spacing so it reads as a mouth
+     rather than a zipper — evenly-sized teeth on a small tile just looked
+     like trim. Upper and lower tips are offset so they interlock. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='22' viewBox='0 0 60 22'%3E%3Cpath d='M0 0H60V3H48L40 12L32 3H24L14 17L6 3H0Z' fill='%23f6f5f1'/%3E%3Cpath d='M0 22H60V19H58L54 10L50 19H32L26 6L20 19H0Z' fill='%23f6f5f1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 60px 22px;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 10px rgba(246, 245, 241, 0.45));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   THE THREE DEVICES
+
+   A theme reads as a character when it commits to a medium and owns a
+   device nobody else can use. Deadpool's medium is a printed comic page —
+   hard black borders, zero-blur offset shadows, halftone dots — and its
+   device is the yellow narration box. Soft glow and rounded corners are
+   not a medium; they are the house style of every dark dashboard, which
+   is exactly why this theme read as generic.
+
+   Venom's medium is a HOST WITH SOMETHING LIVING ON IT. Its devices:
+     .venom-jaw    a panel that is a mouth — teeth on both lips
+     .venom-speak  the black speech balloon with spiky bone lettering,
+                   which is how he has been lettered since 1988
+     .venom-veins  the texture the mass leaves on whatever it covers
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Device 1: the jaw ────────────────────────────────────────
+   Not a card with a divider bolted on — the panel's own top and bottom
+   lips are teeth, so the content sits INSIDE the mouth. */
+.venom-jaw {
+  position: relative;
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -8%, rgba(246, 245, 241, 0.08) 0%, transparent 56%),
+    linear-gradient(172deg, #14141c 0%, #0a0a10 48%, #050508 100%);
+  border-left: 1px solid var(--v-line-2);
+  border-right: 1px solid var(--v-line-2);
+  border-radius: 3px;
+}
+
+/* Upper jaw */
+.venom-jaw::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: 0;
+  height: 18px;
+  pointer-events: none;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='18' viewBox='0 0 60 18'%3E%3Cpath d='M0 0H60V4H50L42 14L34 4H26L16 18L8 4H0Z' fill='%23f6f5f1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 60px 18px;
+}
+
+/* Lower jaw */
+.venom-jaw::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: 0;
+  height: 18px;
+  pointer-events: none;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='18' viewBox='0 0 60 18'%3E%3Cpath d='M0 18H60V14H50L42 4L34 14H26L16 0L8 14H0Z' fill='%23f6f5f1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 60px 18px;
+  /* Offset half a tile so the lower fangs land between the upper ones */
+  background-position: 30px 0;
+}
+
+/* ── Device 2: the speech balloon ─────────────────────────────
+   He has been lettered the same way since 1988: a black balloon with
+   spiky white type, goo hanging off the bottom. This is the counterpart
+   to Deadpool's yellow caption box — the thing you see and immediately
+   know who is talking. */
+.venom-speak {
+  position: relative;
+  font-family: 'Creepster', 'Impact', cursive;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #08080c;
+  color: var(--v-ink);
+  border: 2px solid var(--v-ink);
+  /* Barely-there radius: the balloon is torn, not designed */
+  border-radius: 14px 4px 12px 3px / 4px 12px 3px 14px;
+  line-height: 1.2;
+}
+
+/* Goo gathering along the bottom lip, about to let go.
+   One continuous outline, not a row of circles — detached beads read as
+   buttons on a coat. The mass has to stay joined to the balloon it is
+   running off, so the tile is a bar that bulges into teardrops. */
+.venom-speak::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: calc(100% - 1px);
+  height: 20px;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='20' viewBox='0 0 48 20'%3E%3Cpath d='M0 0H48V5Q44 5 43 9Q42 16 38 16Q34 16 33 9Q32 5 28 5H20Q16 5 15 10Q14 18 10 18Q6 18 5 10Q4 5 0 5Z' fill='%2308080c' stroke='%23f6f5f1' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 48px 20px;
+}
+
+/* ── Device 3: the veins ──────────────────────────────────────
+   Deadpool's surfaces carry halftone because they are printed. Venom's
+   carry veins because they are covered in something alive.
+
+   A standalone element rather than a ::before — .venom-jaw already spends
+   both of its pseudo-elements on the two rows of teeth, and stacking this
+   on the same element silently ate the upper jaw. Drop it in as a child. */
+.venom-veins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23f6f5f1' stroke-opacity='0.15' stroke-width='1'%3E%3Cpath d='M-10 24C20 10 34 44 62 30S104 6 130 22'/%3E%3Cpath d='M-10 70C16 58 30 88 58 76S100 54 130 68'/%3E%3Cpath d='M-10 108C22 96 36 124 64 112S102 92 130 104'/%3E%3Cpath d='M24 -10C12 18 44 30 32 60S16 96 28 130'/%3E%3Cpath d='M88 -10C78 20 108 34 96 62S82 98 92 130'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  /* screen, not soft-light: soft-light against a near-black panel resolves
+     to almost no change, so the veins were computed and then invisible. */
+  mix-blend-mode: screen;
+}
+
+/* Ooze creeping along an edge — bone-lit at the lip, black as it hangs */
 .venom-ooze-edge {
-  background: linear-gradient(180deg, var(--v-ink, #0b0b0d) 0%, rgba(11, 11, 13, 0.55) 55%, transparent 100%);
-  filter: drop-shadow(0 3px 6px rgba(11, 11, 13, 0.18));
+  background: linear-gradient(180deg, rgba(246, 245, 241, 0.75) 0%, rgba(120, 120, 132, 0.35) 26%, rgba(6, 6, 9, 0.9) 62%, transparent 100%);
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.9));
 }
 
 /* The mass never rests: a slow wet undulation */

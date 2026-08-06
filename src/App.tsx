@@ -196,45 +196,45 @@ export function App() {
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
                 <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
-                  {/* Title, grown out of the mass. The chips carry their own
-                      paper surface now, so nothing here repaints them. */}
-                  <div className="relative z-20 -mb-4 flex items-end justify-between gap-3">
-                    <div className="venom-chip flex items-center gap-2.5 px-4 py-2">
+                  {/* He talks first. Both of these are the balloon device, not
+                      generic chips — the drips hang below them, so they need
+                      clearance rather than the old -mb-4 overlap. */}
+                  <div className="relative z-20 mb-7 flex items-start justify-between gap-3">
+                    <div className="venom-speak flex items-center gap-2.5 px-4 py-2">
                       <VenomSpiderIcon className="w-5 h-5 venom-ink" />
-                      <span className="text-sm sm:text-base tracking-[0.14em] venom-ink">
-                        Symbiote Link
-                      </span>
-                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest venom-faint">
+                      <span className="text-sm sm:text-base venom-ink">Symbiote Link</span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest venom-muted normal-case">
                         KLYNTAR // HOST BONDED
                       </span>
                     </div>
 
-                    <div className="venom-chip hidden sm:block px-3 py-1.5">
-                      <span className="text-[10px] tracking-[0.2em] venom-muted">
-                        We know what you are looking for
-                      </span>
+                    <div className="venom-speak hidden sm:block px-3 py-1.5 text-[11px] venom-ink">
+                      We know what you are looking for
                     </div>
                   </div>
 
-                  {/* The mass itself */}
-                  <div className="relative venom-flesh venom-alive h-[580px] flex flex-col overflow-hidden">
+                  {/* The mouth. Content sits between the teeth. */}
+                  <div className="relative venom-jaw venom-alive h-[580px] flex flex-col overflow-hidden">
+                    <div className="venom-veins" />
+
                     {/* Tendrils gripping the inside of the frame */}
-                    {["top-6 left-3 rotate-[18deg]", "bottom-8 left-3 -rotate-[24deg]", "top-10 right-3 -rotate-[18deg]", "bottom-6 right-3 rotate-[24deg]"].map((pos) => (
+                    {["top-8 left-3 rotate-[18deg]", "bottom-10 left-3 -rotate-[24deg]", "top-12 right-3 -rotate-[18deg]", "bottom-8 right-3 rotate-[24deg]"].map((pos) => (
                       <span
                         key={pos}
-                        className={`absolute ${pos} z-30 h-16 w-[3px] rounded-full bg-gradient-to-b from-[var(--v-line-3)] to-transparent`}
+                        className={`absolute ${pos} z-[3] h-16 w-[3px] rounded-full bg-gradient-to-b from-[var(--v-line-3)] to-transparent`}
                       />
                     ))}
 
-                    <div className="flex-1 overflow-hidden relative flex flex-col p-3 sm:p-4">
+                    {/* Padded clear of both jaws so the teeth never bite the UI */}
+                    <div className="relative z-[3] flex-1 overflow-hidden flex flex-col px-3 py-5 sm:px-4">
                       <VenomConsole />
                     </div>
                   </div>
 
                   {/* Closing whisper */}
-                  <div className="relative z-20 -mt-4 flex justify-end">
-                    <div className="venom-chip px-3 py-1.5 text-[10px] tracking-[0.2em] venom-muted">
-                      Keep scrolling. We are not finished. 🖤
+                  <div className="relative z-20 mt-7 flex justify-end">
+                    <div className="venom-speak px-3 py-1.5 text-[11px] venom-ink">
+                      Keep scrolling. We are not finished.
                     </div>
                   </div>
                 </div>

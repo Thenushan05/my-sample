@@ -77,7 +77,7 @@ const LASER_COLORS = [
 const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
 const THOR_PORTRAIT = "/thorme_nobg.png";
 const VENOM_PORTRAIT = "/venom-nobg.png";
-const MOONKNIGHT_PORTRAIT = "/moonme.png";
+const MOONKNIGHT_PORTRAIT = "/moonme_nobg.png";
 
 /**
  * The symbiote spread.

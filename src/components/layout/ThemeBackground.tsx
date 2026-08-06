@@ -282,7 +282,7 @@ export const ThemeBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-white transition-colors duration-700 pointer-events-none select-none">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] transition-colors duration-700 pointer-events-none select-none">
       {/* Ambient background glows */}
       <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.95)_0%,rgba(3,7,18,1)_100%)]" />
@@ -304,8 +304,14 @@ export const ThemeBackground: React.FC = () => {
         <div className="absolute bottom-[-12%] right-[-12%] w-[62%] h-[62%] bg-[#450a0a]/60 rounded-full blur-[150px]" />
       </div>
 
-      {/* Venom Ambient Glows — we leave it empty because the canvas draws the pure white background */}
-      <div className="absolute inset-0 hidden [.venom_&]:block overflow-hidden" />
+      {/* Venom Ambient Glows — cold violet bleeding in from the corners over
+          dead-black centre, so the mass has somewhere to come from. The hue
+          lives only here, far behind the type. */}
+      <div className="absolute inset-0 hidden [.venom_&]:block overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(84,40,148,0.3)_0%,rgba(5,5,6,0.98)_58%)]" />
+        <div className="absolute top-[-18%] right-[-12%] w-[62%] h-[62%] bg-[#7e2260]/25 rounded-full blur-[170px]" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[70%] h-[65%] bg-[#341e6e]/35 rounded-full blur-[190px]" />
+      </div>
 
       {/* Thor Ambient Glows — storm light above, deep charge pooling below */}
       <div className="absolute inset-0 hidden [.thor_&]:block">
