@@ -890,7 +890,7 @@ html.venom {
 
 html.venom body {
   /* Void — the symbiote swallows light */
-  background-color: #050506 !important;
+  background-color: white !important;
   cursor: none !important;
   /* Tendril cursor is drawn by VenomOverlay */
 }
@@ -910,11 +910,11 @@ html.venom h4 {
   font-family: 'Creepster', 'Impact', cursive !important;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #f4f7fb;
+  color: black;
   text-shadow:
-    0 0 14px rgba(185, 194, 205, 0.75),
-    0 0 38px rgba(107, 114, 128, 0.4),
-    2px 3px 0 rgba(0, 0, 0, 0.95);
+    0 0 14px rgba(0, 0, 0, 0.2),
+    0 0 38px rgba(0, 0, 0, 0.1),
+    2px 3px 0 rgba(255, 255, 255, 0.95);
 }
 
 /* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
@@ -942,12 +942,12 @@ html.venom body::before {
   pointer-events: none;
   background:
     /* the host glow, dead centre */
-    radial-gradient(circle at 50% 42%, rgba(107, 114, 128, 0.26) 0%, transparent 56%),
+    radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0.05) 0%, transparent 56%),
     /* mass creeping in from the corners */
-    radial-gradient(ellipse at 4% 6%, rgba(75, 82, 89, 0.3) 0%, transparent 48%),
-    radial-gradient(ellipse at 96% 92%, rgba(75, 82, 89, 0.26) 0%, transparent 46%),
-    radial-gradient(ellipse at 50% 104%, rgba(23, 24, 27, 0.35) 0%, transparent 52%),
-    linear-gradient(180deg, #08090a 0%, #07030c 46%, #050506 100%);
+    radial-gradient(ellipse at 4% 6%, rgba(0, 0, 0, 0.05) 0%, transparent 48%),
+    radial-gradient(ellipse at 96% 92%, rgba(0, 0, 0, 0.05) 0%, transparent 46%),
+    radial-gradient(ellipse at 50% 104%, rgba(0, 0, 0, 0.1) 0%, transparent 52%),
+    linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.01) 46%, white 100%);
 }
 
 /* Living membrane: oily sheen cells with a wet specular crawl */
@@ -961,17 +961,17 @@ html.venom body::after {
   height: 100dvh;
   z-index: -39;
   pointer-events: none;
-  opacity: 0.42;
+  opacity: 0.15;
   background-image:
     /* veins running under the surface */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23b9c2cd' stroke-width='1.3' stroke-linecap='round' opacity='0.55'%3E%3Cpath d='M-10 40Q30 12 70 38T150 34'/%3E%3Cpath d='M-10 104Q34 78 70 102T150 96'/%3E%3Cpath d='M40 -10Q16 34 42 70T36 150'/%3E%3Cpath d='M104 -10Q84 36 106 72T100 150'/%3E%3Cpath d='M42 70L70 102M70 38L106 72'/%3E%3C/g%3E%3Cg fill='%23e9edf2' opacity='0.5'%3E%3Ccircle cx='70' cy='38' r='2.6'/%3E%3Ccircle cx='42' cy='70' r='2.2'/%3E%3Ccircle cx='106' cy='72' r='2.2'/%3E%3Ccircle cx='70' cy='102' r='2.6'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round' opacity='0.55'%3E%3Cpath d='M-10 40Q30 12 70 38T150 34'/%3E%3Cpath d='M-10 104Q34 78 70 102T150 96'/%3E%3Cpath d='M40 -10Q16 34 42 70T36 150'/%3E%3Cpath d='M104 -10Q84 36 106 72T100 150'/%3E%3Cpath d='M42 70L70 102M70 38L106 72'/%3E%3C/g%3E%3Cg fill='black' opacity='0.5'%3E%3Ccircle cx='70' cy='38' r='2.6'/%3E%3Ccircle cx='42' cy='70' r='2.2'/%3E%3Ccircle cx='106' cy='72' r='2.2'/%3E%3Ccircle cx='70' cy='102' r='2.6'/%3E%3C/g%3E%3C/svg%3E"),
     /* wet highlights sitting on the mass */
-    radial-gradient(ellipse 24% 14% at 22% 18%, rgba(244, 247, 251, 0.09) 0%, transparent 62%),
-    radial-gradient(ellipse 18% 11% at 74% 34%, rgba(244, 247, 251, 0.07) 0%, transparent 62%),
-    radial-gradient(ellipse 26% 15% at 58% 76%, rgba(233, 237, 242, 0.09) 0%, transparent 64%),
+    radial-gradient(ellipse 24% 14% at 22% 18%, rgba(0, 0, 0, 0.09) 0%, transparent 62%),
+    radial-gradient(ellipse 18% 11% at 74% 34%, rgba(0, 0, 0, 0.07) 0%, transparent 62%),
+    radial-gradient(ellipse 26% 15% at 58% 76%, rgba(0, 0, 0, 0.09) 0%, transparent 64%),
     /* deep pockets between the muscle */
-    radial-gradient(ellipse 34% 24% at 8% 62%, rgba(0, 0, 0, 0.55) 0%, transparent 70%),
-    radial-gradient(ellipse 30% 22% at 92% 22%, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
+    radial-gradient(ellipse 34% 24% at 8% 62%, rgba(255, 255, 255, 0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 22% at 92% 22%, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
   background-size: 140px 140px, auto, auto, auto, auto, auto;
   mask-image: radial-gradient(ellipse at 50% 40%, black 6%, rgba(0, 0, 0, 0.6) 50%, transparent 86%);
   -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 6%, rgba(0, 0, 0, 0.6) 50%, transparent 86%);
@@ -985,14 +985,14 @@ html.venom .text-emerald-500,
 html.venom .text-blue-400,
 html.venom .text-blue-500,
 html.venom .text-cyan-400 {
-  color: #e9edf2 !important;
-  text-shadow: 0 0 12px rgba(185, 194, 205, 0.7);
+  color: black !important;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 
 html.venom .text-violet-400,
 html.venom .text-zinc-200 {
-  color: #f1f5f9 !important;
-  text-shadow: 0 0 12px rgba(244, 247, 251, 0.5);
+  color: black !important;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 
 html.venom .border-emerald-500\/10,
@@ -1003,14 +1003,14 @@ html.venom .border-emerald-500\/60,
 html.venom .border-blue-500\/20,
 html.venom .border-blue-500\/30,
 html.venom .border-cyan-500\/20 {
-  border-color: rgba(185, 194, 205, 0.45) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
 }
 
 html.venom .bg-emerald-500\/10,
 html.venom .bg-emerald-500\/20,
 html.venom .bg-blue-500\/10,
 html.venom .bg-cyan-500\/10 {
-  background-color: rgba(107, 114, 128, 0.18) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
 html.venom .from-emerald-500,
@@ -1019,7 +1019,7 @@ html.venom .from-blue-400,
 html.venom .from-blue-500,
 html.venom .from-blue-600,
 html.venom .from-cyan-500 {
-  --tw-gradient-from: #b9c2cd !important;
+  --tw-gradient-from: black !important;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
 }
 
@@ -1028,7 +1028,7 @@ html.venom .to-teal-600,
 html.venom .to-violet-500,
 html.venom .to-violet-600,
 html.venom .to-blue-500 {
-  --tw-gradient-to: #141517 !important;
+  --tw-gradient-to: rgba(255, 255, 255, 0) !important;
 }
 
 html.venom .shadow-emerald-500\/30,
@@ -1036,7 +1036,7 @@ html.venom .shadow-emerald-500\/50,
 html.venom .shadow-blue-500\/30,
 html.venom .shadow-blue-500\/50,
 html.venom .shadow-cyan-500\/30 {
-  --tw-shadow-color: rgba(185, 194, 205, 0.6) !important;
+  --tw-shadow-color: rgba(0, 0, 0, 0.2) !important;
 }
 
 html.venom ::selection {

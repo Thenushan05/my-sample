@@ -282,7 +282,7 @@ export const ThemeBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] transition-colors duration-700 pointer-events-none select-none">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-white transition-colors duration-700 pointer-events-none select-none">
       {/* Ambient background glows */}
       <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.95)_0%,rgba(3,7,18,1)_100%)]" />
@@ -306,10 +306,10 @@ export const ThemeBackground: React.FC = () => {
 
       {/* Venom Ambient Glows — the mass pools in the corners and swallows the middle */}
       <div className="absolute inset-0 hidden [.venom_&]:block">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(126,34,206,0.2)_0%,rgba(5,3,8,0.99)_66%)]" />
-        <div className="absolute top-[-14%] left-[-12%] w-[62%] h-[62%] bg-purple-800/28 rounded-full blur-[170px]" />
-        <div className="absolute bottom-[-14%] right-[-12%] w-[58%] h-[58%] bg-[#3b0764]/45 rounded-full blur-[160px]" />
-        <div className="absolute bottom-[-10%] left-[-8%] w-[50%] h-[50%] bg-fuchsia-900/22 rounded-full blur-[150px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(255,255,255,0.99)_66%)]" />
+        <div className="absolute top-[-14%] left-[-12%] w-[62%] h-[62%] bg-black/5 rounded-full blur-[170px]" />
+        <div className="absolute bottom-[-14%] right-[-12%] w-[58%] h-[58%] bg-black/10 rounded-full blur-[160px]" />
+        <div className="absolute bottom-[-10%] left-[-8%] w-[50%] h-[50%] bg-black/5 rounded-full blur-[150px]" />
       </div>
 
       {/* Thor Ambient Glows — storm light above, deep charge pooling below */}

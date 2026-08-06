@@ -51,7 +51,7 @@ const VenomFigure: React.FC<FigureProps> = React.memo(({ crawling }) => {
           animate={{ rotate: limb.swing }}
           transition={{ duration: gait.cycle, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformOrigin: "bottom center" }}
-          className={`absolute bottom-[3.7rem] ${limb.x} h-10 w-[7px] rounded-full bg-gradient-to-t from-[#0f1011] to-black`}
+          className={`absolute bottom-[3.7rem] ${limb.x} h-10 w-[7px] rounded-full bg-gradient-to-t from-black to-black/90`}
         >
           {/* Clawed hand flattened against the surface */}
           <span className="absolute -top-1 left-1/2 h-2 w-4 -translate-x-1/2 rounded-full bg-black" />
@@ -59,10 +59,10 @@ const VenomFigure: React.FC<FigureProps> = React.memo(({ crawling }) => {
       ))}
 
       {/* Torso, hanging below the grip line */}
-      <div className="absolute bottom-8 left-1/2 h-12 w-14 -translate-x-1/2 rounded-[46%_54%_40%_60%/40%_38%_62%_60%] bg-[radial-gradient(ellipse_at_40%_28%,#1b1d20_0%,#08090a_55%,#000_100%)] shadow-[inset_0_2px_3px_rgba(233,237,242,0.35)]">
+      <div className="absolute bottom-8 left-1/2 h-12 w-14 -translate-x-1/2 rounded-[46%_54%_40%_60%/40%_38%_62%_60%] bg-[radial-gradient(ellipse_at_40%_28%,black_0%,rgba(0,0,0,0.9)_55%,rgba(0,0,0,0.8)_100%)] shadow-[inset_0_2px_3px_rgba(255,255,255,0.35)]">
         {/* The white spider, sprawled across the back */}
         <svg viewBox="0 0 40 30" className="absolute inset-x-2 top-2 h-5 w-10 opacity-90">
-          <g stroke="#f4f7fb" strokeLinecap="round" fill="#f4f7fb">
+          <g stroke="white" strokeLinecap="round" fill="white">
             <ellipse cx="20" cy="14" rx="2.4" ry="6" />
             <path d="M17 10C12 7 6 6 1 8" strokeWidth="1.5" fill="none" />
             <path d="M23 10C28 7 34 6 39 8" strokeWidth="1.5" fill="none" />
@@ -79,17 +79,17 @@ const VenomFigure: React.FC<FigureProps> = React.memo(({ crawling }) => {
         style={{ transformOrigin: "top center" }}
         className="absolute bottom-1 left-1/2 h-9 w-9 -translate-x-1/2"
       >
-        <div className="relative h-full w-full rounded-[52%_48%_42%_58%/60%_56%_44%_40%] bg-[radial-gradient(ellipse_at_38%_30%,#0f1011_0%,#050506_60%,#000_100%)]">
+        <div className="relative h-full w-full rounded-[52%_48%_42%_58%/60%_56%_44%_40%] bg-[radial-gradient(ellipse_at_38%_30%,black_0%,rgba(0,0,0,0.95)_60%,rgba(0,0,0,0.9)_100%)]">
           {/* Long white lenses — inverted, because he is upside down */}
-          <span className="absolute bottom-[52%] left-[8%] h-[7px] w-[38%] rotate-[18deg] rounded-full bg-[#f4f7fb] shadow-[0_0_6px_rgba(244,247,251,0.8)]" />
-          <span className="absolute bottom-[52%] right-[8%] h-[7px] w-[38%] -rotate-[18deg] rounded-full bg-[#f4f7fb] shadow-[0_0_6px_rgba(244,247,251,0.8)]" />
+          <span className="absolute bottom-[52%] left-[8%] h-[7px] w-[38%] rotate-[18deg] rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
+          <span className="absolute bottom-[52%] right-[8%] h-[7px] w-[38%] -rotate-[18deg] rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
 
           {/* Teeth across the jaw */}
           <svg viewBox="0 0 36 12" className="absolute bottom-[18%] left-1/2 h-3 w-8 -translate-x-1/2">
             <path
               d="M2 1L6 8L10 1L14 8L18 1L22 8L26 1L30 8L34 1"
               fill="none"
-              stroke="#f4f7fb"
+              stroke="white"
               strokeWidth="1.8"
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -102,7 +102,7 @@ const VenomFigure: React.FC<FigureProps> = React.memo(({ crawling }) => {
           animate={{ rotate: gait.tongue, scaleY: crawling ? 1 : [1, 1.25, 1] }}
           transition={{ duration: crawling ? 1.2 : 2.8, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformOrigin: "top center" }}
-          className="absolute -bottom-6 left-1/2 h-7 w-[5px] -translate-x-1/2 rounded-b-full bg-gradient-to-b from-[#4b5259] to-[#e9edf2]"
+          className="absolute -bottom-6 left-1/2 h-7 w-[5px] -translate-x-1/2 rounded-b-full bg-gradient-to-b from-black/50 to-white"
         />
       </motion.div>
 
@@ -117,7 +117,7 @@ const VenomFigure: React.FC<FigureProps> = React.memo(({ crawling }) => {
           animate={{ rotate: [-12, 12, -12], scaleY: [1, 1.15, 1] }}
           transition={{ duration: 3.2, repeat: Infinity, delay: t.delay, ease: "easeInOut" }}
           style={{ transformOrigin: "top center", height: t.len }}
-          className={`absolute top-[3.4rem] ${t.pos} w-[3px] rounded-b-full bg-gradient-to-b from-black to-[#17181b]/0`}
+          className={`absolute top-[3.4rem] ${t.pos} w-[3px] rounded-b-full bg-gradient-to-b from-black to-black/0`}
         />
       ))}
     </motion.div>
@@ -173,7 +173,7 @@ export const VenomCrawl: React.FC = () => {
         <motion.div
           animate={{ opacity: crawling ? 0.7 : 0.3, scaleX: crawling ? 1 : 0.6 }}
           transition={{ duration: 0.3 }}
-          className="absolute -top-1 left-1/2 h-[3px] w-28 -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-[#17181b] to-transparent blur-[2px]"
+          className="absolute -top-1 left-1/2 h-[3px] w-28 -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-black to-transparent blur-[2px]"
         />
       </motion.div>
     </div>

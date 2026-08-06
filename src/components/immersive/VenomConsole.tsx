@@ -116,12 +116,12 @@ export const VenomConsole: React.FC = () => {
   ] as const;
 
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px_10px_24px_12px/12px_22px_10px_20px] border border-[#b9c2cd]/40 bg-[#08090a]/70 p-3 text-[#e6e2f5] selection:bg-zinc-600 sm:p-4">
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px_10px_24px_12px/12px_22px_10px_20px] border border-black/20 bg-white/80 p-3 text-black selection:bg-zinc-300 sm:p-4">
       {/* Wet highlight along the top of the mass */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#e9edf2] to-transparent shadow-[0_0_12px_#b9c2cd]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-black to-transparent shadow-[0_0_12px_rgba(0,0,0,0.4)]" />
 
       {/* Tabs as tendril-drawn chips */}
-      <div className="relative z-10 mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-[#b9c2cd]/25 pb-2">
+      <div className="relative z-10 mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-black/20 pb-2">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
@@ -129,22 +129,22 @@ export const VenomConsole: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`venom-chip flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-[11px] transition-all sm:text-xs ${
+                className={`venom-chip flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-[11px] transition-all sm:text-xs font-bold ${
                   isActive
-                    ? "!border-[#e9edf2] !text-white shadow-[0_0_18px_rgba(185,194,205,0.6),inset_0_0_14px_rgba(107,114,128,0.4)]"
-                    : "opacity-65 hover:opacity-100 hover:!border-[#b9c2cd]/80"
+                    ? "!border-black !text-black shadow-[0_0_18px_rgba(0,0,0,0.15),inset_0_0_14px_rgba(0,0,0,0.05)] bg-black/5"
+                    : "opacity-65 hover:opacity-100 hover:!border-black/50 text-black/70 hover:text-black"
                 }`}
               >
-                <tab.icon className={`h-3.5 w-3.5 ${isActive ? "text-[#f4f7fb]" : "text-[#e9edf2]"}`} />
+                <tab.icon className={`h-3.5 w-3.5 ${isActive ? "text-black" : "text-black/70"}`} />
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
 
-        <div className="venom-chip hidden items-center gap-2 px-2.5 py-1 text-[10px] md:flex">
+        <div className="venom-chip hidden items-center gap-2 px-2.5 py-1 text-[10px] md:flex text-black border-black/20 bg-black/5">
           <VenomSpiderIcon className="h-4 w-4" />
-          <span>We Are Venom</span>
+          <span className="font-bold">We Are Venom</span>
         </div>
       </div>
 
@@ -161,64 +161,64 @@ export const VenomConsole: React.FC = () => {
               className="flex h-full flex-col gap-3 sm:flex-row"
             >
               {/* Bond vitals */}
-              <div className="hidden w-1/3 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-[#b9c2cd]/30 bg-[#0e0f11]/60 p-3 sm:flex">
+              <div className="hidden w-1/3 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-3 sm:flex">
                 <motion.div
                   animate={{ scale: [1, 1.05, 1], rotate: [-2, 2, -2] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   className="mx-auto w-24"
                 >
-                  <VenomSpiderIcon className="w-full drop-shadow-[0_0_18px_rgba(185,194,205,0.9)]" />
+                  <VenomSpiderIcon className="w-full drop-shadow-[0_0_18px_rgba(0,0,0,0.5)] text-black" />
                 </motion.div>
 
                 <div
-                  className="mt-4 border-b border-[#b9c2cd]/25 pb-1 text-center text-[10px] tracking-[0.2em] text-[#e9edf2]"
+                  className="mt-4 border-b border-black/20 pb-1 text-center text-[10px] tracking-[0.2em] text-black font-bold"
                   style={{ fontFamily: "'Creepster', cursive" }}
                 >
                   Bond Vitals
                 </div>
 
-                <div className="mt-3 flex flex-col gap-2.5 text-[10px]">
+                <div className="mt-3 flex flex-col gap-2.5 text-[10px] font-bold">
                   {[
                     { label: "Bond Depth", value: 98, note: "Fused" },
                     { label: "Host Control", value: 61, note: "Negotiated" },
                     { label: "Appetite", value: 84, note: "Managed" },
                   ].map((stat) => (
                     <div key={stat.label}>
-                      <div className="mb-1 flex justify-between text-[#b9a9d6]">
+                      <div className="mb-1 flex justify-between text-black/70">
                         <span className="uppercase tracking-wider">{stat.label}</span>
-                        <span className="text-[#f4f7fb]">{stat.note}</span>
+                        <span className="text-black">{stat.note}</span>
                       </div>
-                      <div className="h-2 rounded-full border border-[#b9c2cd]/30 bg-black/60">
+                      <div className="h-2 rounded-full border border-black/20 bg-black/10">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${stat.value}%` }}
                           transition={{ duration: 1.2, ease: "easeOut" }}
-                          className="h-full rounded-full bg-gradient-to-r from-[#17181b] via-[#6b7280] to-[#e9edf2] shadow-[0_0_10px_#b9c2cd]"
+                          className="h-full rounded-full bg-gradient-to-r from-black/80 via-black to-black shadow-[0_0_10px_rgba(0,0,0,0.4)]"
                         />
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="venom-chip mt-auto px-2 py-1.5 text-[10px] leading-snug">
+                <div className="venom-chip mt-auto px-2 py-1.5 text-[10px] leading-snug text-black border-black/20 bg-black/5 font-bold">
                   We share the credit. Mostly.
                 </div>
               </div>
 
               {/* Terminal */}
-              <div className="flex flex-1 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-[#b9c2cd]/30 bg-black/50">
+              <div className="flex flex-1 flex-col rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/50">
                 <div
                   ref={scrollRef}
-                  className="scrollbar-thin flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-[#ddd5f0]/85"
+                  className="scrollbar-thin flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed text-black/90 font-medium"
                 >
                   {logs.map((line, i) => (
                     <div
                       key={i}
                       className={
                         line.startsWith("we@")
-                          ? "text-[#e9edf2]"
+                          ? "text-black font-bold"
                           : line.startsWith("◈")
-                            ? "text-[#f4f7fb]"
+                            ? "text-black/80 font-semibold"
                             : ""
                       }
                     >
@@ -229,16 +229,16 @@ export const VenomConsole: React.FC = () => {
 
                 <form
                   onSubmit={handleCommand}
-                  className="flex items-center gap-2 border-t border-[#b9c2cd]/30 bg-[#101113]/70 px-3 py-2"
+                  className="flex items-center gap-2 border-t border-black/20 bg-white/70 px-3 py-2"
                 >
-                  <span className="font-mono text-[11px] text-[#e9edf2]">we@symbiote:~◈</span>
+                  <span className="font-mono text-[11px] text-black font-bold">we@symbiote:~◈</span>
                   <input
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     placeholder="speak. we are listening."
-                    className="flex-1 bg-transparent font-mono text-[11px] text-white placeholder:text-zinc-300/30 focus:outline-none"
+                    className="flex-1 bg-transparent font-mono text-[11px] text-black placeholder:text-black/40 focus:outline-none font-bold"
                   />
-                  <button type="submit" aria-label="Send" className="text-[#e9edf2] hover:text-white">
+                  <button type="submit" aria-label="Send" className="text-black/60 hover:text-black">
                     <Send className="h-3.5 w-3.5" />
                   </button>
                 </form>
@@ -262,30 +262,30 @@ export const VenomConsole: React.FC = () => {
                   return (
                     <div
                       key={exp.id}
-                      className="relative rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-[#b9c2cd]/30 bg-[#0e0f11]/55 p-3 shadow-[inset_0_1px_0_rgba(244,247,251,0.14)]"
+                      className="relative rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-3 shadow-[inset_0_1px_0_rgba(0,0,0,0.05)]"
                     >
-                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 border-b border-[#b9c2cd]/20 pb-1.5">
+                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 border-b border-black/10 pb-1.5">
                         <span
-                          className="text-[10px] tracking-[0.18em] text-[#e9edf2]"
+                          className="text-[10px] tracking-[0.18em] text-black font-bold"
                           style={{ fontFamily: "'Creepster', cursive" }}
                         >
                           {flavour?.title ?? "UNRECORDED"}
                         </span>
-                        <span className="rounded-full border border-[#e9edf2]/50 bg-zinc-400/10 px-2 py-0.5 text-[9px] tracking-widest text-[#f4f7fb]">
+                        <span className="rounded-full border border-black/30 bg-black/5 px-2 py-0.5 text-[9px] tracking-widest text-black font-bold">
                           {flavour?.state ?? "UNKNOWN"}
                         </span>
                       </div>
 
-                      <h4 className="text-sm text-white">{exp.role}</h4>
-                      <div className="mb-2 font-mono text-[10px] text-[#b9a9d6]">
+                      <h4 className="text-sm text-black font-extrabold">{exp.role}</h4>
+                      <div className="mb-2 font-mono text-[10px] text-black/60 font-bold">
                         {exp.company} • {exp.period}
                       </div>
-                      <p className="mb-2 text-[11px] leading-relaxed text-[#ddd5f0]/70">{exp.description}</p>
+                      <p className="mb-2 text-[11px] leading-relaxed text-black/80 font-medium">{exp.description}</p>
 
                       <ul className="mb-2 flex flex-col gap-1">
                         {exp.highlights.map((h) => (
-                          <li key={h} className="flex gap-2 text-[11px] text-[#ddd5f0]/75">
-                            <span className="text-[#e9edf2]">◈</span>
+                          <li key={h} className="flex gap-2 text-[11px] text-black/80 font-medium">
+                            <span className="text-black font-bold">◈</span>
                             <span>{h}</span>
                           </li>
                         ))}
@@ -295,7 +295,7 @@ export const VenomConsole: React.FC = () => {
                         {exp.technologies.map((tech) => (
                           <span
                             key={tech}
-                            className="rounded-full border border-[#b9c2cd]/30 bg-black/40 px-2 py-0.5 font-mono text-[9px] text-[#e9edf2]"
+                            className="rounded-full border border-black/20 bg-black/5 px-2 py-0.5 font-mono text-[9px] text-black font-bold"
                           >
                             {tech}
                           </span>
@@ -325,10 +325,10 @@ export const VenomConsole: React.FC = () => {
                     <button
                       key={cat.id}
                       onClick={() => setActiveTrait(cat)}
-                      className={`venom-chip shrink-0 px-3 py-2 text-left text-[11px] transition-all ${
+                      className={`venom-chip shrink-0 px-3 py-2 text-left text-[11px] transition-all font-bold ${
                         isActive
-                          ? "!border-[#e9edf2] !text-white shadow-[0_0_18px_rgba(185,194,205,0.5)]"
-                          : "opacity-65 hover:opacity-100"
+                          ? "!border-black !text-black shadow-[0_0_18px_rgba(0,0,0,0.15)] bg-black/5"
+                          : "opacity-65 hover:opacity-100 text-black/70 hover:text-black border-black/10"
                       }`}
                     >
                       <span className="mr-1.5">{cat.icon}</span>
@@ -338,15 +338,15 @@ export const VenomConsole: React.FC = () => {
                 })}
               </div>
 
-              <div className="relative flex-1 rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-[#b9c2cd]/30 bg-[#0e0f11]/55 p-4">
+              <div className="relative flex-1 rounded-[18px_8px_20px_10px/10px_18px_8px_16px] border border-black/20 bg-white/60 p-4">
                 <div
-                  className="mb-1 text-[10px] tracking-[0.2em] text-[#e9edf2]"
+                  className="mb-1 text-[10px] tracking-[0.2em] text-black font-bold"
                   style={{ fontFamily: "'Creepster', cursive" }}
                 >
                   What We Are Made Of
                 </div>
-                <h4 className="mb-2 text-base text-white">{activeTrait.label}</h4>
-                <p className="mb-4 border-l-2 border-[#e9edf2]/60 pl-2.5 text-[11px] italic text-[#ddd5f0]/75">
+                <h4 className="mb-2 text-base text-black font-extrabold">{activeTrait.label}</h4>
+                <p className="mb-4 border-l-2 border-black/40 pl-2.5 text-[11px] italic text-black/70 font-semibold">
                   {TRAIT_FLAVOUR[activeTrait.id] ?? "We grew this one ourselves."}
                 </p>
 
@@ -354,14 +354,14 @@ export const VenomConsole: React.FC = () => {
                   {activeTrait.skills.map((skill) => (
                     <div
                       key={skill}
-                      className="rounded-lg border border-[#b9c2cd]/25 bg-black/40 px-2 py-1.5 font-mono text-[11px] text-[#ddd5f0]/85"
+                      className="rounded-lg border border-black/10 bg-black/5 px-2 py-1.5 font-mono text-[11px] text-black/85 font-bold"
                     >
                       {skill}
                     </div>
                   ))}
                 </div>
 
-                <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 opacity-20">
+                <div className="pointer-events-none absolute bottom-3 right-3 h-14 w-14 opacity-10 text-black">
                   <VenomSpiderIcon className="h-full w-full" />
                 </div>
               </div>
@@ -387,10 +387,10 @@ export const VenomConsole: React.FC = () => {
                   transition={{ duration: 0.25 }}
                   className="venom-flesh max-w-lg px-6 py-6 text-center"
                 >
-                  <p className="text-lg leading-snug text-white" style={{ fontFamily: "'Creepster', cursive" }}>
+                  <p className="text-lg leading-snug text-black font-bold" style={{ fontFamily: "'Creepster', cursive" }}>
                     “{VOICES[voiceIdx].line}”
                   </p>
-                  <div className="mt-3 font-mono text-[10px] tracking-[0.25em] text-[#e9edf2]">
+                  <div className="mt-3 font-mono text-[10px] tracking-[0.25em] text-black/70 font-bold">
                     — {VOICES[voiceIdx].tag.toUpperCase()}
                   </div>
                 </motion.div>
@@ -404,8 +404,8 @@ export const VenomConsole: React.FC = () => {
                     aria-label={`Voice ${i + 1}`}
                     className={`h-2.5 w-2.5 rounded-full border transition-all ${
                       i === voiceIdx
-                        ? "border-[#f4f7fb] bg-[#e9edf2] shadow-[0_0_10px_#b9c2cd]"
-                        : "border-[#b9c2cd]/40 bg-transparent hover:border-[#e9edf2]"
+                        ? "border-black bg-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+                        : "border-black/30 bg-transparent hover:border-black"
                     }`}
                   />
                 ))}

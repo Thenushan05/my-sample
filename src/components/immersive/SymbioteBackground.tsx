@@ -167,9 +167,9 @@ export const SymbioteBackground: React.FC = () => {
       const tipX = ax + Math.cos(angle) * len;
       const tipY = ay + Math.sin(angle) * len;
       const body = ctx.createLinearGradient(ax, ay, tipX, tipY);
-      body.addColorStop(0, "rgba(4, 2, 7, 0.96)");
-      body.addColorStop(0.5, "rgba(12, 5, 20, 0.7)");
-      body.addColorStop(1, "rgba(20, 8, 32, 0)");
+      body.addColorStop(0, "rgba(0, 0, 0, 0.96)");
+      body.addColorStop(0.5, "rgba(0, 0, 0, 0.7)");
+      body.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = body;
       ctx.fill();
 
@@ -177,9 +177,9 @@ export const SymbioteBackground: React.FC = () => {
       ctx.beginPath();
       left.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
       const sheen = ctx.createLinearGradient(ax, ay, tipX, tipY);
-      sheen.addColorStop(0, "rgba(107, 114, 128, 0.34)");
-      sheen.addColorStop(0.55, "rgba(185, 194, 205, 0.14)");
-      sheen.addColorStop(1, "rgba(185, 194, 205, 0)");
+      sheen.addColorStop(0, "rgba(255, 255, 255, 0.34)");
+      sheen.addColorStop(0.55, "rgba(255, 255, 255, 0.14)");
+      sheen.addColorStop(1, "rgba(255, 255, 255, 0)");
       ctx.strokeStyle = sheen;
       ctx.lineWidth = 1.2;
       ctx.stroke();
@@ -200,9 +200,9 @@ export const SymbioteBackground: React.FC = () => {
         const bx = blob.x + Math.cos(t * blob.drift + blob.phase) * blob.r * 0.3;
         const by = blob.y + Math.sin(t * blob.drift * 1.3 + blob.phase) * blob.r * 0.22;
         const g = ctx.createRadialGradient(bx, by, 0, bx, by, blob.r);
-        g.addColorStop(0, `rgba(10, 4, 16, ${blob.alpha * 1.6})`);
-        g.addColorStop(0.5, `rgba(20, 21, 23, ${blob.alpha * 0.3})`);
-        g.addColorStop(1, "rgba(20, 21, 23, 0)");
+        g.addColorStop(0, `rgba(0, 0, 0, ${blob.alpha * 1.6})`);
+        g.addColorStop(0.5, `rgba(0, 0, 0, ${blob.alpha * 0.3})`);
+        g.addColorStop(1, "rgba(0, 0, 0, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(bx, by, blob.r, 0, Math.PI * 2);

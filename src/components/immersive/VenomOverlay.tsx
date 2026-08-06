@@ -132,7 +132,7 @@ const SymbioteCursor: React.FC<{
               marginLeft: (40 - blob.size) / 2,
               marginTop: (40 - blob.size) / 2,
             }}
-            className="bg-[radial-gradient(circle_at_34%_30%,#171819_0%,#08090a_55%,#000_100%)] shadow-[0_0_10px_rgba(75,82,89,0.7)]"
+            className="bg-[radial-gradient(circle_at_34%_30%,black_0%,rgba(0,0,0,0.8)_55%,rgba(0,0,0,0.4)_100%)] shadow-[0_0_10px_rgba(0,0,0,0.5)]"
           />
         </motion.div>
       ))}
@@ -160,7 +160,7 @@ const SymbioteCursor: React.FC<{
                   ],
                 }}
                 transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full w-full bg-[radial-gradient(circle_at_32%_26%,#1b1d20_0%,#08090a_50%,#000_100%)] shadow-[0_0_18px_rgba(75,82,89,0.9),inset_0_1px_2px_rgba(233,237,242,0.45)]"
+                className="h-full w-full bg-[radial-gradient(circle_at_32%_26%,black_0%,rgba(0,0,0,0.9)_50%,rgba(0,0,0,0.5)_100%)] shadow-[0_0_18px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.45)]"
               />
             </motion.div>
           </motion.div>
@@ -172,7 +172,7 @@ const SymbioteCursor: React.FC<{
               animate={{ scaleX: [0.35, 1, 0.5, 1, 0.35], opacity: [0.3, 0.85, 0.4] }}
               transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.24, ease: "easeInOut" }}
               style={{ rotate: `${deg}deg` }}
-              className="absolute left-1/2 top-1/2 h-[2px] w-7 origin-left bg-gradient-to-r from-black via-[#17181b] to-transparent"
+              className="absolute left-1/2 top-1/2 h-[2px] w-7 origin-left bg-gradient-to-r from-black via-black/80 to-transparent"
             />
           ))}
 
@@ -191,13 +191,13 @@ const SymbioteCursor: React.FC<{
                   animate={{ y: [-1.5, 1, -1.5] }}
                   transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <path d="M6 13L10 19L14 13L18 19L22 13L26 19L30 13L34 19" fill="none" stroke="#f4f7fb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 13L10 19L14 13L18 19L22 13L26 19L30 13L34 19" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.g>
                 <motion.g
                   animate={{ y: [1.5, -1, 1.5] }}
                   transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <path d="M6 27L10 21L14 27L18 21L22 27L26 21L30 27L34 21" fill="none" stroke="#f4f7fb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 27L10 21L14 27L18 21L22 27L26 21L30 27L34 21" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.g>
               </motion.svg>
             )}
@@ -294,12 +294,12 @@ export const VenomOverlay: React.FC = () => {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], times: [0, 0.3, 1] }}
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible"
             >
-              <path d={SPLAT_RING} fill="rgba(20,21,23,0.5)" />
-              <path d={SPLAT_CORE} fill="#08090a" stroke="#b9c2cd" strokeWidth="2" />
+              <path d={SPLAT_RING} fill="rgba(0,0,0,0.5)" />
+              <path d={SPLAT_CORE} fill="black" stroke="rgba(0,0,0,0.2)" strokeWidth="2" />
               <path
                 d={SPLAT_CORE}
                 fill="none"
-                stroke="#f4f7fb"
+                stroke="white"
                 strokeWidth="0.9"
                 opacity="0.5"
                 transform="translate(-2,-3) scale(0.92) translate(5.6,7.8)"
@@ -322,7 +322,7 @@ export const VenomOverlay: React.FC = () => {
                   }}
                   transition={{ duration: 0.65, ease: "easeOut" }}
                   style={{ width: 5 + (i % 3) * 2, height: 5 + (i % 3) * 2 }}
-                  className="absolute left-1/2 top-1/2 rounded-full bg-[#141517] shadow-[0_0_8px_rgba(185,194,205,0.9)]"
+                  className="absolute left-1/2 top-1/2 rounded-full bg-black shadow-[0_0_8px_rgba(0,0,0,0.5)]"
                 />
               );
             })}
@@ -350,10 +350,10 @@ export const VenomOverlay: React.FC = () => {
               height: drip.length,
               transformOrigin: "top center",
             }}
-            className="absolute top-4 rounded-b-full bg-gradient-to-b from-[#0f1011] to-[#17181b] shadow-[0_2px_10px_rgba(75,82,89,0.9)]"
+            className="absolute top-4 rounded-b-full bg-gradient-to-b from-black to-black/80 shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
           >
             <span
-              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-[#141517]"
+              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-black"
               style={{ width: drip.width * 1.6, height: drip.width * 1.6 }}
             />
           </motion.div>
@@ -362,8 +362,8 @@ export const VenomOverlay: React.FC = () => {
 
       {/* The membrane closing in on the frame */}
       <div className="fixed inset-0 z-[9996] pointer-events-none">
-        <div className="absolute inset-0 shadow-[inset_0_0_130px_rgba(59,7,100,0.75)]" />
-        <div className="venom-alive absolute inset-2 rounded-[28px_14px_30px_16px/16px_30px_14px_28px] border border-[#b9c2cd]/25" />
+        <div className="absolute inset-0 shadow-[inset_0_0_130px_rgba(0,0,0,0.3)]" />
+        <div className="venom-alive absolute inset-2 rounded-[28px_14px_30px_16px/16px_30px_14px_28px] border border-black/20" />
       </div>
 
       {/* "We" — always plural */}
@@ -376,7 +376,7 @@ export const VenomOverlay: React.FC = () => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -24, scale: 0.94 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="venom-chip px-3 py-2 text-[11px] leading-snug sm:text-xs"
+              className="venom-chip px-3 py-2 text-[11px] leading-snug sm:text-xs text-black bg-white/80 border border-black/20 shadow-[0_0_12px_rgba(0,0,0,0.1)] font-bold"
             >
               {WE_LINES[lineIdx]}
             </motion.div>
