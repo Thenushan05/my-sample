@@ -50,7 +50,14 @@ const TiltCard: React.FC<{ children: React.ReactNode; glowColor: string }> = ({
 
 // Glowing timeline node with concentric pulse rings
 const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
-  const color = type === "work" ? "#3B82F6" : "#8B5CF6";
+  /* var()-with-fallback: every hero mode except Luffy leaves --tl-work /
+     --tl-project undefined, so this resolves straight to the original hex
+     and nothing changes for them. Luffy alone defines those two custom
+     properties (see index.css), because it is the one theme where the
+     hardcoded blue/violet — chosen assuming a near-black backdrop — fails
+     contrast outright on parchment, and an inline style is the one thing a
+     stylesheet selector can never reach to fix from the outside. */
+  const color = type === "work" ? "var(--tl-work, #3B82F6)" : "var(--tl-project, #8B5CF6)";
   const Icon = type === "work" ? Briefcase : Code2;
 
   return (
@@ -82,7 +89,7 @@ const TimelineNode: React.FC<{ type: Experience["type"] }> = ({ type }) => {
 };
 
 const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
-  const color = exp.type === "work" ? "#3B82F6" : "#8B5CF6";
+  const color = exp.type === "work" ? "var(--tl-work, #3B82F6)" : "var(--tl-project, #8B5CF6)";
   return (
     <TiltCard
       glowColor={exp.type === "work" ? "rgba(59, 130, 246, 0.08)" : "rgba(139, 92, 246, 0.08)"}
@@ -104,8 +111,11 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
           <span
             className="text-[8px] font-bold border rounded px-2 py-0.5 uppercase tracking-widest font-mono [.spiderman_&]:border-red-500 [.spiderman_&]:text-red-500 [.spiderman_&]:rounded-none transition-all duration-500"
             style={{
-              borderColor: exp.type === "work" ? "rgba(59,130,246,0.3)" : "rgba(139,92,246,0.3)",
-              color: exp.type === "work" ? "#60A5FA" : "#A78BFA",
+              borderColor:
+                exp.type === "work"
+                  ? "var(--tl-work-border, rgba(59,130,246,0.3))"
+                  : "var(--tl-project-border, rgba(139,92,246,0.3))",
+              color: exp.type === "work" ? "var(--tl-work-text, #60A5FA)" : "var(--tl-project-text, #A78BFA)",
             }}
           >
             {exp.type}
@@ -173,7 +183,7 @@ export const ExperienceTimeline: React.FC = () => {
           <div className="space-y-14 md:space-y-24">
             {experiences.map((exp, i) => {
               const isEven = i % 2 === 0;
-              const color = exp.type === "work" ? "#3B82F6" : "#8B5CF6";
+              const color = exp.type === "work" ? "var(--tl-work, #3B82F6)" : "var(--tl-project, #8B5CF6)";
 
               return (
                 <motion.div

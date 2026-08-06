@@ -2,8 +2,8 @@ import os
 from rembg import remove
 from PIL import Image
 
-input_path = 'public/narutome.png'
-output_path = 'public/narutome_nobg.png'
+input_path = 'public/luffyme.png'
+output_path = 'public/luffyme_nobg.png'
 
 print(f"Opening {input_path}...")
 input_image = Image.open(input_path)

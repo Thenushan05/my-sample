@@ -49,6 +49,13 @@ import { MoonPhaseBackground } from "./components/immersive/MoonPhaseBackground"
 import { MoonGlide } from "./components/immersive/MoonGlide";
 import { CrescentIcon } from "./components/ui/CrescentIcon";
 import { MjolnirIcon } from "./components/ui/MjolnirIcon";
+import { LuffyOverlay } from "./components/immersive/LuffyOverlay";
+import { Gear5Awakening } from "./components/immersive/Gear5Awakening";
+import { LuffyConsole } from "./components/immersive/LuffyConsole";
+import { LuffyLoader } from "./components/immersive/LuffyLoader";
+import { GrandLineBackground } from "./components/immersive/GrandLineBackground";
+import { StrawHatIcon } from "./components/ui/StrawHatIcon";
+import { LuffyRun } from "./components/immersive/LuffyRun";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -73,6 +80,9 @@ export function App() {
   const [isMoonKnight, setIsMoonKnight] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("moonknight")
   );
+  const [isLuffy, setIsLuffy] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("luffy")
+  );
 
   useEffect(() => {
     const syncModes = () => {
@@ -82,6 +92,7 @@ export function App() {
       setIsThor(document.documentElement.classList.contains("thor"));
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
+      setIsLuffy(document.documentElement.classList.contains("luffy"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -98,7 +109,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight, isLuffy]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -126,6 +137,8 @@ export function App() {
             <VenomLoader key="venom-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isMoonKnight ? (
             <MoonKnightLoader key="moonknight-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isLuffy ? (
+            <LuffyLoader key="luffy-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -136,9 +149,9 @@ export function App() {
       {loadingComplete && <Navbar />}
 
       {/* ── Main App Content ──────────────────────── */}
-      <div className={`relative w-full min-h-screen [.venom_&]:text-black text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
+      <div className={`relative w-full min-h-screen [.venom_&]:text-black [.luffy_&]:text-[#4a3826] text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : "#8B5CF6"}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : isLuffy ? "#C3352A" : "#8B5CF6"}
           sparkSize={isIronman || isThor ? 12 : 8}
           sparkRadius={isIronman || isThor ? 28 : 20}
           sparkCount={isIronman || isThor ? 12 : 10}
@@ -182,6 +195,12 @@ export function App() {
           {isMoonKnight && <MoonGlide />}
           {isMoonKnight && <KhonshuOverlay />}
 
+          {/* Immersive Luffy Mode Effects */}
+          {isLuffy && <GrandLineBackground />}
+          {isLuffy && <LuffyOverlay />}
+          {isLuffy && <Gear5Awakening />}
+          {isLuffy && <LuffyRun />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -191,7 +210,7 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy ? (
                 <LaptopStory />
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
@@ -347,6 +366,34 @@ export function App() {
                   <div className="relative z-20 -mt-3 flex justify-end">
                     <div className="dp-caption px-3 py-1.5 text-[11px]" style={{ transform: "rotate(1.2deg)" }}>
                       Next issue: he actually ships it. Keep scrolling →
+                    </div>
+                  </div>
+                </div>
+              ) : isLuffy ? (
+                /* Luffy gets a bounty board, not a HUD window. The board
+                   owns its own masthead, tabs and Marine seal — this wrapper
+                   only adds the pinned scraps above and below it, the same
+                   role the venom-speak balloons play for Venom. */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  <div className="relative z-20 mb-5 flex items-start justify-between gap-3">
+                    <div className="op-scrap flex items-center gap-2.5 px-4 py-2">
+                      <StrawHatIcon className="w-5 h-5" />
+                      <span className="text-sm sm:text-base">Log Pose</span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest op-faint normal-case">
+                        GRAND LINE // NEW WORLD
+                      </span>
+                    </div>
+
+                    <div className="op-scrap hidden sm:block px-3 py-1.5 text-[11px]">
+                      The bounty went up again
+                    </div>
+                  </div>
+
+                  <LuffyConsole />
+
+                  <div className="relative z-20 mt-5 flex justify-end">
+                    <div className="op-scrap px-3 py-1.5 text-[11px]">
+                      Shishishi. Keep scrolling.
                     </div>
                   </div>
                 </div>

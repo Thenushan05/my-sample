@@ -19,6 +19,14 @@
         document.documentElement.classList.add('venom');
       } else if (hero === 'moonknight') {
         document.documentElement.classList.add('moonknight');
+      } else if (hero === 'luffy') {
+        // Luffy is the one daylight theme, so unlike every branch above it
+        // has to shed 'dark' pre-paint too — the runtime toggler removes it
+        // on click, but a hard refresh reads this class straight off the
+        // static markup above, before React ever runs, and that markup is
+        // hardcoded dark.
+        document.documentElement.classList.add('luffy');
+        document.documentElement.classList.remove('dark');
       } else if (!hero) {
         var oldSpidey = localStorage.getItem('spidey_mode');
         if (oldSpidey === 'true') {

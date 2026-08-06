@@ -15,6 +15,7 @@ import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { CrescentIcon } from "../ui/CrescentIcon";
+import { StrawHatIcon } from "../ui/StrawHatIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -193,6 +194,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isMoonKnight, setIsMoonKnight] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("moonknight")
   );
+  const [isLuffy, setIsLuffy] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("luffy")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
@@ -203,6 +207,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsThor(document.documentElement.classList.contains("thor"));
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
+      setIsLuffy(document.documentElement.classList.contains("luffy"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -376,7 +381,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)] [.luffy_&]:rounded-none [.luffy_&]:bg-[#e9d5a8] [.luffy_&]:border-[2px] [.luffy_&]:border-[#241a10] [.luffy_&]:text-[#241a10] [.luffy_&]:shadow-[3px_3px_0_rgba(36,26,16,0.3)]"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -390,6 +395,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <VenomSpiderIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(233,237,242,1)] animate-pulse" />
               ) : isMoonKnight ? (
                 <CrescentIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(242,239,230,1)] animate-pulse" />
+              ) : isLuffy ? (
+                <StrawHatIcon className="w-4 h-4" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -405,6 +412,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                         ? "WE ARE VENOM • WE SHIP TOGETHER"
                         : isMoonKnight
                       ? "SERVANT OF KHONSHU • SUIT UP"
+                      : isLuffy
+                      ? "STRAW HAT CREW • FUTURE PIRATE KING"
                       : "Available for New Projects"}
             </motion.div>
 
@@ -630,7 +639,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight || isLuffy ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -1038,6 +1047,62 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 )}
               </AnimatePresence>
 
+              {/* Luffy: no "him as the character" portrait exists for this
+                  theme (unlike Deadpool/Thor/Venom/Moon Knight, each of which
+                  ships an AI-generated PNG), so rather than fabricate one or
+                  fake a photo that isn't there, the hero visual IS the bounty
+                  poster itself — the same devices the console and loader
+                  already use, scaled up. It drops in and the seal thuds down
+                  on top of it, exactly like the loader's opening beat. */}
+              <AnimatePresence>
+                {isLuffy && (
+                  <motion.div
+                    key="luffy-portrait"
+                    initial={{ opacity: 0, y: -50, rotate: -5 }}
+                    animate={{ opacity: 1, y: 0, rotate: -1.5 }}
+                    exit={{ opacity: 0, y: -30, transition: { duration: 0.35 } }}
+                    transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+                    className="op-poster op-pinned col-start-1 row-start-1 z-20 aspect-[3/4] w-auto max-w-[280px] px-5 py-6 sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
+                  >
+                    <div className="op-screentone" />
+
+                    <div className="relative z-[2] flex h-full flex-col items-center text-center">
+                      <div className="op-masthead text-2xl sm:text-3xl md:text-4xl">Wanted</div>
+                      <div className="op-label mt-1 text-[9px] sm:text-[10px]">Dead or Alive</div>
+                      <div className="mt-2 h-[2px] w-full max-w-[85%] bg-[var(--l-ink)]" />
+
+                      <div className="relative mt-4 flex flex-1 w-full items-center justify-end overflow-hidden border-2 border-[var(--l-ink)] bg-[rgba(36,26,16,0.05)]">
+                        <div className="op-speed" />
+                        <img
+                          src="/luffyme_nobg.png"
+                          alt="Luffy"
+                          className="relative z-[2] h-full w-full object-cover object-top"
+                          style={{ filter: "sepia(0.15) contrast(1.05)" }}
+                        />
+                      </div>
+
+                      <h3 className="op-masthead mt-3 text-lg sm:text-xl md:text-2xl">
+                        {personal.name}
+                      </h3>
+                      <div className="op-bounty mt-1 text-sm sm:text-base md:text-lg">
+                        Ƀ1,500,000,000
+                      </div>
+                    </div>
+
+                    {/* The seal, thudding down after the poster lands */}
+                    <motion.div
+                      initial={{ scale: 2.2, opacity: 0, rotate: -13 }}
+                      animate={{ scale: 1, opacity: 0.82, rotate: -13 }}
+                      transition={{ duration: 0.35, delay: 0.55, ease: "easeOut" }}
+                      className="op-stamp absolute -bottom-3 -right-3 flex h-14 w-14 flex-col items-center justify-center text-center text-[6px] leading-tight sm:h-16 sm:w-16 sm:text-[7px] pointer-events-none"
+                    >
+                      <span>Marine</span>
+                      <span className="text-[8px] sm:text-[9px]">認可</span>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Pixel Grid Wave - Masked strictly to the PNG subject silhouette */}
               <AnimatePresence>
                 {isSpiderman && (
@@ -1092,7 +1157,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -1123,7 +1188,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && !isLuffy && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${

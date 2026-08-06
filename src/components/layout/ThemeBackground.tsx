@@ -282,7 +282,7 @@ export const ThemeBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] transition-colors duration-700 pointer-events-none select-none">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] [.luffy_&]:bg-[#6fb7dc] transition-colors duration-700 pointer-events-none select-none">
       {/* Ambient background glows */}
       <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.95)_0%,rgba(3,7,18,1)_100%)]" />
@@ -324,7 +324,17 @@ export const ThemeBackground: React.FC = () => {
       {/* Moon Knight Ambient Glows — clean deep space */}
       <div className="absolute inset-0 hidden [.moonknight_&]:block bg-slate-950" />
 
-      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden">
+      {/* Luffy Ambient Glow — the sky's own top colour, as a fallback under
+          GrandLineBackground's canvas rather than a genuinely visible layer;
+          the canvas paints an opaque sky+sea over 100% of this region every
+          frame, so this only guards the instant before it first paints. */}
+      <div className="absolute inset-0 hidden [.luffy_&]:block bg-[#6fb7dc]" />
+
+      {/* This is the LIGHT-mode fallback wash — it shows whenever `dark` is
+          absent. Luffy is the one hero mode that runs without `dark` (see
+          SpidermanToggler), so it has to be excluded here explicitly or this
+          paints underneath GrandLineBackground for no reason. */}
+      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden [.luffy_&]:hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/20" />
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-300/10 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-300/10 rounded-full blur-[140px]" />
@@ -333,7 +343,7 @@ export const ThemeBackground: React.FC = () => {
       {/* FULLSCREEN CANVAS GEOMETRY */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden opacity-90"
+        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden [.luffy_&]:hidden opacity-90"
       />
     </div>
   );

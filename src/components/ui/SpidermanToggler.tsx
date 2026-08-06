@@ -10,9 +10,10 @@ import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
 import { MjolnirIcon } from "./MjolnirIcon"
 import { VenomSpiderIcon } from "./VenomSpiderIcon"
 import { CrescentIcon } from "./CrescentIcon"
+import { StrawHatIcon } from "./StrawHatIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight" | "luffy"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight", "luffy"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
@@ -22,6 +23,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isThor, setIsThor] = useState(false)
     const [isVenom, setIsVenom] = useState(false)
     const [isMoonKnight, setIsMoonKnight] = useState(false)
+    const [isLuffy, setIsLuffy] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -35,6 +37,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsThor(document.documentElement.classList.contains("thor"))
                 setIsVenom(document.documentElement.classList.contains("venom"))
                 setIsMoonKnight(document.documentElement.classList.contains("moonknight"))
+                setIsLuffy(document.documentElement.classList.contains("luffy"))
             }
         }
 
@@ -111,9 +114,15 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
 
     /**
      * Hero modes are mutually exclusive classes on <html>. Toggling one
-     * always clears the other two, forces dark mode (every hero palette
-     * assumes a near-black base) and persists the choice for the
-     * pre-paint boot script in index.html.
+     * always clears the others and persists the choice for the pre-paint
+     * boot script in index.html.
+     *
+     * Every hero palette except Luffy assumes a near-black base, so
+     * activating them forces `dark`. Luffy is a DAYLIGHT theme — a bounty
+     * poster on sun-bleached paper — and its stylesheet is written on the
+     * assumption `dark` is absent (see the theme block in index.css). Forcing
+     * dark on for it would mean fighting hundreds of live `dark:` utilities
+     * instead of just not turning the light switch off.
      */
     const toggleMode = useCallback((mode: HeroMode, e?: React.MouseEvent) => {
         if (e) {
@@ -133,7 +142,17 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             HERO_MODES.forEach((m) => root.classList.remove(m))
             root.classList.toggle(mode, next)
 
-            if (next) {
+            if (next && mode === "luffy") {
+                // Daylight theme: strip dark rather than force it.
+                root.classList.remove("dark")
+                localStorage.setItem("theme", "light")
+                window.dispatchEvent(new Event("themeChange"))
+            } else if (next) {
+                root.classList.add("dark")
+                localStorage.setItem("theme", "dark")
+                window.dispatchEvent(new Event("themeChange"))
+            } else if (mode === "luffy") {
+                // Turned Luffy back off directly: restore the app's dark base.
                 root.classList.add("dark")
                 localStorage.setItem("theme", "dark")
                 window.dispatchEvent(new Event("themeChange"))
@@ -146,6 +165,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsThor(next && mode === "thor")
             setIsVenom(next && mode === "venom")
             setIsMoonKnight(next && mode === "moonknight")
+            setIsLuffy(next && mode === "luffy")
             switching.current = false
         });
     }, [])
@@ -179,6 +199,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsThor(false);
             setIsVenom(false);
             setIsMoonKnight(false);
+            setIsLuffy(false);
             window.dispatchEvent(new Event("themeChange"));
         } else {
             // The toggleMode already does exactly what we need for enabling
@@ -186,7 +207,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
     }
 
-    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : "none";
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : isLuffy ? "luffy" : "none";
 
     return (
         <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
@@ -205,6 +226,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     {currentMode === "thor" && <MjolnirIcon muted={false} className="w-5 h-5 object-contain text-white" />}
                     {currentMode === "venom" && <VenomSpiderIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "moonknight" && <CrescentIcon muted={false} className="w-5 h-5 object-contain" />}
+                    {currentMode === "luffy" && <StrawHatIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "none" && (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                             <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -275,6 +297,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 <CrescentIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
                                 Moon Knight
                             </button>
+                            <button
+                                onClick={() => handleSelectMode("luffy")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "luffy" && "text-red-700 dark:text-red-500 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <StrawHatIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Luffy
+                            </button>
                         </div>
                     </motion.div>
                 )}
@@ -304,7 +333,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong> or <strong className="text-sky-300 font-bold">Thor</strong> or <strong className="text-zinc-200 font-bold">Venom</strong> or <strong className="text-amber-300 font-bold">Moon Knight</strong>!
+                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong>, <strong className="text-sky-300 font-bold">Thor</strong>, <strong className="text-zinc-200 font-bold">Venom</strong>, <strong className="text-amber-300 font-bold">Moon Knight</strong> or <strong className="text-red-400 font-bold">Luffy</strong>!
                             </p>
                         </div>
 
