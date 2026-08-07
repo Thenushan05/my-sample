@@ -556,7 +556,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="order-2 lg:order-none relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8"
+          className="order-2 lg:order-none relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8 w-full"
           onMouseEnter={updateLaserTargets}
           onMouseLeave={() => setIsLaserActive(false)}
         >
@@ -631,7 +631,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </AnimatePresence>
 
             <div
-              className={`relative z-10 grid grid-cols-1 grid-rows-1 items-center justify-center transition-all duration-700 ${
+              className={`relative z-10 grid grid-cols-1 grid-rows-1 items-center justify-center justify-items-center transition-all duration-700 ${
                 isLaserActive && isFunMode ? "scale-105" : "group-hover:scale-105"
               }`}
             >
@@ -1062,7 +1062,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     animate={{ opacity: 1, y: 0, rotate: -1.5 }}
                     exit={{ opacity: 0, y: -30, transition: { duration: 0.35 } }}
                     transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
-                    className="op-poster op-pinned col-start-1 row-start-1 z-20 aspect-[3/4] w-auto max-w-[280px] px-5 py-6 sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
+                    className="op-poster op-pinned col-start-1 row-start-1 justify-self-center mx-auto z-20 aspect-[3/4] w-auto max-w-[280px] px-5 py-6 sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
                   >
                     <div className="op-screentone" />
 
