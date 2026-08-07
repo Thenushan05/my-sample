@@ -303,7 +303,7 @@ export const GrandLineBackground: React.FC = () => {
 
       {/* One Piece logo — sits in the sky, behind page content */}
       <img
-        src="/one_piece_logo_nobg.png"
+        src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077266/portfolio/one_piece_logo_nobg.png"
         alt="One Piece"
         style={{
           position: "absolute",

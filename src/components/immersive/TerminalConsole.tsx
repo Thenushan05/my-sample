@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SpiderSuit3D } from "./SpiderSuit3D";
-import spideyLogo from "../../assets/spidey-logo-white.png";
-import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+const spideyLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 import {
   Terminal as TerminalIcon,
   BookOpen,
@@ -42,7 +42,7 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     id: "frontend",
     name: "Frontend Engineering Stack",
     designation: "REACT-TS MARK V",
-    img: "/classic_suit_blueprint.png",
+    img: "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077198/portfolio/classic_suit_blueprint.jpg",
     cadNumber: "CAD-FRONTEND-001",
     specs: {
       core: "React, TypeScript, Next.js, HTML5",
@@ -60,7 +60,7 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     id: "backend",
     name: "Backend & Database Stack",
     designation: "NODE-POSTGRES MARK II",
-    img: "/iron_spider_blueprint.png",
+    img: "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077217/portfolio/iron_spider_blueprint.jpg",
     cadNumber: "CAD-BACKEND-309",
     specs: {
       core: "Node.js, Express, FastAPI, Python",
@@ -78,7 +78,7 @@ const SUIT_BLUEPRINTS: SuitBlueprint[] = [
     id: "ai",
     name: "AI & Automation Stack",
     designation: "OPENAI-LANGCHAIN MARK I",
-    img: "/classic_suit_blueprint.png", // Using classic with CSS filters
+    img: "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077198/portfolio/classic_suit_blueprint.jpg", // Using classic with CSS filters
     cadNumber: "CAD-AI-882",
     specs: {
       core: "OpenAI API, Claude, Llama Models",

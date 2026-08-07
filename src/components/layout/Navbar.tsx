@@ -4,14 +4,15 @@ import GooeyNav from "../ui/GooeyNav";
 import { AnimatedThemeToggler } from "../ui/AnimatedThemeToggler";
 import { SpidermanToggler } from "../ui/SpidermanToggler";
 import { motion } from "framer-motion";
-import logoImg from "../../assets/logo.png";
-import spideyLogo from "../../assets/spidey-logo-white.png";
-import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+const logoImg = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077331/portfolio/logo.jpg";
+const spideyLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
 import { CrescentIcon } from "../ui/CrescentIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { StrawHatIcon } from "../ui/StrawHatIcon";
+import { KatanaIcon } from "../ui/KatanaIcon";
 
 interface NavItem {
   label: string;
@@ -44,6 +45,7 @@ export const Navbar: React.FC = () => {
   const [isMoonKnight, setIsMoonKnight] = useState(false);
   const [isVenom, setIsVenom] = useState(false);
   const [isLuffy, setIsLuffy] = useState(false);
+  const [isZoro, setIsZoro] = useState(false);
 
   useEffect(() => {
     const syncModes = () => {
@@ -54,6 +56,7 @@ export const Navbar: React.FC = () => {
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
+      setIsZoro(document.documentElement.classList.contains("zoro"));
     };
     const observer = new MutationObserver(syncModes);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });

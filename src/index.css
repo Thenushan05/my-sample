@@ -7,6 +7,10 @@
    Its own faces on purpose — every other display font here already belongs to
    another theme, and a theme that borrows type reads as a recolour. */
 @import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Rye&display=swap');
+/* Zoro: Nanum Brush Script for headings — an actual digitised brush
+   typeface with full Latin coverage, not a Japanese display face with
+   Latin bolted on as an afterthought. */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -3285,4 +3289,470 @@ html.luffy .op-stamp {
    only a grounding shadow. */
 .op-breakout img {
   filter: drop-shadow(3px 6px 4px rgba(36, 26, 16, 0.35));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Zoro "SANTORYU" — The Dojo, Ink and Steel
+   Design language: A SUMI-E SCROLL AT NIGHT.
+
+   Every hero mode so far has been maximalist about something — a HUD, a
+   comic page, a bounty poster's screentone. Zoro is the opposite kind of
+   character: disciplined, quiet, unbothered. His whole identity is one
+   brushstroke doing more than ten decorations would. So this theme is
+   sumi-e ink-wash painting — a single confident stroke, a lot of empty
+   space, no colour except the one his own outfit actually has (the deep
+   oxblood of his haramaki sash) — rendered at night, because a dojo
+   courtyard under a cold moon is the calmer, colder twin of every other
+   theme's noise.
+
+   Not a HUD (Iron Man), not a neon web (Spider-Man), not a printed comic
+   (Deadpool/Luffy), not carved runes (Thor), not a mask (Venom), not a
+   desert sky (Moon Knight). This one is BRUSH ON PAPER, IN THE DARK.
+
+   The devices below are the same idea Deadpool's caption box and Luffy's
+   bounty poster are — one motif this character owns outright:
+     .zk-scroll   the console's own surface: a hanging paper scroll
+     .zk-cut      three parallel blade-marks — Santoryu, everywhere a mark
+                  is needed, the way Venom's grin or Luffy's flag are used
+     .zk-lost     his one real running gag, staged as an actual mechanic
+                  (see ZoroOverlay) rather than a joke in the copy
+
+   Type ramp — contrast against the void (#0a0d0b) and the raised card
+   tone components actually sit on (#141815), the darker of the two being
+   the real constraint exactly the way it was for every theme before this:
+     ink      16.4:1 / 15.0:1   names, the loud voice
+     body      8.1:1 /  7.5:1   paragraphs
+     muted     5.2:1 /  4.8:1   labels, meta — the floor, not "still fine"
+     steel     9.1:1 /  8.3:1   the cold accent — AA, so it may carry text
+     haramaki  3.3:1 /  3.1:1   the hot accent — marks and fills ONLY,
+                                never body copy, same rule as every red
+                                accent in this project and for the same
+                                reason: it fails AA the moment it's asked
+                                to carry a sentence instead of a stripe.
+   ══════════════════════════════════════════════════════════════ */
+html.zoro {
+  --z-void: #0a0d0b;
+  --z-card: #141815;
+  --z-card-2: #1b211c;
+
+  --z-ink: #ececdd;
+  --z-body: #a8a89d;
+  --z-muted: #84847c;
+
+  /* The cold accent — steel, a blade catching moonlight */
+  --z-steel: #9fb4bc;
+  /* The hot accent — his haramaki, the one warm colour in the whole scene */
+  --z-haramaki: #b23a4a;
+  /* Decorative only (hair, moss, bamboo) — never asserted as text-safe */
+  --z-moss: #6f8f5c;
+
+  --z-line: rgba(236, 236, 221, 0.12);
+  --z-line-2: rgba(236, 236, 221, 0.24);
+  --z-line-3: rgba(236, 236, 221, 0.5);
+
+  --color-nav-link-active: var(--z-steel);
+  --color-border-strong: var(--z-line-2);
+  --color-card-hover-border: var(--z-haramaki);
+}
+
+html.zoro body {
+  background-color: var(--z-void) !important;
+  color: var(--z-body);
+  cursor: none !important;
+  /* The blade-tip cursor is drawn by ZoroOverlay */
+}
+
+html.zoro *,
+html.zoro *:hover {
+  cursor: none !important;
+}
+
+/* Headings: a brush wrote these, not a keyboard */
+html.zoro h1,
+html.zoro h2,
+html.zoro h3,
+html.zoro h4 {
+  font-family: 'Nanum Brush Script', 'Yuji Syuku', cursive !important;
+  letter-spacing: 0.02em;
+  color: var(--z-ink);
+  text-shadow: 0 0 24px rgba(236, 236, 221, 0.18);
+}
+
+/* Body copy stays in the site's own sans — a zen page earns its quiet by
+   NOT re-decorating every line of text, the one theme here that doesn't
+   reach for a second display font on top of the heading one. */
+
+/* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
+   positioned exactly over the <li>. If the two don't share a font and
+   letter-spacing they render at different widths and you see doubled,
+   ghosted text — so the overlay must be listed here alongside the li. */
+html.zoro button,
+html.zoro .gooey-nav-container nav ul li,
+html.zoro .gooey-nav-container nav ul li a,
+html.zoro .gooey-nav-container .effect.text {
+  font-family: 'Nanum Brush Script', 'Yuji Syuku', cursive !important;
+  letter-spacing: 0.03em;
+}
+
+/* The courtyard behind the page: near-black with the faintest cold wash
+   top-left, where a moon this theme's backdrop actually draws would sit.
+   No hue beyond the accent, and even that is barely there — restraint is
+   the whole point of this palette. */
+html.zoro body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 78% 8%, rgba(159, 180, 188, 0.1) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 60% at 20% 100%, rgba(111, 143, 92, 0.06) 0%, transparent 64%),
+    var(--z-void);
+}
+
+/* ── Utility remap ────────────────────────────────────────────
+   Picking Zoro also switches the site into `dark` (see SpidermanToggler),
+   so the app's own dark-mode utilities are already pointed the right way;
+   these only pull them onto the ink ramp so the page reads as one
+   temperature. Substring matching catches the compound `[.mode_&]:`
+   variants other themes leave behind on shared components too — matched
+   as whole class tokens (leading `^`/space-anchored), not raw substrings,
+   because a bare substring match also fires inside those OTHER themes'
+   conditional classes and silently steals their colour. That exact bug
+   shipped once already in this project; this is the fixed shape. */
+html.zoro [class^="text-blue-"], html.zoro [class*=" text-blue-"],
+html.zoro [class^="text-cyan-"], html.zoro [class*=" text-cyan-"],
+html.zoro [class^="text-sky-"], html.zoro [class*=" text-sky-"],
+html.zoro [class^="text-teal-"], html.zoro [class*=" text-teal-"],
+html.zoro [class^="text-emerald-"], html.zoro [class*=" text-emerald-"] {
+  color: var(--z-steel) !important;
+  text-shadow: none !important;
+}
+
+html.zoro [class^="text-red-"], html.zoro [class*=" text-red-"],
+html.zoro [class^="text-rose-"], html.zoro [class*=" text-rose-"],
+html.zoro [class^="text-orange-"], html.zoro [class*=" text-orange-"],
+html.zoro [class^="text-amber-"], html.zoro [class*=" text-amber-"],
+html.zoro [class^="text-violet-"], html.zoro [class*=" text-violet-"] {
+  color: var(--z-haramaki) !important;
+  text-shadow: none !important;
+}
+
+html.zoro [class^="text-white"], html.zoro [class*=" text-white"] {
+  color: var(--z-ink) !important;
+  text-shadow: none !important;
+}
+
+html.zoro [class^="text-slate-3"], html.zoro [class*=" text-slate-3"],
+html.zoro [class^="text-slate-4"], html.zoro [class*=" text-slate-4"],
+html.zoro [class^="text-gray-3"], html.zoro [class*=" text-gray-3"],
+html.zoro [class^="text-gray-4"], html.zoro [class*=" text-gray-4"],
+html.zoro [class^="text-zinc-3"], html.zoro [class*=" text-zinc-3"],
+html.zoro [class^="text-zinc-4"], html.zoro [class*=" text-zinc-4"],
+html.zoro [class^="text-neutral-3"], html.zoro [class*=" text-neutral-3"],
+html.zoro [class^="text-neutral-4"], html.zoro [class*=" text-neutral-4"] {
+  color: var(--z-body) !important;
+}
+
+html.zoro [class^="text-slate-5"], html.zoro [class*=" text-slate-5"],
+html.zoro [class^="text-slate-6"], html.zoro [class*=" text-slate-6"],
+html.zoro [class^="text-gray-5"], html.zoro [class*=" text-gray-5"],
+html.zoro [class^="text-gray-6"], html.zoro [class*=" text-gray-6"],
+html.zoro [class^="text-zinc-5"], html.zoro [class*=" text-zinc-5"],
+html.zoro [class^="text-zinc-6"], html.zoro [class*=" text-zinc-6"],
+html.zoro [class^="text-neutral-5"], html.zoro [class*=" text-neutral-5"],
+html.zoro [class^="text-neutral-6"], html.zoro [class*=" text-neutral-6"] {
+  color: var(--z-muted) !important;
+}
+
+html.zoro h1[class*="text-"],
+html.zoro h2[class*="text-"],
+html.zoro h3[class*="text-"],
+html.zoro h4[class*="text-"],
+html.zoro h5[class*="text-"],
+html.zoro h6[class*="text-"],
+html.zoro .bg-clip-text {
+  color: var(--z-ink) !important;
+  -webkit-text-fill-color: var(--z-ink) !important;
+}
+
+/* Links and buttons: bone at rest, the haramaki red only on hover — a
+   held breath, then the cut. Anything already wearing a zk- class has
+   opted into the ramp on purpose and is excluded. */
+html.zoro a[class*="text-"]:not([class*="zk-"]),
+html.zoro button[class*="text-"]:not([class*="zk-"]) {
+  color: var(--z-ink) !important;
+  -webkit-text-fill-color: var(--z-ink) !important;
+  transition: color 0.16s ease;
+}
+
+html.zoro a[class*="text-"]:not([class*="zk-"]):hover,
+html.zoro button[class*="text-"]:not([class*="zk-"]):hover {
+  color: var(--z-haramaki) !important;
+  -webkit-text-fill-color: var(--z-haramaki) !important;
+}
+
+html.zoro [class*="border-slate-"],
+html.zoro [class*="border-zinc-"],
+html.zoro [class*="border-white/"],
+html.zoro [class*="border-blue-"],
+html.zoro [class*="border-cyan-"],
+html.zoro [class*="border-emerald-"] {
+  border-color: var(--z-line-2) !important;
+}
+
+html.zoro [class*="bg-emerald-"],
+html.zoro [class*="bg-blue-"],
+html.zoro [class*="bg-cyan-"],
+html.zoro [class*="bg-teal-"],
+html.zoro [class*="bg-violet-"],
+html.zoro [class*="bg-purple-"] {
+  background-color: rgba(236, 236, 221, 0.05) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Filled gradient CTAs become a single ink-black stroke with a steel
+   rim — the calmest possible "primary button," on purpose. */
+html.zoro.zoro [class*="bg-gradient"][class*="from-blue-"][class*="text-white"],
+html.zoro.zoro [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"],
+html.zoro.zoro [class*="bg-gradient"][class*="from-violet-"][class*="text-white"],
+html.zoro.zoro [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"] {
+  background-image: none !important;
+  background-color: var(--z-card-2) !important;
+  color: var(--z-ink) !important;
+  -webkit-text-fill-color: var(--z-ink) !important;
+  border: 1px solid var(--z-line-3) !important;
+  text-shadow: none !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 8px 20px -8px rgba(0, 0, 0, 0.8) !important;
+}
+
+html.zoro.zoro [class*="bg-gradient"][class*="from-blue-"][class*="text-white"]:hover,
+html.zoro.zoro [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"]:hover,
+html.zoro.zoro [class*="bg-gradient"][class*="from-violet-"][class*="text-white"]:hover,
+html.zoro.zoro [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"]:hover {
+  border-color: var(--z-haramaki) !important;
+  box-shadow: 0 0 0 1px var(--z-haramaki), 0 0 24px -6px rgba(178, 58, 74, 0.6) !important;
+}
+
+html.zoro [class*="bg-slate-8"],
+html.zoro [class*="bg-slate-9"],
+html.zoro [class*="bg-zinc-8"],
+html.zoro [class*="bg-zinc-9"],
+html.zoro [class*="bg-neutral-8"],
+html.zoro [class*="bg-neutral-9"],
+html.zoro [class*="bg-black/9"] {
+  background-color: var(--z-card) !important;
+}
+
+html.zoro ::selection {
+  background: var(--z-haramaki);
+  color: var(--z-ink);
+}
+
+html.zoro ::-webkit-scrollbar-thumb {
+  background: var(--z-line-2);
+}
+
+html.zoro ::-webkit-scrollbar-thumb:hover {
+  background: var(--z-line-3);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   THE DEVICES
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Device 1: the scroll ─────────────────────────────────────
+   The console's own surface. A hanging kakemono, not a card: a paper
+   field with visible fibre grain, and two lacquered dowels top and
+   bottom rather than a border — a scroll is held taut by its rollers,
+   it doesn't have edges the way a panel does. */
+.zk-scroll {
+  position: relative;
+  background:
+    radial-gradient(ellipse 90% 60% at 30% 0%, rgba(236, 236, 221, 0.05) 0%, transparent 55%),
+    linear-gradient(175deg, var(--z-card-2) 0%, var(--z-card) 55%, #0d100e 100%);
+  border-left: 1px solid var(--z-line);
+  border-right: 1px solid var(--z-line);
+  color: var(--z-body);
+  box-shadow:
+    inset 0 1px 0 rgba(236, 236, 221, 0.06),
+    0 30px 70px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* Paper grain — fine, so it reads as texture, not noise */
+.zk-scroll::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: repeating-linear-gradient(
+    91deg,
+    rgba(236, 236, 221, 0.025) 0px,
+    transparent 1px 3px
+  );
+}
+
+/* The dowels, top and bottom */
+.zk-scroll-rod {
+  position: relative;
+  height: 14px;
+  background: linear-gradient(180deg, #2a231a 0%, #1a1510 50%, #100d0a 100%);
+  border-top: 1px solid rgba(236, 236, 221, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.zk-scroll-rod::before,
+.zk-scroll-rod::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #332a1e 0%, #171310 100%);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.zk-scroll-rod::before { left: -6px; }
+.zk-scroll-rod::after { right: -6px; }
+
+/* ── Device 2: Santoryu — three parallel cuts ───────────────────
+   His signature mark, used everywhere a divider, an active-state, or a
+   corner accent is needed — the equivalent of Venom's grin or Deadpool's
+   caption box. Three strokes, staggered length, never symmetrical: a real
+   sword cut doesn't land as a neat set of even lines. */
+.zk-cut {
+  position: relative;
+  height: 14px;
+}
+
+.zk-cut::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(78deg, transparent 42%, var(--z-ink) 43%, var(--z-ink) 45%, transparent 46%),
+    linear-gradient(78deg, transparent 47%, var(--z-ink) 48%, var(--z-ink) 50%, transparent 51%),
+    linear-gradient(78deg, transparent 52%, var(--z-ink) 53%, var(--z-ink) 54%, transparent 55%);
+  opacity: 0.75;
+  filter: drop-shadow(0 0 6px rgba(236, 236, 221, 0.4));
+}
+
+/* The haramaki-red variant, for an active/selected cut */
+.zk-cut--live::before {
+  background-image:
+    linear-gradient(78deg, transparent 42%, var(--z-haramaki) 43%, var(--z-haramaki) 45%, transparent 46%),
+    linear-gradient(78deg, transparent 47%, var(--z-haramaki) 48%, var(--z-haramaki) 50%, transparent 51%),
+    linear-gradient(78deg, transparent 52%, var(--z-haramaki) 53%, var(--z-haramaki) 54%, transparent 55%);
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(178, 58, 74, 0.6));
+}
+
+/* ── Device 3: the brush stroke ───────────────────────────────
+   A tapered ink rule — thick where the brush first touched down, thin
+   where it lifted off — used as a section divider or underline in place
+   of a straight CSS border, which would look drawn with a ruler instead
+   of a hand. */
+.zk-brush {
+  height: 6px;
+  background: linear-gradient(90deg, var(--z-ink) 0%, var(--z-ink) 55%, rgba(236, 236, 221, 0.3) 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, black 0%, black 40%, rgba(0,0,0,0.7) 70%, transparent 100%);
+  mask-image: linear-gradient(90deg, black 0%, black 40%, rgba(0,0,0,0.7) 70%, transparent 100%);
+  clip-path: polygon(0% 15%, 100% 0%, 100% 60%, 0% 100%);
+  opacity: 0.85;
+}
+
+/* ── Device 4: the tag ────────────────────────────────────────
+   A small haramaki-wrapped chip, for tabs and pills. Fabric-wrap, not
+   paper — the one place cloth texture belongs in an otherwise ink-only
+   theme, because it is literally the one piece of coloured cloth he wears. */
+.zk-tag {
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #201a19 0%, #140f0f 100%);
+  border: 1px solid var(--z-line);
+  color: var(--z-body);
+  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.zk-tag:hover {
+  color: var(--z-ink);
+  border-color: var(--z-line-3);
+}
+
+.zk-tag[data-active="true"] {
+  color: var(--z-ink);
+  background: linear-gradient(180deg, #3a1620 0%, #230e14 100%);
+  border-color: var(--z-haramaki);
+  box-shadow: 0 0 0 1px rgba(178, 58, 74, 0.35), 0 0 18px -4px rgba(178, 58, 74, 0.5);
+}
+
+/* Meter track + fill, for stat bars — a blade being drawn from its sheath */
+.zk-meter {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--z-line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.zk-meter > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--z-steel) 0%, var(--z-ink) 100%);
+  box-shadow: 0 0 10px rgba(159, 180, 188, 0.6);
+}
+
+/* Type helpers */
+.zk-ink { color: var(--z-ink); }
+.zk-body { color: var(--z-body); }
+.zk-muted { color: var(--z-muted); }
+.zk-steel { color: var(--z-steel); }
+.zk-haramaki { color: var(--z-haramaki); }
+
+.zk-label {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--z-muted);
+  font-size: 0.6875rem;
+}
+
+.zk-sunken {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--z-line);
+}
+
+/* ── Device 5: the lost compass ───────────────────────────────
+   His one real character trait, staged as a mechanic, not a joke in the
+   copy — see ZoroOverlay. The needle itself: a thin ink sliver, and it is
+   allowed to be visibly, comedically wrong. */
+.zk-compass {
+  border: 1.5px solid var(--z-line-3);
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, rgba(236, 236, 221, 0.08) 0%, rgba(0, 0, 0, 0.4) 70%);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.zk-compass-needle {
+  background: linear-gradient(180deg, var(--z-haramaki) 0%, var(--z-haramaki) 48%, var(--z-ink) 52%, var(--z-ink) 100%);
+}
+
+/* Ink bleeding outward on hover — the one "wet" moment this dry theme
+   allows itself, for interactive marks specifically */
+@keyframes zk-bleed {
+  0% { box-shadow: 0 0 0 0 rgba(236, 236, 221, 0.35); }
+  100% { box-shadow: 0 0 0 10px rgba(236, 236, 221, 0); }
+}
+
+.zk-press:active {
+  animation: zk-bleed 0.5s ease-out;
+}
+
+/* Slow drift for backdrop mist bands */
+@keyframes zk-drift {
+  0% { transform: translateX(-6%); }
+  100% { transform: translateX(6%); }
 }

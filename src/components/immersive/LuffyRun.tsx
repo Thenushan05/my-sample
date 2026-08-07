@@ -158,7 +158,7 @@ export const LuffyRun: React.FC = () => {
 
       {/* Luffy GIF */}
       <img
-        src="/luggif.gif"
+        src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077244/portfolio/luggif.gif"
         alt="Luffy running"
         style={{
           position: "absolute",

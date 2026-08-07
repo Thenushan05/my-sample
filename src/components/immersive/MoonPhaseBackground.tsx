@@ -83,7 +83,7 @@ export const MoonPhaseBackground: React.FC = () => {
     let duneLayer: HTMLCanvasElement | null = null;
 
     const moonImg = new Image();
-    moonImg.src = "/mk-realistic-moon.png";
+    moonImg.src = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077251/portfolio/mk-realistic-moon.jpg";
 
     const moonGeometry = () => ({
       cx: width * 0.5,

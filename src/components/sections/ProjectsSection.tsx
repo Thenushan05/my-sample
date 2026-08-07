@@ -32,7 +32,7 @@ export const ProjectsSection: React.FC = () => {
           of its own, just fills space that was already going unused.
           Unframed: a dynamic pose loses its energy boxed into a photo. */}
       <div className="op-breakout hidden [.luffy_&]:block absolute -right-6 top-1/4 w-40 rotate-[-4deg] opacity-90 pointer-events-none sm:w-52 lg:-right-2 lg:w-60">
-        <img src="/luffy1.png" alt="" className="block w-full" />
+        <img src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077223/portfolio/luffy1.png" alt="" className="block w-full" />
       </div>
       {/* PS4 Menu Background (Spiderman) */}
       <div className="absolute inset-0 pointer-events-none opacity-0 [.spiderman_&]:opacity-100 transition-opacity duration-700 -z-10 bg-black/40 backdrop-blur-xl border-y border-red-500/20" />

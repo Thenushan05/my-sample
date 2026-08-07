@@ -1,5 +1,5 @@
-import spideyLogoSrc from '../../../assets/spidey-logo-white.png';
-import arcReactorLogoSrc from '../../../assets/arc-reactor-logo.png';
+const spideyLogoSrc = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogoSrc = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 
 /**
  * Generates a data URL for a custom ID card face with the given name and title.

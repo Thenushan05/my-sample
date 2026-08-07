@@ -4,8 +4,8 @@ import { skillCategories, techStack } from "../../data/skills";
 import { SectionHeading } from "../ui/SectionHeading";
 import { GlassCard } from "../ui/GlassCard";
 import { IconCloud } from "../ui/IconCloud";
-import spideyLogo from "../../assets/spidey-logo-white.png";
-import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+const spideyLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 
 const slugs = [
   "typescript",

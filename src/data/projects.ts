@@ -35,7 +35,7 @@ export const projects: Project[] = [
     caseStudyUrl: "#",
     featured: true,
     gradient: "from-blue-600 to-violet-600",
-    images: ["/project-education.png", "/project-education-2.png"],
+    images: ["https://res.cloudinary.com/dbotzlymk/image/upload/v1786077278/portfolio/project-education.jpg", "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077275/portfolio/project-education-2.jpg"],
     integrations: [
       { name: "React", icon: "react", color: "#61dafb" },
       { name: "FastAPI", icon: "api", color: "#009688" },
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     caseStudyUrl: "#",
     featured: true,
     gradient: "from-cyan-500 to-blue-600",
-    images: ["/project-tourism.png", "/project-tourism-2.png"],
+    images: ["https://res.cloudinary.com/dbotzlymk/image/upload/v1786077295/portfolio/project-tourism.jpg", "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077292/portfolio/project-tourism-2.jpg"],
     integrations: [
       { name: "Next.js", icon: "react", color: "#000000" },
       { name: "Python", icon: "code", color: "#3776ab" },
@@ -83,7 +83,7 @@ export const projects: Project[] = [
     caseStudyUrl: "#",
     featured: true,
     gradient: "from-teal-500 to-cyan-600",
-    images: ["/project-seafood.png", "/project-seafood-2.png"],
+    images: ["https://res.cloudinary.com/dbotzlymk/image/upload/v1786077289/portfolio/project-seafood.jpg", "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077287/portfolio/project-seafood-2.jpg"],
     integrations: [
       { name: "React", icon: "react", color: "#61dafb" },
       { name: "Node.js", icon: "code", color: "#339933" },
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     caseStudyUrl: "#",
     featured: true,
     gradient: "from-green-500 to-emerald-600",
-    images: ["/project-plant.png", "/project-plant-2.png"],
+    images: ["https://res.cloudinary.com/dbotzlymk/image/upload/v1786077284/portfolio/project-plant.jpg", "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077281/portfolio/project-plant-2.jpg"],
     integrations: [
       { name: "Python", icon: "code", color: "#3776ab" },
       { name: "TensorFlow", icon: "brain", color: "#ff6f00" },

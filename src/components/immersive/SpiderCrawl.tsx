@@ -94,7 +94,7 @@ export const SpiderCrawl: React.FC = () => {
         className="-mt-4 flex flex-col items-center pointer-events-auto select-none group"
       >
         <img
-          src="/4576132-middle-Picsart-BackgroundRemover.png"
+          src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077189/portfolio/4576132-middle-Picsart-BackgroundRemover.png"
           alt="Spider-Man Hanging"
           draggable={false}
           className="w-48 sm:w-56 md:w-64 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.85)] transition-transform duration-200 group-hover:scale-105"

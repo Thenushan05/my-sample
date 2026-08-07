@@ -36,7 +36,7 @@ export const IronManWalk: React.FC = () => {
           className="relative h-40 md:h-56 mb-2"
         >
           <img 
-            src="/12773.gif"
+            src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077184/portfolio/12773.gif"
             alt="Iron Man Walking"
             className="h-full w-auto object-contain drop-shadow-[0_10px_20px_rgba(220,38,38,0.4)]"
             style={{ 

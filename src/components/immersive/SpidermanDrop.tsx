@@ -34,7 +34,7 @@ export const SpidermanDrop: React.FC = () => {
             <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-white blur-md rounded-full" />
             
             <img 
-              src="/e01c53683465d1222380d29e5cc77837.gif"
+              src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077206/portfolio/e01c53683465d1222380d29e5cc77837.gif"
               alt="Spider-Man Drop"
               className="w-48 sm:w-72 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]"
               style={{ 

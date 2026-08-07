@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 import {
   Terminal as TerminalIcon,
   BookOpen,

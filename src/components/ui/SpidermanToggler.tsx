@@ -4,16 +4,17 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
 import { getLenis } from "../../hooks/useLenis"
-import spideyLogo from "../../assets/spidey-logo-white.png"
-import arcReactorLogo from "../../assets/arc-reactor-logo.png"
+const spideyLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "./DeadpoolMaskIcon"
 import { MjolnirIcon } from "./MjolnirIcon"
 import { VenomSpiderIcon } from "./VenomSpiderIcon"
 import { CrescentIcon } from "./CrescentIcon"
 import { StrawHatIcon } from "./StrawHatIcon"
+import { KatanaIcon } from "./KatanaIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight" | "luffy"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight", "luffy"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight" | "luffy" | "zoro"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight", "luffy", "zoro"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
@@ -24,6 +25,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isVenom, setIsVenom] = useState(false)
     const [isMoonKnight, setIsMoonKnight] = useState(false)
     const [isLuffy, setIsLuffy] = useState(false)
+    const [isZoro, setIsZoro] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -38,6 +40,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsVenom(document.documentElement.classList.contains("venom"))
                 setIsMoonKnight(document.documentElement.classList.contains("moonknight"))
                 setIsLuffy(document.documentElement.classList.contains("luffy"))
+                setIsZoro(document.documentElement.classList.contains("zoro"))
             }
         }
 
@@ -166,6 +169,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsVenom(next && mode === "venom")
             setIsMoonKnight(next && mode === "moonknight")
             setIsLuffy(next && mode === "luffy")
+            setIsZoro(next && mode === "zoro")
             switching.current = false
         });
     }, [])
@@ -200,6 +204,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsVenom(false);
             setIsMoonKnight(false);
             setIsLuffy(false);
+            setIsZoro(false);
             window.dispatchEvent(new Event("themeChange"));
         } else {
             // The toggleMode already does exactly what we need for enabling
@@ -207,7 +212,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
     }
 
-    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : isLuffy ? "luffy" : "none";
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : isLuffy ? "luffy" : isZoro ? "zoro" : "none";
 
     return (
         <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
@@ -227,6 +232,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     {currentMode === "venom" && <VenomSpiderIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "moonknight" && <CrescentIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "luffy" && <StrawHatIcon muted={false} className="w-5 h-5 object-contain" />}
+                    {currentMode === "zoro" && <KatanaIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "none" && (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                             <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -304,6 +310,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 <StrawHatIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
                                 Luffy
                             </button>
+                            <button
+                                onClick={() => handleSelectMode("zoro")}
+                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "zoro" && "text-emerald-700 dark:text-emerald-400 font-bold bg-slate-50 dark:bg-slate-800/50")}
+                            >
+                                <KatanaIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
+                                Zoro
+                            </button>
                         </div>
                     </motion.div>
                 )}
@@ -333,7 +346,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 </button>
                             </div>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong>, <strong className="text-sky-300 font-bold">Thor</strong>, <strong className="text-zinc-200 font-bold">Venom</strong>, <strong className="text-amber-300 font-bold">Moon Knight</strong> or <strong className="text-red-400 font-bold">Luffy</strong>!
+                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong>, <strong className="text-sky-300 font-bold">Thor</strong>, <strong className="text-zinc-200 font-bold">Venom</strong>, <strong className="text-amber-300 font-bold">Moon Knight</strong>, <strong className="text-red-400 font-bold">Luffy</strong> or <strong className="text-emerald-400 font-bold">Zoro</strong>!
                             </p>
                         </div>
 

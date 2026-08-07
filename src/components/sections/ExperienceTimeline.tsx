@@ -225,7 +225,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <div className="hidden md:flex md:items-center md:justify-center">
                         {i === 0 && (
                           <div className="op-insert hidden [.luffy_&]:block w-28 rotate-[2deg] p-2 sm:w-32">
-                            <img src="/luffy2.png" alt="" className="block w-full" />
+                            <img src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077224/portfolio/luffy2.png" alt="" className="block w-full" />
                           </div>
                         )}
                       </div>
@@ -235,7 +235,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <div className="hidden md:flex md:items-center md:justify-center">
                         {i === 1 && (
                           <div className="op-breakout hidden [.luffy_&]:block w-24 rotate-[-3deg] sm:w-28">
-                            <img src="/luffy4.png" alt="" className="block w-full" />
+                            <img src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077228/portfolio/luffy4.png" alt="" className="block w-full" />
                           </div>
                         )}
                       </div>

@@ -4,7 +4,7 @@ import { personal } from "../../data/personal";
 import { SectionHeading } from "../ui/SectionHeading";
 import Lanyard from "../ui/Lanyard/Lanyard";
 import { generateCardFace } from "../ui/Lanyard/generateCardFace";
-import profileImage from "../../assets/profile.png";
+const profileImage = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077336/portfolio/profile.png";
 
 export const AboutSection: React.FC = () => {
   const [cardFrontImage, setCardFrontImage] = useState<string | null>(null);
@@ -19,7 +19,7 @@ export const AboutSection: React.FC = () => {
     let active = true;
     const name = isIronman ? "Tony Stark" : isSpiderman ? "Peter Parker" : "Thenushan Sritharan";
     const title = isIronman ? "Genius, Billionaire, Engineer" : isSpiderman ? "Friendly Neighborhood Hero" : "Software Engineer";
-    const img = isIronman ? "/ironman_nomask.png" : isSpiderman ? "/spiderman_nomask.png" : profileImage;
+    const img = isIronman ? "/ironman_nomask.png" : isSpiderman ? "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png" : profileImage;
 
     generateCardFace(name, title, img, isSpiderman, isIronman).then((url) => {
       if (active) setCardFrontImage(url);
@@ -96,7 +96,7 @@ export const AboutSection: React.FC = () => {
                 positioned rather than a flow child, so it never pushes the
                 stats grid or adds to this column's height. */}
             <div className="op-badge hidden [.luffy_&]:flex absolute bottom-0 right-0 h-16 w-16 translate-x-1/2 items-center justify-center overflow-hidden lg:h-20 lg:w-20">
-              <img src="/luffy5.png" alt="" className="h-[130%] w-[130%] object-cover object-[50%_20%]" />
+              <img src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077230/portfolio/luffy5.png" alt="" className="h-[130%] w-[130%] object-cover object-[50%_20%]" />
             </div>
           </motion.div>
 

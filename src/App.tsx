@@ -56,6 +56,11 @@ import { LuffyLoader } from "./components/immersive/LuffyLoader";
 import { GrandLineBackground } from "./components/immersive/GrandLineBackground";
 import { StrawHatIcon } from "./components/ui/StrawHatIcon";
 import { LuffyRun } from "./components/immersive/LuffyRun";
+import { ZoroOverlay } from "./components/immersive/ZoroOverlay";
+import { ZoroConsole } from "./components/immersive/ZoroConsole";
+import { ZoroLoader } from "./components/immersive/ZoroLoader";
+import { DojoBackground } from "./components/immersive/DojoBackground";
+import { KatanaIcon } from "./components/ui/KatanaIcon";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -83,6 +88,9 @@ export function App() {
   const [isLuffy, setIsLuffy] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("luffy")
   );
+  const [isZoro, setIsZoro] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("zoro")
+  );
 
   useEffect(() => {
     const syncModes = () => {
@@ -93,6 +101,7 @@ export function App() {
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
+      setIsZoro(document.documentElement.classList.contains("zoro"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
@@ -109,7 +118,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight, isLuffy]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight, isLuffy, isZoro]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -139,6 +148,8 @@ export function App() {
             <MoonKnightLoader key="moonknight-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isLuffy ? (
             <LuffyLoader key="luffy-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isZoro ? (
+            <ZoroLoader key="zoro-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -151,7 +162,7 @@ export function App() {
       {/* ── Main App Content ──────────────────────── */}
       <div className={`relative w-full min-h-screen [.venom_&]:text-black [.luffy_&]:text-[#4a3826] text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : isLuffy ? "#C3352A" : "#8B5CF6"}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : isLuffy ? "#C3352A" : isZoro ? "#9FB4BC" : "#8B5CF6"}
           sparkSize={isIronman || isThor ? 12 : 8}
           sparkRadius={isIronman || isThor ? 28 : 20}
           sparkCount={isIronman || isThor ? 12 : 10}
@@ -201,6 +212,10 @@ export function App() {
           {isLuffy && <Gear5Awakening />}
           {isLuffy && <LuffyRun />}
 
+          {/* Immersive Zoro Mode Effects */}
+          {isZoro && <DojoBackground />}
+          {isZoro && <ZoroOverlay />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -210,7 +225,7 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro ? (
                 <LaptopStory />
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
@@ -394,6 +409,34 @@ export function App() {
                   <div className="relative z-20 mt-5 flex justify-end">
                     <div className="op-scrap px-3 py-1.5 text-[11px]">
                       Shishishi. Keep scrolling.
+                    </div>
+                  </div>
+                </div>
+              ) : isZoro ? (
+                /* Zoro gets a hanging scroll, not a HUD window. The scroll
+                   owns its own masthead, dowels and cut divider — this
+                   wrapper only adds the two terse notes above and below,
+                   the same supporting role Luffy's pinned scraps play. */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  <div className="relative z-20 mb-5 flex items-start justify-between gap-3">
+                    <div className="zk-tag flex items-center gap-2.5 rounded-sm px-4 py-2">
+                      <KatanaIcon className="w-5 h-5" />
+                      <span className="text-sm sm:text-base">The Dojo</span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest zk-muted normal-case">
+                        DIRECTION UNKNOWN
+                      </span>
+                    </div>
+
+                    <div className="zk-tag hidden rounded-sm px-3 py-1.5 text-[11px] sm:block">
+                      Nothing happened.
+                    </div>
+                  </div>
+
+                  <ZoroConsole />
+
+                  <div className="relative z-20 mt-5 flex justify-end">
+                    <div className="zk-tag rounded-sm px-3 py-1.5 text-[11px]">
+                      Keep scrolling. I'll catch up. Eventually.
                     </div>
                   </div>
                 </div>

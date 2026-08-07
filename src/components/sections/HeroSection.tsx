@@ -8,14 +8,15 @@ import { ShareButton } from "../ui/ShareButton";
 import { Antigravity } from "../immersive/Antigravity";
 import { IronManFlight } from "../immersive/IronManFlight";
 import { IronManWalk } from "../immersive/IronManWalk";
-import profileImage from "../../assets/profile.png";
-import spideyLogo from "../../assets/spidey-logo-white.png";
-import arcReactorLogo from "../../assets/arc-reactor-logo.png";
+const profileImage = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077336/portfolio/profile.png";
+const spideyLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077342/portfolio/spidey-logo-white.png";
+const arcReactorLogo = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077325/portfolio/arc-reactor-logo.png";
 import { DeadpoolMaskIcon } from "../ui/DeadpoolMaskIcon";
 import { MjolnirIcon } from "../ui/MjolnirIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { CrescentIcon } from "../ui/CrescentIcon";
 import { StrawHatIcon } from "../ui/StrawHatIcon";
+import { KatanaIcon } from "../ui/KatanaIcon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,10 +76,10 @@ const LASER_COLORS = [
   },
 ];
 
-const DEADPOOL_PORTRAIT = "/deadpoolme_nobg.png";
-const THOR_PORTRAIT = "/thorme_nobg.png";
-const VENOM_PORTRAIT = "/venom-nobg.png";
-const MOONKNIGHT_PORTRAIT = "/moonme_nobg.png";
+const DEADPOOL_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077202/portfolio/deadpoolme_nobg.png";
+const THOR_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077313/portfolio/thorme_nobg.png";
+const VENOM_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077316/portfolio/venom-nobg.png";
+const MOONKNIGHT_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077258/portfolio/moonme_nobg.png";
 
 /**
  * The symbiote spread.
@@ -197,6 +198,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isLuffy, setIsLuffy] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("luffy")
   );
+  const [isZoro, setIsZoro] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("zoro")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
 
   useEffect(() => {
@@ -208,6 +212,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
+      setIsZoro(document.documentElement.classList.contains("zoro"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -381,7 +386,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)] [.luffy_&]:rounded-none [.luffy_&]:bg-[#e9d5a8] [.luffy_&]:border-[2px] [.luffy_&]:border-[#241a10] [.luffy_&]:text-[#241a10] [.luffy_&]:shadow-[3px_3px_0_rgba(36,26,16,0.3)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)] [.luffy_&]:rounded-none [.luffy_&]:bg-[#e9d5a8] [.luffy_&]:border-[2px] [.luffy_&]:border-[#241a10] [.luffy_&]:text-[#241a10] [.luffy_&]:shadow-[3px_3px_0_rgba(36,26,16,0.3)] [.zoro_&]:rounded-sm [.zoro_&]:bg-[#141815] [.zoro_&]:border-[#ececdd]/25 [.zoro_&]:text-[#ececdd] [.zoro_&]:shadow-none"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -397,6 +402,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <CrescentIcon className="w-4 h-4 drop-shadow-[0_0_7px_rgba(242,239,230,1)] animate-pulse" />
               ) : isLuffy ? (
                 <StrawHatIcon className="w-4 h-4" />
+              ) : isZoro ? (
+                <KatanaIcon className="w-4 h-4" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -414,6 +421,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       ? "SERVANT OF KHONSHU • SUIT UP"
                       : isLuffy
                       ? "STRAW HAT CREW • FUTURE PIRATE KING"
+                      : isZoro
+                      ? "THREE SWORD STYLE • WRONG WAY, PROBABLY"
                       : "Available for New Projects"}
             </motion.div>
 
@@ -639,7 +648,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight || isLuffy ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight || isLuffy || isZoro ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -655,7 +664,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1)" }}
                     exit={{ clipPath: "inset(100% 0 0 0)" }}
                     transition={{ duration: 1.4, ease: "easeInOut" }}
-                    src="/spiderman_nomask.png"
+                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png"
                     alt="Spidey Suit"
                     style={{
                       maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -673,7 +682,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1.1) saturate(1.2)" }}
                     exit={{ clipPath: "inset(100% 0 0 0)" }}
                     transition={{ duration: 1.4, ease: "easeInOut" }}
-                    src="/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png"
+                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077193/portfolio/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png"
                     alt="Iron Man Mark LXXXV Suit"
                     onClick={() => setIsMaskOn(!isMaskOn)}
                     style={{
@@ -693,7 +702,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                     animate={{ clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", filter: "brightness(1) saturate(1)" }}
                     exit={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", filter: "brightness(1.5) saturate(1.5)", transition: { duration: 0.5 } }}
                     transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
-                    src="/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.jpg"
+                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077187/portfolio/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.png"
                     alt="Iron Man Helmet Transformed"
                     onClick={() => setIsMaskOn(false)}
                     style={{ cursor: 'pointer' }}
@@ -1074,7 +1083,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       <div className="relative mt-4 flex flex-1 w-full items-center justify-end overflow-hidden border-2 border-[var(--l-ink)] bg-[rgba(36,26,16,0.05)]">
                         <div className="op-speed" />
                         <img
-                          src="/luffyme_nobg.png"
+                          src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077240/portfolio/luffyme_nobg.png"
                           alt="Luffy"
                           className="relative z-[2] h-full w-full object-cover object-top"
                           style={{ filter: "sepia(0.15) contrast(1.05)" }}
@@ -1099,6 +1108,74 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       <span>Marine</span>
                       <span className="text-[8px] sm:text-[9px]">認可</span>
                     </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Zoro: no portrait either, and for the same reason as Luffy
+                  — there is no generated likeness for this character, so the
+                  hero visual is the theme's own device (the scroll) rather
+                  than a fabricated photo. Where Luffy's replacement is loud
+                  (a poster dropping in, a seal thudding down), this one is
+                  the opposite on purpose: three strokes draw themselves in,
+                  a slow breathing ring around the mark, and nothing else
+                  moves — restraint IS the visual, the same rule the whole
+                  theme follows. */}
+              <AnimatePresence>
+                {isZoro && (
+                  <motion.div
+                    key="zoro-portrait"
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20, transition: { duration: 0.35 } }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    className="zk-scroll col-start-1 row-start-1 justify-self-center mx-auto z-20 aspect-[3/4] w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
+                  >
+                    <div className="zk-scroll-rod" />
+
+                    <div className="relative flex h-[calc(100%-28px)] flex-col items-center justify-center px-6 py-6 text-center">
+                      {/* Breathing ink rings behind the mark */}
+                      <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+                        {[0, 1].map((ring) => (
+                          <motion.span
+                            key={ring}
+                            animate={{ scale: [1, 1.5], opacity: [0.35, 0] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeOut", delay: ring * 1.5 }}
+                            className="absolute inset-0 rounded-full border border-[var(--z-line-3)]"
+                          />
+                        ))}
+                        <KatanaIcon className="relative z-[2] h-16 w-16 sm:h-20 sm:w-20" />
+                      </div>
+
+                      <h3
+                        className="mt-4 text-2xl sm:text-3xl"
+                        style={{ fontFamily: "'Nanum Brush Script', cursive", color: "#ececdd" }}
+                      >
+                        {personal.name}
+                      </h3>
+                      <div className="zk-label mt-1">Three Sword Style</div>
+
+                      <div className="zk-cut mt-4 w-full max-w-[70%]" />
+
+                      <p className="mt-4 max-w-xs text-[11px] italic leading-relaxed zk-muted">
+                        “I'll become the world's greatest swordsman. That's a promise.”
+                      </p>
+                    </div>
+
+                    {/* The dojo seal, in the corner rather than thudding down
+                        — even his stamp is calmer than Luffy's */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 1.4 }}
+                      animate={{ opacity: 0.85, scale: 1 }}
+                      transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
+                      className="absolute -bottom-2 -right-2 flex h-12 w-12 flex-col items-center justify-center rounded-full border-2 border-[var(--z-haramaki)] bg-[var(--z-card)] text-center text-[7px] leading-tight zk-haramaki pointer-events-none sm:h-14 sm:w-14"
+                      style={{ transform: "rotate(-8deg)" }}
+                    >
+                      <span>DOJO</span>
+                      <span className="text-[8px]">III</span>
+                    </motion.div>
+
+                    <div className="zk-scroll-rod" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1157,7 +1234,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -1188,7 +1265,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && !isLuffy && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && !isLuffy && !isZoro && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
