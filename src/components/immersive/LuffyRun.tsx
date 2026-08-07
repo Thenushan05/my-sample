@@ -77,6 +77,10 @@ export const LuffyRun: React.FC = () => {
     frameRef.current = requestAnimationFrame(animate);
 
     // Start first dialog after a short delay
+    // Preload gif
+    const img = new Image();
+    img.src = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077244/portfolio/luggif.gif";
+
     dialogTimerRef.current = setTimeout(showRandomDialog, 1500);
 
     return () => {

@@ -19,7 +19,7 @@ export const AboutSection: React.FC = () => {
     let active = true;
     const name = isIronman ? "Tony Stark" : isSpiderman ? "Peter Parker" : "Thenushan Sritharan";
     const title = isIronman ? "Genius, Billionaire, Engineer" : isSpiderman ? "Friendly Neighborhood Hero" : "Software Engineer";
-    const img = isIronman ? "/ironman_nomask.png" : isSpiderman ? "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png" : profileImage;
+    const img = isIronman ? "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077193/portfolio/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png" : isSpiderman ? "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png" : profileImage;
 
     generateCardFace(name, title, img, isSpiderman, isIronman).then((url) => {
       if (active) setCardFrontImage(url);

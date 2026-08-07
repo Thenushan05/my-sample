@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate } from "framer-motion";
 
 const WebAnchorSplatSVG: React.FC = () => (
@@ -29,6 +29,11 @@ export const SpiderCrawl: React.FC = () => {
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
   const yPos = useTransform(scrollYProgress, [0, 1], ["10vh", "78vh"]);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077189/portfolio/4576132-middle-Picsart-BackgroundRemover.png";
+  }, []);
 
   // Hardcoded web alignment coordinates provided by user
   const WEB_OFFSET_X = 6;

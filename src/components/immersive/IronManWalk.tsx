@@ -2,6 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export const IronManWalk: React.FC = () => {
+  React.useEffect(() => {
+    const img = new Image();
+    img.src = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077184/portfolio/12773.gif";
+  }, []);
+
   return (
     <>
       {/* SVG Filter to dynamically remove pure white backgrounds */}

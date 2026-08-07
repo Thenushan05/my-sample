@@ -5,6 +5,9 @@ export const SpidermanDrop: React.FC = () => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
+    const img = new Image();
+    img.src = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077206/portfolio/e01c53683465d1222380d29e5cc77837.gif";
+
     // Unmount after 8.5 seconds when the slowed-down animation finishes
     const timer = setTimeout(() => {
       setShow(false);

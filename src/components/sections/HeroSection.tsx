@@ -17,6 +17,9 @@ import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { CrescentIcon } from "../ui/CrescentIcon";
 import { StrawHatIcon } from "../ui/StrawHatIcon";
 import { KatanaIcon } from "../ui/KatanaIcon";
+import { ZoroAshura } from "../immersive/ZoroAshura";
+import { NarutoIcon } from "../ui/NarutoIcon";
+import { NarutoKurama } from "../immersive/NarutoKurama";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,10 +79,26 @@ const LASER_COLORS = [
   },
 ];
 
+const SPIDERMAN_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png";
+const IRONMAN_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077193/portfolio/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png";
+const IRONMAN_HELMET_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077187/portfolio/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.png";
 const DEADPOOL_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077202/portfolio/deadpoolme_nobg.png";
 const THOR_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077313/portfolio/thorme_nobg.png";
 const VENOM_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077316/portfolio/venom-nobg.png";
 const MOONKNIGHT_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077258/portfolio/moonme_nobg.png";
+const LUFFY_PORTRAIT = "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077240/portfolio/luffyme_nobg.png";
+
+const HERO_PORTRAIT_URLS = [
+  profileImage,
+  SPIDERMAN_PORTRAIT,
+  IRONMAN_PORTRAIT,
+  IRONMAN_HELMET_PORTRAIT,
+  DEADPOOL_PORTRAIT,
+  THOR_PORTRAIT,
+  VENOM_PORTRAIT,
+  MOONKNIGHT_PORTRAIT,
+  LUFFY_PORTRAIT,
+];
 
 /**
  * The symbiote spread.
@@ -201,7 +220,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
   const [isZoro, setIsZoro] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("zoro")
   );
+  const [isNaruto, setIsNaruto] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("naruto")
+  );
   const [isMaskOn, setIsMaskOn] = useState(false);
+  const [loadedPortraits, setLoadedPortraits] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    HERO_PORTRAIT_URLS.forEach((url) => {
+      if (!url) return;
+      const img = new Image();
+      const markLoaded = () => {
+        setLoadedPortraits((prev) => (prev[url] ? prev : { ...prev, [url]: true }));
+      };
+      img.onload = markLoaded;
+      img.onerror = markLoaded;
+      img.src = url;
+      if (img.complete) markLoaded();
+    });
+  }, []);
+
+  const isReady = (url: string) => !!loadedPortraits[url];
 
   useEffect(() => {
     const syncHeroModes = () => {
@@ -213,6 +252,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
       setIsZoro(document.documentElement.classList.contains("zoro"));
+      setIsNaruto(document.documentElement.classList.contains("naruto"));
     };
     syncHeroModes();
     const observer = new MutationObserver(syncHeroModes);
@@ -379,14 +419,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
         />
       </div>
 
-      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
-        <div className="max-lg:contents lg:flex-1 lg:max-w-2xl lg:flex lg:flex-col text-center lg:text-left w-full">
+      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10 [.naruto_&]:lg:[direction:rtl]">
+        <div className="max-lg:contents lg:flex-1 lg:max-w-2xl lg:flex lg:flex-col text-center lg:text-left w-full [.naruto_&]:lg:[direction:ltr]">
           <div className="hero-fade-element order-1 flex flex-col items-center lg:items-start w-full">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)] [.luffy_&]:rounded-none [.luffy_&]:bg-[#e9d5a8] [.luffy_&]:border-[2px] [.luffy_&]:border-[#241a10] [.luffy_&]:text-[#241a10] [.luffy_&]:shadow-[3px_3px_0_rgba(36,26,16,0.3)] [.zoro_&]:rounded-sm [.zoro_&]:bg-[#141815] [.zoro_&]:border-[#ececdd]/25 [.zoro_&]:text-[#ececdd] [.zoro_&]:shadow-none"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] [.spiderman_&]:bg-red-950/60 [.spiderman_&]:border-red-500/40 [.spiderman_&]:text-red-400 [.spiderman_&]:shadow-[0_0_20px_rgba(239,68,68,0.4)] [.ironman_&]:bg-black/90 [.ironman_&]:border-cyan-400/50 [.ironman_&]:text-cyan-400 [.ironman_&]:shadow-[0_0_20px_rgba(6,182,212,0.5)] [.deadpool_&]:rounded-none [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:border-[3px] [.deadpool_&]:border-black [.deadpool_&]:text-white [.deadpool_&]:shadow-[5px_5px_0_rgba(0,0,0,0.85)] [.thor_&]:rounded-md [.thor_&]:bg-[#101a2c] [.thor_&]:border-[#d4af6a]/60 [.thor_&]:text-sky-200 [.thor_&]:shadow-[0_0_22px_rgba(56,189,248,0.35)] [.venom_&]:rounded-[14px_6px_16px_8px/8px_15px_6px_14px] [.venom_&]:bg-[#0f1011] [.venom_&]:border-[#b9c2cd]/60 [.venom_&]:text-zinc-200 [.venom_&]:shadow-[0_0_24px_rgba(185,194,205,0.45)] [.luffy_&]:rounded-none [.luffy_&]:bg-[#e9d5a8] [.luffy_&]:border-[2px] [.luffy_&]:border-[#241a10] [.luffy_&]:text-[#241a10] [.luffy_&]:shadow-[3px_3px_0_rgba(36,26,16,0.3)] [.zoro_&]:rounded-sm [.zoro_&]:bg-[#141815] [.zoro_&]:border-[#ececdd]/25 [.zoro_&]:text-[#ececdd] [.zoro_&]:shadow-none [.naruto_&]:rounded-sm [.naruto_&]:bg-[#ffd873] [.naruto_&]:border-2 [.naruto_&]:border-[#2b1607] [.naruto_&]:text-[#8a3208] [.naruto_&]:shadow-[3px_3px_0_rgba(43,22,7,0.3)]"
             >
               {isIronman ? (
                 <img src={arcReactorLogo} alt="Arc Reactor" className="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -404,6 +444,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 <StrawHatIcon className="w-4 h-4" />
               ) : isZoro ? (
                 <KatanaIcon className="w-4 h-4" />
+              ) : isNaruto ? (
+                <NarutoIcon className="w-4 h-4" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
               )}
@@ -423,6 +465,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       ? "STRAW HAT CREW • FUTURE PIRATE KING"
                       : isZoro
                       ? "THREE SWORD STYLE • WRONG WAY, PROBABLY"
+                      : isNaruto
+                      ? "HIDDEN LEAF • BELIEVE IT"
                       : "Available for New Projects"}
             </motion.div>
 
@@ -565,7 +609,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="order-2 lg:order-none relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8 w-full"
+          className="order-2 lg:order-none relative z-10 flex justify-center items-center shrink-0 group mt-4 lg:mt-8 w-full [.naruto_&]:lg:[direction:ltr]"
           onMouseEnter={updateLaserTargets}
           onMouseLeave={() => setIsLaserActive(false)}
         >
@@ -648,7 +692,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                 ref={imgRef}
                 src={profileImage}
                 alt={personal.name}
-                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight || isLuffy || isZoro ? 0 : 1 }}
+                animate={{ opacity: isSpiderman || isIronman || isDeadpool || isThor || isVenom || isMoonKnight || isLuffy || isZoro || isNaruto ? 0 : 1 }}
                 transition={{ duration: 1.4, ease: "easeInOut" }}
                 style={{
                   maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -660,11 +704,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isSpiderman && (
                   <motion.img
+                    key={isReady(SPIDERMAN_PORTRAIT) ? "spiderman-ready" : "spiderman-loading"}
                     initial={{ clipPath: "inset(100% 0 0 0)", filter: "brightness(1.5)" }}
-                    animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1)" }}
+                    animate={isReady(SPIDERMAN_PORTRAIT) ? { clipPath: "inset(0% 0 0 0)", filter: "brightness(1)" } : { clipPath: "inset(100% 0 0 0)" }}
                     exit={{ clipPath: "inset(100% 0 0 0)" }}
                     transition={{ duration: 1.4, ease: "easeInOut" }}
-                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png"
+                    src={SPIDERMAN_PORTRAIT}
                     alt="Spidey Suit"
                     style={{
                       maskImage: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
@@ -678,11 +723,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isIronman && !isMaskOn && (
                   <motion.img
+                    key={isReady(IRONMAN_PORTRAIT) ? "ironman-ready" : "ironman-loading"}
                     initial={{ clipPath: "inset(100% 0 0 0)", filter: "brightness(1.8) saturate(1.4)" }}
-                    animate={{ clipPath: "inset(0% 0 0 0)", filter: "brightness(1.1) saturate(1.2)" }}
+                    animate={isReady(IRONMAN_PORTRAIT) ? { clipPath: "inset(0% 0 0 0)", filter: "brightness(1.1) saturate(1.2)" } : { clipPath: "inset(100% 0 0 0)" }}
                     exit={{ clipPath: "inset(100% 0 0 0)" }}
                     transition={{ duration: 1.4, ease: "easeInOut" }}
-                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077193/portfolio/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png"
+                    src={IRONMAN_PORTRAIT}
                     alt="Iron Man Mark LXXXV Suit"
                     onClick={() => setIsMaskOn(!isMaskOn)}
                     style={{
@@ -698,11 +744,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isIronman && isMaskOn && (
                   <motion.img
+                    key={isReady(IRONMAN_HELMET_PORTRAIT) ? "helmet-ready" : "helmet-loading"}
                     initial={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", filter: "brightness(1.5) saturate(1.5)" }}
-                    animate={{ clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", filter: "brightness(1) saturate(1)" }}
+                    animate={isReady(IRONMAN_HELMET_PORTRAIT) ? { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", filter: "brightness(1) saturate(1)" } : { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" }}
                     exit={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", filter: "brightness(1.5) saturate(1.5)", transition: { duration: 0.5 } }}
                     transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
-                    src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077187/portfolio/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.png"
+                    src={IRONMAN_HELMET_PORTRAIT}
                     alt="Iron Man Helmet Transformed"
                     onClick={() => setIsMaskOn(false)}
                     style={{ cursor: 'pointer' }}
@@ -719,9 +766,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isMoonKnight && (
                   <motion.div
-                    key="moonknight-portrait"
+                    key={isReady(MOONKNIGHT_PORTRAIT) ? "moonknight-ready" : "moonknight-loading"}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={isReady(MOONKNIGHT_PORTRAIT) ? { opacity: 1 } : { opacity: 0 }}
                     exit={{ opacity: 0 }}
                     className="col-start-1 row-start-1 z-20 relative"
                   >
@@ -737,7 +784,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                         figure, and everything it passes is already suited. */}
                     <motion.img
                       initial={{ clipPath: "inset(0 0 100% 0)", filter: "brightness(2.4) contrast(1.4)" }}
-                      animate={{ clipPath: "inset(0 0 0% 0)", filter: "brightness(1.05) contrast(1.05)" }}
+                      animate={isReady(MOONKNIGHT_PORTRAIT) ? { clipPath: "inset(0 0 0% 0)", filter: "brightness(1.05) contrast(1.05)" } : { clipPath: "inset(0 0 100% 0)" }}
                       exit={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
                       transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
                       src={MOONKNIGHT_PORTRAIT}
@@ -800,9 +847,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isVenom && (
                   <motion.div
-                    key="venom-portrait"
+                    key={isReady(VENOM_PORTRAIT) ? "venom-ready" : "venom-loading"}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={isReady(VENOM_PORTRAIT) ? { opacity: 1 } : { opacity: 0 }}
                     exit={{ opacity: 0 }}
                     className="col-start-1 row-start-1 z-20 relative"
                   >
@@ -816,7 +863,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
 
                     <motion.img
                       initial={{ clipPath: VENOM_SPREAD[0], filter: "grayscale(1) contrast(1.5) brightness(0.7)" }}
-                      animate={{
+                      animate={isReady(VENOM_PORTRAIT) ? {
                         clipPath: VENOM_SPREAD,
                         filter: [
                           "grayscale(1) contrast(1.5) brightness(0.7)",
@@ -825,7 +872,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                           "grayscale(0.25) contrast(1.08) brightness(1)",
                           "grayscale(0) contrast(1.04) brightness(1)",
                         ],
-                      }}
+                      } : { clipPath: VENOM_SPREAD[0] }}
                       exit={{ clipPath: VENOM_SPREAD[0], opacity: 0 }}
                       transition={{ duration: 1.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.18, 0.44, 0.72, 1] }}
                       src={VENOM_PORTRAIT}
@@ -899,15 +946,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isThor && (
                   <motion.div
-                    key="thor-portrait"
+                    key={isReady(THOR_PORTRAIT) ? "thor-ready" : "thor-loading"}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={isReady(THOR_PORTRAIT) ? { opacity: 1 } : { opacity: 0 }}
                     exit={{ opacity: 0 }}
                     className="col-start-1 row-start-1 z-20 relative"
                   >
                     <motion.img
                       initial={{ opacity: 0, scale: 1.06, filter: "brightness(2.6) contrast(1.5)" }}
-                      animate={{ opacity: 1, scale: 1, filter: "brightness(1.06) contrast(1.06)" }}
+                      animate={isReady(THOR_PORTRAIT) ? { opacity: 1, scale: 1, filter: "brightness(1.06) contrast(1.06)" } : { opacity: 0 }}
                       exit={{ opacity: 0, scale: 1.04, filter: "brightness(2.2)" }}
                       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                       src={THOR_PORTRAIT}
@@ -964,9 +1011,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isDeadpool && (
                   <motion.div
-                    key="deadpool-portrait"
+                    key={isReady(DEADPOOL_PORTRAIT) ? "deadpool-ready" : "deadpool-loading"}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={isReady(DEADPOOL_PORTRAIT) ? { opacity: 1 } : { opacity: 0 }}
                     exit={{ opacity: 0 }}
                     className="col-start-1 row-start-1 z-20 relative"
                   >
@@ -1066,9 +1113,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
               <AnimatePresence>
                 {isLuffy && (
                   <motion.div
-                    key="luffy-portrait"
+                    key={isReady(LUFFY_PORTRAIT) ? "luffy-ready" : "luffy-loading"}
                     initial={{ opacity: 0, y: -50, rotate: -5 }}
-                    animate={{ opacity: 1, y: 0, rotate: -1.5 }}
+                    animate={isReady(LUFFY_PORTRAIT) ? { opacity: 1, y: 0, rotate: -1.5 } : { opacity: 0, y: -50, rotate: -5 }}
                     exit={{ opacity: 0, y: -30, transition: { duration: 0.35 } }}
                     transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
                     className="op-poster op-pinned col-start-1 row-start-1 justify-self-center mx-auto z-20 aspect-[3/4] w-auto max-w-[280px] px-5 py-6 sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
@@ -1083,7 +1130,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
                       <div className="relative mt-4 flex flex-1 w-full items-center justify-end overflow-hidden border-2 border-[var(--l-ink)] bg-[rgba(36,26,16,0.05)]">
                         <div className="op-speed" />
                         <img
-                          src="https://res.cloudinary.com/dbotzlymk/image/upload/v1786077240/portfolio/luffyme_nobg.png"
+                          src={LUFFY_PORTRAIT}
                           alt="Luffy"
                           className="relative z-[2] h-full w-full object-cover object-top"
                           style={{ filter: "sepia(0.15) contrast(1.05)" }}
@@ -1114,68 +1161,165 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
 
               {/* Zoro: no portrait either, and for the same reason as Luffy
                   — there is no generated likeness for this character, so the
-                  hero visual is the theme's own device (the scroll) rather
-                  than a fabricated photo. Where Luffy's replacement is loud
-                  (a poster dropping in, a seal thudding down), this one is
-                  the opposite on purpose: three strokes draw themselves in,
-                  a slow breathing ring around the mark, and nothing else
-                  moves — restraint IS the visual, the same rule the whole
-                  theme follows. */}
+                  hero visual is the theme's own device rather than a
+                  fabricated photo. Built as a manga volume-cover panel:
+                  the scroll's own halftone + hard green offset shadow do
+                  the “comic” work, a speed-burst of green impact lines
+                  fires behind the mark, and a real hanko stamp signs the
+                  corner — loud in its own vocabulary, not Luffy's poster
+                  vocabulary borrowed wholesale. */}
               <AnimatePresence>
                 {isZoro && (
                   <motion.div
                     key="zoro-portrait"
-                    initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: -30, rotate: -2, clipPath: "inset(0 0 0 100%)" }}
+                    animate={{ opacity: 1, y: 0, rotate: -1, clipPath: "inset(0 0% 0 0)" }}
                     exit={{ opacity: 0, y: -20, transition: { duration: 0.35 } }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    transition={{ duration: 0.7, ease: [0.34, 1.4, 0.64, 1], clipPath: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
                     className="zk-scroll col-start-1 row-start-1 justify-self-center mx-auto z-20 aspect-[3/4] w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
                   >
                     <div className="zk-scroll-rod" />
 
-                    <div className="relative flex h-[calc(100%-28px)] flex-col items-center justify-center px-6 py-6 text-center">
-                      {/* Breathing ink rings behind the mark */}
+                    <div className="relative flex h-[calc(100%-28px)] flex-col items-center justify-center overflow-hidden px-6 py-6 text-center">
+                      {/* Impact burst + the mark itself */}
                       <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.4 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+                          className="zk-speed"
+                        />
+                        <ZoroAshura />
                         {[0, 1].map((ring) => (
                           <motion.span
                             key={ring}
-                            animate={{ scale: [1, 1.5], opacity: [0.35, 0] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "easeOut", delay: ring * 1.5 }}
-                            className="absolute inset-0 rounded-full border border-[var(--z-line-3)]"
+                            animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
+                            transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", delay: ring * 1.2 }}
+                            className="absolute inset-0 rounded-full border-2 border-[var(--z-flash)]"
                           />
                         ))}
-                        <KatanaIcon className="relative z-[2] h-16 w-16 sm:h-20 sm:w-20" />
+                        <KatanaIcon className="relative z-[2] h-16 w-16 drop-shadow-[0_0_16px_rgba(61,220,114,0.55)] sm:h-20 sm:w-20" />
                       </div>
 
                       <h3
                         className="mt-4 text-2xl sm:text-3xl"
-                        style={{ fontFamily: "'Nanum Brush Script', cursive", color: "#ececdd" }}
+                        style={{ fontFamily: "'Nanum Brush Script', cursive", color: "#ececdd", textShadow: "0 0 22px rgba(61,220,114,0.4)" }}
                       >
                         {personal.name}
                       </h3>
-                      <div className="zk-label mt-1">Three Sword Style</div>
+                      <div className="zk-label mt-1 zk-flash">Three Sword Style</div>
 
-                      <div className="zk-cut mt-4 w-full max-w-[70%]" />
+                      <div className="zk-cut zk-cut--live mt-4 w-full max-w-[70%]" />
 
                       <p className="mt-4 max-w-xs text-[11px] italic leading-relaxed zk-muted">
-                        “I'll become the world's greatest swordsman. That's a promise.”
+                        "I'll become the world's greatest swordsman. That's a promise."
                       </p>
                     </div>
 
-                    {/* The dojo seal, in the corner rather than thudding down
-                        — even his stamp is calmer than Luffy's */}
+                    {/* The hanko — his signature, the way a manga page signs
+                        itself in the corner of the splash panel */}
                     <motion.div
-                      initial={{ opacity: 0, scale: 1.4 }}
-                      animate={{ opacity: 0.85, scale: 1 }}
+                      initial={{ opacity: 0, scale: 1.6, rotate: 8 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 10 }}
                       transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
-                      className="absolute -bottom-2 -right-2 flex h-12 w-12 flex-col items-center justify-center rounded-full border-2 border-[var(--z-haramaki)] bg-[var(--z-card)] text-center text-[7px] leading-tight zk-haramaki pointer-events-none sm:h-14 sm:w-14"
-                      style={{ transform: "rotate(-8deg)" }}
+                      className="zk-hanko absolute -bottom-2 -right-2 h-12 w-12 rounded-md text-center text-[7px] leading-tight pointer-events-none sm:h-14 sm:w-14"
                     >
                       <span>DOJO</span>
                       <span className="text-[8px]">III</span>
                     </motion.div>
 
                     <div className="zk-scroll-rod" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Naruto: no portrait either, same reason as Luffy and Zoro
+                  — no generated likeness exists, so the hero visual is the
+                  theme's own device. Built as a Bingo Book entry page: the
+                  book's own stitched spine and dog-eared corner do the
+                  "case file" work, a chakra burst fires behind the mark,
+                  and a rank stamp signs the corner — this theme's own
+                  vocabulary, not a copy of Luffy's poster or Zoro's scroll. */}
+              <AnimatePresence>
+                {isNaruto && (
+                  <motion.div
+                    key="naruto-portrait"
+                    initial={{ opacity: 0, y: -30, rotate: 2, clipPath: "inset(0 0 0 100%)" }}
+                    animate={{ opacity: 1, y: 0, rotate: 1, clipPath: "inset(0 0% 0 0)" }}
+                    exit={{ opacity: 0, y: -20, transition: { duration: 0.35 } }}
+                    transition={{ duration: 0.7, ease: [0.34, 1.4, 0.64, 1], clipPath: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
+                    className="nt-book col-start-1 row-start-1 justify-self-center mx-auto z-20 aspect-[3/4] w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[400px] max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] lg:max-h-[calc(100vh-170px)]"
+                  >
+                    <div className="relative flex h-full flex-col items-center justify-center overflow-hidden px-6 py-6 text-center">
+                      {/* Chakra burst + the mark itself */}
+                      <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.4 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+                          className="nt-burst"
+                        />
+                        <NarutoKurama />
+                        {[0, 1].map((ring) => (
+                          <motion.span
+                            key={ring}
+                            animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
+                            transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", delay: ring * 1.2 }}
+                            className="absolute inset-0 rounded-full border-2 border-[var(--n-paper-orange)]"
+                          />
+                        ))}
+                        <NarutoIcon className="relative z-[2] h-16 w-16 drop-shadow-[0_0_10px_rgba(28,15,4,0.4)] sm:h-20 sm:w-20" />
+                      </div>
+
+                      <h3
+                        className="mt-4 text-2xl sm:text-3xl"
+                        style={{ fontFamily: "'Anton', sans-serif", color: "#2b1607" }}
+                      >
+                        {personal.name}
+                      </h3>
+                      <div className="nt-label mt-1 nt-orange">Hidden Leaf</div>
+
+                      <div className="nt-seal nt-seal--live mt-4 w-full max-w-[70%]" />
+
+                      <p className="mt-4 max-w-xs text-[11px] italic leading-relaxed nt-muted">
+                        "I never go back on my word. That's my ninja way."
+                      </p>
+                    </div>
+
+                    {/* The rank stamp — a Bingo Book entry signs its own corner */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 1.6, rotate: -8 }}
+                      animate={{ opacity: 1, scale: 1, rotate: -10 }}
+                      transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
+                      className="nt-stamp absolute -bottom-2 -right-2 h-12 w-12 rounded-md text-center text-[7px] leading-tight pointer-events-none sm:h-14 sm:w-14"
+                    >
+                      <span>S-RANK</span>
+                      <span className="text-[8px]">忍</span>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* A second scrap of paper pinned beside the main entry — the
+                  same "the layout is a collage, not one centred card" idea
+                  Luffy's pinned scraps use, in this theme's own vocabulary */}
+              <AnimatePresence>
+                {isNaruto && (
+                  <motion.div
+                    key="naruto-note"
+                    initial={{ opacity: 0, x: -20, rotate: -18 }}
+                    animate={{ opacity: 1, x: 0, rotate: -8 }}
+                    exit={{ opacity: 0, transition: { duration: 0.25 } }}
+                    transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
+                    className="pointer-events-none absolute -left-3 top-6 z-30 hidden rounded-sm border-2 px-3 py-2 text-center text-[10px] font-bold uppercase tracking-wider sm:-left-8 sm:block"
+                    style={{
+                      background: "linear-gradient(165deg, #ffd873 0%, #ffe9b8 100%)",
+                      borderColor: "#1c0f04",
+                      color: "#a03d0c",
+                      boxShadow: "3px 3px 0 rgba(28,15,4,0.85)",
+                    }}
+                  >
+                    Believe It!
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1234,7 +1378,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Left Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro && !isNaruto && (
               <div
                 style={{ top: `${(pupilPos.leftY * 100).toFixed(1)}%`, left: `${(pupilPos.leftX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${
@@ -1265,7 +1409,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick }) => {
             )}
 
             {/* Right Eye Flare & Laser */}
-            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && !isLuffy && !isZoro && (
+            {isFunMode && !isSpiderman && !isDeadpool && !isThor && !isMoonKnight && !isLuffy && !isZoro && !isNaruto && (
               <div
                 style={{ top: `${(pupilPos.rightY * 100).toFixed(1)}%`, left: `${(pupilPos.rightX * 100).toFixed(1)}%` }}
                 className={`absolute z-30 pointer-events-none transition-all duration-300 ease-out ${

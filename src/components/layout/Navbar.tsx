@@ -13,6 +13,7 @@ import { CrescentIcon } from "../ui/CrescentIcon";
 import { VenomSpiderIcon } from "../ui/VenomSpiderIcon";
 import { StrawHatIcon } from "../ui/StrawHatIcon";
 import { KatanaIcon } from "../ui/KatanaIcon";
+import { NarutoIcon } from "../ui/NarutoIcon";
 
 interface NavItem {
   label: string;
@@ -46,6 +47,7 @@ export const Navbar: React.FC = () => {
   const [isVenom, setIsVenom] = useState(false);
   const [isLuffy, setIsLuffy] = useState(false);
   const [isZoro, setIsZoro] = useState(false);
+  const [isNaruto, setIsNaruto] = useState(false);
 
   useEffect(() => {
     const syncModes = () => {
@@ -57,6 +59,7 @@ export const Navbar: React.FC = () => {
       setIsVenom(document.documentElement.classList.contains("venom"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
       setIsZoro(document.documentElement.classList.contains("zoro"));
+      setIsNaruto(document.documentElement.classList.contains("naruto"));
     };
     const observer = new MutationObserver(syncModes);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
@@ -125,7 +128,7 @@ export const Navbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-slate-900/80 dark:bg-[#030712]/80 backdrop-blur-md border-b border-slate-800/50 dark:border-white/5 py-3 shadow-lg [.luffy_&]:!bg-[#e9d5a8]/95 [.luffy_&]:!border-[#241a10]/25"
+          ? "bg-slate-900/80 dark:bg-[#030712]/80 backdrop-blur-md border-b border-slate-800/50 dark:border-white/5 py-3 shadow-lg [.luffy_&]:!bg-[#e9d5a8]/95 [.luffy_&]:!border-[#241a10]/25 [.zoro_&]:!bg-[#141815]/95 [.zoro_&]:!border-[#ececdd]/10 [.naruto_&]:!bg-[#ffd873]/95 [.naruto_&]:!border-[#2b1607]/25"
           : "bg-transparent py-5"
       }`}
     >
@@ -178,6 +181,27 @@ export const Navbar: React.FC = () => {
         </div>
       )}
 
+      {/* Zoro: a green flash cut through the edge, his colour doing the
+          glow work the way red does for Spider-Man or cyan does for Iron
+          Man — a thin haramaki fleck underneath is the only other colour
+          allowed near it */}
+      {isZoro && isScrolled && (
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+          <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#3ddc72] to-transparent shadow-[0_0_12px_rgba(61,220,114,0.8)]" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[var(--z-haramaki)]/50 to-transparent" />
+        </div>
+      )}
+
+      {/* Naruto: a double ink rule like Luffy's masthead, burnt-orange
+          underneath instead of red — a printed page's edge, not a glow,
+          since this bar sits on paper now, not a dark HUD */}
+      {isNaruto && isScrolled && (
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+          <div className="h-[2px] w-full bg-[#2b1607]" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#8a3208]/70 to-transparent" />
+        </div>
+      )}
+
       {/* Deadpool: the navbar bleeds instead of glowing */}
       {isDeadpool && isScrolled && (
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
@@ -215,7 +239,11 @@ export const Navbar: React.FC = () => {
                       ? "!rounded-[16px_7px_18px_9px/9px_17px_7px_16px] bg-gradient-to-br from-[#2e1065] via-[#12061f] to-black border border-[#a855f7]/80 shadow-[0_0_20px_rgba(168,85,247,0.9)]"
                       : isLuffy
                         ? "!rounded-none bg-[#e9d5a8] border-2 border-[#241a10] shadow-[3px_3px_0_rgba(36,26,16,0.3)] rotate-[-2deg]"
-                        : "bg-gradient-to-br from-blue-500 to-violet-600"
+                        : isZoro
+                          ? "!rounded-sm bg-[#141815] border border-[#3ddc72]/70 shadow-[0_0_16px_rgba(61,220,114,0.7)]"
+                          : isNaruto
+                            ? "!rounded-sm bg-[#ffd873] border-2 border-[#2b1607] shadow-[3px_3px_0_rgba(43,22,7,0.3)]"
+                            : "bg-gradient-to-br from-blue-500 to-violet-600"
           }`}>
             {isIronman ? (
               <img src={arcReactorLogo} alt="Iron Man Mode" className="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,1)] animate-pulse" />
@@ -231,13 +259,17 @@ export const Navbar: React.FC = () => {
               <VenomSpiderIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(233,237,242,1)]" />
             ) : isLuffy ? (
               <StrawHatIcon className="w-5 h-5" />
+            ) : isZoro ? (
+              <KatanaIcon className="w-5 h-5" />
+            ) : isNaruto ? (
+              <NarutoIcon className="w-5 h-5" />
             ) : (
               <img src={logoImg} alt="TS Logo" className="w-full h-full object-cover rounded-xl" />
             )}
           </div>
           <div className="flex flex-col">
             <span className={`text-sm font-extrabold tracking-wider uppercase hidden md:inline-block transition-colors ${
-              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : isDeadpool ? "text-[#f7f1e3] drop-shadow-[2px_2px_0_rgba(127,29,29,1)]" : isThor ? "text-sky-100 drop-shadow-[0_0_12px_rgba(125,211,252,0.9)]" : isMoonKnight ? "text-[#f5f2ea] drop-shadow-[0_0_12px_rgba(242,239,230,0.9)]" : isVenom ? "text-zinc-100 drop-shadow-[0_0_12px_rgba(185,194,205,0.9)]" : isLuffy ? "text-[#241a10]" : "text-slate-900 dark:text-white"
+              isIronman ? "text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" : isSpiderman ? "text-red-100 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]" : isDeadpool ? "text-[#f7f1e3] drop-shadow-[2px_2px_0_rgba(127,29,29,1)]" : isThor ? "text-sky-100 drop-shadow-[0_0_12px_rgba(125,211,252,0.9)]" : isMoonKnight ? "text-[#f5f2ea] drop-shadow-[0_0_12px_rgba(242,239,230,0.9)]" : isVenom ? "text-zinc-100 drop-shadow-[0_0_12px_rgba(185,194,205,0.9)]" : isLuffy ? "text-[#241a10]" : isZoro ? "text-[#ececdd] drop-shadow-[0_0_10px_rgba(61,220,114,0.7)]" : isNaruto ? "text-[#2b1607]" : "text-slate-900 dark:text-white"
             }`}>
               Thenushan Sritharan
             </span>
@@ -298,7 +330,7 @@ export const Navbar: React.FC = () => {
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`text-sm tracking-wider uppercase font-medium block py-1.5 ${isActive
-                      ? "text-blue-500 dark:text-blue-400 [.deadpool_&]:inline-block [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:!text-[#fff8e7] [.deadpool_&]:border-2 [.deadpool_&]:border-black [.deadpool_&]:px-2.5 [.deadpool_&]:-rotate-1 [.deadpool_&]:shadow-[4px_4px_0_rgba(0,0,0,0.85)] [.thor_&]:inline-block [.thor_&]:!text-sky-100 [.thor_&]:border-l-2 [.thor_&]:border-sky-300 [.thor_&]:pl-2.5 [.thor_&]:drop-shadow-[0_0_10px_rgba(125,211,252,0.9)] [.venom_&]:inline-block [.venom_&]:!text-zinc-100 [.venom_&]:border-l-2 [.venom_&]:border-[#e9edf2] [.venom_&]:pl-2.5 [.venom_&]:drop-shadow-[0_0_10px_rgba(185,194,205,0.9)] [.luffy_&]:inline-block [.luffy_&]:!text-[#241a10] [.luffy_&]:border-l-2 [.luffy_&]:border-[#c3352a] [.luffy_&]:pl-2.5"
+                      ? "text-blue-500 dark:text-blue-400 [.deadpool_&]:inline-block [.deadpool_&]:bg-[#dc143c] [.deadpool_&]:!text-[#fff8e7] [.deadpool_&]:border-2 [.deadpool_&]:border-black [.deadpool_&]:px-2.5 [.deadpool_&]:-rotate-1 [.deadpool_&]:shadow-[4px_4px_0_rgba(0,0,0,0.85)] [.thor_&]:inline-block [.thor_&]:!text-sky-100 [.thor_&]:border-l-2 [.thor_&]:border-sky-300 [.thor_&]:pl-2.5 [.thor_&]:drop-shadow-[0_0_10px_rgba(125,211,252,0.9)] [.venom_&]:inline-block [.venom_&]:!text-zinc-100 [.venom_&]:border-l-2 [.venom_&]:border-[#e9edf2] [.venom_&]:pl-2.5 [.venom_&]:drop-shadow-[0_0_10px_rgba(185,194,205,0.9)] [.luffy_&]:inline-block [.luffy_&]:!text-[#241a10] [.luffy_&]:border-l-2 [.luffy_&]:border-[#c3352a] [.luffy_&]:pl-2.5 [.zoro_&]:inline-block [.zoro_&]:!text-[#ececdd] [.zoro_&]:border-l-2 [.zoro_&]:border-[#3ddc72] [.zoro_&]:pl-2.5 [.zoro_&]:drop-shadow-[0_0_10px_rgba(61,220,114,0.7)] [.naruto_&]:inline-block [.naruto_&]:!text-[#2b1607] [.naruto_&]:border-l-2 [.naruto_&]:border-[#8a3208] [.naruto_&]:pl-2.5"
                       : "text-slate-600 dark:text-white/60"
                       }`}
                   >

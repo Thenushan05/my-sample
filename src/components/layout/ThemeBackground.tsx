@@ -282,9 +282,9 @@ export const ThemeBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] [.luffy_&]:bg-[#6fb7dc] transition-colors duration-700 pointer-events-none select-none">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-50 dark:bg-[#030712] [.ironman_&]:bg-[#020408] [.deadpool_&]:bg-[#0b0203] [.thor_&]:bg-[#040a16] [.venom_&]:bg-[#050506] [.luffy_&]:bg-[#6fb7dc] [.zoro_&]:bg-[#0a0d0b] [.naruto_&]:bg-[#bfe3f5] transition-colors duration-700 pointer-events-none select-none">
       {/* Ambient background glows */}
-      <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden">
+      <div className="absolute inset-0 hidden dark:block [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden [.zoro_&]:hidden [.naruto_&]:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.95)_0%,rgba(3,7,18,1)_100%)]" />
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-600/5 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-600/5 rounded-full blur-[140px]" />
@@ -330,11 +330,21 @@ export const ThemeBackground: React.FC = () => {
           frame, so this only guards the instant before it first paints. */}
       <div className="absolute inset-0 hidden [.luffy_&]:block bg-[#6fb7dc]" />
 
+      {/* Zoro Ambient Glow — same fallback role as Luffy's: DojoBackground's
+          canvas paints an opaque night sky over this whole region every
+          frame, so this only covers the instant before that first paint. */}
+      <div className="absolute inset-0 hidden [.zoro_&]:block bg-[#0a0d0b]" />
+
+      {/* Naruto Ambient Glow — same fallback role as Luffy's: KonohaBackground's
+          canvas paints an opaque daytime sky over this whole region every
+          frame, so this only covers the instant before that first paint. */}
+      <div className="absolute inset-0 hidden [.naruto_&]:block bg-[#bfe3f5]" />
+
       {/* This is the LIGHT-mode fallback wash — it shows whenever `dark` is
-          absent. Luffy is the one hero mode that runs without `dark` (see
-          SpidermanToggler), so it has to be excluded here explicitly or this
-          paints underneath GrandLineBackground for no reason. */}
-      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden [.luffy_&]:hidden">
+          absent. Luffy and Naruto are the hero modes that run without `dark`
+          (see SpidermanToggler), so both have to be excluded here explicitly
+          or this paints underneath their own canvas backdrops for no reason. */}
+      <div className="absolute inset-0 dark:hidden [.spiderman_&]:hidden [.ironman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.moonknight_&]:hidden [.luffy_&]:hidden [.naruto_&]:hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/20" />
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-300/10 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-300/10 rounded-full blur-[140px]" />
@@ -343,7 +353,7 @@ export const ThemeBackground: React.FC = () => {
       {/* FULLSCREEN CANVAS GEOMETRY */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden [.luffy_&]:hidden opacity-90"
+        className="absolute inset-0 w-full h-full pointer-events-none [.spiderman_&]:hidden [.deadpool_&]:hidden [.thor_&]:hidden [.venom_&]:hidden [.luffy_&]:hidden [.zoro_&]:hidden [.naruto_&]:hidden opacity-90"
       />
     </div>
   );

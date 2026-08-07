@@ -61,6 +61,11 @@ import { ZoroConsole } from "./components/immersive/ZoroConsole";
 import { ZoroLoader } from "./components/immersive/ZoroLoader";
 import { DojoBackground } from "./components/immersive/DojoBackground";
 import { KatanaIcon } from "./components/ui/KatanaIcon";
+import { NarutoOverlay } from "./components/immersive/NarutoOverlay";
+import { NarutoConsole } from "./components/immersive/NarutoConsole";
+import { NarutoLoader } from "./components/immersive/NarutoLoader";
+import { KonohaBackground } from "./components/immersive/KonohaBackground";
+import { NarutoIcon } from "./components/ui/NarutoIcon";
 
 import { LayoutGroup } from "framer-motion";
 
@@ -91,6 +96,9 @@ export function App() {
   const [isZoro, setIsZoro] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("zoro")
   );
+  const [isNaruto, setIsNaruto] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("naruto")
+  );
 
   useEffect(() => {
     const syncModes = () => {
@@ -102,11 +110,35 @@ export function App() {
       setIsMoonKnight(document.documentElement.classList.contains("moonknight"));
       setIsLuffy(document.documentElement.classList.contains("luffy"));
       setIsZoro(document.documentElement.classList.contains("zoro"));
+      setIsNaruto(document.documentElement.classList.contains("naruto"));
     };
     syncModes();
     const observer = new MutationObserver(syncModes);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
+  }, []);
+
+  // Preload all hero Cloudinary images globally on site load
+  useEffect(() => {
+    const KEY_IMAGES = [
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077336/portfolio/profile.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077305/portfolio/spiderman_nomask.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077193/portfolio/Gemini_Generated_Image_pu6o7vpu6o7vpu6o-Picsart-BackgroundRemover.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077187/portfolio/173121d8-8551-462a-9b93-2091a23261be-Picsart-BackgroundRemover.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077202/portfolio/deadpoolme_nobg.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077313/portfolio/thorme_nobg.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077316/portfolio/venom-nobg.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077258/portfolio/moonme_nobg.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077240/portfolio/luffyme_nobg.png",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077244/portfolio/luggif.gif",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077206/portfolio/e01c53683465d1222380d29e5cc77837.gif",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077184/portfolio/12773.gif",
+      "https://res.cloudinary.com/dbotzlymk/image/upload/v1786077189/portfolio/4576132-middle-Picsart-BackgroundRemover.png"
+    ];
+    KEY_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
   }, []);
 
   // Refresh GSAP ScrollTrigger whenever the layout drastically changes (like toggling Spidey Mode)
@@ -118,7 +150,7 @@ export function App() {
       });
     }, 100);
     return () => clearTimeout(timeoutId);
-  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight, isLuffy, isZoro]);
+  }, [isSpiderman, isIronman, isDeadpool, isThor, isVenom, isMoonKnight, isLuffy, isZoro, isNaruto]);
 
   // Synchronize smooth scrolling with Lenis & ScrollTrigger
   useLenis(loadingComplete);
@@ -150,6 +182,8 @@ export function App() {
             <LuffyLoader key="luffy-loader" onComplete={() => setLoadingComplete(true)} />
           ) : isZoro ? (
             <ZoroLoader key="zoro-loader" onComplete={() => setLoadingComplete(true)} />
+          ) : isNaruto ? (
+            <NarutoLoader key="naruto-loader" onComplete={() => setLoadingComplete(true)} />
           ) : (
             <PageLoader key="hacker-loader" onComplete={() => setLoadingComplete(true)} />
           )
@@ -160,9 +194,9 @@ export function App() {
       {loadingComplete && <Navbar />}
 
       {/* ── Main App Content ──────────────────────── */}
-      <div className={`relative w-full min-h-screen [.venom_&]:text-black [.luffy_&]:text-[#4a3826] text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
+      <div className={`relative w-full min-h-screen [.venom_&]:text-black [.luffy_&]:text-[#4a3826] [.naruto_&]:text-[#47280f] text-white select-none ${loadingComplete ? "opacity-100" : "opacity-0 transition-opacity duration-500"}`}>
         <ClickSpark
-          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : isLuffy ? "#C3352A" : isZoro ? "#9FB4BC" : "#8B5CF6"}
+          sparkColor={isIronman ? "#22D3EE" : isSpiderman ? "#EF4444" : isDeadpool ? "#DC143C" : isThor ? "#BAE6FD" : isVenom ? "#F4F7FB" : isMoonKnight ? "#F2EFE6" : isLuffy ? "#C3352A" : isZoro ? "#9FB4BC" : isNaruto ? "#FF9736" : "#8B5CF6"}
           sparkSize={isIronman || isThor ? 12 : 8}
           sparkRadius={isIronman || isThor ? 28 : 20}
           sparkCount={isIronman || isThor ? 12 : 10}
@@ -216,6 +250,10 @@ export function App() {
           {isZoro && <DojoBackground />}
           {isZoro && <ZoroOverlay />}
 
+          {/* Immersive Naruto Mode Effects */}
+          {isNaruto && <KonohaBackground />}
+          {isNaruto && <NarutoOverlay />}
+
           {/* ── Page Layout ───────────────────────────── */}
           <main>
             {/* Section 1: Hero Section */}
@@ -225,7 +263,7 @@ export function App() {
 
             {/* Section 2 to 5: Interactive Code Console & Snake Terminal (Normal Mode) OR Spidey Terminal HUD (Spidey Mode) */}
             <div id="laptop-story-trigger" className="relative w-full">
-              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro ? (
+              {!isSpiderman && !isIronman && !isDeadpool && !isThor && !isVenom && !isMoonKnight && !isLuffy && !isZoro && !isNaruto ? (
                 <LaptopStory />
               ) : isVenom ? (
                 /* Venom gets a living membrane, not a panel */
@@ -437,6 +475,35 @@ export function App() {
                   <div className="relative z-20 mt-5 flex justify-end">
                     <div className="zk-tag rounded-sm px-3 py-1.5 text-[11px]">
                       Keep scrolling. I'll catch up. Eventually.
+                    </div>
+                  </div>
+                </div>
+              ) : isNaruto ? (
+                /* Naruto gets a Bingo Book page, not a HUD window. The book
+                   owns its own masthead, stitched spine and fuinjutsu seal
+                   divider — this wrapper only adds the two terse notes
+                   above and below, the same supporting role Luffy's pinned
+                   scraps and Zoro's tags play. */
+                <div className="w-full max-w-5xl mx-auto py-16 px-4 sm:px-6 relative z-10">
+                  <div className="relative z-20 mb-5 flex items-start justify-between gap-3">
+                    <div className="nt-tag flex items-center gap-2.5 rounded-sm px-4 py-2">
+                      <NarutoIcon className="w-5 h-5" />
+                      <span className="text-sm sm:text-base">Bingo Book</span>
+                      <span className="hidden sm:inline font-mono text-[10px] tracking-widest nt-muted normal-case">
+                        RAMEN BREAK PENDING
+                      </span>
+                    </div>
+
+                    <div className="nt-tag hidden rounded-sm px-3 py-1.5 text-[11px] sm:block">
+                      Believe it.
+                    </div>
+                  </div>
+
+                  <NarutoConsole />
+
+                  <div className="relative z-20 mt-5 flex justify-end">
+                    <div className="nt-tag rounded-sm px-3 py-1.5 text-[11px]">
+                      Keep scrolling. I never go back on my word.
                     </div>
                   </div>
                 </div>

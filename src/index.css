@@ -11,6 +11,9 @@
    typeface with full Latin coverage, not a Japanese display face with
    Latin bolted on as an afterthought. */
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
+/* Naruto: Anton for the title-card mastheads — condensed, full-weight
+   block letters with full Latin coverage, checked the same way. */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -3330,18 +3333,43 @@ html.luffy .op-stamp {
                                 reason: it fails AA the moment it's asked
                                 to carry a sentence instead of a stripe.
    ══════════════════════════════════════════════════════════════ */
+/* First pass ran this theme as an ink-wash sumi-e restraint exercise —
+   correct in isolation, wrong for the assignment. This is a manga page:
+   his own green is the loud voice, not a supporting cool tone, and the
+   surface language is screentone + panel ink, not watercolour paper.
+   --z-flash carries almost everything that used to lean on --z-steel;
+   steel survives only as a minor cool accent, not the accent.
+     flash  9.97:1 / 10.5:1   the signature colour — energy, active state,
+                              interactive text, may carry body copy
+     ink   16.4:1 / 15.0:1    headings, names
+     body   8.1:1 /  7.5:1    paragraphs
+     muted  5.2:1 /  4.8:1    labels, meta
+     steel  9.1:1 /  8.3:1    minor cool accents only, demoted from primary
+     haramaki 3.3:1 / 3.1:1  the hanko stamp and marks ONLY, never body text
+   ══════════════════════════════════════════════════════════════ */
 html.zoro {
-  --z-void: #0a0d0b;
-  --z-card: #141815;
-  --z-card-2: #1b211c;
+  --z-void: #070c08;
+  --z-card: #10160f;
+  --z-card-2: #172016;
 
   --z-ink: #ececdd;
   --z-body: #a8a89d;
   --z-muted: #84847c;
 
-  /* The cold accent — steel, a blade catching moonlight */
+  /* His colour. Everywhere an accent, an active state, or an interactive
+     cue is needed, it starts here now — verified 9.97:1 on the card tone
+     and 10.5:1 on the void, so unlike steel before it, this is strong
+     enough to actually carry text, not just decorate. */
+  --z-flash: #3ddc72;
+  /* Text sitting ON a --z-flash fill needs this instead of --z-ink — pale
+     ink on a bright mid-tone green is a ~1.5:1 disaster (checked, not
+     assumed). Near-black clears 11:1+ on the same fill. */
+  --z-flash-ink: #04140a;
+  /* The cold accent — steel, a blade catching moonlight. Demoted to a
+     minor supporting tone; --z-flash owns the "accent" job now. */
   --z-steel: #9fb4bc;
-  /* The hot accent — his haramaki, the one warm colour in the whole scene */
+  /* His haramaki — the one warm colour, kept rare on purpose: a hanko
+     stamp, a rare critical flourish. Never body text (3.3:1/3.1:1). */
   --z-haramaki: #b23a4a;
   /* Decorative only (hair, moss, bamboo) — never asserted as text-safe */
   --z-moss: #6f8f5c;
@@ -3350,9 +3378,9 @@ html.zoro {
   --z-line-2: rgba(236, 236, 221, 0.24);
   --z-line-3: rgba(236, 236, 221, 0.5);
 
-  --color-nav-link-active: var(--z-steel);
+  --color-nav-link-active: var(--z-flash);
   --color-border-strong: var(--z-line-2);
-  --color-card-hover-border: var(--z-haramaki);
+  --color-card-hover-border: var(--z-flash);
 }
 
 html.zoro body {
@@ -3394,10 +3422,27 @@ html.zoro .gooey-nav-container .effect.text {
   letter-spacing: 0.03em;
 }
 
-/* The courtyard behind the page: near-black with the faintest cold wash
-   top-left, where a moon this theme's backdrop actually draws would sit.
-   No hue beyond the accent, and even that is barely there — restraint is
-   the whole point of this palette. */
+/* --color-nav-link-active only reaches the label via the base
+   `:root:not(.dark) .gooey-nav-container nav ul li.active` rule further
+   down, which explicitly excludes `.dark` — every other dark-running mode
+   (Thor, Venom, Moon Knight, Deadpool...) needs its own hardcoded color
+   here for that exact reason, and this theme runs `.dark` too, so it
+   needs the same. Missing this left the active label at the browser
+   default (black), unreadable on the void. */
+html.zoro .gooey-nav-container nav ul li.active,
+html.zoro .gooey-nav-container .effect.text.active {
+  color: var(--z-ink);
+  text-shadow: 0 0 16px rgba(236, 236, 221, 0.3);
+}
+
+html.zoro .gooey-nav-container nav ul li:not(.active):hover {
+  color: var(--z-flash);
+}
+
+/* The courtyard behind the page: near-black with his own colour bleeding
+   in from where the backdrop's moon actually sits, plus a second wash low
+   and left where the bamboo grows — the palette announces itself here
+   instead of hiding. */
 html.zoro body::before {
   content: "";
   position: fixed;
@@ -3405,8 +3450,8 @@ html.zoro body::before {
   z-index: -40;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 55% at 78% 8%, rgba(159, 180, 188, 0.1) 0%, transparent 62%),
-    radial-gradient(ellipse 80% 60% at 20% 100%, rgba(111, 143, 92, 0.06) 0%, transparent 64%),
+    radial-gradient(ellipse 70% 55% at 78% 8%, rgba(61, 220, 114, 0.1) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 60% at 20% 100%, rgba(111, 143, 92, 0.09) 0%, transparent 64%),
     var(--z-void);
 }
 
@@ -3424,17 +3469,38 @@ html.zoro [class^="text-blue-"], html.zoro [class*=" text-blue-"],
 html.zoro [class^="text-cyan-"], html.zoro [class*=" text-cyan-"],
 html.zoro [class^="text-sky-"], html.zoro [class*=" text-sky-"],
 html.zoro [class^="text-teal-"], html.zoro [class*=" text-teal-"],
-html.zoro [class^="text-emerald-"], html.zoro [class*=" text-emerald-"] {
-  color: var(--z-steel) !important;
-  text-shadow: none !important;
+html.zoro [class^="text-emerald-"], html.zoro [class*=" text-emerald-"],
+html.zoro [class^="dark:text-blue-"], html.zoro [class*=" dark:text-blue-"],
+html.zoro [class^="dark:text-cyan-"], html.zoro [class*=" dark:text-cyan-"],
+html.zoro [class^="dark:text-sky-"], html.zoro [class*=" dark:text-sky-"],
+html.zoro [class^="dark:text-teal-"], html.zoro [class*=" dark:text-teal-"],
+html.zoro [class^="dark:text-emerald-"], html.zoro [class*=" dark:text-emerald-"] {
+  color: var(--z-flash) !important;
+  text-shadow: 0 0 14px rgba(61, 220, 114, 0.4) !important;
 }
 
 html.zoro [class^="text-red-"], html.zoro [class*=" text-red-"],
 html.zoro [class^="text-rose-"], html.zoro [class*=" text-rose-"],
 html.zoro [class^="text-orange-"], html.zoro [class*=" text-orange-"],
 html.zoro [class^="text-amber-"], html.zoro [class*=" text-amber-"],
-html.zoro [class^="text-violet-"], html.zoro [class*=" text-violet-"] {
+html.zoro [class^="text-violet-"], html.zoro [class*=" text-violet-"],
+html.zoro [class^="dark:text-red-"], html.zoro [class*=" dark:text-red-"],
+html.zoro [class^="dark:text-rose-"], html.zoro [class*=" dark:text-rose-"],
+html.zoro [class^="dark:text-orange-"], html.zoro [class*=" dark:text-orange-"],
+html.zoro [class^="dark:text-amber-"], html.zoro [class*=" dark:text-amber-"],
+html.zoro [class^="dark:text-violet-"], html.zoro [class*=" dark:text-violet-"] {
   color: var(--z-haramaki) !important;
+  text-shadow: none !important;
+}
+
+/* haramaki only clears AA on marks (3.3:1/3.1:1, documented on the theme
+   block above), never on real copy — but the shared onboarding tooltip
+   (SpidermanToggler) highlights every hero-mode name with exactly this
+   red/rose/amber family at 12px bold, which the rule above would just have
+   painted haramaki-on-card. Flash is body-safe (9.97:1/10.5:1) and IS this
+   theme's accent now, so the tooltip gets it instead. */
+html.zoro .hero-dropdown strong[class*="text-"] {
+  color: var(--z-flash) !important;
   text-shadow: none !important;
 }
 
@@ -3488,8 +3554,8 @@ html.zoro button[class*="text-"]:not([class*="zk-"]) {
 
 html.zoro a[class*="text-"]:not([class*="zk-"]):hover,
 html.zoro button[class*="text-"]:not([class*="zk-"]):hover {
-  color: var(--z-haramaki) !important;
-  -webkit-text-fill-color: var(--z-haramaki) !important;
+  color: var(--z-flash) !important;
+  -webkit-text-fill-color: var(--z-flash) !important;
 }
 
 html.zoro [class*="border-slate-"],
@@ -3507,13 +3573,14 @@ html.zoro [class*="bg-cyan-"],
 html.zoro [class*="bg-teal-"],
 html.zoro [class*="bg-violet-"],
 html.zoro [class*="bg-purple-"] {
-  background-color: rgba(236, 236, 221, 0.05) !important;
+  background-color: rgba(61, 220, 114, 0.09) !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
-/* Filled gradient CTAs become a single ink-black stroke with a steel
-   rim — the calmest possible "primary button," on purpose. */
+/* Filled gradient CTAs become an ink-black panel with his own colour as
+   the rim — a manga "primary button" (flat ink fill, hard colour outline)
+   rather than a soft gradient pill. */
 html.zoro.zoro [class*="bg-gradient"][class*="from-blue-"][class*="text-white"],
 html.zoro.zoro [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"],
 html.zoro.zoro [class*="bg-gradient"][class*="from-violet-"][class*="text-white"],
@@ -3522,17 +3589,17 @@ html.zoro.zoro [class*="bg-gradient"][class*="from-emerald-"][class*="text-white
   background-color: var(--z-card-2) !important;
   color: var(--z-ink) !important;
   -webkit-text-fill-color: var(--z-ink) !important;
-  border: 1px solid var(--z-line-3) !important;
+  border: 1px solid rgba(61, 220, 114, 0.4) !important;
   text-shadow: none !important;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 8px 20px -8px rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 3px 3px 0 rgba(61, 220, 114, 0.35), 0 8px 20px -8px rgba(0, 0, 0, 0.8) !important;
 }
 
 html.zoro.zoro [class*="bg-gradient"][class*="from-blue-"][class*="text-white"]:hover,
 html.zoro.zoro [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"]:hover,
 html.zoro.zoro [class*="bg-gradient"][class*="from-violet-"][class*="text-white"]:hover,
 html.zoro.zoro [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"]:hover {
-  border-color: var(--z-haramaki) !important;
-  box-shadow: 0 0 0 1px var(--z-haramaki), 0 0 24px -6px rgba(178, 58, 74, 0.6) !important;
+  border-color: var(--z-flash) !important;
+  box-shadow: 3px 3px 0 var(--z-flash), 0 0 28px -6px rgba(61, 220, 114, 0.7) !important;
 }
 
 html.zoro [class*="bg-slate-8"],
@@ -3546,8 +3613,8 @@ html.zoro [class*="bg-black/9"] {
 }
 
 html.zoro ::selection {
-  background: var(--z-haramaki);
-  color: var(--z-ink);
+  background: var(--z-flash);
+  color: var(--z-flash-ink);
 }
 
 html.zoro ::-webkit-scrollbar-thumb {
@@ -3563,19 +3630,23 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
    ══════════════════════════════════════════════════════════════ */
 
 /* ── Device 1: the scroll ─────────────────────────────────────
-   The console's own surface. A hanging kakemono, not a card: a paper
-   field with visible fibre grain, and two lacquered dowels top and
-   bottom rather than a border — a scroll is held taut by its rollers,
-   it doesn't have edges the way a panel does. */
+   The console's own surface. A hanging kakemono, but inked like a manga
+   page now, not watercolour paper: a bold outline, a hard offset shadow
+   in his own colour, and a screentone dot field doing the shading a
+   brush wash did in the first pass. Still two lacquered dowels top and
+   bottom rather than a plain border-top/bottom — a scroll is held taut
+   by its rollers, it doesn't have edges the way a panel does. */
 .zk-scroll {
   position: relative;
   background:
-    radial-gradient(ellipse 90% 60% at 30% 0%, rgba(236, 236, 221, 0.05) 0%, transparent 55%),
-    linear-gradient(175deg, var(--z-card-2) 0%, var(--z-card) 55%, #0d100e 100%);
-  border-left: 1px solid var(--z-line);
-  border-right: 1px solid var(--z-line);
+    radial-gradient(circle, rgba(61, 220, 114, 0.5) 1px, transparent 1.3px) 0 0 / 7px 7px,
+    radial-gradient(ellipse 90% 60% at 30% 0%, rgba(61, 220, 114, 0.07) 0%, transparent 55%),
+    linear-gradient(175deg, var(--z-card-2) 0%, var(--z-card) 55%, #060b06 100%);
+  border-left: 2px solid rgba(61, 220, 114, 0.3);
+  border-right: 2px solid rgba(61, 220, 114, 0.3);
   color: var(--z-body);
   box-shadow:
+    5px 5px 0 rgba(61, 220, 114, 0.22),
     inset 0 1px 0 rgba(236, 236, 221, 0.06),
     0 30px 70px -30px rgba(0, 0, 0, 0.9);
 }
@@ -3594,11 +3665,74 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
   );
 }
 
+/* ── Reusable halftone dot field ──────────────────────────────
+   Same screentone the scroll bakes in, as a standalone overlay for
+   anything that isn't a `.zk-scroll` — the hero card, a stat panel — so
+   the comic texture isn't locked to one component. */
+.zk-halftone {
+  position: relative;
+}
+
+.zk-halftone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  background-image: radial-gradient(circle, rgba(61, 220, 114, 0.55) 1px, transparent 1.3px);
+  background-size: 7px 7px;
+  -webkit-mask-image: linear-gradient(165deg, black 0%, black 55%, transparent 95%);
+  mask-image: linear-gradient(165deg, black 0%, black 55%, transparent 95%);
+}
+
+/* ── Radiating speed-burst ────────────────────────────────────
+   Manga impact lines, for staging behind a mark that needs to feel like
+   it just landed rather than sit still. */
+.zk-speed {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(61, 220, 114, 0.22) 0deg 3deg,
+    transparent 3deg 13deg
+  );
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, black 30%, transparent 70%);
+  mask-image: radial-gradient(circle at center, black 0%, black 30%, transparent 70%);
+}
+
+/* ── The hanko ────────────────────────────────────────────────
+   A personal ink stamp, the way a manga page signs itself — solid
+   haramaki-red with reversed ink text, the one place red is a fill
+   rather than a hairline. Small and rare on purpose: 5.5:1, fine even
+   for its own tiny caption, but still a mark, never body copy. */
+.zk-hanko {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--z-haramaki);
+  color: #fff5ee;
+  border: 2px solid rgba(4, 20, 10, 0.5);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
+}
+
 /* The dowels, top and bottom */
+/* The dowels carry a faint seigaiha (overlapping-wave) ripple — the one
+   direct nod to Wano's own ukiyo-e visual language anywhere in the
+   theme, kept small and low-contrast because a lacquered dowel is
+   furniture, not a splash panel. */
 .zk-scroll-rod {
   position: relative;
   height: 14px;
-  background: linear-gradient(180deg, #2a231a 0%, #1a1510 50%, #100d0a 100%);
+  background-image:
+    radial-gradient(circle at 10px 15px, transparent 8px, rgba(236, 236, 221, 0.14) 9px, rgba(236, 236, 221, 0.14) 10px, transparent 11px),
+    linear-gradient(180deg, #2a231a 0%, #1a1510 50%, #100d0a 100%);
+  background-size: 20px 100%, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
   border-top: 1px solid rgba(236, 236, 221, 0.15);
   border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }
@@ -3633,21 +3767,22 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(78deg, transparent 42%, var(--z-ink) 43%, var(--z-ink) 45%, transparent 46%),
-    linear-gradient(78deg, transparent 47%, var(--z-ink) 48%, var(--z-ink) 50%, transparent 51%),
-    linear-gradient(78deg, transparent 52%, var(--z-ink) 53%, var(--z-ink) 54%, transparent 55%);
-  opacity: 0.75;
-  filter: drop-shadow(0 0 6px rgba(236, 236, 221, 0.4));
+    linear-gradient(78deg, transparent 42%, var(--z-flash) 43%, var(--z-flash) 45%, transparent 46%),
+    linear-gradient(78deg, transparent 47%, var(--z-flash) 48%, var(--z-flash) 50%, transparent 51%),
+    linear-gradient(78deg, transparent 52%, var(--z-flash) 53%, var(--z-flash) 54%, transparent 55%);
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px rgba(61, 220, 114, 0.55));
 }
 
-/* The haramaki-red variant, for an active/selected cut */
+/* The white-hot variant, for a cut at full power — the flash burning
+   through its own green instead of cooling to it */
 .zk-cut--live::before {
   background-image:
-    linear-gradient(78deg, transparent 42%, var(--z-haramaki) 43%, var(--z-haramaki) 45%, transparent 46%),
-    linear-gradient(78deg, transparent 47%, var(--z-haramaki) 48%, var(--z-haramaki) 50%, transparent 51%),
-    linear-gradient(78deg, transparent 52%, var(--z-haramaki) 53%, var(--z-haramaki) 54%, transparent 55%);
-  opacity: 0.9;
-  filter: drop-shadow(0 0 8px rgba(178, 58, 74, 0.6));
+    linear-gradient(78deg, transparent 42%, #d9ffe6 43%, #d9ffe6 45%, transparent 46%),
+    linear-gradient(78deg, transparent 47%, #d9ffe6 48%, #d9ffe6 50%, transparent 51%),
+    linear-gradient(78deg, transparent 52%, #d9ffe6 53%, #d9ffe6 54%, transparent 55%);
+  opacity: 1;
+  filter: drop-shadow(0 0 14px rgba(61, 220, 114, 0.9));
 }
 
 /* ── Device 3: the brush stroke ───────────────────────────────
@@ -3665,30 +3800,31 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
 }
 
 /* ── Device 4: the tag ────────────────────────────────────────
-   A small haramaki-wrapped chip, for tabs and pills. Fabric-wrap, not
-   paper — the one place cloth texture belongs in an otherwise ink-only
-   theme, because it is literally the one piece of coloured cloth he wears. */
+   A small chip, for tabs and pills. At rest it's ink-on-shadow; active
+   is a hard flash-green fill with dark ink text — the loudest state in
+   the whole component, on purpose, the same way an active tab reads as
+   "selected" in every other theme here. */
 .zk-tag {
   position: relative;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #201a19 0%, #140f0f 100%);
+  background: linear-gradient(180deg, #17201a 0%, #0e140f 100%);
   border: 1px solid var(--z-line);
   color: var(--z-body);
-  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
 }
 
 .zk-tag:hover {
   color: var(--z-ink);
-  border-color: var(--z-line-3);
+  border-color: var(--z-flash);
 }
 
 .zk-tag[data-active="true"] {
-  color: var(--z-ink);
-  background: linear-gradient(180deg, #3a1620 0%, #230e14 100%);
-  border-color: var(--z-haramaki);
-  box-shadow: 0 0 0 1px rgba(178, 58, 74, 0.35), 0 0 18px -4px rgba(178, 58, 74, 0.5);
+  color: var(--z-flash-ink);
+  background: linear-gradient(180deg, #4dee85 0%, var(--z-flash) 60%, #22b859 100%);
+  border-color: var(--z-flash);
+  box-shadow: 0 0 0 1px rgba(61, 220, 114, 0.5), 0 0 20px -4px rgba(61, 220, 114, 0.85);
 }
 
 /* Meter track + fill, for stat bars — a blade being drawn from its sheath */
@@ -3702,8 +3838,8 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
 .zk-meter > span {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--z-steel) 0%, var(--z-ink) 100%);
-  box-shadow: 0 0 10px rgba(159, 180, 188, 0.6);
+  background: linear-gradient(90deg, var(--z-flash) 0%, #d9ffe6 100%);
+  box-shadow: 0 0 10px rgba(61, 220, 114, 0.7);
 }
 
 /* Type helpers */
@@ -3712,6 +3848,7 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
 .zk-muted { color: var(--z-muted); }
 .zk-steel { color: var(--z-steel); }
 .zk-haramaki { color: var(--z-haramaki); }
+.zk-flash { color: var(--z-flash); }
 
 .zk-label {
   text-transform: uppercase;
@@ -3737,7 +3874,7 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
 }
 
 .zk-compass-needle {
-  background: linear-gradient(180deg, var(--z-haramaki) 0%, var(--z-haramaki) 48%, var(--z-ink) 52%, var(--z-ink) 100%);
+  background: linear-gradient(180deg, var(--z-flash) 0%, var(--z-flash) 48%, var(--z-ink) 52%, var(--z-ink) 100%);
 }
 
 /* Ink bleeding outward on hover — the one "wet" moment this dry theme
@@ -3753,6 +3890,646 @@ html.zoro ::-webkit-scrollbar-thumb:hover {
 
 /* Slow drift for backdrop mist bands */
 @keyframes zk-drift {
+  0% { transform: translateX(-6%); }
+  100% { transform: translateX(6%); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   NARUTO MODE — "THE BINGO BOOK"
+   ══════════════════════════════════════════════════════════════
+
+   Not a poster (Luffy), not a scroll (Zoro), not a HUD, not a mask. This
+   one is a dossier: the in-universe "Bingo Book" is a literal book of
+   ninja profiles — name, rank, threat level, village mark. The console
+   is a page out of it, printed on manga-stock paper.
+
+   SECOND rewrite of this theme, and the reason is architectural, not
+   cosmetic: the first two passes kept a near-black body and only made
+   the card itself colourful, which reads as "one bright thing on a dark
+   page," not "comic." Luffy is the actual model to match — a genuine
+   DAYLIGHT theme where `dark` is dropped entirely (see SpidermanToggler)
+   and the whole page runs on a light, saturated palette, not just one
+   card floating on a void. This theme now does the same: dropped `dark`,
+   filled in its own `--color-*` tokens (consumed by the generic
+   `:root:not(.dark):not(.spiderman)` "Light Mode Overrides" block
+   further up this file), and the palette is warm paper — his colours —
+   from the page background up, not from the card down.
+
+   Two colour families still exist, but the split is different now:
+   - PAPER-SAFE (--n-ink/--n-body/--n-muted/--n-paper-orange/
+     --n-paper-blue): dark text for anything sitting on the bright page
+     or the card — which, in this version, is almost everything.
+   - VIVID (--n-orange/--n-blue/--n-yellow/--n-crimson): saturated,
+     light-on-dark colours reserved for self-contained dark surfaces —
+     the headband-plate tag chips, the terminal screen, Kurama's own
+     glow — the handful of places that are still intentionally dark
+     insets on an otherwise bright page, the way a comic panel sometimes
+     drops into a night scene without the whole page going dark.
+
+   Checked against every surface it actually sits on: the page paper,
+   the card paper (very slightly richer, so the card still reads as an
+   object on the page), and — for the vivid family — the dark inset tone.
+     ink          14.4:1 / 12.6:1   page / card — mastheads, names
+     body         11.2:1 /  9.7:1   page / card — paragraphs
+     muted         5.6:1 /  4.8:1   page / card — labels, meta
+     paper-orange  6.9:1 /  6.0:1   page / card — accents that carry text
+     paper-blue    7.2:1 /  6.3:1   page / card — the cool accent
+     dark-ink     15.9:1            on the vivid dark inset — headings
+     dark-body     8.5:1            on the vivid dark inset — paragraphs
+     dark-muted    5.3:1            on the vivid dark inset — labels
+     orange        6.9:1            on the vivid dark inset — HIS colour
+     blue         10.3:1            on the vivid dark inset — Rasengan
+     yellow       13.7:1            on the vivid dark inset — energy
+     crimson       —                marks/fills only, always self-
+                                    contained (a stamp, a badge), never
+                                    text on any surface above
+   ══════════════════════════════════════════════════════════════ */
+html.naruto {
+  /* The page paper and the card paper — close, but the card is a shade
+     richer so it still reads as an object sitting on the page. */
+  --n-paper: #ffe9b8;
+  --n-paper-2: #ffd873;
+  --n-paper-3: #ffc94d;
+
+  --n-ink: #2b1607;
+  --n-body: #47280f;
+  --n-muted: #7a5530;
+  --n-paper-orange: #8a3208;
+  --n-paper-blue: #145268;
+  /* A second accent for the one spot that needs to tell two categories
+     apart by hue (the experience timeline's work-vs-project split)
+     without reaching for orange or blue, both already spoken for.
+     7.4:1 / 6.5:1. */
+  --n-paper-plum: #6b2d8a;
+
+  --n-line: rgba(43, 22, 7, 0.16);
+  --n-line-2: rgba(43, 22, 7, 0.32);
+  --n-line-3: rgba(43, 22, 7, 0.55);
+
+  /* The vivid family — saturated colours for the handful of surfaces
+     that stay dark on purpose (tag chips, the terminal, Kurama's glow). */
+  --n-orange: #ff6a00;
+  --n-yellow: #ffd23f;
+  --n-blue: #5ec8f0;
+  --n-crimson: #e0342f;
+  --n-dark: #1c0f04;
+  --n-dark-2: #150b03;
+  --n-dark-ink: #f5ede2;
+  --n-dark-body: #b3a89a;
+  --n-dark-muted: #8f8375;
+
+  --color-nav-link-active: var(--n-paper-orange);
+  --color-border-strong: var(--n-line-2);
+  --color-card-hover-border: var(--n-paper-orange);
+
+  /* ExperienceTimeline computes its work/project colour in JS and
+     applies it via inline `style`, which no class selector can reach —
+     it works by accident on every dark-running theme because pastel
+     blue/violet read fine against near-black, and fails the instant a
+     theme goes light, the exact trap Luffy's own token block documents.
+     Naruto now shares that trap, so it needs the same fill-in. */
+  --tl-work: var(--n-paper-blue);
+  --tl-work-text: var(--n-paper-blue);
+  --tl-work-border: var(--n-line-2);
+  --tl-project: var(--n-paper-plum);
+  --tl-project-text: var(--n-paper-plum);
+  --tl-project-border: var(--n-line-2);
+
+  /* Fed to the generic "Light Mode Overrides" block further up this
+     file — that block only fires when `dark` is absent, the one
+     condition this theme now shares with Luffy. Without these, every
+     `text-white`/`bg-white/5`/etc. utility across the whole app falls
+     through to :root's plain slate palette the instant `dark` drops,
+     the exact failure mode documented on the `html.luffy` block above. */
+  --color-bg: var(--n-paper);
+  --color-bg-secondary: var(--n-paper-2);
+  --color-text: var(--n-ink);
+  --color-text-secondary: var(--n-body);
+  --color-text-muted: var(--n-muted);
+  --color-text-dim: var(--n-muted);
+  --color-border: var(--n-line);
+  --color-surface: rgba(43, 22, 7, 0.05);
+  --color-surface-solid: var(--n-paper-2);
+  --color-card: rgba(255, 216, 115, 0.75);
+  --color-navbar-bg: rgba(255, 233, 184, 0.92);
+  --color-overlay: rgba(43, 22, 7, 0.05);
+  --color-overlay-hover: rgba(43, 22, 7, 0.09);
+  --color-nav-link: var(--n-muted);
+  --color-nav-link-hover: var(--n-ink);
+  --color-form-input: rgba(43, 22, 7, 0.05);
+  --color-form-input-text: var(--n-ink);
+  --color-form-input-placeholder: rgba(43, 22, 7, 0.4);
+  --color-skills-bg: rgba(43, 22, 7, 0.05);
+  --color-experience-bg: rgba(43, 22, 7, 0.05);
+  --color-footer-bg: var(--n-paper-2);
+  --color-project-orb: 0.16;
+}
+
+html.naruto body {
+  background-color: var(--n-paper) !important;
+  color: var(--n-body);
+  cursor: none !important;
+  /* The kunai-tip cursor is drawn by NarutoOverlay */
+}
+
+html.naruto *,
+html.naruto *:hover {
+  cursor: none !important;
+}
+
+/* Headings: block letters off a title card, warm ink on paper */
+html.naruto h1,
+html.naruto h2,
+html.naruto h3,
+html.naruto h4 {
+  font-family: 'Anton', 'Impact', sans-serif !important;
+  letter-spacing: 0.02em;
+  color: var(--n-paper-orange);
+  text-shadow: none;
+}
+
+/* GooeyNav renders a SECOND copy of the active label in `.effect.text`,
+   positioned exactly over the <li>. If the two don't share a font they
+   render at different widths and double-ghost — the overlay must be
+   listed here alongside the li, the same trap every theme in this
+   project hits. */
+html.naruto button,
+html.naruto .gooey-nav-container nav ul li,
+html.naruto .gooey-nav-container nav ul li a,
+html.naruto .gooey-nav-container .effect.text {
+  font-family: 'Anton', 'Impact', sans-serif !important;
+  letter-spacing: 0.04em;
+}
+
+/* Unlike every dark-running mode in this project, this theme keeps
+   `dark` OFF (see SpidermanToggler) — so it's the base
+   `:root:not(.dark):not(.spiderman) .gooey-nav-container nav ul
+   li.active` rule further down this file that colours the active nav
+   label, straight off `--color-nav-link-active` above. No hardcoded
+   override needed here, the same reason Luffy's Navbar doesn't need one. */
+html.naruto .gooey-nav-container nav ul li:not(.active):hover {
+  color: var(--n-paper-blue);
+}
+
+/* The courtyard behind the page: warm paper with his own colours
+   bleeding in from the corners, so the palette announces itself before
+   KonohaBackground's canvas even paints. */
+html.naruto body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -40;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 55% at 80% 4%, rgba(255, 106, 0, 0.12) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 60% at 12% 100%, rgba(94, 200, 240, 0.1) 0%, transparent 64%),
+    var(--n-paper);
+}
+
+/* ── Utility remap ────────────────────────────────────────────
+   Word-boundary-safe (`^=`/space-anchored, plus an explicit
+   `dark:`-prefixed pass) so a bare substring match can't also fire
+   inside another theme's `[.mode_&]:text-color-N` compound classes —
+   that bug shipped once already in this project. Targets the
+   paper-safe family now, not the vivid one — almost everything in this
+   theme sits directly on paper. */
+html.naruto [class^="text-blue-"], html.naruto [class*=" text-blue-"],
+html.naruto [class^="text-cyan-"], html.naruto [class*=" text-cyan-"],
+html.naruto [class^="text-sky-"], html.naruto [class*=" text-sky-"],
+html.naruto [class^="text-teal-"], html.naruto [class*=" text-teal-"],
+html.naruto [class^="text-emerald-"], html.naruto [class*=" text-emerald-"],
+html.naruto [class^="dark:text-blue-"], html.naruto [class*=" dark:text-blue-"],
+html.naruto [class^="dark:text-cyan-"], html.naruto [class*=" dark:text-cyan-"],
+html.naruto [class^="dark:text-sky-"], html.naruto [class*=" dark:text-sky-"],
+html.naruto [class^="dark:text-teal-"], html.naruto [class*=" dark:text-teal-"],
+html.naruto [class^="dark:text-emerald-"], html.naruto [class*=" dark:text-emerald-"] {
+  color: var(--n-paper-blue) !important;
+  text-shadow: none !important;
+}
+
+html.naruto [class^="text-red-"], html.naruto [class*=" text-red-"],
+html.naruto [class^="text-rose-"], html.naruto [class*=" text-rose-"],
+html.naruto [class^="text-orange-"], html.naruto [class*=" text-orange-"],
+html.naruto [class^="text-amber-"], html.naruto [class*=" text-amber-"],
+html.naruto [class^="text-yellow-"], html.naruto [class*=" text-yellow-"],
+html.naruto [class^="dark:text-red-"], html.naruto [class*=" dark:text-red-"],
+html.naruto [class^="dark:text-rose-"], html.naruto [class*=" dark:text-rose-"],
+html.naruto [class^="dark:text-orange-"], html.naruto [class*=" dark:text-orange-"],
+html.naruto [class^="dark:text-amber-"], html.naruto [class*=" dark:text-amber-"],
+html.naruto [class^="dark:text-yellow-"], html.naruto [class*=" dark:text-yellow-"] {
+  color: var(--n-paper-orange) !important;
+  text-shadow: none !important;
+}
+
+/* text-violet-/purple- becomes crimson instead of either primary voice —
+   still marks-only, so a fill (a badge, a stamp) rather than plain text. */
+html.naruto [class^="text-violet-"], html.naruto [class*=" text-violet-"],
+html.naruto [class^="text-purple-"], html.naruto [class*=" text-purple-"],
+html.naruto [class^="dark:text-violet-"], html.naruto [class*=" dark:text-violet-"],
+html.naruto [class^="dark:text-purple-"], html.naruto [class*=" dark:text-purple-"] {
+  color: var(--n-crimson) !important;
+  text-shadow: none !important;
+}
+
+/* The shared onboarding tooltip (SpidermanToggler) is a fixed dark
+   panel regardless of theme — see the [class*="bg-slate-9"] remap below
+   — so its highlighted hero-mode names need the VIVID family here, not
+   the paper-safe one, or they'd render near-invisible on that dark card. */
+html.naruto .hero-dropdown strong[class*="text-"] {
+  color: var(--n-orange) !important;
+  text-shadow: none !important;
+}
+
+html.naruto [class^="text-white"], html.naruto [class*=" text-white"] {
+  color: var(--n-ink) !important;
+  text-shadow: none !important;
+}
+
+html.naruto [class^="text-slate-3"], html.naruto [class*=" text-slate-3"],
+html.naruto [class^="text-slate-4"], html.naruto [class*=" text-slate-4"],
+html.naruto [class^="text-gray-3"], html.naruto [class*=" text-gray-3"],
+html.naruto [class^="text-gray-4"], html.naruto [class*=" text-gray-4"],
+html.naruto [class^="text-zinc-3"], html.naruto [class*=" text-zinc-3"],
+html.naruto [class^="text-zinc-4"], html.naruto [class*=" text-zinc-4"],
+html.naruto [class^="text-neutral-3"], html.naruto [class*=" text-neutral-3"],
+html.naruto [class^="text-neutral-4"], html.naruto [class*=" text-neutral-4"] {
+  color: var(--n-body) !important;
+}
+
+html.naruto [class^="text-slate-5"], html.naruto [class*=" text-slate-5"],
+html.naruto [class^="text-slate-6"], html.naruto [class*=" text-slate-6"],
+html.naruto [class^="text-gray-5"], html.naruto [class*=" text-gray-5"],
+html.naruto [class^="text-gray-6"], html.naruto [class*=" text-gray-6"],
+html.naruto [class^="text-zinc-5"], html.naruto [class*=" text-zinc-5"],
+html.naruto [class^="text-zinc-6"], html.naruto [class*=" text-zinc-6"],
+html.naruto [class^="text-neutral-5"], html.naruto [class*=" text-neutral-5"],
+html.naruto [class^="text-neutral-6"], html.naruto [class*=" text-neutral-6"] {
+  color: var(--n-muted) !important;
+}
+
+html.naruto h1[class*="text-"],
+html.naruto h2[class*="text-"],
+html.naruto h3[class*="text-"],
+html.naruto h4[class*="text-"],
+html.naruto h5[class*="text-"],
+html.naruto h6[class*="text-"],
+html.naruto .bg-clip-text {
+  color: var(--n-paper-orange) !important;
+  -webkit-text-fill-color: var(--n-paper-orange) !important;
+}
+
+/* Links and buttons: ink at rest, burnt orange only on hover. Anything
+   already wearing an `nt-` class opted into its own ramp and is excluded. */
+html.naruto a[class*="text-"]:not([class*="nt-"]),
+html.naruto button[class*="text-"]:not([class*="nt-"]) {
+  color: var(--n-ink) !important;
+  -webkit-text-fill-color: var(--n-ink) !important;
+  transition: color 0.16s ease;
+}
+
+html.naruto a[class*="text-"]:not([class*="nt-"]):hover,
+html.naruto button[class*="text-"]:not([class*="nt-"]):hover {
+  color: var(--n-paper-orange) !important;
+  -webkit-text-fill-color: var(--n-paper-orange) !important;
+}
+
+html.naruto [class*="border-slate-"],
+html.naruto [class*="border-zinc-"],
+html.naruto [class*="border-white/"],
+html.naruto [class*="border-blue-"],
+html.naruto [class*="border-cyan-"],
+html.naruto [class*="border-emerald-"] {
+  border-color: var(--n-line-2) !important;
+}
+
+html.naruto [class*="bg-emerald-"],
+html.naruto [class*="bg-blue-"],
+html.naruto [class*="bg-cyan-"],
+html.naruto [class*="bg-teal-"],
+html.naruto [class*="bg-violet-"],
+html.naruto [class*="bg-purple-"] {
+  background-color: rgba(43, 22, 7, 0.06) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Filled gradient CTAs become a dark ink panel with an orange rim — a
+   comic "primary button," dark-on-paper the way a real printed button
+   would pop off manga stock. */
+html.naruto.naruto [class*="bg-gradient"][class*="from-blue-"][class*="text-white"],
+html.naruto.naruto [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"],
+html.naruto.naruto [class*="bg-gradient"][class*="from-violet-"][class*="text-white"],
+html.naruto.naruto [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"] {
+  background-image: none !important;
+  background-color: var(--n-dark) !important;
+  color: var(--n-dark-ink) !important;
+  -webkit-text-fill-color: var(--n-dark-ink) !important;
+  border: 2px solid var(--n-dark) !important;
+  text-shadow: none !important;
+  box-shadow: 3px 3px 0 rgba(43, 22, 7, 0.4) !important;
+}
+
+html.naruto.naruto [class*="bg-gradient"][class*="from-blue-"][class*="text-white"]:hover,
+html.naruto.naruto [class*="bg-gradient"][class*="from-cyan-"][class*="text-white"]:hover,
+html.naruto.naruto [class*="bg-gradient"][class*="from-violet-"][class*="text-white"]:hover,
+html.naruto.naruto [class*="bg-gradient"][class*="from-emerald-"][class*="text-white"]:hover {
+  border-color: var(--n-orange) !important;
+  box-shadow: 3px 3px 0 var(--n-orange) !important;
+}
+
+/* The shared onboarding tooltip is ALWAYS a dark panel (this rule),
+   regardless of theme — which is exactly why its text needed the vivid
+   family above rather than the paper-safe one. */
+/* Two anchoring problems stacked on the original bare
+   `[class*="bg-slate-9"]`, both caught by a live contrast sweep, not by
+   reading the rule and guessing:
+   (1) A bare substring also matches inside low-opacity variants like
+       `bg-slate-900/5` (a 5% hover tint elsewhere in the shared chrome),
+       forcing what should be a barely-there wash into a solid opaque
+       block — "/9" anchors the opacity suffix itself to 90–99%, which
+       only the shared dark panels (`bg-slate-900/95`, `bg-black/95`)
+       actually use.
+   (2) Even "/9"-anchored, a substring match doesn't know Tailwind's own
+       `dark:` prefix is a CONDITIONAL variant — `dark:bg-neutral-900/90`
+       contains the literal text "bg-neutral-900/90" whether or not
+       `dark` is present on the element, so it fired even with `dark`
+       entirely absent (this theme's whole premise) and forced dozens of
+       ordinary components' inactive dark-mode styling permanently on.
+       Word-boundary anchoring it (start-of-string or space-preceded, the
+       same fix already applied to every text-colour remap above) is
+       what excludes the colon-prefixed form. */
+html.naruto [class^="bg-slate-800/9"], html.naruto [class*=" bg-slate-800/9"],
+html.naruto [class^="bg-slate-900/9"], html.naruto [class*=" bg-slate-900/9"],
+html.naruto [class^="bg-zinc-800/9"], html.naruto [class*=" bg-zinc-800/9"],
+html.naruto [class^="bg-zinc-900/9"], html.naruto [class*=" bg-zinc-900/9"],
+html.naruto [class^="bg-neutral-800/9"], html.naruto [class*=" bg-neutral-800/9"],
+html.naruto [class^="bg-neutral-900/9"], html.naruto [class*=" bg-neutral-900/9"],
+html.naruto [class^="bg-black/9"], html.naruto [class*=" bg-black/9"] {
+  background-color: var(--n-dark) !important;
+}
+
+html.naruto ::selection {
+  background: var(--n-orange);
+  color: var(--n-dark-ink);
+}
+
+html.naruto ::-webkit-scrollbar-thumb {
+  background: var(--n-line-2);
+}
+
+html.naruto ::-webkit-scrollbar-thumb:hover {
+  background: var(--n-line-3);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   THE DEVICES
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Device 1: the bingo book ─────────────────────────────────
+   The console's own surface — manga-stock paper under a bold ink
+   border, a halftone screentone doing the shading, a die-cut notch top
+   right, and a thick ink spine down the left edge. */
+.nt-book {
+  position: relative;
+  background:
+    radial-gradient(circle, rgba(43, 22, 7, 0.45) 1px, transparent 1.3px) 0 0 / 7px 7px,
+    radial-gradient(ellipse 90% 55% at 20% 0%, rgba(255, 255, 255, 0.4) 0%, transparent 55%),
+    linear-gradient(165deg, var(--n-paper-2) 0%, var(--n-paper) 55%, #ffdc93 100%);
+  border: 3px solid var(--n-dark);
+  border-left-width: 8px;
+  color: var(--n-muted);
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%);
+  box-shadow:
+    6px 6px 0 rgba(28, 15, 4, 0.9),
+    10px 10px 0 rgba(255, 106, 0, 0.35),
+    0 30px 70px -30px rgba(43, 22, 7, 0.35);
+}
+
+/* The stitching along the spine */
+.nt-book::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(255, 233, 184, 0.7) 0px,
+    rgba(255, 233, 184, 0.7) 4px,
+    transparent 4px,
+    transparent 9px
+  );
+  pointer-events: none;
+}
+
+/* The die-cut corner notch, edged in ink */
+.nt-book::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  background: var(--n-paper);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  box-shadow: inset 2px 2px 0 var(--n-dark);
+  pointer-events: none;
+}
+
+/* ── Device 2: the seal ───────────────────────────────────────
+   A fuinjutsu circle — concentric rings and radiating ticks, the same
+   shape as the seal on his stomach. Inked in burnt orange so it reads
+   against the paper; the live variant turns crimson, Kurama's colour. */
+.nt-seal {
+  position: relative;
+  height: 16px;
+}
+
+.nt-seal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-conic-gradient(
+      from 0deg,
+      var(--n-paper-orange) 0deg 2deg,
+      transparent 2deg 18deg
+    );
+  -webkit-mask-image: radial-gradient(circle at center, transparent 0%, transparent 58%, black 62%, black 78%, transparent 82%);
+  mask-image: radial-gradient(circle at center, transparent 0%, transparent 58%, black 62%, black 78%, transparent 82%);
+  opacity: 0.85;
+}
+
+.nt-seal--live::before {
+  background-image:
+    repeating-conic-gradient(
+      from 0deg,
+      var(--n-crimson) 0deg 2deg,
+      transparent 2deg 18deg
+    );
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(224, 52, 47, 0.5));
+}
+
+/* ── Device 3: the headband plate ─────────────────────────────
+   A small steel-blue chip for tabs and pills — the one piece of metal
+   on an otherwise paper theme, and one of the few places this theme
+   stays dark on purpose, the way a real forehead protector would look
+   like actual metal on any page colour behind it. Active state
+   scratches through to orange, the plate catching a jutsu's light. */
+.nt-tag {
+  position: relative;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #1c2226 0%, #12171a 100%);
+  border: 2px solid #0a0d0f;
+  color: var(--n-dark-body);
+  box-shadow: 2px 2px 0 rgba(28, 15, 4, 0.4);
+  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.nt-tag:hover {
+  color: var(--n-dark-ink);
+  border-color: var(--n-blue);
+}
+
+.nt-tag[data-active="true"] {
+  color: var(--n-dark);
+  background: linear-gradient(180deg, #ffcf4d 0%, var(--n-orange) 60%, #e05a00 100%);
+  border-color: var(--n-dark);
+  box-shadow: 2px 2px 0 rgba(28, 15, 4, 0.9), 0 0 20px -4px rgba(255, 106, 0, 0.85);
+}
+
+/* Meter track + fill, for stat bars — chakra filling a reserve. Always
+   a dark "screen," regardless of what surface it's inset into. */
+.nt-meter {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(28, 15, 4, 0.4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.nt-meter > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--n-orange) 0%, var(--n-yellow) 100%);
+  box-shadow: 0 0 10px rgba(255, 106, 0, 0.7);
+}
+
+/* Type helpers — default to the paper-safe family, since almost
+   everything in this theme now sits on paper. */
+.nt-ink { color: var(--n-ink); }
+.nt-body { color: var(--n-body); }
+.nt-muted { color: var(--n-muted); }
+.nt-blue { color: var(--n-paper-blue); }
+.nt-orange { color: var(--n-paper-orange); }
+.nt-yellow { color: var(--n-paper-orange); }
+.nt-crimson { color: var(--n-crimson); }
+
+.nt-label {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--n-muted);
+  font-size: 0.6875rem;
+}
+
+/* A cut-out "screen" on the page — a sunken panel that stays dark no
+   matter what surface it's inset into, the way a terminal window would
+   look cut into a comic panel. Everything nested inside reverts to the
+   vivid, light-on-dark family — the second rule's higher specificity
+   (one extra class) is what makes the reversion win regardless of
+   source order. */
+.nt-sunken {
+  background: rgba(15, 10, 5, 0.94);
+  border: 1px solid rgba(28, 15, 4, 0.4);
+}
+
+/* The `html.naruto` prefix here isn't decorative — the generic
+   `html.naruto h4[class*="text-"]` rule earlier in this file ALSO
+   carries `!important` and, without it, ties this rule's specificity
+   exactly (0,2,2 either way from the extra element+attribute vs
+   class+element), so source order alone would decide and a live sweep
+   caught real job-title headings going invisible dark-on-dark inside
+   the Village tab before this was added.
+
+   -webkit-text-fill-color also has to be re-set here, separately from
+   `color` — WebKit/Blink paints glyphs from -webkit-text-fill-color
+   whenever it's present at all, ignoring `color` entirely for the
+   visible fill even though DevTools' computed-style panel still
+   reports `color` as if it won. The generic rule above sets both
+   properties; overriding only `color` here left the dark
+   -webkit-text-fill-color from that rule in charge of what actually
+   painted, so the heading measured light-on-dark in computed styles
+   while rendering dark-on-dark — caught by comparing a screenshot
+   against a direct getComputedStyle() check, not by either alone. */
+html.naruto .nt-sunken h1,
+html.naruto .nt-sunken h2,
+html.naruto .nt-sunken h3,
+html.naruto .nt-sunken h4 {
+  color: var(--n-dark-ink) !important;
+  -webkit-text-fill-color: var(--n-dark-ink) !important;
+  text-shadow: 0 0 22px rgba(255, 106, 0, 0.28) !important;
+}
+.nt-sunken .nt-ink { color: var(--n-dark-ink); }
+.nt-sunken .nt-body { color: var(--n-dark-body); }
+.nt-sunken .nt-muted { color: var(--n-dark-muted); }
+.nt-sunken .nt-label { color: var(--n-dark-muted); }
+.nt-sunken .nt-orange { color: var(--n-orange); }
+.nt-sunken .nt-blue { color: var(--n-blue); }
+.nt-sunken .nt-yellow { color: var(--n-yellow); }
+
+/* ── Device 4: the rank stamp ─────────────────────────────────
+   A bingo-book threat-rank chop, corner-mounted — solid crimson with
+   reversed ink, always a self-contained fill, never text on a shared
+   surface, so it needs no separate contrast entry of its own. */
+.nt-stamp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--n-crimson);
+  color: #fff3ea;
+  border: 2px solid rgba(13, 10, 6, 0.55);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Device 5: the chakra burst ───────────────────────────────
+   Radiating lines for staging a technique landing. Ink lines, not
+   colour — a bright tint on bright paper would vanish — with a warm
+   glow underneath doing the "chakra" half of the effect. */
+.nt-burst {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(28, 15, 4, 0.22) 0deg 2deg,
+      transparent 2deg 12deg
+    ),
+    radial-gradient(circle at center, rgba(255, 210, 63, 0.45) 0%, rgba(255, 106, 0, 0.2) 45%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, black 28%, transparent 72%);
+  mask-image: radial-gradient(circle at center, black 0%, black 28%, transparent 72%);
+}
+
+/* Chakra bleeding outward on press — this theme's one "wet" moment,
+   the same restrained role Zoro's ink-bleed and Luffy's stamp-thud play */
+@keyframes nt-flare {
+  0% { box-shadow: 0 0 0 0 rgba(255, 106, 0, 0.4); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 106, 0, 0); }
+}
+
+.nt-press:active {
+  animation: nt-flare 0.5s ease-out;
+}
+
+/* Slow drift for backdrop cloud bands */
+@keyframes nt-drift {
   0% { transform: translateX(-6%); }
   100% { transform: translateX(6%); }
 }

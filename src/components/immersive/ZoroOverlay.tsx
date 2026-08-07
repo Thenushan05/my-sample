@@ -149,7 +149,7 @@ export const ZoroOverlay: React.FC = () => {
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: [0, 1, 1] }}
                 transition={{ duration: 0.4, times: [0, 0.3, 1] }}
-                className="h-[2px] w-20 origin-center bg-[var(--z-ink)] shadow-[0_0_10px_rgba(236,236,221,0.8)] sm:w-28"
+                className="h-[2px] w-20 origin-center bg-[var(--z-flash)] shadow-[0_0_12px_rgba(61,220,114,0.9)] sm:w-28"
               />
               <div className="zk-label absolute left-1/2 top-2 -translate-x-1/2 whitespace-nowrap text-[9px]" style={{ transform: `rotate(${-c.angle}deg)` }}>
                 {c.name}

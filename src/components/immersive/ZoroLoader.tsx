@@ -42,11 +42,12 @@ export const ZoroLoader: React.FC<ZoroLoaderProps> = ({ onComplete }) => {
           transition={{ duration: 0.5, ease: "easeIn" }}
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center overflow-hidden bg-[#0a0d0b]"
         >
-          {/* A cold wash, the same corner the backdrop's moon sits in */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_16%,rgba(159,180,188,0.12)_0%,transparent_55%)]" />
+          {/* His own colour bleeding in from the corner, not a cold wash */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_16%,rgba(61,220,114,0.16)_0%,transparent_55%)]" />
 
           {/* Three strokes, drawing themselves in — Santoryu, the same mark
-              the console uses as a divider, played once at full size here */}
+              the console uses as a divider, played once at full size here,
+              burning green the way the live cut-mark does everywhere else */}
           <svg viewBox="0 0 200 90" className="h-20 w-44 overflow-visible sm:h-24 sm:w-52">
             {[
               { d: "M20 20L120 8", delay: 0 },
@@ -57,20 +58,20 @@ export const ZoroLoader: React.FC<ZoroLoaderProps> = ({ onComplete }) => {
                 key={s.d}
                 d={s.d}
                 fill="none"
-                stroke="#ececdd"
+                stroke="#3ddc72"
                 strokeWidth="3"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: s.delay, ease: "easeOut" }}
-                style={{ filter: "drop-shadow(0 0 8px rgba(236,236,221,0.6))" }}
+                style={{ filter: "drop-shadow(0 0 10px rgba(61,220,114,0.8))" }}
               />
             ))}
           </svg>
 
           <h1
             className="mt-8 text-4xl sm:text-5xl"
-            style={{ fontFamily: "'Nanum Brush Script', cursive", color: "#ececdd" }}
+            style={{ fontFamily: "'Nanum Brush Script', cursive", color: "#ececdd", textShadow: "0 0 20px rgba(61,220,114,0.35)" }}
           >
             Santoryu
           </h1>

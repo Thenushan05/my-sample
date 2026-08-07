@@ -34,6 +34,9 @@ const INK = "10, 13, 11";
 const PAPER = "236, 236, 221";
 const STEEL = "159, 180, 188";
 const MOSS = "111, 143, 92";
+/** His colour, bled faintly into the moon halo so the backdrop agrees
+    with the console instead of reading as a plain cold night. */
+const FLASH = "61, 220, 114";
 
 /**
  * Zoro mode backdrop.
@@ -90,8 +93,9 @@ export const DojoBackground: React.FC = () => {
       const moonR = Math.min(width, height) * 0.045;
       const halo = s.createRadialGradient(moonX, moonY, moonR * 0.6, moonX, moonY, moonR * 9);
       halo.addColorStop(0, `rgba(${PAPER}, 0.16)`);
-      halo.addColorStop(0.4, `rgba(${STEEL}, 0.05)`);
-      halo.addColorStop(1, `rgba(${STEEL}, 0)`);
+      halo.addColorStop(0.35, `rgba(${STEEL}, 0.05)`);
+      halo.addColorStop(0.7, `rgba(${FLASH}, 0.05)`);
+      halo.addColorStop(1, `rgba(${FLASH}, 0)`);
       s.fillStyle = halo;
       s.fillRect(0, 0, width, height);
       s.beginPath();

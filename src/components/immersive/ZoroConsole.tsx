@@ -56,12 +56,17 @@ const TABS = [
   { id: "log", label: "Log", icon: Terminal },
 ] as const;
 
-/** Shared entry transition — every pane moves the same way or it reads as noise. */
+/** Shared entry transition — every pane cuts in and out like a blade
+    passing through frame, left-to-right in, right-to-left out, rather
+    than the plain cross-fade every other console in this project uses.
+    That asymmetry (the exit wipe runs the opposite direction from the
+    entry wipe) is what sells it as a single continuous cut instead of
+    two unrelated animations. */
 const PANE = {
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-  transition: { duration: 0.2 },
+  initial: { opacity: 0, clipPath: "inset(0 0 0 100%)" },
+  animate: { opacity: 1, clipPath: "inset(0 0% 0 0)" },
+  exit: { opacity: 0, clipPath: "inset(0 100% 0 0)", transition: { duration: 0.22, ease: [0.7, 0, 0.84, 0] } },
+  transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
 };
 
 /**
@@ -154,7 +159,7 @@ export const ZoroConsole: React.FC = () => {
             <motion.span
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-              className="h-1.5 w-1.5 rounded-full bg-[var(--z-haramaki)]"
+              className="h-1.5 w-1.5 rounded-full bg-[var(--z-flash)] shadow-[0_0_8px_rgba(61,220,114,0.8)]"
             />
             <span className="font-mono text-[10px] tracking-[0.18em] zk-muted">
               WOKOU HELD
@@ -220,7 +225,7 @@ export const ZoroConsole: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.25 }}
-                    className="mt-6 max-w-lg border-l-2 border-[var(--z-haramaki)] pl-3"
+                    className="mt-6 max-w-lg border-l-2 border-[var(--z-flash)] pl-3"
                   >
                     <p className="text-base leading-snug zk-ink sm:text-lg">
                       “{OATHS[oathIdx]}”
@@ -267,7 +272,7 @@ export const ZoroConsole: React.FC = () => {
                           <span
                             className={`rounded-full px-2 py-0.5 font-mono text-[9px] tracking-widest ${
                               training
-                                ? "bg-[var(--z-haramaki)] text-[var(--z-ink)]"
+                                ? "bg-[var(--z-flash)] text-[var(--z-flash-ink)] shadow-[0_0_10px_rgba(61,220,114,0.6)]"
                                 : "border border-[var(--z-line-2)] zk-muted"
                             }`}
                           >
@@ -332,7 +337,7 @@ export const ZoroConsole: React.FC = () => {
 
                 <div className="zk-sunken relative flex-1 p-4">
                   <h4 className="text-lg zk-ink sm:text-xl">{activeBlade.label}</h4>
-                  <p className="mb-4 mt-1.5 border-l-2 border-[var(--z-steel)] pl-2.5 text-[11px] italic leading-relaxed zk-muted">
+                  <p className="mb-4 mt-1.5 border-l-2 border-[var(--z-flash)] pl-2.5 text-[11px] italic leading-relaxed zk-muted">
                     {BLADE_FLAVOUR[activeBlade.id] ?? "Picked this one up somewhere. Don't ask where."}
                   </p>
 
@@ -377,7 +382,7 @@ export const ZoroConsole: React.FC = () => {
                   onSubmit={handleCommand}
                   className="mt-2 flex shrink-0 items-center gap-2 border-t border-[var(--z-line)] pt-2"
                 >
-                  <span className="shrink-0 font-mono text-[11px] zk-haramaki">
+                  <span className="shrink-0 font-mono text-[11px] zk-flash">
                     zoro@dojo:~◈
                   </span>
                   <input
@@ -389,7 +394,7 @@ export const ZoroConsole: React.FC = () => {
                   <button
                     type="submit"
                     aria-label="Send"
-                    className="zk-muted shrink-0 transition-colors hover:text-[var(--z-haramaki)]"
+                    className="zk-muted shrink-0 transition-colors hover:text-[var(--z-flash)]"
                   >
                     <Send className="h-3.5 w-3.5" />
                   </button>

@@ -12,9 +12,10 @@ import { VenomSpiderIcon } from "./VenomSpiderIcon"
 import { CrescentIcon } from "./CrescentIcon"
 import { StrawHatIcon } from "./StrawHatIcon"
 import { KatanaIcon } from "./KatanaIcon"
+import { NarutoIcon } from "./NarutoIcon"
 
-type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight" | "luffy" | "zoro"
-const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight", "luffy", "zoro"]
+type HeroMode = "spiderman" | "ironman" | "deadpool" | "thor" | "venom" | "moonknight" | "luffy" | "zoro" | "naruto"
+const HERO_MODES: HeroMode[] = ["spiderman", "ironman", "deadpool", "thor", "venom", "moonknight", "luffy", "zoro", "naruto"]
 
 /** Hero Theme Switcher (Spidey Mode 🕷️, Iron Man Mode 🦾 & Deadpool Mode 🩸). */
 export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }) => {
@@ -26,6 +27,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
     const [isMoonKnight, setIsMoonKnight] = useState(false)
     const [isLuffy, setIsLuffy] = useState(false)
     const [isZoro, setIsZoro] = useState(false)
+    const [isNaruto, setIsNaruto] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     /** Guards against re-toggling while the page is still travelling home. */
     const switching = useRef(false)
@@ -41,6 +43,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 setIsMoonKnight(document.documentElement.classList.contains("moonknight"))
                 setIsLuffy(document.documentElement.classList.contains("luffy"))
                 setIsZoro(document.documentElement.classList.contains("zoro"))
+                setIsNaruto(document.documentElement.classList.contains("naruto"))
             }
         }
 
@@ -120,12 +123,13 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
      * always clears the others and persists the choice for the pre-paint
      * boot script in index.html.
      *
-     * Every hero palette except Luffy assumes a near-black base, so
-     * activating them forces `dark`. Luffy is a DAYLIGHT theme — a bounty
-     * poster on sun-bleached paper — and its stylesheet is written on the
-     * assumption `dark` is absent (see the theme block in index.css). Forcing
-     * dark on for it would mean fighting hundreds of live `dark:` utilities
-     * instead of just not turning the light switch off.
+     * Every hero palette except Luffy and Naruto assumes a near-black
+     * base, so activating them forces `dark`. Luffy and Naruto are
+     * DAYLIGHT themes — a bounty poster on sun-bleached paper, a Bingo
+     * Book page on manga stock — and both stylesheets are written on the
+     * assumption `dark` is absent (see their theme blocks in index.css).
+     * Forcing dark on for either would mean fighting hundreds of live
+     * `dark:` utilities instead of just not turning the light switch off.
      */
     const toggleMode = useCallback((mode: HeroMode, e?: React.MouseEvent) => {
         if (e) {
@@ -141,11 +145,12 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         scrollHomeThen(() => {
             const root = document.documentElement
             const next = !root.classList.contains(mode)
+            const isLightMode = mode === "luffy" || mode === "naruto"
 
             HERO_MODES.forEach((m) => root.classList.remove(m))
             root.classList.toggle(mode, next)
 
-            if (next && mode === "luffy") {
+            if (next && isLightMode) {
                 // Daylight theme: strip dark rather than force it.
                 root.classList.remove("dark")
                 localStorage.setItem("theme", "light")
@@ -154,8 +159,9 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                 root.classList.add("dark")
                 localStorage.setItem("theme", "dark")
                 window.dispatchEvent(new Event("themeChange"))
-            } else if (mode === "luffy") {
-                // Turned Luffy back off directly: restore the app's dark base.
+            } else if (isLightMode) {
+                // Turned a daylight mode back off directly: restore the
+                // app's dark base.
                 root.classList.add("dark")
                 localStorage.setItem("theme", "dark")
                 window.dispatchEvent(new Event("themeChange"))
@@ -170,6 +176,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsMoonKnight(next && mode === "moonknight")
             setIsLuffy(next && mode === "luffy")
             setIsZoro(next && mode === "zoro")
+            setIsNaruto(next && mode === "naruto")
             switching.current = false
         });
     }, [])
@@ -205,6 +212,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             setIsMoonKnight(false);
             setIsLuffy(false);
             setIsZoro(false);
+            setIsNaruto(false);
             window.dispatchEvent(new Event("themeChange"));
         } else {
             // The toggleMode already does exactly what we need for enabling
@@ -212,7 +220,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
         }
     }
 
-    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : isLuffy ? "luffy" : isZoro ? "zoro" : "none";
+    const currentMode = isSpidey ? "spiderman" : isIronman ? "ironman" : isDeadpool ? "deadpool" : isThor ? "thor" : isVenom ? "venom" : isMoonKnight ? "moonknight" : isLuffy ? "luffy" : isZoro ? "zoro" : isNaruto ? "naruto" : "none";
 
     return (
         <div className={cn("relative flex items-center gap-2 hero-dropdown", className)}>
@@ -221,7 +229,14 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-900/10 hover:border-slate-900/30 dark:border-white/10 dark:hover:border-white/30 bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 transition-all text-xs font-medium tracking-wider text-slate-900 dark:text-white uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                className={cn(
+                    "relative flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-900/10 hover:border-slate-900/30 dark:border-white/10 dark:hover:border-white/30 bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 transition-all text-xs font-medium tracking-wider text-slate-900 dark:text-white uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+                    // A visible "look here" pulse while the guide is up — the
+                    // tooltip alone is easy to skim past; a glow actually on
+                    // the button being described is what makes it read as a
+                    // pointer instead of just nearby text.
+                    showOnboarding && !isOpen && "ring-2 ring-blue-500/60 dark:ring-blue-400/60 animate-pulse"
+                )}
             >
                 <span className="hidden sm:inline">Theme</span>
                 <span className="flex items-center justify-center w-5 h-5 opacity-80">
@@ -233,6 +248,7 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                     {currentMode === "moonknight" && <CrescentIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "luffy" && <StrawHatIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "zoro" && <KatanaIcon muted={false} className="w-5 h-5 object-contain" />}
+                    {currentMode === "naruto" && <NarutoIcon muted={false} className="w-5 h-5 object-contain" />}
                     {currentMode === "none" && (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                             <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -310,48 +326,62 @@ export const SpidermanToggler: React.FC<{ className?: string }> = ({ className }
                                 <StrawHatIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
                                 Luffy
                             </button>
-                            <button
-                                onClick={() => handleSelectMode("zoro")}
-                                className={cn("flex items-center gap-3 px-4 py-2 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors", currentMode === "zoro" && "text-emerald-700 dark:text-emerald-400 font-bold bg-slate-50 dark:bg-slate-800/50")}
-                            >
-                                <KatanaIcon muted={true} className="w-4 h-4 object-contain opacity-80" />
-                                Zoro
-                            </button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* Onboarding Tooltip (only if menu is closed to avoid clutter) */}
+            {/* Onboarding Guide (only if menu is closed to avoid clutter).
+                A first-time visitor has no reason to expect this button
+                does anything — this has to read as "click THIS, right
+                here," not just nearby copy, so it leads with a bouncing
+                arrow physically pointing at the button plus a pulsing
+                ring on the button itself (above), and the message is a
+                direct instruction rather than a list of names. */}
             <AnimatePresence>
                 {showOnboarding && !isOpen && (
                     <motion.div
                         initial={{ opacity: 0, y: 15, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-                        className="absolute top-[120%] right-0 w-64 md:w-72 bg-slate-900/95 dark:bg-black/95 border border-slate-700/50 dark:border-white/10 rounded-xl p-4 shadow-2xl z-[100] backdrop-blur-md"
+                        className="absolute top-full right-0 mt-3 w-60 z-[100]"
                     >
-                        {/* Triangle pointer */}
-                        <div className="absolute -top-2 right-6 w-4 h-4 bg-slate-900/95 dark:bg-black/95 border-t border-l border-slate-700/50 dark:border-white/10 rotate-45" />
-                        
-                        <div className="relative z-10 flex flex-col gap-2">
-                            <div className="flex items-center justify-between">
-                                <h3 className="text-white font-bold text-sm uppercase tracking-wide">Choose Your Hero</h3>
-                                <button 
-                                    onClick={handleDismissGuide}
-                                    className="text-slate-400 hover:text-white transition-colors"
-                                    aria-label="Dismiss onboarding"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                            <p className="text-slate-300 text-xs leading-relaxed">
-                                Open this menu to experience this portfolio as <strong className="text-red-400 font-bold">Spider-Man</strong>, <strong className="text-cyan-400 font-bold">Iron Man</strong>, <strong className="text-rose-500 font-bold">Deadpool</strong>, <strong className="text-sky-300 font-bold">Thor</strong>, <strong className="text-zinc-200 font-bold">Venom</strong>, <strong className="text-amber-300 font-bold">Moon Knight</strong>, <strong className="text-red-400 font-bold">Luffy</strong> or <strong className="text-emerald-400 font-bold">Zoro</strong>!
-                            </p>
-                        </div>
+                        {/* The pointer: a chevron bouncing straight up at the
+                            button, impossible to mistake for decoration */}
+                        <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute -top-4 right-8 text-blue-400 dark:text-blue-300"
+                            aria-hidden
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-5 h-5 drop-shadow-[0_0_6px_rgba(96,165,250,0.8)]">
+                                <path d="M12 19V5M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </motion.div>
 
-                        {/* Glow effect behind tooltip */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-zinc-400/10 rounded-xl blur-md -z-10" />
+                        <div className="relative mt-2 bg-slate-900/95 dark:bg-black/95 border border-slate-700/50 dark:border-white/10 rounded-xl p-4 shadow-2xl backdrop-blur-md">
+                            {/* Triangle pointer, joining the chevron to the card */}
+                            <div className="absolute -top-2 right-8 w-4 h-4 bg-slate-900/95 dark:bg-black/95 border-t border-l border-slate-700/50 dark:border-white/10 rotate-45" />
+
+                            <div className="relative z-10 flex flex-col gap-2">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-white font-bold text-sm uppercase tracking-wide">👆 Click Here</h3>
+                                    <button
+                                        onClick={handleDismissGuide}
+                                        className="text-slate-400 hover:text-white transition-colors"
+                                        aria-label="Dismiss onboarding"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                <p className="text-slate-300 text-xs leading-relaxed">
+                                    Click here to change the hero character's theme — see the whole site transform around a different character.
+                                </p>
+                            </div>
+
+                            {/* Glow effect behind tooltip */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-cyan-500/10 to-zinc-400/10 rounded-xl blur-md -z-10" />
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
